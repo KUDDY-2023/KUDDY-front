@@ -1,14 +1,15 @@
-import React from 'react';
-import YouTube from './pages/youtube';
+import React from "react";
+import "./App.scss"; // scss 설정
+import { BrowserRouter } from "react-router-dom";
+import Test from "@components/Test"; // craco 설정
 
-import {BrowserRouter} from 'react-router-dom';
 function App() {
-	return (
-		<BrowserRouter>
-			<YouTube />
-			<p>프로젝트 세팅</p>
-		</BrowserRouter>
-	);
+  return (
+    <BrowserRouter>
+      <Test />
+      <div>프로젝트 세팅 테스트 </div>
+    </BrowserRouter>
+  );
 }
 
 export default App;
