@@ -1,14 +1,12 @@
 import React from "react";
 import "./App.scss"; // scss 설정
-import { BrowserRouter } from "react-router-dom";
-import Test from "@components/Test"; // craco 설정
-
+import { Routes, Route } from "react-router-dom";
+import LoginGuidePage from "@pages/auth/LoginGuidePage";
 function App() {
   return (
-    <BrowserRouter>
-      <Test />
-      <div>프로젝트 세팅 테스트 </div>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/auth/*" element={<LoginGuidePage />} />
+    </Routes>
   );
 }
 
