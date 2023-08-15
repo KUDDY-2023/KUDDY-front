@@ -1,0 +1,9 @@
+// scss 테스트
+
+$color: #ed5b46;
+$borderRadius: 5px;
+
+div {
+  background-color: $color;
+  border-radius: $borderRadius;
+}
