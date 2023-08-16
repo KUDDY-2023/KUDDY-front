@@ -1,14 +1,14 @@
-import "./App.scss"; // scss 설정
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "@pages/HomePage";
+import { Routes, Route } from "react-router-dom";
+import "@style/common.scss";
+import HomePage from './pages/HomePage';
+import LoginGuidePage from "@pages/auth/LoginGuidePage";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/auth/*" element={<LoginGuidePage />} />
+    </Routes>
   );
 }
 
