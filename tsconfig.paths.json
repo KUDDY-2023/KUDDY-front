@@ -5,7 +5,10 @@
       "@components/*": ["./components/*"],
       "@style/*": ["./style/*"],
       "@pages/*": ["./pages/*"],
-      "@utils/*": ["./utils/*"]
+      "@utils/*": ["./utils/*"],
+      "@assets/*": ["./assets/*"],
+      "@services/*": ["./services/*"],
+      "@store/*": ["./store/*"]
     }
   }
 }
