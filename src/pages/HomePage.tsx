@@ -1,12 +1,12 @@
-import Header from "@components/homepage/header/Header";
-import SwiperCard from "@components/homepage/swipercard/SwiperCard";
-import SearchBar from "@components/homepage/searchbar/SearchBar";
-import Trending from "@components/homepage/trending/Trending";
-import Menu from "@components/homepage/menu/Menu";
-import WeeklyUser from "@components/homepage/weeklyuser/WeeklyUser";
-import KuddysPick from "@components/homepage/kuddyspick/KuddysPick";
-import Ad from "@components/homepage/ad/Ad";
-import NavBar from "@components/_common/navbar/NavBar";
+import Header from "@components/homepage/header/index";
+import SwiperCard from "@components/homepage/swipercard/index";
+import SearchBar from "@components/homepage/searchbar/index";
+import Trending from "@components/homepage/trending/index";
+import Menu from "@components/homepage/menu/index";
+import WeeklyUser from "@components/homepage/weeklyuser/index";
+import KuddysPick from "@components/homepage/kuddyspick/index";
+import Ad from "@components/homepage/ad/index";
+import NavBar from "@components/_common/navbar/index";
 
 const HomePage = () => {
   return (
