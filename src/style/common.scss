@@ -1,0 +1,35 @@
+// font
+@import url("https://fonts.googleapis.com/css2?family=Geologica:wght@100;200;300;400;500;600;700;800;900&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+// color
+$colors: (
+  main-yellow: #fff49b,
+  light-yellow: #fff8bd,
+  grey: #eeeeee,
+  light-grey: #f9f9f9,
+  grey-line: #dddddd,
+  grey-text: #b1b1b1,
+  blue: #54a3ff,
+  light-blue: #cee8ff,
+  touch: #d1f9ff,
+  red: #ff3333,
+  light-red: #ffc6c6,
+  white: #ffffff,
+  black: #1b1b1b,
+);
+
+// CSS variable
+:root {
+  @each $name, $color in $colors {
+    --color-#{$name}: #{$color};
+  }
+  --font-title: Geologica;
+  --font-text: Inter;
+}
+
+// preset
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font);
+}
