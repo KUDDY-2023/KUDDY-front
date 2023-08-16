@@ -1,13 +1,13 @@
-import React from "react";
 import "./App.scss"; // scss 설정
-import { BrowserRouter } from "react-router-dom";
-import Test from "@components/Test"; // craco 설정
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import HomePage from "@pages/HomePage";
 
 function App() {
   return (
     <BrowserRouter>
-      <Test />
-      <div>프로젝트 세팅 테스트 </div>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
     </BrowserRouter>
   );
 }
