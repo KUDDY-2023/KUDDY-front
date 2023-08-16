@@ -1,6 +1,8 @@
+import React from "react";
+import "@style/reset.scss"; // scss 설정
 import { Routes, Route } from "react-router-dom";
 import "@style/common.scss";
-import HomePage from './pages/HomePage';
+import HomePage from "./pages/HomePage";
 import LoginGuidePage from "@pages/auth/LoginGuidePage";
 
 function App() {
