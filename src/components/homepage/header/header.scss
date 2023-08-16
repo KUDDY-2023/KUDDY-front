@@ -1,0 +1,8 @@
+@function color($color-name) {
+  @return var(--color-#{$color-name});
+}
+
+.header-container {
+  width: 100%;
+  height: 50px;
+}

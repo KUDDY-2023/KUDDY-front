@@ -1,7 +1,7 @@
-import React from "react";
+import "./kuddyspick.scss";
 
 const KuddysPick = () => {
-  return <></>;
+  return <div></div>;
 };
 
 export default KuddysPick;

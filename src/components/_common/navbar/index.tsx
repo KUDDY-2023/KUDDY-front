@@ -5,26 +5,26 @@ import { ReactComponent as PickIcon } from "@assets/homepage/pick.svg";
 import { ReactComponent as MatesIcon } from "@assets/homepage/mates.svg";
 import { ReactComponent as CommunityIcon } from "@assets/homepage/community.svg";
 
-// 현재 페이지 path에 따른 UI(색상) 변화 구현 필요
 const NavBar = () => {
+  // path 수정 필요
   return (
-    <div className="container">
-      <div className="inner-container">
-        <NavLink to="/" className="click-area">
+    <div className="nav-container">
+      <div className="nav-inner-container">
+        <NavLink to="/" className="nav-click-area">
           <HomeIcon />
-          <div className="text">HOME</div>
+          <div className="nav-text">HOME</div>
         </NavLink>
-        <NavLink to="/pick" className="click-area">
+        <NavLink to="/pick" className="nav-click-area">
           <PickIcon />
-          <div className="text">PICK</div>
+          <div className="nav-text">PICK</div>
         </NavLink>
-        <NavLink to="/mates" className="click-area">
+        <NavLink to="/mates" className="nav-click-area">
           <MatesIcon />
-          <div className="text">MATES</div>
+          <div className="nav-text">MATES</div>
         </NavLink>
-        <NavLink to="/community" className="click-area">
+        <NavLink to="/community" className="nav-click-area">
           <CommunityIcon />
-          <div className="text">COMMUNITY</div>
+          <div className="nav-text">COMMUNITY</div>
         </NavLink>
       </div>
     </div>
