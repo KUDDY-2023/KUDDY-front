@@ -1,0 +1,42 @@
+$black: var(--color-black);
+
+.maininfo-wrapper {
+  width: 100%;
+}
+
+.maininfo-thumbnail-rect {
+  width: 100%;
+  @media (min-width: 574px) {
+    width: 340px;
+  }
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.maininfo-title {
+  color: $black;
+  font: {
+    family: var(--font-title);
+    size: 22px;
+    weight: 500;
+  }
+  margin-top: 15px;
+}
+
+.maininfo-description {
+  color: $black;
+  font: {
+    family: var(--font-text);
+    size: 14px;
+    weight: 500;
+  }
+  line-height: 150%;
+  margin-top: 15px;
+}
