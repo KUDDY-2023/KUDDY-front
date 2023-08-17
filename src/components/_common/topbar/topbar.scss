@@ -2,7 +2,7 @@
   @return var(--color-#{$color-name});
 }
 
-.header-container {
+.topbar-container {
   width: 100%;
   height: 50px;
   display: flex;
@@ -17,7 +17,7 @@
   }
 }
 
-.header-profile-circle {
+.topbar-profile-circle {
   width: 40px;
   height: 40px;
   border-radius: 50%;
@@ -31,7 +31,7 @@
   }
 }
 
-.header-title {
+.topbar-title {
   font: {
     family: var(--font-title);
     size: 24px;
@@ -40,7 +40,7 @@
   color: color(black);
 }
 
-.header-chat-container {
+.topbar-chat-container {
   width: 30px;
   height: 30px;
   margin-right: 24px;

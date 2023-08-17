@@ -6,7 +6,6 @@ import { ReactComponent as MatesIcon } from "@assets/homepage/mates.svg";
 import { ReactComponent as CommunityIcon } from "@assets/homepage/community.svg";
 
 const NavBar = () => {
-  // path 수정 필요
   return (
     <div className="nav-container">
       <div className="nav-inner-container">

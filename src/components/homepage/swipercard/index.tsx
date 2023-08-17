@@ -26,7 +26,7 @@ const SwiperCard = () => {
     {
       id: 3,
       title: "10 The best view point for Han-River",
-      src: "https://me.go.kr/hg/file/preview.do?fileId=187108&fileSeq=1",
+      src: "https://t1.daumcdn.net/cfile/tistory/26312F4A566D4C7028",
     },
   ]);
   const [swiperIndex, setSwiperIndex] = useState<Number>(0);
@@ -49,6 +49,7 @@ const SwiperCard = () => {
           >
             <div className="swiper-img-rect">
               <img src={item.src} />
+              <div className="swiper-img-gradient"></div>
             </div>
             <div className="swiper-text-container">
               <div className="swiper-text small">KUDDY's Pick</div>
