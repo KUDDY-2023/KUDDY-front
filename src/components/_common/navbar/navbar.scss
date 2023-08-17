@@ -2,7 +2,7 @@
   @return var(--color-#{$color-name});
 }
 
-.container {
+.nav-container {
   position: fixed;
   bottom: 0;
   z-index: 999;
@@ -14,14 +14,14 @@
   border-top: 1px solid #efefef;
 }
 
-.inner-container {
+.nav-inner-container {
   margin-top: 16px;
   width: 312px;
   display: flex;
   justify-content: space-between;
 }
 
-.click-area {
+.nav-click-area {
   width: 63px;
   height: 40px;
   display: flex;
@@ -41,7 +41,7 @@
   }
 }
 
-.text {
+.nav-text {
   font: {
     family: var(--font-title);
     size: 9px;

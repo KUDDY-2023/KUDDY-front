@@ -1,0 +1,38 @@
+@function color($color-name) {
+  @return var(--color-#{$color-name});
+}
+
+.searchbar-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 90px;
+}
+
+.searchbar-box {
+  width: 340px;
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid color(grey-line);
+  display: flex;
+  align-items: center;
+  background-color: color(light-grey);
+
+  svg {
+    width: 20px;
+    margin: {
+      left: 16px;
+      right: 12px;
+    }
+  }
+
+  p {
+    color: color(grey-line);
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+}
