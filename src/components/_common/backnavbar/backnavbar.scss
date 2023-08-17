@@ -1,0 +1,28 @@
+$black: var(--color-black);
+
+.backnavbar-container {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 55px;
+  width: 100%;
+
+  svg {
+    position: absolute;
+    left: 28px;
+    top: 18px;
+  }
+
+  p {
+    color: $black;
+    text-align: center;
+    font: {
+      family: var(--font-text);
+      size: 16px;
+      weight: 600;
+    }
+  }
+}

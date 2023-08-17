@@ -8,8 +8,8 @@ import TravelSearchPage from "@pages/travel/TravelSearchPage";
 import TravelDetailPage from "@pages/travel/TravelDetailPage";
 import KuddysPickPage from "@pages/travel/KuddysPickPage";
 import KuddysPickDetailPage from "@pages/travel/KuddysPickDetailPage";
-import LoginGuidePage from "@pages/auth/LoginGuidePage";
 
+import LoginRoutes from "@routes/LoginRoutes";
 function App() {
   return (
     <Routes>
@@ -19,7 +19,7 @@ function App() {
       <Route path="/travel/:id" element={<TravelDetailPage />} />
       <Route path="/kuddys-pick" element={<KuddysPickPage />} />
       <Route path="/kuddys-pick/:id" element={<KuddysPickDetailPage />} />
-      <Route path="/auth/*" element={<LoginGuidePage />} />
+      <Route path="/auth/*" element={<LoginRoutes />} />
     </Routes>
   );
 }
