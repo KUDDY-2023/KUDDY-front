@@ -1,0 +1,44 @@
+.swiper-container {
+  width: 100%;
+  margin: {
+    top: 20px;
+  }
+}
+
+.swiper-slide {
+  width: 350px !important;
+}
+
+.swiper-img-rect {
+  width: 350px;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.swiper-text-container {
+  position: absolute;
+  left: 27px;
+  bottom: 23px;
+}
+
+.swiper-text {
+  width: 80%;
+  color: #fff;
+  line-height: 120%;
+  font: {
+    family: var(--font-title);
+    size: 22px;
+    weight: 500;
+  }
+  &.small {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+}
