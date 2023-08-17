@@ -1,0 +1,27 @@
+@import "@style/font.scss";
+@import "@style/common.scss";
+
+.login-done-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .gif {
+    margin-top: 217px;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background-color: var(--color-grey);
+  }
+
+  p {
+    margin-top: 49px;
+    color: var(--color-black);
+    text-align: center;
+    font: {
+      family: var(--font-text);
+      size: 16px;
+      weight: 500;
+    }
+  }
+}
