@@ -2,7 +2,7 @@
   @return var(--color-#{$color-name});
 }
 
-.placeblock-block {
+.travelblock-block {
   width: 44vw;
   @media (min-width: 574px) {
     // PC뷰
@@ -21,7 +21,7 @@
   }
 }
 
-.placeblock-img-rect {
+.travelblock-img-rect {
   width: 100%;
   aspect-ratio: 1 / 1;
   border-radius: 5px;
@@ -34,7 +34,7 @@
   }
 }
 
-.placeblock-name {
+.travelblock-name {
   color: color(black);
   font: {
     family: var(--font-text);
@@ -48,7 +48,7 @@
   }
 }
 
-.placeblock-district {
+.travelblock-district {
   color: #7d7d7d;
   font: {
     family: var(--font-text);

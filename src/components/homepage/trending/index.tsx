@@ -1,7 +1,7 @@
 import "./trending.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PlaceBlock from "@components/placepage/placeblock";
+import TravelBlock from "@components/travelpage/travelblock";
 import { ReactComponent as ArrowIcon } from "@assets/homepage/arrow.svg";
 
 type PlaceType = {
@@ -44,7 +44,7 @@ const Trending = () => {
       </div>
       <div className="trending-container">
         {trendingPlace.map(item => (
-          <PlaceBlock key={item.id} {...item} />
+          <TravelBlock key={item.id} {...item} />
         ))}
         <div className="end"></div>
       </div>
