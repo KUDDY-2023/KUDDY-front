@@ -7,7 +7,6 @@
   display: flex;
   justify-content: center;
   padding: {
-    top: 20px;
     bottom: 116px;
   }
 }
@@ -28,7 +27,7 @@
 
   p {
     position: absolute;
-    top: 0;
+    top: 10px;
     right: 12px;
     color: color(black);
     color: #000;
