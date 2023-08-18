@@ -1,0 +1,84 @@
+.type-form-container {
+  margin-top: 16px;
+  width: 85%;
+
+  .title {
+    color: #000;
+    font: {
+      family: var(--font-title);
+      size: 20px;
+      style: normal;
+      weight: 500;
+    }
+    text-align: start;
+
+    width: 85%;
+  }
+
+  .form-container {
+    margin-top: 150px;
+
+    width: 100%;
+  }
+
+  .btn-container {
+    margin-bottom: 40px;
+
+    p {
+      color: #aeaeae;
+      text-align: center;
+      font: {
+        family: var(--font-text);
+        size: 14px;
+        style: normal;
+        weight: 500;
+      }
+      line-height: normal;
+
+      margin-top: 16px;
+    }
+
+    #k-buddy {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%; // 수정
+      height: 52px;
+      // padding: 14px 5px;
+      border-radius: 100px;
+      background: var(--main-yellow, #fff49b);
+
+      color: #000;
+      text-align: center;
+      font: {
+        family: var(--font-text);
+        size: 18px;
+        style: normal;
+        weight: 500;
+      }
+      line-height: normal;
+    }
+
+    #traveler {
+      display: flex;
+      width: 320px;
+      height: 52px;
+      //padding: 14px 5px;
+      justify-content: center;
+      align-items: center;
+
+      border-radius: 100px;
+      border: 1px solid var(--grey-line, #ddd);
+
+      color: #000;
+      text-align: center;
+      font: {
+        family: var(--font-text);
+        size: 18px;
+        style: normal;
+        weight: 500;
+      }
+      line-height: normal;
+    }
+  }
+}
