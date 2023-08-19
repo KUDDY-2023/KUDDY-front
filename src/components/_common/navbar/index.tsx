@@ -21,7 +21,7 @@ const NavBar = () => {
           <MatesIcon />
           <div className="nav-text">MATES</div>
         </NavLink>
-        <NavLink to="/community" className="nav-click-area">
+        <NavLink to="/community/list" className="nav-click-area">
           <CommunityIcon />
           <div className="nav-text">COMMUNITY</div>
         </NavLink>
