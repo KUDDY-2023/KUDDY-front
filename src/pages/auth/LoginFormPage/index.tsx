@@ -41,8 +41,8 @@ export default function LoginFormPage() {
       {/* <ProfileForm /> */}
       {/* <BasicForm /> */}
       {/* <JobForm /> */}
-      {/* <PersonalityForm /> */}
-      <AreaForm />
+      <PersonalityForm />
+      {/* <AreaForm /> */}
 
       <div className="btns-contrainer">
         <div className="previous">
