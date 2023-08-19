@@ -5,7 +5,7 @@
 .post-container {
   display: flex;
   flex-direction: column;
-  width: calc(100% - 62px);
+  width: calc(100% - 30px);
   padding: 16px;
   gap: 12px 8px;
   flex-wrap: wrap;
@@ -37,7 +37,7 @@
 
 .post-courses {
   width: 100%;
-  max-height: 88px;
+  max-height: 84px;
   display: flex;
   flex-wrap: wrap;
   gap: 12px 8px;
@@ -47,7 +47,7 @@
 .post-course-container {
   display: flex;
   width: auto;
-  height: 20px;
+  height: 36px;
   padding: 8px 12px;
   align-items: center;
   gap: 6px;
