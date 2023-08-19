@@ -1,0 +1,43 @@
+@function color($color-name) {
+  @return var(--color-#{$color-name});
+}
+
+.post-list-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 106px;
+}
+
+.menu-container {
+  width: calc(100% - 42px);
+  height: 48px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.menu-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 172px;
+  height: 30.857px;
+  border-radius: 59px;
+  cursor: pointer;
+
+  color: color(black);
+  font-family: "Inter";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+
+  &.clicked {
+    background-color: color(main-yellow);
+  }
+}
