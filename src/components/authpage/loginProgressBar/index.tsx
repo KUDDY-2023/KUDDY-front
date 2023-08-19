@@ -2,7 +2,10 @@ import "./progressbar.scss";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { useState, useEffect } from "react";
 
-export default function LoginProgressBar() {
+interface Props {
+  completed: number;
+}
+export default function LoginProgressBar({ completed }: Props) {
   const [width, setWidth] = useState<string>();
 
   useEffect(() => {
@@ -15,7 +18,7 @@ export default function LoginProgressBar() {
       className="progressbar"
       height="4px"
       width={width}
-      completed={50}
+      completed={completed}
       maxCompleted={100}
       isLabelVisible={false}
       bgColor="#000"
