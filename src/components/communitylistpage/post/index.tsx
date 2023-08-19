@@ -1,7 +1,8 @@
 import "./post.scss";
+import { useNavigate } from "react-router";
 import commentIcon from "@assets/community/comment.svg";
 
-type menuType = "feedback" | "talking";
+type menuType = "itinerary-feedback" | "talking-board";
 
 type courseType = {
   id: number;
@@ -27,8 +28,13 @@ const Post = ({
   date,
   comment,
 }: PostProps) => {
+  const nav = useNavigate();
+
   return (
-    <div className="post-container">
+    <div
+      className="post-container"
+      onClick={() => nav(`/community/${type}/${id}`)}
+    >
       <div className="post-title">{title}</div>
       <div className="post-content">{content}</div>
       {courses && (
