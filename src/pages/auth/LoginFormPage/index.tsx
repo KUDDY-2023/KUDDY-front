@@ -16,6 +16,7 @@ import TypeForm from "./forms/TypeForm";
 import ProfileForm from "./forms/ProfileForm";
 import BasicForm from "./forms/BasicForm";
 import JobForm from "./forms/JobForm";
+import PersonalityForm from "./forms/PersonalityForm";
 
 export default function LoginFormPage() {
   const [isBuddy, setIsBuddy] = useState(true); // 유저 종류 구분
@@ -38,7 +39,8 @@ export default function LoginFormPage() {
       {/* <TypeForm /> */}
       {/* <ProfileForm /> */}
       {/* <BasicForm /> */}
-      <JobForm />
+      {/* <JobForm /> */}
+      <PersonalityForm />
 
       <div className="btns-contrainer">
         <div className="previous">
