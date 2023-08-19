@@ -15,6 +15,10 @@ import { ReactComponent as NextIcon } from "@assets/icon/arrow_right.svg";
 import TypeForm from "./forms/TypeForm";
 import ProfileForm from "./forms/ProfileForm";
 import BasicForm from "./forms/BasicForm";
+import JobForm from "./forms/JobForm";
+import PersonalityForm from "./forms/PersonalityForm";
+import AreaForm from "./forms/AreaForm";
+import NationalityForm from "./forms/NationalityForm";
 
 export default function LoginFormPage() {
   const [isBuddy, setIsBuddy] = useState(true); // 유저 종류 구분
@@ -36,7 +40,11 @@ export default function LoginFormPage() {
       {/* 바뀌는 폼 부분 */}
       {/* <TypeForm /> */}
       {/* <ProfileForm /> */}
-      <BasicForm />
+      {/* <BasicForm /> */}
+      {/* <JobForm /> */}
+      {/* <PersonalityForm /> */}
+      {/* <AreaForm /> */}
+      <NationalityForm />
 
       <div className="btns-contrainer">
         <div className="previous">
