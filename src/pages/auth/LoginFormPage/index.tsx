@@ -19,7 +19,7 @@ import JobForm from "./forms/JobForm";
 import PersonalityForm from "./forms/PersonalityForm";
 import AreaForm from "./forms/AreaForm";
 import NationalityForm from "./forms/NationalityForm";
-
+import LanguageForm from "./forms/LanguageForm";
 export default function LoginFormPage() {
   const [isBuddy, setIsBuddy] = useState(true); // 유저 종류 구분
   // initial data
@@ -44,7 +44,8 @@ export default function LoginFormPage() {
       {/* <JobForm /> */}
       {/* <PersonalityForm /> */}
       {/* <AreaForm /> */}
-      <NationalityForm />
+      {/* <NationalityForm /> */}
+      <LanguageForm />
 
       <div className="btns-contrainer">
         <div className="previous">
