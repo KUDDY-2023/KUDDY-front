@@ -59,7 +59,7 @@ $main-yellow: var(--color-main-yellow);
       justify-content: center;
       align-items: center;
       border-radius: 100px;
-      border: 1px solid #ddd;
+      outline: 1px solid #ddd;
 
       color: #000;
       text-align: center;
@@ -82,7 +82,7 @@ $main-yellow: var(--color-main-yellow);
       justify-content: center;
       align-items: center;
       border-radius: 100px;
-      border: none;
+      outline: none;
       background: $main-yellow;
 
       font: {

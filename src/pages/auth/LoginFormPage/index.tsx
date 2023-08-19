@@ -38,9 +38,9 @@ export default function LoginFormPage() {
       {/* 바뀌는 폼 부분 */}
       {/* <TypeForm /> */}
       {/* <ProfileForm /> */}
-      {/* <BasicForm /> */}
+      <BasicForm />
       {/* <JobForm /> */}
-      <PersonalityForm />
+      {/* <PersonalityForm /> */}
 
       <div className="btns-contrainer">
         <div className="previous">
