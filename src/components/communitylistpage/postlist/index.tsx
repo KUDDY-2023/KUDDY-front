@@ -1,8 +1,9 @@
 import "./postlist.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Post from "@components/communitylistpage/post";
 
-type menuType = "feedback" | "talking";
+type menuType = "itinerary-feedback" | "talking-board";
 
 type courseType = {
   id: number;
@@ -20,12 +21,13 @@ type postType = {
 };
 
 const PostList = () => {
-  const [menu, setMenu] = useState<menuType>("feedback"); // 선택한 메뉴 ("feedback" | "talking")
+  const nav = useNavigate();
+  const [menu, setMenu] = useState<menuType>("itinerary-feedback"); // 선택한 메뉴 ("feedback" | "talking")
 
   // 게시물 데이터
   const [post, setPost] = useState<postType[]>([
     {
-      type: "feedback",
+      type: "itinerary-feedback",
       id: 1,
       title: "Who knows Seongsu-dong well?",
       content:
@@ -43,7 +45,7 @@ const PostList = () => {
       comment: 12,
     },
     {
-      type: "feedback",
+      type: "itinerary-feedback",
       id: 2,
       title: "Who knows Seongsu-dong well?",
       content:
@@ -57,7 +59,7 @@ const PostList = () => {
       comment: 12,
     },
     {
-      type: "feedback",
+      type: "itinerary-feedback",
       id: 3,
       title: "Who knows Seongsu-dong well?",
       content:
@@ -70,7 +72,7 @@ const PostList = () => {
       comment: 12,
     },
     {
-      type: "talking",
+      type: "talking-board",
       id: 4,
       title: "Please choose a good restaurant in Sinchon",
       content: `Just like the title
@@ -87,18 +89,24 @@ const PostList = () => {
     menu !== clickedMenu && setMenu(clickedMenu);
   };
 
+  useEffect(() => {
+    nav(`?type=${menu}`);
+  }, [menu]);
+
   return (
     <div className="post-list-wrapper">
       <div className="menu-container">
         <div
-          className={menu === "feedback" ? "menu-btn clicked" : "menu-btn"}
-          onClick={() => handleMenuClick("feedback")}
+          className={
+            menu === "itinerary-feedback" ? "menu-btn clicked" : "menu-btn"
+          }
+          onClick={() => handleMenuClick("itinerary-feedback")}
         >
           Itinerary Feedback
         </div>
         <div
-          className={menu === "talking" ? "menu-btn clicked" : "menu-btn"}
-          onClick={() => handleMenuClick("talking")}
+          className={menu === "talking-board" ? "menu-btn clicked" : "menu-btn"}
+          onClick={() => handleMenuClick("talking-board")}
         >
           Talking Board
         </div>
