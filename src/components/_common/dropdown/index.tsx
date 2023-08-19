@@ -28,6 +28,7 @@ export default function DownDown({ items, placeholder }: Props) {
           if (i === selected) {
             return (
               <Dropdown.Item
+                id="custom-item"
                 href="#/action-1"
                 onClick={() => _handleClickToggle(i)}
               >
@@ -37,6 +38,7 @@ export default function DownDown({ items, placeholder }: Props) {
           } else {
             return (
               <Dropdown.Item
+                id="custom-item"
                 href="#/action-1"
                 onClick={() => _handleClickToggle(i)}
               >
