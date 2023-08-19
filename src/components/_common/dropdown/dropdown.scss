@@ -1,0 +1,51 @@
+#kuddy-custom-dropdown {
+  #custom-dropdown {
+    background-color: none;
+  }
+
+  button {
+    background-color: transparent;
+    display: inline-flex;
+    padding: 8px 20px;
+    align-items: center;
+
+    border-radius: 100px;
+    border: 1px solid var(--grey, #eee);
+
+    color: #aeaeae;
+    text-align: center;
+    font-family: var(--font-text);
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+
+    &::after {
+      margin-left: 12px;
+    }
+  }
+
+  .dropdown-menu {
+    margin-top: 8px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    background: #fff;
+
+    a {
+      margin-bottom: 8px;
+
+      color: #000;
+      font-family: Inter;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+
+      display: flex;
+
+      img {
+        margin-left: 16px;
+      }
+    }
+  }
+}
