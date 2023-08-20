@@ -41,7 +41,7 @@ const PostItem = ({ ...props }) => {
           }
         >
           <div className="post-title">{props.title}</div>
-          <div className="post-content">{props.content}</div>
+          <div className="post-content-preview">{props.content}</div>
           {props.spotList && (
             <div className="post-spots">
               {props.spotList.map((spot: SpotType) => (
