@@ -1,40 +1,35 @@
 import "./postitem.scss";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router";
 import commentIcon from "@assets/community/comment.svg";
 
-const PostItem = ({
-  type,
-  id,
-  title,
-  content,
-  courses,
-  date,
-  comment,
-}: PostType) => {
+const PostItem = ({ ...props }) => {
   const nav = useNavigate();
+  const clickedMenuType = new URLSearchParams(useLocation().search).get(
+    "category",
+  );
 
   return (
     <div
       className="post-container"
-      onClick={() => nav(`/community/${type}/${id}`)}
+      onClick={() => nav(`/community/${clickedMenuType}/${props.postId}`)}
     >
-      <div className="post-title">{title}</div>
-      <div className="post-content">{content}</div>
-      {courses && (
+      <div className="post-title">{props.title}</div>
+      <div className="post-content">{props.content}</div>
+      {props.spotList && (
         <div className="post-courses">
-          {courses.map(course => (
-            <div key={course.id} className="post-course-container">
-              <div className="post-course-id">{course.id}</div>
-              <div className="post-course-name">{course.name}</div>
+          {props.spotList.map((spot: SpotType) => (
+            <div key={spot.id} className="post-course-container">
+              <div className="post-course-id">{spot.id}</div>
+              <div className="post-course-name">{spot.place}</div>
             </div>
           ))}
         </div>
       )}
       <div className="post-info">
-        <div className="post-date">{date}</div>
+        <div className="post-date">{props.writeDate}</div>
         <div className="post-comment">
           <img src={commentIcon} alt="comment" />
-          {comment}
+          {props.commentCnt}
         </div>
       </div>
     </div>
