@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 
-import CommunityListPage from "@pages/community/CommunityListPage/index";
+import CommunityListPage from "@pages/community/CommunityListPage";
 import WritePostPage from "@pages/community/WritePostPage";
 import ItineraryFeedbackDetailPage from "@pages/community/ItineraryFeedbackDetailPage";
 import TalkingBoardDetailPage from "@pages/community/TalkingBoardDetailPage";

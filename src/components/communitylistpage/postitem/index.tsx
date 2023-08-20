@@ -1,25 +1,8 @@
-import "./post.scss";
+import "./postitem.scss";
 import { useNavigate } from "react-router";
 import commentIcon from "@assets/community/comment.svg";
 
-type menuType = "itinerary-feedback" | "talking-board";
-
-type courseType = {
-  id: number;
-  name: string;
-};
-
-type PostProps = {
-  type: menuType;
-  id: number;
-  title: string;
-  content: string;
-  courses?: courseType[];
-  date: string;
-  comment: number;
-};
-
-const Post = ({
+const PostItem = ({
   type,
   id,
   title,
@@ -27,7 +10,7 @@ const Post = ({
   courses,
   date,
   comment,
-}: PostProps) => {
+}: PostType) => {
   const nav = useNavigate();
 
   return (
@@ -58,4 +41,4 @@ const Post = ({
   );
 };
 
-export default Post;
+export default PostItem;

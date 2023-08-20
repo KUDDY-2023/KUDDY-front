@@ -1,31 +1,14 @@
 import "./postlist.scss";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import Post from "@components/communitylistpage/post";
-
-type menuType = "itinerary-feedback" | "talking-board";
-
-type courseType = {
-  id: number;
-  name: string;
-};
-
-type postType = {
-  type: menuType;
-  id: number;
-  title: string;
-  content: string;
-  courses?: courseType[];
-  date: string;
-  comment: number;
-};
+import { useLocation } from "react-router-dom";
+import PostItem from "@components/communitylistpage/postitem/index";
 
 const PostList = () => {
-  const nav = useNavigate();
-  const [menu, setMenu] = useState<menuType>("itinerary-feedback"); // 선택한 메뉴 ("feedback" | "talking")
-
+  const clickedMenuType = new URLSearchParams(useLocation().search).get(
+    "category",
+  );
   // 게시물 데이터
-  const [post, setPost] = useState<postType[]>([
+  const [post, setPost] = useState<PostType[]>([
     {
       type: "itinerary-feedback",
       id: 1,
@@ -85,33 +68,12 @@ const PostList = () => {
     },
   ]);
 
-  const handleMenuClick = (clickedMenu: menuType) => {
-    menu !== clickedMenu && setMenu(clickedMenu);
-  };
-
-  useEffect(() => {
-    nav(`?type=${menu}`);
-  }, [menu]);
-
   return (
     <div className="post-list-wrapper">
-      <div className="menu-container">
-        <div
-          className={
-            menu === "itinerary-feedback" ? "menu-btn clicked" : "menu-btn"
-          }
-          onClick={() => handleMenuClick("itinerary-feedback")}
-        >
-          Itinerary Feedback
-        </div>
-        <div
-          className={menu === "talking-board" ? "menu-btn clicked" : "menu-btn"}
-          onClick={() => handleMenuClick("talking-board")}
-        >
-          Talking Board
-        </div>
-      </div>
-      {post.map(item => item.type === menu && <Post key={item.id} {...item} />)}
+      {post.map(
+        item =>
+          item.type === clickedMenuType && <PostItem key={item.id} {...item} />,
+      )}
     </div>
   );
 };
