@@ -1,42 +1,9 @@
 import "./interestform.scss";
 import { useState, useEffect } from "react";
-
+import { InterestData } from "./interestsData";
 export default function InterestForm() {
   const [count, setCount] = useState(0);
-  const [interests, setInterests] = useState([
-    {
-      category: "category",
-      interests: [
-        { id: 0, city: "Running", selected: false },
-        { id: 1, city: "Basketball", selected: false },
-        { id: 2, city: "Baseball", selected: false },
-      ],
-    },
-    {
-      category: "category",
-      interests: [
-        { id: 3, city: "Running", selected: false },
-        { id: 4, city: "Basketball", selected: false },
-        { id: 5, city: "Baseball", selected: false },
-      ],
-    },
-    {
-      category: "category",
-      interests: [
-        { id: 6, city: "Running", selected: false },
-        { id: 7, city: "Basketball", selected: false },
-        { id: 8, city: "Baseball", selected: false },
-      ],
-    },
-    {
-      category: "category",
-      interests: [
-        { id: 9, city: "Running", selected: false },
-        { id: 10, city: "Basketball", selected: false },
-        { id: 11, city: "Baseball", selected: false },
-      ],
-    },
-  ]);
+  const [interests, setInterests] = useState(InterestData);
 
   const _handleClickInterestBtn = (
     categoryIndex: number,
@@ -88,7 +55,7 @@ export default function InterestForm() {
                       _handleClickInterestBtn(categoryId, interestId)
                     }
                   >
-                    {interest.city}
+                    {interest.inter}
                   </li>
                 ))}
               </div>
