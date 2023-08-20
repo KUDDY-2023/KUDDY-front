@@ -12,6 +12,7 @@ import KuddysPickDetailPage from "@pages/travel/KuddysPickDetailPage";
 import LoginRoutes from "@routes/LoginRoutes";
 import CommunityRoutes from "@routes/CommunityRoutes";
 import MyRoutes from "@routes/MyRoutes";
+import ChatRoutes from "@routes/ChatRoutes";
 function App() {
   return (
     <Routes>
@@ -24,6 +25,7 @@ function App() {
       <Route path="/auth/*" element={<LoginRoutes />} />
       <Route path="/community/*" element={<CommunityRoutes />} />
       <Route path="/my/*" element={<MyRoutes />} />
+      <Route path="/chat/*" element={<ChatRoutes />} />
     </Routes>
   );
 }
