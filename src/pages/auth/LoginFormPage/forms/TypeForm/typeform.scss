@@ -17,68 +17,68 @@
 
   .form-container {
     margin-top: 150px;
-
     width: 100%;
-  }
 
-  .btn-container {
-    margin-bottom: 40px;
+    .type-btn-container {
+      margin-bottom: 40px;
 
-    p {
-      color: #aeaeae;
-      text-align: center;
-      font: {
-        family: var(--font-text);
-        size: 14px;
-        style: normal;
-        weight: 500;
+      p {
+        color: #aeaeae;
+        text-align: center;
+        font: {
+          family: var(--font-text);
+          size: 14px;
+          style: normal;
+          weight: 500;
+        }
+        line-height: normal;
+
+        margin-top: 16px;
       }
-      line-height: normal;
 
-      margin-top: 16px;
-    }
+      .inactive-type-btn {
+        display: flex;
+        width: 100%; // 수정
+        height: 52px;
+        //padding: 14px 5px;
+        justify-content: center;
+        align-items: center;
 
-    #k-buddy {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%; // 수정
-      height: 52px;
-      // padding: 14px 5px;
-      border-radius: 100px;
-      background: var(--main-yellow, #fff49b);
+        border-radius: 100px;
+        outline: 1px solid #ddd;
 
-      color: #000;
-      text-align: center;
-      font: {
-        family: var(--font-text);
-        size: 18px;
-        style: normal;
-        weight: 500;
+        color: #000;
+        text-align: center;
+        font: {
+          family: var(--font-text);
+          size: 18px;
+          style: normal;
+          weight: 500;
+        }
+        line-height: normal;
       }
-      line-height: normal;
-    }
 
-    #traveler {
-      display: flex;
-      width: 320px;
-      height: 52px;
-      //padding: 14px 5px;
-      justify-content: center;
-      align-items: center;
+      #active {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%; // 수정
+        height: 52px;
+        // padding: 14px 5px;
+        border-radius: 100px;
+        background: var(--main-yellow, #fff49b);
+        outline: none;
 
-      border-radius: 100px;
-      border: 1px solid var(--grey-line, #ddd);
-
-      color: #000;
-      text-align: center;
-      font: {
-        family: var(--font-text);
-        size: 18px;
-        style: normal;
-        weight: 500;
+        color: #000;
+        text-align: center;
+        font: {
+          family: var(--font-text);
+          size: 18px;
+          style: normal;
+          weight: 500;
+        }
+        line-height: normal;
       }
-      line-height: normal;
     }
   }
 }

@@ -4,7 +4,7 @@ import DropDown from "@components/_common/dropdown";
 export default function NationalityForm() {
   const nations = ["Korea", "US", "Ch"];
   return (
-    <div className="type-form-container">
+    <div className="nationality-form-container">
       <p className="title">Choose your nationality</p>
 
       <div className="form-container">

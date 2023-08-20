@@ -1,5 +1,5 @@
 $main-yellow: var(--color-main-yellow);
-.area-form-container {
+.language-form-container {
   margin-top: 16px;
   width: 85%;
 
@@ -19,35 +19,44 @@ $main-yellow: var(--color-main-yellow);
     width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: start;
   }
 
-  .count {
+  .description {
     color: #000;
+    text-align: start;
+
     font: {
       family: var(--font-text);
-      size: 14px;
+      size: 12px;
       style: normal;
       weight: 500;
     }
   }
 
-  .city-container {
-    margin-top: 12px;
+  .form-box {
     display: flex;
-    flex-wrap: wrap;
+    margin-top: 14px;
 
-    .city-btn {
-      display: flex;
-      padding: 8px 16px;
-      width: fit-content;
-      justify-content: center;
-      align-items: center;
-      border-radius: 100px;
-      background: #f9f9f9;
+    #kuddy-custom-dropdown {
+      margin-right: 6px;
+    }
+  }
 
-      margin-right: 12px;
-      margin-bottom: 12px;
+  .add-box {
+    margin-top: 12px;
 
+    img {
+      margin-right: 16px;
+    }
+    display: flex;
+    padding: 8px 16px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+    border: 1px solid #eee;
+
+    p {
       color: #000;
       text-align: center;
       font: {
@@ -57,18 +66,6 @@ $main-yellow: var(--color-main-yellow);
         weight: 500;
       }
       line-height: normal;
-    }
-
-    #active {
-      display: flex;
-      padding: 8px 16px;
-      width: fit-content;
-
-      justify-content: center;
-      align-items: center;
-      border-radius: 100px;
-      outline: none;
-      background: $main-yellow;
     }
   }
 }

@@ -5,7 +5,7 @@ export default function JobForm() {
   const [job, setJob] = useState("");
 
   return (
-    <div className="type-form-container">
+    <div className="job-form-container">
       <p className="title">Write your job</p>
 
       <div className="form-container">

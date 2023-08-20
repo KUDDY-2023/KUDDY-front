@@ -17,9 +17,15 @@ export default function DownDown({ items, placeholder }: Props) {
     setSelected(nation);
   };
 
+  // 선택된게 있다면 블랙으로 변경
+
   return (
     <Dropdown id="kuddy-custom-dropdown">
-      <Dropdown.Toggle variant="success" id="dropdown-basic">
+      <Dropdown.Toggle
+        variant="success"
+        id="dropdown-basic"
+        className={selected !== placeholder ? "active" : ""}
+      >
         {selected}
       </Dropdown.Toggle>
 

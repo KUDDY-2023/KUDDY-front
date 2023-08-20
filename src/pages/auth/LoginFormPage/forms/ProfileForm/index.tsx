@@ -7,7 +7,7 @@ export default function ProfileForm() {
   const [name, setName] = useState("Jane");
 
   return (
-    <div className="type-form-container">
+    <div className="profile-img-form-container">
       <p className="title">Set your profile</p>
 
       <div className="form-container">

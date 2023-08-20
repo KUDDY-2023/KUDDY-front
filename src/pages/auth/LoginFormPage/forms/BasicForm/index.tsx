@@ -14,7 +14,7 @@ export default function BasicForm() {
   };
 
   return (
-    <div className="type-form-container">
+    <div className="basic-form-container">
       <p className="title">Fill your basic information</p>
 
       <div className="form-container">

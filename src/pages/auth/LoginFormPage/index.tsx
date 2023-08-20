@@ -11,14 +11,7 @@ import { useState, useEffect } from "react";
 import { ReactComponent as PreviousIcon } from "@assets/icon/arrow_left.svg";
 import { ReactComponent as NextIcon } from "@assets/icon/arrow_right.svg";
 
-// form 여러개 - 따로 파일 빼서 관리하기 !
-import TypeForm from "./forms/TypeForm";
-import ProfileForm from "./forms/ProfileForm";
-import BasicForm from "./forms/BasicForm";
-import JobForm from "./forms/JobForm";
-import PersonalityForm from "./forms/PersonalityForm";
-import AreaForm from "./forms/AreaForm";
-import NationalityForm from "./forms/NationalityForm";
+import { FormPages } from "./formPages";
 
 export default function LoginFormPage() {
   const [isBuddy, setIsBuddy] = useState(true); // 유저 종류 구분
@@ -26,32 +19,25 @@ export default function LoginFormPage() {
   const [data, setData] = useState(
     isBuddy ? initialKuddyProfileData : initialTravelerProfileData,
   );
-  // completed 값 계산하기
+  // completed 값 계산
   let completed = 50;
 
-  // form page 컴포넌트들 (순서와, visible)
-  const pages = [];
+  const [num, setNum] = useState(1);
+  const FormComponent = FormPages[num];
 
   return (
     <div className="login-form-page">
       <BackNavBar middleTitle="Join" />
       <LoginProgressBar completed={completed} />
 
-      {/* 바뀌는 폼 부분 */}
-      {/* <TypeForm /> */}
-      {/* <ProfileForm /> */}
-      {/* <BasicForm /> */}
-      {/* <JobForm /> */}
-      {/* <PersonalityForm /> */}
-      {/* <AreaForm /> */}
-      <NationalityForm />
+      <FormComponent />
 
       <div className="btns-contrainer">
-        <div className="previous">
+        <div className="previous" onClick={() => setNum(num - 1)}>
           <PreviousIcon className="previous-icon" />
           <p>Previous</p>
         </div>
-        <div className="next">
+        <div className="next" onClick={() => setNum(num + 1)}>
           <p>next</p>
           <NextIcon className="next-icon" />
         </div>

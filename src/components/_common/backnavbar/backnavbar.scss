@@ -7,7 +7,7 @@ $black: var(--color-black);
   justify-content: center;
   align-items: center;
 
-  height: 55px;
+  min-height: 55px !important;
   width: 100%;
 
   svg {
@@ -17,6 +17,7 @@ $black: var(--color-black);
   }
 
   p {
+    margin: 0 !important;
     color: $black;
     text-align: center;
     font: {
