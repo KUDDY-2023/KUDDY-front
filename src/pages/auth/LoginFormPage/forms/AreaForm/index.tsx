@@ -47,7 +47,7 @@ export default function AreaForm() {
   }, [citys]);
 
   return (
-    <div className="type-form-container">
+    <div className="area-form-container">
       <p className="title">Choose your avialable area</p>
 
       <div className="form-container">

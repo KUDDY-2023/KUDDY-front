@@ -1,9 +1,10 @@
 $main-yellow: var(--color-main-yellow);
-.area-form-container {
+.interest-form-container {
   margin-top: 16px;
-  width: 85%;
+  width: 100%;
 
   .title {
+    margin-left: 7%;
     color: #000;
     font: {
       family: var(--font-title);
@@ -15,28 +16,54 @@ $main-yellow: var(--color-main-yellow);
   }
 
   .form-container {
-    margin-top: 66px;
+    margin-top: 24px;
     width: 100%;
     display: flex;
     flex-direction: column;
-  }
 
-  .count {
-    color: #000;
-    font: {
-      family: var(--font-text);
-      size: 14px;
-      style: normal;
-      weight: 500;
+    .count {
+      margin-left: 7%;
+      color: #000;
+      font: {
+        family: var(--font-text);
+        size: 14px;
+        style: normal;
+        weight: 500;
+      }
     }
   }
 
-  .city-container {
+  .interest-container {
     margin-top: 12px;
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
 
-    .city-btn {
+    h2 {
+      margin-bottom: 12px;
+      margin-left: 10px;
+      margin-left: 7%;
+      color: #aeaeae;
+      font: {
+        family: var(--font-text);
+        size: 16px;
+        style: normal;
+        weight: 500;
+      }
+    }
+
+    // interest btn 쭉 나열된 곳
+    .flex {
+      display: flex;
+      white-space: nowrap;
+      overflow: auto;
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+      &::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera*/
+      }
+    }
+
+    .interest-btn {
       display: flex;
       padding: 8px 16px;
       width: fit-content;
@@ -45,7 +72,7 @@ $main-yellow: var(--color-main-yellow);
       border-radius: 100px;
       background: #f9f9f9;
 
-      margin-right: 12px;
+      margin-left: 12px;
       margin-bottom: 12px;
 
       color: #000;
