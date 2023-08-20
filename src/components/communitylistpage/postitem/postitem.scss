@@ -2,7 +2,7 @@
   @return var(--color-#{$color-name});
 }
 
-.post-container {
+.post-item-container {
   display: flex;
   flex-direction: column;
   width: calc(100% - 30px);
@@ -15,6 +15,81 @@
   border: 1px solid color(grey);
 
   cursor: pointer;
+}
+
+.item-top-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 12px;
+}
+
+.item-bottom-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+}
+
+.post-detail-container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+
+  &.has-photo {
+    width: calc(100% - 100px);
+  }
+}
+
+.post-photo {
+  width: 92px;
+  height: 92px;
+  flex-shrink: 0;
+  border-radius: 10px;
+}
+
+.post-filter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 16px;
+  gap: 10px;
+
+  border-radius: 100px;
+  background: #f3f3f3;
+  color: color(black);
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  &.is-join-us {
+    background: color(main-yellow);
+  }
+}
+
+.join-us-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.join-us-text {
+  color: #000;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  &.bold-text {
+    color: color(blue);
+    font-weight: 700;
+  }
 }
 
 .post-title {
@@ -33,9 +108,12 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  max-height: 34px;
+  overflow: hidden; // 2행 넘어가면 숨기기
 }
 
-.post-courses {
+.post-spots {
   width: 100%;
   max-height: 84px;
   display: flex;
@@ -44,7 +122,7 @@
   overflow: hidden; // 2행 넘어가면 숨기기
 }
 
-.post-course-container {
+.post-spot-container {
   display: flex;
   width: auto;
   height: 36px;
@@ -57,7 +135,7 @@
   background: #f8f8f8;
 }
 
-.post-course-id {
+.post-spot-id {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -75,7 +153,7 @@
   line-height: normal;
 }
 
-.post-course-name {
+.post-spot-name {
   color: color(black);
   font-family: Inter;
   font-size: 14px;
