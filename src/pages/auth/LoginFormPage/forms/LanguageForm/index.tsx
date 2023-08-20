@@ -8,7 +8,7 @@ export default function LanguageForm() {
   const advances = ["1", "2", "3"];
 
   return (
-    <div className="type-form-container">
+    <div className="language-form-container">
       <p className="title">Write your avialable language</p>
 
       <div className="form-container">

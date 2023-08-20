@@ -22,7 +22,7 @@ export default function PersonalityForm() {
   };
 
   return (
-    <div className="type-form-container">
+    <div className="personality-form-container">
       <p className="title">Fill your basic information</p>
 
       <div className="form-container">

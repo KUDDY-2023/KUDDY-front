@@ -35,7 +35,7 @@ export default function InterestForm() {
   }, [interests]);
 
   return (
-    <div className="type-form-container">
+    <div className="interest-form-container">
       <p className="title">Choose your interests</p>
 
       <div className="form-container">
