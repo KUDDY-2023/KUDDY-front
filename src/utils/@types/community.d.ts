@@ -1,16 +1,37 @@
 type MenuType = "itinerary-feedback" | "talking-board";
 
-type CourseType = {
+interface SpotType {
   id: number;
-  name: string;
-};
+  place: string;
+  district: string;
+  latitude: number;
+  longitude: number;
+}
 
-type PostType = {
-  type: menuType;
-  id: number;
+interface PhotoType {
+  photoId: number;
+  photo: string;
+}
+
+interface PostType {
+  postId: number;
   title: string;
   content: string;
-  courses?: courseType[];
-  date: string;
-  comment: number;
-};
+  writerName: string;
+  writerProfile: string;
+  writeDate: string;
+  writeTime: string;
+  commentCnt: number;
+}
+
+interface ItineraryFeedbackPost extends PostType {
+  spotList: SpotType[];
+}
+
+interface TalkingBoardPost extends PostType {
+  filter: string;
+  photoList?: PhotoType[];
+  joinPeople?: number;
+  joinDate?: string;
+  joinDistrict?: string;
+}
