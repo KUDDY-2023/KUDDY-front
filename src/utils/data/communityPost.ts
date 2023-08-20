@@ -6,7 +6,7 @@ export const ItineraryFeedbackPostData: ItineraryFeedbackPost[] = [
     writerName: "harper",
     writerProfile:
       "https://s3-alpha-sig.figma.com/img/f408/2883/2744c00e820f277563889c3bca4f7fd4?Expires=1693180800&Signature=KJKOOycrDTihH3s5KUHao-i48T18aIDiEb-f0UWQ-kQxqZLNgy2O4PGIihGP7byvFcwUtqGtVjN5pqUR8X9RniZoNKRQpawWeeny-LfugqmaDsMcZSzoC0r~YczXF~yD8cXuaYiWWJT3qKoP8htSywQLxl~aVntIpGjqqsfPOrFyHnL~dHm2nB2G0vqeRO~7z405VVCZwKo7fpQZCYWhfHue3yn2i7WpO9HZ0YEu2girAkyaTd5hZaLkCOWJHgj-YND4xj41SekwyWOOTkE35lXgyMn~JD6-wgma7eSp6d4LRnrzUuQJFj91wy4TQo7aEDCE2R1UZtvYmaf-nXvYrQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-    writeDate: "2023,06.28",
+    writeDate: "2023.06.28",
     writeTime: "11:55",
     commentCnt: 12,
     spotList: [
@@ -75,7 +75,7 @@ export const TalkingBoardPostData: TalkingBoardPost[] = [
     writerName: "harper",
     writerProfile:
       "https://s3-alpha-sig.figma.com/img/f408/2883/2744c00e820f277563889c3bca4f7fd4?Expires=1693180800&Signature=KJKOOycrDTihH3s5KUHao-i48T18aIDiEb-f0UWQ-kQxqZLNgy2O4PGIihGP7byvFcwUtqGtVjN5pqUR8X9RniZoNKRQpawWeeny-LfugqmaDsMcZSzoC0r~YczXF~yD8cXuaYiWWJT3qKoP8htSywQLxl~aVntIpGjqqsfPOrFyHnL~dHm2nB2G0vqeRO~7z405VVCZwKo7fpQZCYWhfHue3yn2i7WpO9HZ0YEu2girAkyaTd5hZaLkCOWJHgj-YND4xj41SekwyWOOTkE35lXgyMn~JD6-wgma7eSp6d4LRnrzUuQJFj91wy4TQo7aEDCE2R1UZtvYmaf-nXvYrQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-    writeDate: "2023,06.28",
+    writeDate: "2023.06.28",
     writeTime: "11:55",
     commentCnt: 12,
     filter: "Food",
@@ -105,10 +105,10 @@ export const TalkingBoardPostData: TalkingBoardPost[] = [
     writerName: "harper",
     writerProfile:
       "https://s3-alpha-sig.figma.com/img/f408/2883/2744c00e820f277563889c3bca4f7fd4?Expires=1693180800&Signature=KJKOOycrDTihH3s5KUHao-i48T18aIDiEb-f0UWQ-kQxqZLNgy2O4PGIihGP7byvFcwUtqGtVjN5pqUR8X9RniZoNKRQpawWeeny-LfugqmaDsMcZSzoC0r~YczXF~yD8cXuaYiWWJT3qKoP8htSywQLxl~aVntIpGjqqsfPOrFyHnL~dHm2nB2G0vqeRO~7z405VVCZwKo7fpQZCYWhfHue3yn2i7WpO9HZ0YEu2girAkyaTd5hZaLkCOWJHgj-YND4xj41SekwyWOOTkE35lXgyMn~JD6-wgma7eSp6d4LRnrzUuQJFj91wy4TQo7aEDCE2R1UZtvYmaf-nXvYrQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-    writeDate: "2023,06.28",
+    writeDate: "2023.06.28",
     writeTime: "11:55",
     commentCnt: 12,
-    filter: "Join Us",
+    filter: "Join us",
     photoList: [
       {
         photoId: 1,
@@ -129,5 +129,18 @@ export const TalkingBoardPostData: TalkingBoardPost[] = [
     joinPeople: 1,
     joinDistrict: "Jono",
     joinDate: "2099.99.99",
+  },
+  {
+    postId: 3,
+    title: "night view spot in Gwanghwamun",
+    content:
+      "Anyone know a place to take a leisurely walk near Gwanghwamun? Help me",
+    writerName: "harper",
+    writerProfile:
+      "https://s3-alpha-sig.figma.com/img/f408/2883/2744c00e820f277563889c3bca4f7fd4?Expires=1693180800&Signature=KJKOOycrDTihH3s5KUHao-i48T18aIDiEb-f0UWQ-kQxqZLNgy2O4PGIihGP7byvFcwUtqGtVjN5pqUR8X9RniZoNKRQpawWeeny-LfugqmaDsMcZSzoC0r~YczXF~yD8cXuaYiWWJT3qKoP8htSywQLxl~aVntIpGjqqsfPOrFyHnL~dHm2nB2G0vqeRO~7z405VVCZwKo7fpQZCYWhfHue3yn2i7WpO9HZ0YEu2girAkyaTd5hZaLkCOWJHgj-YND4xj41SekwyWOOTkE35lXgyMn~JD6-wgma7eSp6d4LRnrzUuQJFj91wy4TQo7aEDCE2R1UZtvYmaf-nXvYrQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
+    writeDate: "2023.06.28",
+    writeTime: "11:55",
+    commentCnt: 12,
+    filter: "View",
   },
 ];
