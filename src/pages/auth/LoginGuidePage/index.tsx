@@ -1,7 +1,7 @@
 import "./loginguidepage.scss";
 import Xicon from "@assets/icon/xicon.png";
-import google from "@assets/auth/google.png";
-
+import GoogleBtn from "@components/authpage/googleBtn";
+import KakaoBtn from "@components/authpage/kakaoBtn";
 export default function LoginGuidePage() {
   return (
     <div>
@@ -14,14 +14,8 @@ export default function LoginGuidePage() {
         <p>KUDDY Slogan-catchphrase</p>
       </div>
       <div className="btn-container">
-        <div className="btn">
-          <img src={google} alt="google" />
-          <p>Login with Google</p>
-        </div>
-        <div className="btn">
-          <img src={google} alt="google" />
-          <p>Login with Google</p>
-        </div>
+        <KakaoBtn />
+        <GoogleBtn />
       </div>
     </div>
   );

@@ -8,8 +8,11 @@ import TravelSearchPage from "@pages/travel/TravelSearchPage";
 import TravelDetailPage from "@pages/travel/TravelDetailPage";
 import KuddysPickPage from "@pages/travel/KuddysPickPage";
 import KuddysPickDetailPage from "@pages/travel/KuddysPickDetailPage";
-import LoginGuidePage from "@pages/auth/LoginGuidePage";
 
+import LoginRoutes from "@routes/LoginRoutes";
+import CommunityRoutes from "@routes/CommunityRoutes";
+import MyRoutes from "@routes/MyRoutes";
+import ChatRoutes from "@routes/ChatRoutes";
 function App() {
   return (
     <Routes>
@@ -19,7 +22,10 @@ function App() {
       <Route path="/travel/:id" element={<TravelDetailPage />} />
       <Route path="/kuddys-pick" element={<KuddysPickPage />} />
       <Route path="/kuddys-pick/:id" element={<KuddysPickDetailPage />} />
-      <Route path="/auth/*" element={<LoginGuidePage />} />
+      <Route path="/auth/*" element={<LoginRoutes />} />
+      <Route path="/community/*" element={<CommunityRoutes />} />
+      <Route path="/my/*" element={<MyRoutes />} />
+      <Route path="/chat/*" element={<ChatRoutes />} />
     </Routes>
   );
 }

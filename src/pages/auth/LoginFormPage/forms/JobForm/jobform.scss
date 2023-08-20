@@ -1,0 +1,57 @@
+$main-yellow: var(--color-main-yellow);
+.job-form-container {
+  margin-top: 16px;
+  width: 85%;
+
+  .title {
+    color: #000;
+    font: {
+      family: var(--font-title);
+      size: 20px;
+      style: normal;
+      weight: 500;
+    }
+    text-align: start;
+  }
+
+  .form-container {
+    display: flex;
+
+    margin-top: 180px;
+    width: 100%;
+    display: flex;
+
+    p {
+      color: #aeaeae;
+      font: {
+        family: var(--font-text);
+        size: 16px;
+        style: normal;
+        weight: 500;
+      }
+
+      height: 34px;
+      line-height: 34px;
+      margin-right: 40px;
+    }
+
+    input {
+      border: none;
+      border-bottom: 1px solid #ddd;
+      width: 200px;
+      height: 34px;
+      color: #000;
+      font: {
+        family: var(--font-text);
+        size: 18px;
+        style: normal;
+        weight: 500;
+      }
+      line-height: normal;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}

@@ -1,0 +1,197 @@
+@function color($color-name) {
+  @return var(--color-#{$color-name});
+}
+
+.post-item-container {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 30px);
+  padding: 16px;
+  gap: 12px 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+
+  border-radius: 10px;
+  border: 1px solid color(grey);
+
+  cursor: pointer;
+}
+
+.item-top-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 12px;
+}
+
+.item-bottom-container {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 8px;
+}
+
+.post-detail-container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+
+  &.has-photo {
+    width: calc(100% - 100px);
+  }
+}
+
+.post-photo {
+  width: 92px;
+  height: 92px;
+  flex-shrink: 0;
+  border-radius: 10px;
+}
+
+.post-filter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5px 16px;
+  gap: 10px;
+
+  border-radius: 100px;
+  background: #f3f3f3;
+  color: color(black);
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  &.is-join-us {
+    background: color(main-yellow);
+  }
+}
+
+.join-us-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+.join-us-text {
+  color: #000;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+
+  &.bold-text {
+    color: color(blue);
+    font-weight: 700;
+  }
+}
+
+.post-title {
+  color: color(black);
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.post-content {
+  color: color(black);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  max-height: 34px;
+  overflow: hidden; // 2행 넘어가면 숨기기
+}
+
+.post-spots {
+  width: 100%;
+  max-height: 84px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 8px;
+  overflow: hidden; // 2행 넘어가면 숨기기
+}
+
+.post-spot-container {
+  display: flex;
+  width: auto;
+  height: 36px;
+  padding: 8px 12px;
+  align-items: center;
+  gap: 6px;
+
+  border-radius: 25px;
+  border: 1px solid color(grey);
+  background: #f8f8f8;
+}
+
+.post-spot-id {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px;
+  height: 20px;
+
+  border-radius: 100%;
+  background-color: color(main-yellow);
+
+  color: color(black);
+  font-family: Inter;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.post-spot-name {
+  color: color(black);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.post-info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.post-date {
+  color: #ccc;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.post-comment {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  color: #ccc;
+  text-align: right;
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  img {
+    width: 12px;
+    height: 12px;
+  }
+}

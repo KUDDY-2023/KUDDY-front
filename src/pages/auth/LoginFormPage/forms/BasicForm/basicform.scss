@@ -1,0 +1,115 @@
+$main-yellow: var(--color-main-yellow);
+.basic-form-container {
+  margin-top: 16px;
+  width: 85%;
+
+  .title {
+    color: #000;
+    font: {
+      family: var(--font-title);
+      size: 20px;
+      style: normal;
+      weight: 500;
+    }
+    text-align: start;
+  }
+
+  .form-container {
+    margin-top: 180px;
+    width: 100%;
+    display: flex;
+  }
+
+  .left-box {
+    margin-right: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 134px;
+
+    p {
+      height: 38px;
+      line-height: 38px;
+      text-align: start;
+      color: #aeaeae;
+      font: {
+        family: var(--font-text);
+        size: 16px;
+        style: normal;
+        weight: 500;
+      }
+    }
+  }
+
+  .right-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 134px;
+
+    .buttons-box-flex {
+      display: flex;
+    }
+
+    .gender-btn {
+      border: none;
+      display: flex;
+      width: 64px;
+      padding: 8px 0px;
+      justify-content: center;
+      align-items: center;
+      border-radius: 100px;
+      outline: 1px solid #ddd;
+
+      color: #000;
+      text-align: center;
+      font: {
+        family: var(--font-text);
+        size: 18px;
+        style: normal;
+        weight: 500;
+      }
+    }
+
+    .right {
+      margin-left: 12px;
+    }
+
+    #active {
+      display: flex;
+      width: 64px;
+      padding: 8px 0px;
+      justify-content: center;
+      align-items: center;
+      border-radius: 100px;
+      outline: none;
+      background: $main-yellow;
+
+      font: {
+        family: var(--font-text);
+        size: 18px;
+        style: normal;
+        weight: 500;
+      }
+    }
+
+    input {
+      border: none;
+      border-bottom: 1px solid #ddd;
+      width: 200px;
+      height: 34px;
+      color: #000;
+      font: {
+        family: var(--font-text);
+        size: 18px;
+        style: normal;
+        weight: 500;
+      }
+      line-height: normal;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+}
