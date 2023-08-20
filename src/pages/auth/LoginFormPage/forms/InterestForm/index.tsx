@@ -36,7 +36,7 @@ export default function InterestForm() {
 
   return (
     <div className="type-form-container">
-      <p className="title">Choose your avialable area</p>
+      <p className="title">Choose your interests</p>
 
       <div className="form-container">
         <div className="count">{count} / 10</div>
