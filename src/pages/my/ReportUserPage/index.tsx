@@ -2,6 +2,8 @@ import BackNavBar from "@components/_common/backnavbar";
 import "./reportuserpage.scss";
 import { useEffect, useState } from "react";
 
+import EventBtn from "@components/_common/eventBtn";
+
 export default function ReportUserPage() {
   // 쿼리스트링에 유저 아이디 포함하기
 
@@ -31,6 +33,10 @@ export default function ReportUserPage() {
       setIsActive(false);
     }
   }, [text, selectedId]);
+
+  const _handleSubmitReport = () => {
+    console.log("버튼 함수 실행");
+  };
 
   return (
     <div className="report-user-page">
@@ -62,9 +68,11 @@ export default function ReportUserPage() {
         ></textarea>
       </div>
 
-      <button className="submit-btn" id={isActive ? "active" : ""}>
-        Submit
-      </button>
+      <EventBtn
+        btnName="Submit"
+        isActive={isActive}
+        onClick={_handleSubmitReport}
+      />
     </div>
   );
 }
