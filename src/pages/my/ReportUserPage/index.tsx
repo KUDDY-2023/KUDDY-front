@@ -40,7 +40,7 @@ export default function ReportUserPage() {
 
   return (
     <div className="report-user-page">
-      <BackNavBar middleTitle="report user" />
+      <BackNavBar middleTitle="report user" isShare={true} />
 
       <div className="reason-container">
         {reasons.map(r => {
