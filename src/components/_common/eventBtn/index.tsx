@@ -7,9 +7,15 @@ interface Props {
 }
 
 export default function EventBtn({ btnName, isActive, onClick }: Props) {
+  const handleClick = () => {
+    if (isActive) {
+      onClick();
+    }
+  };
+
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
       className="custom-event-btn-style"
       id={isActive ? "custom-event-btn-active" : ""}
     >
