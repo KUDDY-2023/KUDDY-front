@@ -1,3 +1,5 @@
+$main-yellow: var(-color-main-yellow);
+
 .report-user-page {
   display: flex;
   flex-direction: column;
@@ -40,6 +42,7 @@
 
     // 기본 상태
     input[type="radio"] + label span {
+      position: relative;
       display: block;
       width: 20px;
       height: 20px;
@@ -50,14 +53,17 @@
     }
 
     // 체크 됐을 때
-    input[type="radio"]:checked + label span {
+    input[type="radio"]:checked + label span p {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin: 0;
+      transform: translate(-50%, -50%);
       display: block;
-      width: 20px;
-      height: 20px;
-      border: 2px solid red;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
-      fill: #fff;
-      cursor: pointer;
+      background-color: black;
     }
   }
 
@@ -83,6 +89,13 @@
       padding: 12px 16px;
       resize: none;
 
+      color: #000;
+      font-family: Inter;
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px; /* 142.857% */
+
       &::placeholder {
         color: #b1b1b1;
         font-family: Inter;
@@ -100,25 +113,5 @@
         display: none;
       }
     }
-  }
-
-  .submit-btn {
-    position: fixed;
-    bottom: 5%;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    width: 85%;
-    height: 52px;
-
-    border-radius: 10px;
-    background: #eee;
-    color: #000;
-    text-align: center;
-    font-family: Inter;
-    font-size: 18px;
-    font-weight: 600;
   }
 }

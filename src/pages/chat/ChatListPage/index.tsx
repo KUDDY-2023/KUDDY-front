@@ -8,7 +8,7 @@ export default function ChatListPage() {
 
   return (
     <div className="chat-list-page">
-      <BackNavBar middleTitle="Chat" />
+      <BackNavBar middleTitle="Chat" isShare={false} />
 
       <div className="chat-list-container">
         {chatList.map(c => {
