@@ -16,25 +16,3 @@
   align-items: center;
   margin-top: 8px;
 }
-
-.menu-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  width: 172px;
-  height: 30.857px;
-  border-radius: 59px;
-  cursor: pointer;
-
-  color: color(black);
-  font-family: "Inter";
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-
-  &.clicked {
-    background-color: color(main-yellow);
-  }
-}
