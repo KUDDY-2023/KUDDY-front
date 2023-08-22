@@ -10,9 +10,15 @@ $black: var(--color-black);
   min-height: 55px !important;
   width: 100%;
 
-  svg {
+  #back {
     position: absolute;
     left: 28px;
+    top: 18px;
+  }
+
+  #share {
+    position: absolute;
+    right: 28px;
     top: 18px;
   }
 

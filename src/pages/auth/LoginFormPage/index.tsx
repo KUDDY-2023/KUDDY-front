@@ -27,7 +27,7 @@ export default function LoginFormPage() {
 
   return (
     <div className="login-form-page">
-      <BackNavBar middleTitle="Join" />
+      <BackNavBar middleTitle="Join" isShare={false} />
       <LoginProgressBar completed={completed} />
 
       <FormComponent />
