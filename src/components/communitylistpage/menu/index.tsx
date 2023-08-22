@@ -19,14 +19,16 @@ const Menu = () => {
       <div className="menu-btn-container">
         <div
           className={
-            menu === "itinerary-feedback" ? "menu-btn clicked" : "menu-btn"
+            menu === "itinerary-feedback" ? "select-btn active" : "select-btn"
           }
           onClick={() => handleMenuClick("itinerary-feedback")}
         >
           Itinerary Feedback
         </div>
         <div
-          className={menu === "talking-board" ? "menu-btn clicked" : "menu-btn"}
+          className={
+            menu === "talking-board" ? "select-btn active" : "select-btn"
+          }
           onClick={() => handleMenuClick("talking-board")}
         >
           Talking Board

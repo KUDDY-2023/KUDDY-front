@@ -2,6 +2,7 @@ import React from "react";
 import "@style/reset.scss"; // scss 설정
 import { Routes, Route } from "react-router-dom";
 import "@style/common.scss";
+import "@style/button.scss";
 import HomePage from "./pages/HomePage";
 import TravelPage from "@pages/travel/TravelPage";
 import TravelSearchPage from "@pages/travel/TravelSearchPage";
