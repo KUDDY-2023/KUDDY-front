@@ -27,6 +27,7 @@ const CommunityDetailPage = () => {
             ? "Itinerary Feedback"
             : "Talking Board"
         }
+        isShare={false}
       />
       <PostDetail {...PostData} />
     </>
