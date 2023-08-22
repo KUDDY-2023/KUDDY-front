@@ -1,0 +1,25 @@
+@function color($color-name) {
+  @return var(--color-#{$color-name});
+}
+
+.select-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: calc(50% - 2px);
+  height: 30.857px;
+  border-radius: 59px;
+  cursor: pointer;
+
+  color: color(black);
+  font-family: "Inter";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+
+  &.active {
+    background-color: color(main-yellow);
+  }
+}
