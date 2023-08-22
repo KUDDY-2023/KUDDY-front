@@ -10,6 +10,7 @@ type KuddysPickType = {
   title: string;
 };
 
+// 검색어 저장, 검색 결과 텍스트, backnavbar 사용 필요
 const KuddysPickMenu = () => {
   const { keyword } = useParams();
   const [kuddysPickList, setKuddysPickList] = useState<KuddysPickType[]>([
