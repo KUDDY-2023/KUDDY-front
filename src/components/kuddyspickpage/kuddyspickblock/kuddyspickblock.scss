@@ -1,20 +1,10 @@
-.swiper-container {
-  width: 100%;
-  margin: {
-    top: 80px;
-  }
-}
-
-.swiper-slide {
-  width: 350px !important;
-}
-
-.swiper-img-rect {
-  width: 350px;
-  aspect-ratio: 1 / 1;
+.kuddyspickblock-img-rect {
+  width: 340px;
+  height: 240px;
   border-radius: 12px;
   overflow: hidden;
   position: relative;
+  margin-top: 10px;
 
   img {
     width: 100%;
@@ -22,7 +12,7 @@
     object-fit: cover;
   }
 
-  .swiper-img-gradient {
+  .kuddyspickblock-img-gradient {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -37,14 +27,14 @@
   }
 }
 
-.swiper-text-container {
+.kuddyspickblock-text-container {
   position: absolute;
   z-index: 20;
-  left: 27px;
-  bottom: 23px;
+  left: 20px;
+  bottom: 15px;
 }
 
-.swiper-text {
+.kuddyspickblock-text {
   width: 80%;
   color: #fff;
   line-height: 120%;
@@ -52,9 +42,5 @@
     family: var(--font-title);
     size: 22px;
     weight: 500;
-  }
-  &.small {
-    font-size: 16px;
-    margin-bottom: 10px;
   }
 }

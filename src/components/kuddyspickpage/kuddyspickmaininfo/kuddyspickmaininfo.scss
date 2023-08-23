@@ -1,10 +1,10 @@
 $black: var(--color-black);
 
-.maininfo-wrapper {
+.kuddyspickmaininfo-wrapper {
   width: 100%;
 }
 
-.maininfo-thumbnail-rect {
+.kuddyspickmaininfo-thumbnail-rect {
   width: 100%;
   @media (min-width: 574px) {
     width: 340px;
@@ -20,7 +20,7 @@ $black: var(--color-black);
   }
 }
 
-.maininfo-title {
+.kuddyspickmaininfo-title {
   color: $black;
   font: {
     family: var(--font-title);
@@ -30,7 +30,7 @@ $black: var(--color-black);
   margin-top: 15px;
 }
 
-.maininfo-description {
+.kuddyspickmaininfo-description {
   color: $black;
   font: {
     family: var(--font-text);
