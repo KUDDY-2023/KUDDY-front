@@ -7,9 +7,14 @@ import NavBar from "@components/_common/navbar/index";
 const CommunityListPage = () => {
   return (
     <>
-      <TopBar />
-      <Menu />
+      <TopBar isCommunity={true} />
+      <br />
+      <br />
+      <br />
+      <br />
+      <br />
       <PostList />
+      <div style={{ height: "120vh" }} />
       <WritePostBtn />
       <NavBar />
     </>
