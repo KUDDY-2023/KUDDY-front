@@ -64,7 +64,7 @@ const PostItem = ({ ...props }) => {
           <img
             className="post-photo"
             alt="post-photo"
-            src={props.photoList[0].photo}
+            src={props.photoList[0].src}
           />
         )}
       </div>

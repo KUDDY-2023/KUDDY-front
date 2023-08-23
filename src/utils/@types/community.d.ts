@@ -10,7 +10,7 @@ interface SpotType {
 
 interface PhotoType {
   photoId: number;
-  photo: string;
+  src: string;
 }
 
 interface PostType {
