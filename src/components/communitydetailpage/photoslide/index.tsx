@@ -1,6 +1,6 @@
 import "./photoslide.scss";
 import "swiper/swiper.scss";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -21,9 +21,14 @@ const PhotoSlide = () => {
     },
   ]);
   return (
-    <Swiper slidesPerView={"auto"} spaceBetween={6} onClick={() => nav("")}>
+    <Swiper
+      className="photo-slide-container"
+      slidesPerView={"auto"}
+      spaceBetween={6}
+      onClick={() => nav("image-view")}
+    >
       {photoInfo.map(item => (
-        <SwiperSlide key={item.photoId}>
+        <SwiperSlide className="photo-slide" key={item.photoId}>
           <img src={item.src} />
         </SwiperSlide>
       ))}
