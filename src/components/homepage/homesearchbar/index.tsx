@@ -1,12 +1,12 @@
-import "./searchbar.scss";
+import "./homesearchbar.scss";
 import { ReactComponent as SearchIcon } from "@assets/icon/search.svg";
 import { useNavigate } from "react-router-dom";
 
-const SearchBar = () => {
+const HomeSearchBar = () => {
   const nav = useNavigate();
   return (
-    <div className="searchbar-wrapper">
-      <div className="searchbar-box" onClick={() => nav("/travel/search")}>
+    <div className="homesearchbar-wrapper">
+      <div className="homesearchbar-box" onClick={() => nav("/travel/search")}>
         <SearchIcon stroke="var(--color-black)" />
         <p>Everything for your travel</p>
       </div>
@@ -14,4 +14,4 @@ const SearchBar = () => {
   );
 };
 
-export default SearchBar;
+export default HomeSearchBar;

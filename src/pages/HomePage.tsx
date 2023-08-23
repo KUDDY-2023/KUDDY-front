@@ -2,9 +2,9 @@ import TopBar from "@components/_common/topbar/index";
 import NavBar from "@components/_common/navbar/index";
 
 import SwiperCard from "@components/homepage/swipercard/index";
-import SearchBar from "@components/homepage/searchbar/index";
+import HomeSearchBar from "@components/homepage/homesearchbar/index";
 import Trending from "@components/homepage/trending/index";
-import Menu from "@components/homepage/menu/index";
+import HomeMenu from "@components/homepage/homemenu/index";
 import WeeklyUser from "@components/homepage/weeklyuser/index";
 import KuddysPickPreview from "@components/homepage/kuddyspickpreview/index";
 import Ad from "@components/homepage/ad/index";
@@ -14,9 +14,9 @@ const HomePage = () => {
     <>
       <TopBar />
       <SwiperCard />
-      <SearchBar />
+      <HomeSearchBar />
       <Trending />
-      <Menu />
+      <HomeMenu />
       <WeeklyUser />
       <KuddysPickPreview />
       <Ad />

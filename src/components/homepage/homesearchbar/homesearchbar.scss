@@ -2,7 +2,7 @@
   @return var(--color-#{$color-name});
 }
 
-.searchbar-wrapper {
+.homesearchbar-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,7 +10,7 @@
   height: 90px;
 }
 
-.searchbar-box {
+.homesearchbar-box {
   width: 340px;
   height: 40px;
   border-radius: 20px;

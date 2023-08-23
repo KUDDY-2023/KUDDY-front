@@ -1,7 +1,7 @@
 import "./kuddyspickpreview.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import MainInfo from "@components/kuddyspickpage/maininfo";
+import KuddysPickMainInfo from "@components/kuddyspickpage/kuddyspickmaininfo";
 import { ReactComponent as ArrowIcon } from "@assets/homepage/arrow.svg";
 
 type ContentType = {
@@ -102,7 +102,7 @@ const KuddysPickPreview = () => {
       <div className="kuddyspickpreview-container">
         {kuddysPickPreview.map(item => (
           <div key={item.id} style={{ marginBottom: "30px" }}>
-            <MainInfo {...item} />
+            <KuddysPickMainInfo {...item} />
             {item.contents &&
               item.contents.map(content => (
                 <div
