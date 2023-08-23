@@ -1,4 +1,4 @@
-import "./menu.scss";
+import "./homemenu.scss";
 import { useNavigate } from "react-router-dom";
 import menuimg1 from "@assets/homepage/menu/attraction.svg";
 import menuimg2 from "@assets/homepage/menu/culture.svg";
@@ -9,18 +9,21 @@ import menuimg6 from "@assets/homepage/menu/festival.svg";
 import menuimg7 from "@assets/homepage/menu/youtube.svg";
 import menuimg8 from "@assets/homepage/menu/location.svg";
 
-const Menu = () => {
+const HomeMenu = () => {
   const nav = useNavigate();
   return (
-    <div className="menu-wrapper">
-      <div className="menu-inner-wrapper">
+    <div className="homemenu-wrapper">
+      <div className="homemenu-inner-wrapper">
         {menus.map(item => (
           <div
-            className="menu-container"
+            className="homemenu-container"
             key={item.index}
             onClick={() => nav(item.path)}
           >
-            <div className="menu-rect" style={{ backgroundColor: item.color }}>
+            <div
+              className="homemenu-rect"
+              style={{ backgroundColor: item.color }}
+            >
               <img src={item.img} />
             </div>
             <p>{item.name}</p>
@@ -31,7 +34,7 @@ const Menu = () => {
   );
 };
 
-export default Menu;
+export default HomeMenu;
 
 type menu = {
   index: number;
