@@ -1,19 +1,12 @@
 import "./kuddyspickmaininfo.scss";
-
-type MainInfoPropsType = {
-  id: number;
-  thumbnail: string;
-  title: string;
-  description: string;
-  contents?: Array<object> | undefined;
-};
+import { KuddysPickDetailType } from "@components/kuddyspickdetailpage/kuddyspickdetailmenu/index";
+import { KuddysPickPreviewType } from "@components/homepage/kuddyspickpreview";
 
 const KuddysPickMainInfo = ({
-  id,
   thumbnail,
   title,
   description,
-}: MainInfoPropsType) => {
+}: KuddysPickDetailType | KuddysPickPreviewType) => {
   return (
     <div className="kuddyspickmaininfo-wrapper">
       <div className="kuddyspickmaininfo-thumbnail-rect">

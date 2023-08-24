@@ -10,7 +10,7 @@ type ContentType = {
   name: string;
   description: string;
 };
-type KuddysPickPreviewType = {
+export type KuddysPickPreviewType = {
   id: number;
   thumbnail: string;
   title: string;

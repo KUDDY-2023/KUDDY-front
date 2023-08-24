@@ -6,17 +6,17 @@ import { ReactComponent as ChatIcon } from "@assets/homepage/chat.svg";
 import { ReactComponent as NewChatIcon } from "@assets/homepage/new_chat.svg";
 
 type TopBarProps = {
-  isCommunity?: Boolean;
+  isCommunity?: boolean;
 };
 
 const TopBar = ({ isCommunity }: TopBarProps) => {
   const nav = useNavigate();
-  const [isLogin, setIsLogin] = useState<Boolean>(true);
-  const [newChat, isNewChat] = useState<Boolean>(true);
+  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [newChat, isNewChat] = useState<boolean>(true);
 
   // 네비게이션 바 스크롤 감지에 따른 상태
   const [position, setPosition] = useState(window.pageYOffset);
-  const [visible, setVisible] = useState<Boolean | undefined>(undefined);
+  const [visible, setVisible] = useState<boolean | undefined>(undefined);
   useEffect(() => {
     if (position === 0) setVisible(undefined);
     const handleScroll = () => {
