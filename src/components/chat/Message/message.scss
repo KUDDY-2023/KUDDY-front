@@ -1,0 +1,47 @@
+.text-style {
+  color: #000;
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 17px;
+}
+
+// 내가 보낸 메세지
+.my-message-style {
+  display: flex;
+  width: 252px; // max 정하기
+  padding: 16px;
+  align-items: center;
+  align-content: center;
+  border-radius: 15px;
+  background: #f3f3f3;
+  margin-left: auto;
+}
+
+// 상대방 메세지
+.partner-message-style {
+  display: flex;
+  width: 252px; // max 정하기
+  padding: 16px;
+  align-items: center;
+  align-content: center;
+  border-radius: 15px;
+  background: #fff8bd;
+  margin-right: auto;
+}
+
+.message-section {
+  margin: 16px 20px;
+  .message-style {
+    @extend .text-style;
+  }
+
+  .my {
+    @extend .my-message-style;
+  }
+
+  .partner {
+    @extend .partner-message-style;
+  }
+}
