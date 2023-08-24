@@ -1,11 +1,12 @@
 import "./photoslide.scss";
 import "swiper/swiper.scss";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
+import ImageView from "@components/communitydetailpage/ImageView";
 
 const PhotoSlide = () => {
-  const nav = useNavigate();
+  const [imageViewOpen, setImageViewOpen] = useState<boolean>(false); // 사진 뷰 띄움 여부
+  const [photoIndex, setPhotoIndex] = useState<number>(0);
   const [photoInfo, setPhotoInfo] = useState<PhotoType[]>([
     {
       photoId: 1,
@@ -20,19 +21,39 @@ const PhotoSlide = () => {
       src: "https://s3-alpha-sig.figma.com/img/4566/68e2/3f9b21481ee80a9a897a3bb7aa4fd489?Expires=1693180800&Signature=CbxneAbZ6KMQbfgLWJHmMJ-XbbZ2NzwOi5TdGVA007EPK2UEOgE97rRX~pzhGef985BBkNhRgGjahkK4nMhDN5h1hudqBAuzxvEHAXZ8x~rSCx8dlCuwvTkVVnI7OhV6dOP6CRRYgMjJzerFjJlc0yyMN3S6Xk-lmy6JS85bBntZOr8HTr2kovvewXyKDPs2U4pxtYtEv7L~rjscXOPzoD8sUsiF3Y86ucT6eo8b5VpfgOeCpsHqvrSpLtPSkMGXE8OdvJummWgvuxMZ9W5xhWd66naEk0Kodo1L700QcAirkI~ERyq73kEyms2zf1YMJyfvObOltxZ2D24UXC0hlg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
     },
   ]);
+
+  const handlePhotoClick = (index: number) => {
+    setImageViewOpen(true);
+    setPhotoIndex(index);
+  };
+
   return (
-    <Swiper
-      className="photo-slide-container"
-      slidesPerView={"auto"}
-      spaceBetween={6}
-      onClick={() => nav("image-view")}
-    >
-      {photoInfo.map(item => (
-        <SwiperSlide className="photo-slide" key={item.photoId}>
-          <img src={item.src} />
-        </SwiperSlide>
-      ))}
-    </Swiper>
+    <>
+      <Swiper
+        className="photo-slide-container"
+        slidesPerView={"auto"}
+        spaceBetween={6}
+      >
+        {photoInfo.map(item => (
+          <SwiperSlide
+            className="photo-slide"
+            key={item.photoId}
+            onClick={() => handlePhotoClick(item.photoId)}
+          >
+            <img src={item.src} />
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      {/* 사진 클릭 시 사진 뷰 띄움 */}
+      {imageViewOpen && (
+        <ImageView
+          photoInfo={photoInfo}
+          clickedIndex={photoIndex}
+          onClose={() => setImageViewOpen(false)}
+        />
+      )}
+    </>
   );
 };
 
