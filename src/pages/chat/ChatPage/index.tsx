@@ -2,6 +2,7 @@ import "./chatpage.scss";
 import PartnerHead from "@components/chat/PartnerHead";
 import MessageInput from "@components/chat/MessageInput";
 import Message from "@components/chat/Message";
+import TodayBar from "@components/chat/TodayBar";
 import { url, mockMessage } from "./_mock";
 export default function ChatPage() {
   return (
@@ -16,6 +17,8 @@ export default function ChatPage() {
           }
           return <Message message={m} messageType={type} />;
         })}
+
+        <TodayBar />
       </div>
       <MessageInput meetupBtnVisible={true} />
     </div>
