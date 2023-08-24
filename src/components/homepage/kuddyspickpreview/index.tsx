@@ -43,8 +43,9 @@ const KuddysPickPreview = () => {
           id: 2,
           thumbnail:
             "https://여기유.com/data/editor/2203/20220307122514_fe8623518b810259338b56c4742c978a_98ba.jpg",
-          name: "Songpa Naru Park",
-          description: "Cherry Blossom Spot with Seokchon Lake",
+          name: "Songpa Naru Park Songpa Naru Park Songpa Naru Park Songpa Naru Park",
+          description:
+            "Cherry Blossom Spot with Seokchon Lake Cherry Blossom Spot with Seokchon Lake",
         },
         {
           id: 3,

@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 50px;
+  overflow-x: hidden;
 
   .inner-container {
     width: calc(100% - 50px);
