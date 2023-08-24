@@ -3,7 +3,8 @@ import "@style/reset.scss"; // scss 설정
 import "@style/common.scss";
 import "@style/button.scss";
 
-import HomePage from "./pages/HomePage";
+import HomePage from "@pages/HomePage";
+import PickPage from "@pages/PickPage";
 import KuddysPickRoutes from "@routes/KuddysPickRoutes";
 import LoginRoutes from "@routes/LoginRoutes";
 import TravelRoutes from "@routes/TravelRoutes";
@@ -15,6 +16,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/pick" element={<PickPage />} />
       <Route path="/travel/*" element={<TravelRoutes />} />
       <Route path="/kuddys-pick/*" element={<KuddysPickRoutes />} />
       <Route path="/auth/*" element={<LoginRoutes />} />
