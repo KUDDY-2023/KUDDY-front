@@ -9,20 +9,19 @@
 
 // 내가 보낸 메세지
 .my-message-style {
-  display: flex;
-  width: 252px; // max 정하기
+  display: inline-block;
+  max-width: 252px;
   padding: 16px;
   align-items: center;
   align-content: center;
   border-radius: 15px;
   background: #f3f3f3;
-  margin-left: auto;
 }
 
 // 상대방 메세지
 .partner-message-style {
-  display: flex;
-  width: 252px; // max 정하기
+  display: inline-block;
+  max-width: 252px;
   padding: 16px;
   align-items: center;
   align-content: center;
@@ -33,6 +32,8 @@
 
 .message-section {
   margin: 16px 20px;
+  display: flex;
+  justify-content: end;
   .message-style {
     @extend .text-style;
   }
