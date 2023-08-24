@@ -93,7 +93,7 @@ const KuddysPickPreview = () => {
         <div className="kuddyspickpreview-title">KUDDY's Pick!</div>
         <div
           className="kuddyspickpreview-more"
-          onClick={() => nav("/kuddys-pick")}
+          onClick={() => nav("/kuddys-pick/list")}
         >
           <p>more</p>
           <ArrowIcon />
