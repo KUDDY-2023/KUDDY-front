@@ -1,5 +1,6 @@
 .partner-head-style {
-  position: relative;
+  position: fixed;
+  top: 0;
 
   display: flex;
   justify-content: center;
@@ -7,6 +8,7 @@
 
   min-height: 56px !important;
   width: 100%;
+  background-color: white;
 
   .left-items-container {
     position: absolute;
