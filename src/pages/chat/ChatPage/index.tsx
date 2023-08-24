@@ -3,6 +3,7 @@ import PartnerHead from "@components/chat/PartnerHead";
 import MessageInput from "@components/chat/MessageInput";
 import Message from "@components/chat/Message";
 import TodayBar from "@components/chat/TodayBar";
+import SystemMessage from "@components/chat/SystemMessage";
 import { url, mockMessage } from "./_mock";
 export default function ChatPage() {
   return (
@@ -11,14 +12,13 @@ export default function ChatPage() {
       <div className="message-container">
         {mockMessage.map((m, idx) => {
           let type = "my";
-          console.log(idx);
           if (idx % 2 === 0) {
             type = "partner";
           }
           return <Message message={m} messageType={type} />;
         })}
-
         <TodayBar />
+        <SystemMessage type="feedback" />
       </div>
       <MessageInput meetupBtnVisible={true} />
     </div>
