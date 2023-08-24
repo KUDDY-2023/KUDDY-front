@@ -1,5 +1,7 @@
+import KuddysPickDetailMenu from "@components/kuddyspickdetailpage/kuddyspickdetailmenu";
+
 const KuddysPickDetailPage = () => {
-  return <></>;
+  return <KuddysPickDetailMenu />;
 };
 
 export default KuddysPickDetailPage;
