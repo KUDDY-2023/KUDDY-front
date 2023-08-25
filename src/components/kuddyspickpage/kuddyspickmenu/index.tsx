@@ -58,18 +58,22 @@ const KuddysPickMenu = () => {
         searchedWord={searchedWord}
         setSearchedWord={setSearchedWord}
       />
-      {kuddysPickList && kuddysPickList.length === 0 ? (
-        <div className="kuddyspickmenu-empty">텅</div>
-      ) : (
-        <>
-          {kuddysPickList.map(item => (
-            <div key={item.id}>
-              <KuddysPickBlock {...item} />
-            </div>
-          ))}
-          <div style={{ height: "30px" }} />
-        </>
-      )}
+      {kuddysPickList &&
+        (kuddysPickList.length === 0 ? (
+          <div className="empty">
+            <div className="no-result">No result</div>
+            <p>Try searching differently</p>
+          </div>
+        ) : (
+          <>
+            {kuddysPickList.map(item => (
+              <div key={item.id}>
+                <KuddysPickBlock {...item} />
+              </div>
+            ))}
+            <div style={{ height: "30px" }} />
+          </>
+        ))}
     </div>
   );
 };

@@ -37,7 +37,7 @@ const Trending = () => {
     <>
       <div className="trending-header">
         <div className="trending-title">Trending now</div>
-        <div className="trending-more" onClick={() => nav("/travel")}>
+        <div className="trending-more" onClick={() => nav("/travel/list")}>
           <p>more</p>
           <ArrowIcon />
         </div>
