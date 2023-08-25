@@ -5,8 +5,8 @@ import "@style/button.scss";
 
 import HomePage from "@pages/HomePage";
 import PickPage from "@pages/PickPage";
+import AuthRoutes from "@routes/AuthRoutes";
 import KuddysPickRoutes from "@routes/KuddysPickRoutes";
-import LoginRoutes from "@routes/LoginRoutes";
 import TravelRoutes from "@routes/TravelRoutes";
 import CommunityRoutes from "@routes/CommunityRoutes";
 import MyRoutes from "@routes/MyRoutes";
@@ -19,7 +19,7 @@ function App() {
       <Route path="/pick" element={<PickPage />} />
       <Route path="/travel/*" element={<TravelRoutes />} />
       <Route path="/kuddys-pick/*" element={<KuddysPickRoutes />} />
-      <Route path="/auth/*" element={<LoginRoutes />} />
+      <Route path="/auth/*" element={<AuthRoutes />} />
       <Route path="/community/*" element={<CommunityRoutes />} />
       <Route path="/my/*" element={<MyRoutes />} />
       <Route path="/chat/*" element={<ChatRoutes />} />
