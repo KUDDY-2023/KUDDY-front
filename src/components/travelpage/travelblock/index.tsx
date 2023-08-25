@@ -1,6 +1,5 @@
 import "./travelblock.scss";
 import { ReactComponent as BookmarkIcon } from "@assets/travelpage/bookmark.svg";
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 type TravelBlockProps = {

@@ -1,5 +1,7 @@
+import TravelSearch from "@components/travelpage/travelsearch";
+
 const TravelSearchPage = () => {
-  return <></>;
+  return <TravelSearch />;
 };
 
 export default TravelSearchPage;
