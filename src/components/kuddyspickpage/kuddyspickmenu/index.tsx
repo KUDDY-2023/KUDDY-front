@@ -2,17 +2,15 @@ import "./kuddyspickmenu.scss";
 import KuddysPickSearchBar from "@components/kuddyspickpage/kuddyspicksearchbar";
 import KuddysPickBlock from "@components/kuddyspickpage/kuddyspickblock";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 
-type KuddysPickType = {
+export type KuddysPickType = {
   id: number;
   thumbnail: string;
   title: string;
 };
 
-// 검색어 저장, 검색 결과 텍스트, backnavbar 사용 필요
+// 검색어 저장 recoil 추가 필요
 const KuddysPickMenu = () => {
-  const { keyword } = useParams();
   const [kuddysPickList, setKuddysPickList] = useState<KuddysPickType[]>([
     {
       id: 1,
@@ -39,33 +37,43 @@ const KuddysPickMenu = () => {
       title: "10 The best view point for Han-River",
     },
   ]);
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState<string>("");
+  const [searchedWord, setSearchedWord] = useState<string>("");
 
   useEffect(() => {
-    console.log(keyword);
-    if (keyword)
+    if (searchedWord)
       setKuddysPickList(
-        kuddysPickList.filter(item => item.title.includes(keyword)),
+        kuddysPickList.filter(item => item.title.includes(searchedWord)),
       );
-  }, [keyword]);
+  }, [searchedWord]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="kuddyspickmenu-wrapper">
       <KuddysPickSearchBar
         searchInput={searchInput}
         setSearchInput={setSearchInput}
+        searchedWord={searchedWord}
+        setSearchedWord={setSearchedWord}
       />
-      {kuddysPickList && kuddysPickList.length === 0 ? (
-        <div className="kuddyspickmenu-empty">텅</div>
-      ) : (
-        <>
-          {kuddysPickList.map(item => (
-            <div key={item.id}>
-              <KuddysPickBlock {...item} />
-            </div>
-          ))}
-          <div style={{ height: "30px" }} />
-        </>
-      )}
+      {kuddysPickList &&
+        (kuddysPickList.length === 0 ? (
+          <div className="empty">
+            <div className="no-result">No result</div>
+            <p>Try searching differently</p>
+          </div>
+        ) : (
+          <>
+            {kuddysPickList.map(item => (
+              <div key={item.id}>
+                <KuddysPickBlock {...item} />
+              </div>
+            ))}
+            <div style={{ height: "30px" }} />
+          </>
+        ))}
     </div>
   );
 };

@@ -1,11 +1,6 @@
 import "./kuddyspickblock.scss";
+import { KuddysPickType } from "@components/kuddyspickpage/kuddyspickmenu/index";
 import { useNavigate } from "react-router-dom";
-
-type KuddysPickType = {
-  id: number;
-  thumbnail: string;
-  title: string;
-};
 
 const KuddysPickBlock = ({ id, thumbnail, title }: KuddysPickType) => {
   const nav = useNavigate();

@@ -10,7 +10,7 @@ type ContentType = {
   name: string;
   description: string;
 };
-type KuddysPickPreviewType = {
+export type KuddysPickPreviewType = {
   id: number;
   thumbnail: string;
   title: string;
@@ -43,8 +43,9 @@ const KuddysPickPreview = () => {
           id: 2,
           thumbnail:
             "https://여기유.com/data/editor/2203/20220307122514_fe8623518b810259338b56c4742c978a_98ba.jpg",
-          name: "Songpa Naru Park",
-          description: "Cherry Blossom Spot with Seokchon Lake",
+          name: "Songpa Naru Park Songpa Naru Park Songpa Naru Park Songpa Naru Park",
+          description:
+            "Cherry Blossom Spot with Seokchon Lake Cherry Blossom Spot with Seokchon Lake",
         },
         {
           id: 3,
@@ -93,7 +94,7 @@ const KuddysPickPreview = () => {
         <div className="kuddyspickpreview-title">KUDDY's Pick!</div>
         <div
           className="kuddyspickpreview-more"
-          onClick={() => nav("/kuddys-pick")}
+          onClick={() => nav("/kuddys-pick/list")}
         >
           <p>more</p>
           <ArrowIcon />

@@ -1,27 +1,30 @@
 import "./kuddyspicksearchbar.scss";
 import { useState, useEffect, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ReactComponent as BackIcon } from "@assets/icon/back.svg";
 import { ReactComponent as SearchIcon } from "@assets/icon/search.svg";
 
 type SearchBarProps = {
   searchInput: string;
   setSearchInput: (value: any) => void;
+  searchedWord: string;
+  setSearchedWord: (value: any) => void;
 };
 
 const KuddysPickSearchBar = ({
   searchInput,
   setSearchInput,
+  searchedWord,
+  setSearchedWord,
 }: SearchBarProps) => {
   const nav = useNavigate();
-  const { keyword } = useParams();
   const input = useRef<HTMLInputElement>(null);
-  const [isInitial, setIsInitial] = useState<Boolean>(true);
+  const [isInitial, setIsInitial] = useState<boolean>(true);
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (input.current) input.current.blur();
     setIsInitial(false);
-    nav(`/kuddys-pick?keyword=${searchInput}`);
+    setSearchedWord(searchInput);
   };
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
@@ -45,7 +48,9 @@ const KuddysPickSearchBar = ({
         </div>
       </div>
       {!isInitial && (
-        <div className="kuddyspicksearchbar-text">'{keyword}' 검색 결과</div>
+        <div className="kuddyspicksearchbar-text">
+          searched by '{searchedWord}'
+        </div>
       )}
     </>
   );
