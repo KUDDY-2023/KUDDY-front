@@ -4,8 +4,27 @@ import MessageInput from "@components/chat/MessageInput";
 import Message from "@components/chat/Message";
 import TodayBar from "@components/chat/TodayBar";
 import SystemMessage from "@components/chat/SystemMessage";
+import ConfirmedRequestMessage from "@components/chat/ConfirmedRequestMessage";
+import RequestMessage from "@components/chat/RequestMessage";
+
 import { url, mockMessage } from "./_mock";
 export default function ChatPage() {
+  let tempInfo = {
+    partnerName: "jane",
+    place: "Gyeongbokgung Palace",
+    placeId: 1,
+    date: "2023.06.19  11:00am",
+    pay: 18,
+    meetStatus: 3,
+  };
+
+  let tempInfo2 = {
+    partnerName: "jane",
+    place: "Gyeongbokgung Palace",
+    placeId: 1,
+    date: "2023.06.19  11:00am",
+    pay: 18,
+  };
   return (
     <div className="chat-page-style">
       <PartnerHead userName="User name" profileImgUrl={url} />
@@ -17,7 +36,11 @@ export default function ChatPage() {
           }
           return <Message message={m} messageType={type} />;
         })}
+        {/* <ConfirmedRequestMessage info={tempInfo} /> */}
+
+        <RequestMessage info={tempInfo2} />
         <TodayBar />
+
         <SystemMessage type="feedback" />
       </div>
       <MessageInput meetupBtnVisible={true} />
