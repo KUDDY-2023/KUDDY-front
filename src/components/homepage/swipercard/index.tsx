@@ -29,13 +29,13 @@ const SwiperCard = () => {
       src: "https://t1.daumcdn.net/cfile/tistory/26312F4A566D4C7028",
     },
   ]);
-  const [swiperIndex, setSwiperIndex] = useState<Number>(0);
+  const [swiperIndex, setSwiperIndex] = useState<number>(0);
   useEffect(() => {
     if (swiperIndex === 0 || swiperIndex === swiperInfo.length - 1) {
     }
   }, [swiperIndex]);
   return (
-    <>
+    <div className="swiper-card-wrapper">
       <Swiper
         slidesPerView={"auto"}
         spaceBetween={8}
@@ -58,7 +58,7 @@ const SwiperCard = () => {
           </SwiperSlide>
         ))}
       </Swiper>
-    </>
+    </div>
   );
 };
 

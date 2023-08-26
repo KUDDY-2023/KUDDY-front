@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import KuddysPickPage from "@pages/travel/KuddysPickPage";
-import KuddysPickDetailPage from "@pages/travel/KuddysPickDetailPage";
+import KuddysPickPage from "@pages/kuddyspick/KuddysPickPage";
+import KuddysPickDetailPage from "@pages/kuddyspick/KuddysPickDetailPage";
 
 export default function KuddysPickRoutes() {
   return (

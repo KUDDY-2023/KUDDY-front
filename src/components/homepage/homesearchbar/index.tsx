@@ -6,7 +6,7 @@ const HomeSearchBar = () => {
   const nav = useNavigate();
   return (
     <div className="homesearchbar-wrapper">
-      <div className="homesearchbar-box" onClick={() => nav("/travel/search")}>
+      <div className="homesearchbar-box" onClick={() => nav("/travel/list")}>
         <SearchIcon stroke="var(--color-black)" />
         <p>Everything for your travel</p>
       </div>

@@ -1,0 +1,17 @@
+.pickmenu-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: {
+    top: 80px;
+    bottom: 100px;
+  }
+
+  .inner-container {
+    width: calc(100% - 44px);
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+}
