@@ -1,0 +1,30 @@
+@mixin text-style {
+  color: #000;
+  font-family: var(--font-text);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 17px;
+}
+
+.place-form-style {
+  margin-bottom: 24px;
+
+  .default-form {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    p {
+      @include text-style();
+    }
+
+    div {
+      width: 266px;
+      height: 40px;
+      border-radius: 59px;
+      border: 1px solid #ededed;
+      background: #fff;
+    }
+  }
+}
