@@ -1,7 +1,7 @@
 import "./postcontent.scss";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import commentIcon from "@assets/community/comment.svg";
+import commentIcon from "@assets/community/comment-icon.svg";
 import PhotoSlide from "@components/communitydetailpage/photoslide";
 
 const PostContent = ({ ...props }) => {
