@@ -1,3 +1,12 @@
+@mixin font-style($size, $color, $weight) {
+  color: $color;
+  font-family: var(--font-text);
+  font-size: $size;
+  font-style: normal;
+  font-weight: $weight;
+  line-height: normal;
+}
+
 .kuddy-container {
   .kuddy-modal {
     border-radius: 20px 20px 0px 0px;
@@ -21,6 +30,32 @@
       display: flex;
       flex-direction: column;
       margin: 28px 31px;
+    }
+
+    #bar {
+      margin: 12px auto 0 auto;
+      width: 36px;
+      height: 6px;
+      border-radius: 2.5px;
+      background: var(
+        --labels-vibrant-tertiary,
+        linear-gradient(
+          0deg,
+          rgba(61, 61, 61, 0.5) 0%,
+          rgba(61, 61, 61, 0.5) 100%
+        ),
+        rgba(127, 127, 127, 0.4)
+      );
+      background-blend-mode: overlay, luminosity;
+    }
+
+    h2 {
+      margin: 13px 0 0 31px;
+      @include font-style(24px, black, 600);
+    }
+
+    .custom-event-btn-style {
+      margin: 10px auto 0 auto;
     }
   }
 }
