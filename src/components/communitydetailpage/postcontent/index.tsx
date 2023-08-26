@@ -1,9 +1,18 @@
-import "./postdetail.scss";
+import "./postcontent.scss";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import commentIcon from "@assets/community/comment.svg";
+import commentIcon from "@assets/community/comment-icon.svg";
+import PhotoSlide from "@components/communitydetailpage/photoslide";
 
-const PostDetail = ({ ...props }) => {
+const PostContent = ({ ...props }) => {
   const { category } = useParams() as { category: MenuType };
+
+  // join us 상세
+  const [joinDetail, setJoinDetail] = useState([
+    { id: 1, title: "People", value: `${props.joinPeople}` },
+    { id: 2, title: "District", value: `${props.joinDistrict}` },
+    { id: 3, title: "Date", value: `${props.joinDate}` },
+  ]);
 
   return (
     <div className="post-content-container">
@@ -32,16 +41,17 @@ const PostDetail = ({ ...props }) => {
         <div className="post-title">{props.title}</div>
         {props?.filter === "Join us" && (
           <div className="join-detail-container">
-            {["People", "District", "Date"].map(item => (
+            {joinDetail.map(item => (
               <div>
-                <div className="join-detail-title">{item}</div>
-                <div className="join-detail-text"></div>
+                <div className="join-detail-title">{item.title}</div>
+                <div className="join-detail-value">{item.value}</div>
               </div>
             ))}
           </div>
         )}
         <div className="post-content">{props.content}</div>
         {/* 사진 있으면 사진, 코스 피드백 게시판이면 코스 및 지도 렌더링되도록 코드 추가 예정*/}
+        {props.photoList && <PhotoSlide />}
       </div>
 
       <div className="post-footer">
@@ -52,4 +62,4 @@ const PostDetail = ({ ...props }) => {
   );
 };
 
-export default PostDetail;
+export default PostContent;

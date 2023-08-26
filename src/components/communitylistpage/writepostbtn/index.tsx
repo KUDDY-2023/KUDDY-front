@@ -1,6 +1,6 @@
 import "./writepostbtn.scss";
 import { useNavigate } from "react-router-dom";
-import postBtn from "@assets/community/post.svg";
+import postBtn from "@assets/community/post-btn.svg";
 
 const WritePostBtn = () => {
   const nav = useNavigate();

@@ -1,6 +1,6 @@
 import "./postitem.scss";
 import { useNavigate, useLocation } from "react-router";
-import commentIcon from "@assets/community/comment.svg";
+import commentIcon from "@assets/community/comment-icon.svg";
 
 const PostItem = ({ ...props }) => {
   const nav = useNavigate();
@@ -64,7 +64,7 @@ const PostItem = ({ ...props }) => {
           <img
             className="post-photo"
             alt="post-photo"
-            src={props.photoList[0].photo}
+            src={props.photoList[0].src}
           />
         )}
       </div>
