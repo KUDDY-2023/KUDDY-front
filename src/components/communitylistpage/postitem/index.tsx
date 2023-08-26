@@ -1,6 +1,6 @@
 import "./postitem.scss";
 import { useNavigate, useLocation } from "react-router";
-import commentIcon from "@assets/community/comment-icon.svg";
+import commentIcon from "@assets/community/comment_icon.svg";
 
 const PostItem = ({ ...props }) => {
   const nav = useNavigate();
