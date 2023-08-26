@@ -10,26 +10,97 @@
 .pay-form-style {
   margin-bottom: 24px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
 
-  p {
-    margin-right: auto;
-    @include font-style(16px, black, 500);
+  .form-input-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    p {
+      @include font-style(16px, black, 500);
+    }
+
+    .cost-form {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      padding-left: 24px;
+
+      width: 266px;
+      height: 40px;
+
+      border-radius: 121px;
+      border: 1px solid #ddd;
+      background: #fff;
+
+      @include font-style(16px, black, 500);
+
+      input {
+        border: none;
+        background-color: transparent;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
   }
 
-  div {
+  .receipt-container {
     display: flex;
-    justify-content: start;
+    flex-direction: column;
+    margin-top: 12px;
+
+    width: 75%;
+    margin-left: auto;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-bottom: 5px;
+
+      h2 {
+        margin: 0;
+        @include font-style(14px, black, 400);
+      }
+
+      p {
+        @include font-style(14px, black, 400);
+      }
+
+      #total {
+        @include font-style(14px, black, 600);
+      }
+    }
+
+    .description {
+      text-align: start;
+      @include font-style(12px, #aeaeae, 400);
+
+      margin-bottom: 20px !important;
+    }
+  }
+
+  .policy-container {
+    display: flex;
     align-items: center;
-    padding-left: 24px;
+    margin-top: 30px;
 
-    width: 266px;
-    height: 40px;
+    #checkbox {
+      margin-right: 8px;
+      transform: translateY(2px);
+    }
+    p {
+      @include font-style(14px, black, 400);
+    }
 
-    border-radius: 121px;
-    border: 1px solid #ddd;
-    background: #fff;
+    #arrow {
+      transform: translateY(2px);
 
-    @include font-style(16px, black, 500);
+      margin-left: auto;
+    }
   }
 }
