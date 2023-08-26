@@ -1,0 +1,42 @@
+@mixin font-style($size, $color, $weight) {
+  color: $color;
+  font-family: var(--font-text);
+  font-size: $size;
+  font-style: normal;
+  font-weight: $weight;
+  line-height: normal;
+}
+
+.time-form-style {
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+
+  p {
+    margin-right: auto;
+    @include font-style(16px, black, 500);
+  }
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: fit-content;
+
+    border-radius: 121px;
+    border: 1px solid #ddd;
+    background: #fff;
+
+    @include font-style(14px, #b1b1b1, 500);
+  }
+
+  .date {
+    padding: 11px 35px;
+    margin-right: 12px;
+  }
+
+  .time {
+    padding: 11px 22px;
+  }
+}
