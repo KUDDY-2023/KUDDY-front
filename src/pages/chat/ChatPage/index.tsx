@@ -33,7 +33,10 @@ export default function ChatPage() {
   };
   return (
     <div className="chat-page-style">
-      <BottomUpModalLayout isOpen={isOpenBottomModal} />
+      <BottomUpModalLayout
+        isOpen={isOpenBottomModal}
+        onClose={_handleOpenBottomModal}
+      />
       <PartnerHead userName="User name" profileImgUrl={url} />
       <div className="message-container">
         {mockMessage.map((m, idx) => {
@@ -49,6 +52,14 @@ export default function ChatPage() {
         <TodayBar />
 
         <SystemMessage type="feedback" />
+
+        {mockMessage.map((m, idx) => {
+          let type = "my";
+          if (idx % 2 === 0) {
+            type = "partner";
+          }
+          return <Message message={m} messageType={type} />;
+        })}
       </div>
 
       <MessageInput

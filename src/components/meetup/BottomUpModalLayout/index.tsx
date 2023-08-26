@@ -6,12 +6,13 @@ import TimeForm from "../TimeForm";
 import PayForm from "../PayForm";
 interface Props {
   isOpen: boolean;
+  onClose: () => void;
 }
-export default function BottomUpModalLayout({ isOpen }: Props) {
+export default function BottomUpModalLayout({ isOpen, onClose }: Props) {
   return (
     <div className={`kuddy-container ${isOpen && "kuddy-modal-open"}`}>
       <div className="kuddy-modal">
-        <div id="bar"></div>
+        <div id="bar" onClick={onClose}></div>
 
         <h2>Set meet up</h2>
 
