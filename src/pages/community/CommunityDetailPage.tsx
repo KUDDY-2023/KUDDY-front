@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import BackNavBar from "@components/_common/backnavbar";
 import PostContent from "@components/communitydetailpage/postcontent";
+import CommentList from "@components/communitydetailpage/commentlist";
 
 import {
   ItineraryFeedbackPostData,
@@ -31,6 +32,7 @@ const CommunityDetailPage = () => {
         isShare={true}
       />
       <PostContent {...PostData} />
+      <CommentList />
     </>
   );
 };

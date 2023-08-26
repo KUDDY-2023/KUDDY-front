@@ -35,3 +35,18 @@ interface TalkingBoardPost extends PostType {
   joinDate?: string;
   joinDistrict?: string;
 }
+
+interface userInfoType {
+  nickname: string;
+  profile: string;
+  hasBadge: boolean;
+  isCreator: boolean;
+}
+
+interface CommentType {
+  userInfo: userInfoType;
+  content: string;
+  date: string;
+  time: string;
+  depth: number;
+}
