@@ -6,7 +6,7 @@ import TodayBar from "@components/chat/TodayBar";
 import SystemMessage from "@components/chat/SystemMessage";
 import ConfirmedRequestMessage from "@components/chat/ConfirmedRequestMessage";
 import RequestMessage from "@components/chat/RequestMessage";
-import BottomUpModalLayout from "@components/chat/BottomUpModalLayout";
+import BottomUpModalLayout from "@components/meetup/BottomUpModalLayout";
 import { url, mockMessage } from "./_mock";
 import { useState } from "react";
 export default function ChatPage() {
