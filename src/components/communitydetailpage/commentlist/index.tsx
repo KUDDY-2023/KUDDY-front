@@ -74,6 +74,7 @@ const CommentList = () => {
                   {/* kuddy 뱃지 + creator 뱃지도 가능 */}
                   {item.userInfo.hasBadge && <img src={kuddyBadge} />}
                   {item.userInfo.isCreator && <img src={creatorBadge} />}
+                  {/* ... 버튼 추가 필요 */}
                 </div>
 
                 <div className="comment-content-body">{item.content}</div>
