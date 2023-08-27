@@ -29,6 +29,37 @@
   }
 }
 
+.MuiPaper-root {
+  .MuiDialogContent-root {
+    .MuiPickersLayout-root {
+      .MuiPickersLayout-contentWrapper {
+        .MuiTimeClock-root {
+          .MuiClock-clock {
+            background: #f8f8f8;
+
+            .Mui-selected {
+              color: black;
+            }
+          }
+          .MuiClock-root {
+            .MuiClock-pin {
+              background-color: #fff49b;
+            }
+            .MuiClockPointer-root {
+              background-color: #fff49b;
+
+              .MuiClockPointer-thumb {
+                border: 15px solid #fff49b;
+                background-color: #fff49b;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 .Mui-selected {
   color: red;
 }
@@ -48,7 +79,7 @@
     width: fit-content;
     background: white;
     outline: 1px solid #ddd;
-    padding: 11px 30px;
+    padding: 11px 15px;
     margin-right: 10px;
     .MuiInputBase-root {
       padding: 0;

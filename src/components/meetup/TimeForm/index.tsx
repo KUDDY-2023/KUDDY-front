@@ -3,9 +3,10 @@ import { useState } from "react";
 
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import dayjs from "dayjs";
+
+import { MobileTimePicker } from "@mui/x-date-pickers/MobileTimePicker";
 
 export default function TimeForm() {
   const [isOpenDate, setIsOpenDate] = useState(false);
@@ -21,13 +22,8 @@ export default function TimeForm() {
           }}
         />
 
-        <div className="time">12:00 PM</div>
+        <MobileTimePicker defaultValue={dayjs("2022-04-17T15:30")} />
       </div>
     </LocalizationProvider>
   );
 }
-// MuiButtonBase-root
-// MuiPickersDay-root
-// Mui-selected
-// MuiPickersDay-dayWithMargin
-// css-qa7bje-MuiButtonBase-root-MuiPickersDay-root
