@@ -1,5 +1,6 @@
 import "./appointmentpage.scss";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import BackNavBar from "@components/_common/backnavbar";
 import arrowIcon from "@assets/icon/arrow_right.svg";
 import pinIcon from "@assets/icon/pin_default.svg";
@@ -23,6 +24,7 @@ type AppointmentType = {
 };
 
 const AppointmentPage = () => {
+  const nav = useNavigate();
   const [appointments, setAppointments] = useState<AppointmentType[]>([
     {
       id: 1,
@@ -116,8 +118,8 @@ const AppointmentPage = () => {
     console.log("채팅창 이동");
   };
 
-  const handleWriteReviewClick = () => {
-    console.log("리뷰 작성 페이지 이동");
+  const handleWriteReviewClick = (id: number) => {
+    nav(`/my/write-review/${id}`);
   };
 
   return (
@@ -183,7 +185,7 @@ const AppointmentPage = () => {
                   <div className="appointment-item-footer">
                     <div
                       className="appointment-btn write-review"
-                      onClick={handleWriteReviewClick}
+                      onClick={() => handleWriteReviewClick(item.id)}
                     >
                       Write Review
                     </div>
