@@ -1,6 +1,6 @@
 import "./commentinput.scss";
 import { useState } from "react";
-import commentBtn from "@assets/community/comment-btn.svg";
+import commentBtn from "@assets/community/comment_btn.svg";
 
 const CommentInput = () => {
   const [newComment, setNewComment] = useState("");

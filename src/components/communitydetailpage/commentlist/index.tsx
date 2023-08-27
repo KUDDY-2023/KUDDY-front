@@ -1,7 +1,7 @@
 import "./commentlist.scss";
 import { useState } from "react";
-import kuddyBadge from "@assets/community/kuddy-badge.svg";
-import creatorBadge from "@assets/community/creator-badge.svg";
+import kuddyBadge from "@assets/community/kuddy_badge.svg";
+import creatorBadge from "@assets/community/creator_badge.svg";
 
 // depth 1이면 reply 버튼, 2이면 들여쓰기
 const CommentList = () => {
