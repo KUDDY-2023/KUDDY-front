@@ -11,6 +11,7 @@ import TravelRoutes from "@routes/TravelRoutes";
 import CommunityRoutes from "@routes/CommunityRoutes";
 import MyRoutes from "@routes/MyRoutes";
 import ChatRoutes from "@routes/ChatRoutes";
+import ProfileRoutes from "@routes/ProfileRoutes";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
       <Route path="/community/*" element={<CommunityRoutes />} />
       <Route path="/my/*" element={<MyRoutes />} />
       <Route path="/chat/*" element={<ChatRoutes />} />
+      <Route path="/profile/*" element={<ProfileRoutes />} />
     </Routes>
   );
 }
