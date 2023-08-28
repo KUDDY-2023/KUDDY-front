@@ -16,7 +16,7 @@ export default function BackNavBar({ middleTitle, isShare }: Props) {
   };
 
   const _handleShare = () => {
-    console.log("현재 url 복사");
+    console.log("현재 url  복사");
   };
 
   return (

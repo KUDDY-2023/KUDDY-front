@@ -1,7 +1,7 @@
 import "./appointmentpage.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import BackNavBar from "@components/_common/backnavbar";
+import BackNavBar from "@components/_common/BackNavbar";
 import arrowIcon from "@assets/icon/arrow_right.svg";
 import pinIcon from "@assets/icon/pin_default.svg";
 import scheduledIcon from "@assets/my/clock.svg";

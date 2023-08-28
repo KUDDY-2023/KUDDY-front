@@ -1,11 +1,4 @@
-@mixin font-style($size, $color, $weight) {
-  color: $color;
-  font-family: var(--font-text);
-  font-size: $size;
-  font-style: normal;
-  font-weight: $weight;
-  line-height: normal;
-}
+@import "../../../style/mixins";
 
 .MuiPaper-root {
   .MuiDialogContent-root {
@@ -71,7 +64,7 @@
 
   .title {
     margin-right: auto;
-    @include font-style(16px, black, 500);
+    @include font-style(--font-text, 16px, black, 500);
   }
 
   .MuiFormControl-root {
@@ -112,6 +105,6 @@
     background: #fff;
 
     padding: 11px 22px;
-    @include font-style(14px, #b1b1b1, 500);
+    @include font-style(--font-text, 14px, #b1b1b1, 500);
   }
 }
