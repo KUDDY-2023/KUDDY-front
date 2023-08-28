@@ -2,7 +2,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./swipercard.scss";
+import "./swiper-card.scss";
 
 type SwiperInfoType = {
   id: number;

@@ -1,9 +1,9 @@
 import "./trending.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { TravelType } from "@components/travelpage/travelmenu/index";
-import TravelBlock from "@components/travelpage/travelblock";
-import { ReactComponent as ArrowIcon } from "@assets/homepage/arrow.svg";
+import { TravelType } from "@components/TravelPage/index";
+import TravelBlock from "@components/TravelPage/TravelBlock";
+import { ReactComponent as ArrowIcon } from "@assets/icon/home_text_arrow.svg";
 
 const Trending = () => {
   const nav = useNavigate();

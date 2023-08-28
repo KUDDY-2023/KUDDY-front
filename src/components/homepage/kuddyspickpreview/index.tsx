@@ -1,8 +1,8 @@
-import "./kuddyspickpreview.scss";
+import "./kuddys-pick-preview.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import KuddysPickMainInfo from "@components/kuddyspickpage/kuddyspickmaininfo";
-import { ReactComponent as ArrowIcon } from "@assets/homepage/arrow.svg";
+import KuddysPickMainInfo from "@components/KuddysPickPage/KuddysPickMainInfo";
+import { ReactComponent as ArrowIcon } from "@assets/icon/home_text_arrow.svg";
 
 type ContentType = {
   id: number;

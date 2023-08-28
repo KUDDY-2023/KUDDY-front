@@ -1,7 +1,7 @@
-import TopBar from "@components/_common/topbar/index";
+import TopBar from "@components/_common/TopBar/index";
 import PostList from "@components/CommunityListPage/PostList";
 import WritePostBtn from "@components/CommunityListPage/WritePostBtn";
-import NavBar from "@components/_common/navbar/index";
+import BottomNavBar from "@components/_common/BottomNavBar/index";
 
 const CommunityListPage = () => {
   return (
@@ -15,7 +15,7 @@ const CommunityListPage = () => {
       <PostList />
       <div style={{ height: "120vh" }} />
       <WritePostBtn />
-      <NavBar />
+      <BottomNavBar />
     </>
   );
 };

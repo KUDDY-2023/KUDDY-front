@@ -1,13 +1,13 @@
-import TopBar from "@components/_common/topbar/index";
-import NavBar from "@components/_common/navbar/index";
-import PickMenu from "@components/travelpage/pickmenu";
+import TopBar from "@components/_common/TopBar/index";
+import BottomNavBar from "@components/_common/BottomNavBar/index";
+import Pick from "@components/PickPage";
 
 const PickPage = () => {
   return (
     <>
       <TopBar />
-      <PickMenu />
-      <NavBar />
+      <Pick />
+      <BottomNavBar />
     </>
   );
 };

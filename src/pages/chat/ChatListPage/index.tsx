@@ -1,5 +1,5 @@
 import "./chatlistpage.scss";
-import BackNavBar from "@components/_common/BackNavbar";
+import BackNavBar from "@components/_common/BackNavBar";
 import { useState, useEffect } from "react";
 
 import { chatListData } from "./chatListData";

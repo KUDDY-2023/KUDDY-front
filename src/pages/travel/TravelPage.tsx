@@ -1,7 +1,7 @@
-import TravelMenu from "@components/travelpage/travelmenu";
+import Travel from "@components/TravelPage";
 
 const TravelPage = () => {
-  return <TravelMenu />;
+  return <Travel />;
 };
 
 export default TravelPage;

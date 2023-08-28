@@ -1,4 +1,4 @@
-import "./kuddyspicksearchbar.scss";
+import "./kuddys-pick-search-bar.scss";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as BackIcon } from "@assets/icon/back.svg";

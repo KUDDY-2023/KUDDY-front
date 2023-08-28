@@ -1,11 +1,11 @@
-import "./navbar.scss";
+import "./bottom-nav-bar.scss";
 import { NavLink } from "react-router-dom";
-import { ReactComponent as HomeIcon } from "@assets/homepage/home.svg";
-import { ReactComponent as PickIcon } from "@assets/homepage/pick.svg";
-import { ReactComponent as MatesIcon } from "@assets/homepage/mates.svg";
-import { ReactComponent as CommunityIcon } from "@assets/homepage/community.svg";
+import { ReactComponent as HomeIcon } from "@assets/icon/BottomNavBar/home.svg";
+import { ReactComponent as PickIcon } from "@assets/icon/BottomNavBar/pick.svg";
+import { ReactComponent as MatesIcon } from "@assets/icon/BottomNavBar/mates.svg";
+import { ReactComponent as CommunityIcon } from "@assets/icon/BottomNavBar/community.svg";
 
-const NavBar = () => {
+const BottomNavBar = () => {
   return (
     <div className="nav-container">
       <div className="nav-inner-container">
@@ -30,4 +30,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default BottomNavBar;

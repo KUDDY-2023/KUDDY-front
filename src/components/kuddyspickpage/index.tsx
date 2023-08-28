@@ -1,6 +1,6 @@
-import "./kuddyspickmenu.scss";
-import KuddysPickSearchBar from "@components/kuddyspickpage/kuddyspicksearchbar";
-import KuddysPickBlock from "@components/kuddyspickpage/kuddyspickblock";
+import "./kuddys-pick.scss";
+import KuddysPickSearchBar from "@components/KuddysPickPage/KuddysPickSearchBar";
+import KuddysPickBlock from "@components/KuddysPickPage/KuddysPickBlock";
 import { useState, useEffect } from "react";
 
 export type KuddysPickType = {

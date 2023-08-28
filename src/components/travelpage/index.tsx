@@ -1,5 +1,5 @@
-import "./travelmenu.scss";
-import TravelBlock from "@components/travelpage/travelblock/index";
+import "./travel.scss";
+import TravelBlock from "@components/TravelPage/TravelBlock/index";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ReactComponent as BackIcon } from "@assets/icon/back.svg";
@@ -16,7 +16,7 @@ export type TravelType = {
 
 // 필터 적용된 상태에서 다시 /search로 이동하면 이전 필터 기록 저장 안됨
 // 필터 중복 적용 안됨 (프론트 로직 상에서)
-const TravelMenu = () => {
+const Travel = () => {
   const nav = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -92,6 +92,7 @@ const TravelMenu = () => {
   }, [currentKeyword]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     categoryArray.map(
       item =>
         item.params === currentCategory &&
@@ -175,7 +176,7 @@ const TravelMenu = () => {
   );
 };
 
-export default TravelMenu;
+export default Travel;
 
 export const categoryArray = [
   { id: 0, params: null },

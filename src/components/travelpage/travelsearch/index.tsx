@@ -1,12 +1,9 @@
-import "./travelsearch.scss";
+import "./travel-search.scss";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ReactComponent as BackIcon } from "@assets/icon/back.svg";
 import { ReactComponent as SearchIcon } from "@assets/icon/search.svg";
-import {
-  categoryArray,
-  districtArray,
-} from "@components/travelpage/travelmenu/index";
+import { categoryArray, districtArray } from "@components/TravelPage/index";
 
 const TravelSearch = () => {
   const nav = useNavigate();

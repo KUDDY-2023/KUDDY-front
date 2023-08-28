@@ -1,4 +1,4 @@
-import TravelSearch from "@components/travelpage/travelsearch";
+import TravelSearch from "@components/TravelPage/TravelSearch";
 
 const TravelSearchPage = () => {
   return <TravelSearch />;

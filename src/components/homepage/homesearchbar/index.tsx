@@ -1,4 +1,4 @@
-import "./homesearchbar.scss";
+import "./home-search-bar.scss";
 import { ReactComponent as SearchIcon } from "@assets/icon/search.svg";
 import { useNavigate } from "react-router-dom";
 
