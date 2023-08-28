@@ -1,7 +1,7 @@
-import "./kuddys-pick-detail.scss";
+import "./kuddys-pick-detail-page.scss";
 import { useState } from "react";
 import BackNavBar from "@components/_common/BackNavBar";
-import KuddysPickMainInfo from "@components/KuddysPickPage/KuddysPickMainInfo";
+import KuddysPickMainInfo from "@components/KuddysPickDetailPage/KuddysPickMainInfo";
 import KuddysPickTravelPreview from "@components/KuddysPickDetailPage/KuddysPickTravelPreview";
 import KuddysPickTravelBlock from "@components/KuddysPickDetailPage/KuddysPickTravelBlock";
 
@@ -30,7 +30,7 @@ export type KuddysPickDetailType = {
   contents: KuddysPickDetailContentType[];
 };
 
-const KuddysPickDetailMenu = () => {
+const KuddysPickDetailPage = () => {
   const [currentKuddysPick, setCurrentKuddysPick] =
     useState<KuddysPickDetailType>({
       id: 1,
@@ -119,4 +119,4 @@ const KuddysPickDetailMenu = () => {
   );
 };
 
-export default KuddysPickDetailMenu;
+export default KuddysPickDetailPage;

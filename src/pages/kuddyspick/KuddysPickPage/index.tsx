@@ -1,4 +1,4 @@
-import "./kuddys-pick.scss";
+import "./kuddys-pick-page.scss";
 import KuddysPickSearchBar from "@components/KuddysPickPage/KuddysPickSearchBar";
 import KuddysPickBlock from "@components/KuddysPickPage/KuddysPickBlock";
 import { useState, useEffect } from "react";
@@ -10,7 +10,7 @@ export type KuddysPickType = {
 };
 
 // 검색어 저장 recoil 추가 필요
-const KuddysPickMenu = () => {
+const KuddysPickPage = () => {
   const [kuddysPickList, setKuddysPickList] = useState<KuddysPickType[]>([
     {
       id: 1,
@@ -78,4 +78,4 @@ const KuddysPickMenu = () => {
   );
 };
 
-export default KuddysPickMenu;
+export default KuddysPickPage;

@@ -1,5 +1,5 @@
 import "./kuddys-pick-main-info.scss";
-import { KuddysPickDetailType } from "@components/KuddysPickDetailPage/index";
+import { KuddysPickDetailType } from "@pages/kuddyspick/KuddysPickDetailPage/index";
 import { KuddysPickPreviewType } from "@components/HomePage/KuddysPickPreview";
 
 const KuddysPickMainInfo = ({

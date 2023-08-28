@@ -3,8 +3,8 @@ import "@style/reset.scss"; // scss 설정
 import "@style/common.scss";
 import "@style/button.scss";
 
-import HomePage from "@pages/HomePage";
-import PickPage from "@pages/PickPage";
+import HomePage from "@pages/home/HomePage";
+import PickPage from "@pages/pick/PickPage";
 import AuthRoutes from "@routes/AuthRoutes";
 import KuddysPickRoutes from "@routes/KuddysPickRoutes";
 import TravelRoutes from "@routes/TravelRoutes";

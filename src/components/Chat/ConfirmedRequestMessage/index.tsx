@@ -1,9 +1,9 @@
 import "./confirmed-request-message.scss";
 import { ReactComponent as RightIcon } from "@assets/icon/arrow_right.svg";
 import { ReactComponent as Paypal } from "@assets/pay/paypal.svg";
-import { ReactComponent as YellowMeetUp } from "@assets/icon/chat/yellow_meetup.svg";
-import { ReactComponent as RedwMeetUp } from "@assets/icon/chat/red_meetup.svg";
-import { ReactComponent as BlueMeetUp } from "@assets/icon/chat/blue_meetup.svg";
+import { ReactComponent as YellowMeetUp } from "@assets/chat/yellow_meetup.svg";
+import { ReactComponent as RedwMeetUp } from "@assets/chat/red_meetup.svg";
+import { ReactComponent as BlueMeetUp } from "@assets/chat/blue_meetup.svg";
 import SystemMessage from "../SystemMessage";
 import { useState } from "react";
 
