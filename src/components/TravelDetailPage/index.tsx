@@ -3,6 +3,9 @@ import BackNavBar from "@components/_common/BackNavBar";
 
 export type PickedMates = {
   id: number;
+  nickname: string;
+  profileImg: string;
+  introduce: string;
 };
 
 export type TravelDetailType = {
