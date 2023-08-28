@@ -1,6 +1,6 @@
 import "./loginformpage.scss";
 import BackNavBar from "@components/_common/BackNavbar";
-import LoginProgressBar from "@components/authpage/loginProgressBar";
+import LoginProgressBar from "@components/authpage/LoginProgressBar";
 
 import {
   initialKuddyProfileData,
