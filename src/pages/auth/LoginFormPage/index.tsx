@@ -1,5 +1,5 @@
 import "./loginformpage.scss";
-import BackNavBar from "@components/_common/backnavbar";
+import BackNavBar from "@components/_common/BackNavbar";
 import LoginProgressBar from "@components/authpage/loginProgressBar";
 
 import {

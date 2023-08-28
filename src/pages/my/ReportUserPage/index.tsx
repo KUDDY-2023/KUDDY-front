@@ -1,4 +1,4 @@
-import BackNavBar from "@components/_common/backnavbar";
+import BackNavBar from "@components/_common/BackNavbar";
 import "./reportuserpage.scss";
 import { useEffect, useState } from "react";
 

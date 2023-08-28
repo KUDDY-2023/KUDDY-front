@@ -1,7 +1,7 @@
 import "./writereviewpage.scss";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import BackNavBar from "@components/_common/backnavbar";
+import BackNavBar from "@components/_common/BackNavbar";
 import pinIcon from "@assets/icon/pin_default.svg";
 
 type AppointmentType = {

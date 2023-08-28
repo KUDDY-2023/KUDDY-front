@@ -1,7 +1,7 @@
 import "./delete_account_page.scss";
 
 import { useState } from "react";
-import BackNavBar from "@components/_common/backnavbar";
+import BackNavBar from "@components/_common/BackNavbar";
 import EventBtn from "@components/_common/eventBtn";
 
 import check_on from "@assets/icon/check_on.svg";
