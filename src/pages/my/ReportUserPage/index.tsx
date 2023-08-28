@@ -2,7 +2,7 @@ import BackNavBar from "@components/_common/BackNavbar";
 import "./reportuserpage.scss";
 import { useEffect, useState } from "react";
 
-import EventBtn from "@components/_common/eventBtn";
+import EventBtn from "@components/_common/EventBtn";
 
 export default function ReportUserPage() {
   // 쿼리스트링에 유저 아이디 포함하기
