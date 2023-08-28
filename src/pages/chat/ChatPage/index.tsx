@@ -9,6 +9,8 @@ import RequestMessage from "@components/chat/RequestMessage";
 import BottomUpModalLayout from "@components/meetup/BottomUpModalLayout";
 import { url, mockMessage } from "./_mock";
 import { useState } from "react";
+
+import BottomUpModal from "@components/_common/BottomUpModal";
 export default function ChatPage() {
   let tempInfo = {
     partnerName: "jane",
@@ -33,6 +35,9 @@ export default function ChatPage() {
   };
   return (
     <div className="chat-page-style">
+      <BottomUpModal isModalOpen={true}>
+        <h1>안뇽</h1>
+      </BottomUpModal>
       <BottomUpModalLayout
         isOpen={isOpenBottomModal}
         onClose={_handleOpenBottomModal}
