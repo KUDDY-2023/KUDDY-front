@@ -1,21 +1,25 @@
 import Sheet from "react-modal-sheet";
 import { useState } from "react";
-import "bottom-up-modal.scss";
+import "./bottom-up-modal.scss";
 
-export default function BottomUpModal() {
-  const [isOpen, setOpen] = useState(false);
+import { ReactNode } from "react";
+
+interface Props {
+  isModalOpen: boolean;
+  children: ReactNode;
+}
+export default function BottomUpModal({ isModalOpen, children }: Props) {
+  const [isOpen, setOpen] = useState(isModalOpen);
+
+  let h = (window.innerHeight - 47) / window.innerHeight;
 
   return (
-    <>
-      <button onClick={() => setOpen(true)}>Open sheet</button>
-
-      <Sheet isOpen={isOpen} onClose={() => setOpen(false)}>
-        <Sheet.Container>
-          <Sheet.Header />
-          <Sheet.Content>{/* Your sheet content goes here */}</Sheet.Content>
-        </Sheet.Container>
-        <Sheet.Backdrop />
-      </Sheet>
-    </>
+    <Sheet isOpen={isOpen} onClose={() => setOpen(false)} snapPoints={[h]}>
+      <Sheet.Container>
+        <Sheet.Header />
+        <Sheet.Content>{children}</Sheet.Content>
+      </Sheet.Container>
+      <Sheet.Backdrop />
+    </Sheet>
   );
 }

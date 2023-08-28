@@ -2,8 +2,8 @@ import "./top-bar.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Menu from "@components/CommunityListPage/Menu";
-import { ReactComponent as ChatIcon } from "@assets/icon/NavBar/chat.svg";
-import { ReactComponent as NewChatIcon } from "@assets/icon/NavBar/new_chat.svg";
+import { ReactComponent as ChatIcon } from "@assets/topbar/chat.svg";
+import { ReactComponent as NewChatIcon } from "@assets/topbar/new_chat.svg";
 
 type TopBarProps = {
   isCommunity?: boolean;

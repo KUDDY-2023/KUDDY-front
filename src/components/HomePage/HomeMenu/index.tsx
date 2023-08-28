@@ -1,13 +1,13 @@
 import "./home-menu.scss";
 import { useNavigate } from "react-router-dom";
-import menuimg1 from "@assets/icon/HomeMenu/attraction.svg";
-import menuimg2 from "@assets/icon/HomeMenu/culture.svg";
-import menuimg3 from "@assets/icon/HomeMenu/shopping.svg";
-import menuimg4 from "@assets/icon/HomeMenu/restaurant.svg";
-import menuimg5 from "@assets/icon/HomeMenu/leisure.svg";
-import menuimg6 from "@assets/icon/HomeMenu/festival.svg";
-import menuimg7 from "@assets/icon/HomeMenu/youtube.svg";
-import menuimg8 from "@assets/icon/HomeMenu/location.svg";
+import menuimg1 from "@assets/homemenu/attraction.svg";
+import menuimg2 from "@assets/homemenu/culture.svg";
+import menuimg3 from "@assets/homemenu/shopping.svg";
+import menuimg4 from "@assets/homemenu/restaurant.svg";
+import menuimg5 from "@assets/homemenu/leisure.svg";
+import menuimg6 from "@assets/homemenu/festival.svg";
+import menuimg7 from "@assets/homemenu/youtube.svg";
+import menuimg8 from "@assets/homemenu/location.svg";
 
 const HomeMenu = () => {
   const nav = useNavigate();

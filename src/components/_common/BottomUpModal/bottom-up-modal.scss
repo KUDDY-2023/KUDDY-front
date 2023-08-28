@@ -1,35 +1,4 @@
-$black: var(--color-black);
-
-.backnavbar-container {
-  position: relative;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  min-height: 55px !important;
-  width: 100%;
-
-  #back {
-    position: absolute;
-    left: 28px;
-    top: 18px;
-  }
-
-  #share {
-    position: absolute;
-    right: 28px;
-    top: 18px;
-  }
-
-  p {
-    margin: 0 !important;
-    color: $black;
-    text-align: center;
-    font: {
-      family: var(--font-text);
-      size: 16px;
-      weight: 600;
-    }
-  }
+.react-modal-sheet-container {
+  background-color: #f8f8f8 !important;
+  border-radius: 20px 20px 0px 0px !important;
 }
