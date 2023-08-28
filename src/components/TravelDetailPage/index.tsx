@@ -1,5 +1,5 @@
 import "./travel-detail.scss";
-import BackNavBar from "@components/_common/backnavbar";
+import BackNavBar from "@components/_common/BackNavBar";
 
 const TravelDetailMenu = () => {
   return (

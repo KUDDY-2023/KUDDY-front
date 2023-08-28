@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import BackNavBar from "@components/_common/BackNavbar";
+import BackNavBar from "@components/_common/BackNavBar";
 import PostContent from "@components/CommunityDetailPage/PostContent";
 import CommentList from "@components/CommunityDetailPage/CommentList";
 import CommentInput from "@components/CommunityDetailPage/CommentInput";
