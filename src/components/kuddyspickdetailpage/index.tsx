@@ -1,9 +1,9 @@
-import "./kuddyspickdetailmenu.scss";
+import "./kuddys-pick-detail.scss";
 import { useState } from "react";
 import BackNavBar from "@components/_common/backnavbar";
-import KuddysPickMainInfo from "@components/kuddyspickpage/kuddyspickmaininfo";
-import KuddysPickTravelPreview from "@components/kuddyspickdetailpage/kuddyspicktravelpreview";
-import KuddysPickTravelBlock from "@components/kuddyspickdetailpage/kuddyspicktravelblock";
+import KuddysPickMainInfo from "@components/KuddysPickPage/KuddysPickMainInfo";
+import KuddysPickTravelPreview from "@components/KuddysPickDetailPage/KuddysPickTravelPreview";
+import KuddysPickTravelBlock from "@components/KuddysPickDetailPage/KuddysPickTravelBlock";
 
 export type ImageType = {
   id: number;

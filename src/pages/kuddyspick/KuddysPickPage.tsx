@@ -1,4 +1,4 @@
-import KuddysPickMenu from "@components/kuddyspickpage/kuddyspickmenu";
+import KuddysPickMenu from "@components/KuddysPickPage";
 
 const KuddysPickPage = () => {
   return <KuddysPickMenu />;

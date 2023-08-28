@@ -1,6 +1,6 @@
-import "./kuddyspicktravelblock.scss";
-import { KuddysPickDetailContentType } from "@components/kuddyspickdetailpage/kuddyspickdetailmenu/index";
-import { ReactComponent as BookmarkIcon } from "@assets/travelpage/bookmark.svg";
+import "./kuddys-pick-travel-block.scss";
+import { KuddysPickDetailContentType } from "@components/KuddysPickDetailPage/index";
+import { ReactComponent as BookmarkIcon } from "@assets/icon/bookmark.svg";
 import { useState, useEffect } from "react";
 import useBookmark from "@utils/hooks/useBookmark";
 

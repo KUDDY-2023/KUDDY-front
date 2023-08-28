@@ -1,4 +1,4 @@
-import "./weeklyuser.scss";
+import "./weekly-user.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 

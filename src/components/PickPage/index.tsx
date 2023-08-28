@@ -1,11 +1,11 @@
-import "./pickmenu.scss";
-import TravelBlock from "@components/travelpage/travelblock/index";
-import { TravelType } from "@components/travelpage/travelmenu/index";
-import { useState } from "react";
-import { travelArray } from "@components/travelpage/travelmenu/index";
+import "./pick.scss";
+import TravelBlock from "@components/TravelPage/TravelBlock/index";
+import { TravelType } from "@components/TravelPage/index";
+import { useState, useEffect } from "react";
+import { travelArray } from "@components/TravelPage/index";
 // GetPick, UnLike api
 
-const PickMenu = () => {
+const Pick = () => {
   const [pickList, setPickList] = useState<TravelType[]>(travelArray);
 
   const onDelete = (id: number) => {
@@ -14,6 +14,10 @@ const PickMenu = () => {
     //   .catch();
     setPickList(pickList.filter(item => item.id !== id));
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="pickmenu-wrapper">
@@ -32,4 +36,4 @@ const PickMenu = () => {
   );
 };
 
-export default PickMenu;
+export default Pick;

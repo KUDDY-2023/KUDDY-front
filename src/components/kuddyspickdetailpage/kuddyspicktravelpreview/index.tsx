@@ -1,5 +1,5 @@
-import "./kuddyspicktravelpreview.scss";
-import { KuddysPickDetailContentType } from "@components/kuddyspickdetailpage/kuddyspickdetailmenu/index";
+import "./kuddys-pick-travel-preview.scss";
+import { KuddysPickDetailContentType } from "@components/KuddysPickDetailPage/index";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper.scss";
 

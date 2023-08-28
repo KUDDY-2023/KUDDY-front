@@ -1,5 +1,7 @@
+import TravelDetailMenu from "@components/TravelDetailPage";
+
 const TravelDetailPage = () => {
-  return <></>;
+  return <TravelDetailMenu />;
 };
 
 export default TravelDetailPage;
