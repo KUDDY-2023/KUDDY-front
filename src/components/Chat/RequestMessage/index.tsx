@@ -1,7 +1,7 @@
 import "./request-message.scss";
 import { ReactComponent as RightIcon } from "@assets/icon/arrow_right.svg";
 import { ReactComponent as Paypal } from "@assets/pay/paypal.svg";
-import { ReactComponent as YellowMeetUp } from "@assets/icon/chat/yellow_meetup.svg";
+import { ReactComponent as YellowMeetUp } from "@assets/chat/yellow_meetup.svg";
 import { useState } from "react";
 interface Props {
   info: MeetUpInfoType;

@@ -1,9 +1,9 @@
 import "./bottom-nav-bar.scss";
 import { NavLink } from "react-router-dom";
-import { ReactComponent as HomeIcon } from "@assets/icon/BottomNavBar/home.svg";
-import { ReactComponent as PickIcon } from "@assets/icon/BottomNavBar/pick.svg";
-import { ReactComponent as MatesIcon } from "@assets/icon/BottomNavBar/mates.svg";
-import { ReactComponent as CommunityIcon } from "@assets/icon/BottomNavBar/community.svg";
+import { ReactComponent as HomeIcon } from "@assets/bottomnavbar/home.svg";
+import { ReactComponent as PickIcon } from "@assets/bottomnavbar/pick.svg";
+import { ReactComponent as MatesIcon } from "@assets/bottomnavbar/mates.svg";
+import { ReactComponent as CommunityIcon } from "@assets/bottomnavbar/community.svg";
 
 const BottomNavBar = () => {
   return (
