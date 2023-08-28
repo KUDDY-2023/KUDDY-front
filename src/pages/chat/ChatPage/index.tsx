@@ -1,12 +1,12 @@
 import "./chatpage.scss";
-import PartnerHead from "@components/chat/PartnerHead";
-import MessageInput from "@components/chat/MessageInput";
-import Message from "@components/chat/Message";
-import TodayBar from "@components/chat/TodayBar";
-import SystemMessage from "@components/chat/SystemMessage";
-import ConfirmedRequestMessage from "@components/chat/ConfirmedRequestMessage";
-import RequestMessage from "@components/chat/RequestMessage";
-import BottomUpModalLayout from "@components/meetup/BottomUpModalLayout";
+import PartnerHead from "@components/Chat/PartnerHead";
+import MessageInput from "@components/Chat/MessageInput";
+import Message from "@components/Chat/Message";
+import TodayBar from "@components/Chat/TodayBar";
+import SystemMessage from "@components/Chat/SystemMessage";
+import ConfirmedRequestMessage from "@components/Chat/ConfirmedRequestMessage";
+import RequestMessage from "@components/Chat/RequestMessage";
+import BottomUpModalLayout from "@components/MeetUp/BottomUpModalLayout";
 import { url, mockMessage } from "./_mock";
 import { useState } from "react";
 export default function ChatPage() {
