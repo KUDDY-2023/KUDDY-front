@@ -2,7 +2,7 @@ import "./languageform.scss";
 import deleteIcon from "@assets/icon/delete.svg";
 import plus from "@assets/icon/plus.svg";
 import { useState } from "react";
-import DropDown from "@components/_common/dropdown";
+import DropDown from "@components/_common/DropDown";
 export default function LanguageForm() {
   const languages = ["English", "Korean"];
   const advances = ["1", "2", "3"];

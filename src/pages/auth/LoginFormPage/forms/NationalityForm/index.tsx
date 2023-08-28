@@ -1,6 +1,6 @@
 import "./nationalityform.scss";
 import { useState } from "react";
-import DropDown from "@components/_common/dropdown";
+import DropDown from "@components/_common/DropDown";
 export default function NationalityForm() {
   const nations = ["Korea", "US", "Ch"];
   return (

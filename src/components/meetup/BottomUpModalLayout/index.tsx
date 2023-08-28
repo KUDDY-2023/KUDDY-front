@@ -1,6 +1,6 @@
 import "./bottomup-modal-layout.scss";
 import { useState, useEffect } from "react";
-import EventBtn from "@components/_common/eventBtn";
+import EventBtn from "@components/_common/EventBtn";
 import PlaceForm from "../PlaceForm";
 import TimeForm from "../TimeForm";
 import PayForm from "../PayForm";

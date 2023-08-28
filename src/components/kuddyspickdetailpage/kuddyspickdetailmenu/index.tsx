@@ -1,6 +1,6 @@
 import "./kuddyspickdetailmenu.scss";
 import { useState } from "react";
-import BackNavBar from "@components/_common/backnavbar";
+import BackNavBar from "@components/_common/BackNavbar";
 import KuddysPickMainInfo from "@components/kuddyspickpage/kuddyspickmaininfo";
 import KuddysPickTravelPreview from "@components/kuddyspickdetailpage/kuddyspicktravelpreview";
 import KuddysPickTravelBlock from "@components/kuddyspickdetailpage/kuddyspicktravelblock";
