@@ -1,3 +1,4 @@
+import "./community-detail-page.scss";
 import { useParams } from "react-router-dom";
 import BackNavBar from "@components/_common/BackNavBar";
 import PostContent from "@components/CommunityDetailPage/PostContent";
@@ -23,7 +24,7 @@ const CommunityDetailPage = () => {
   }
 
   return (
-    <>
+    <div className="community-detail-container">
       <BackNavBar
         middleTitle={
           category === "itinerary-feedback"
@@ -35,7 +36,7 @@ const CommunityDetailPage = () => {
       <PostContent {...PostData} />
       <CommentList />
       <CommentInput />
-    </>
+    </div>
   );
 };
 

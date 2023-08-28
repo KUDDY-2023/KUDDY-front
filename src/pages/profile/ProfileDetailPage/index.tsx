@@ -1,4 +1,4 @@
-import "./profiledetailpage.scss";
+import "./profile-detail-page.scss";
 
 const ProfileDetailPage = () => {
   return <></>;
