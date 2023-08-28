@@ -1,0 +1,44 @@
+@function color($color-name) {
+  @return var(--color-#{$color-name});
+}
+
+.travelsearch-wrapper {
+  .filter-title {
+    color: color(grey-text);
+    font-family: var(--font-text);
+    font-size: 14px;
+    font-weight: 500;
+    margin: {
+      left: 25px;
+      top: 20px;
+      bottom: 10px;
+    }
+  }
+  .filter-container {
+    width: calc(100% - 50px);
+    margin-left: 25px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.travelsearch-filter-rect {
+  height: 32px;
+  border-radius: 16px;
+  display: flex;
+  padding: 0 16px;
+  justify-content: center;
+  align-items: center;
+  margin: {
+    right: 16px;
+    bottom: 12px;
+  }
+
+  background-color: color(light-grey);
+  color: #000;
+  font: {
+    family: var(--font-text);
+    size: 14px;
+    weight: 500;
+  }
+}

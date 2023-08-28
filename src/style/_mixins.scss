@@ -1,0 +1,8 @@
+@mixin font-style($font, $size, $color, $weight) {
+  color: $color;
+  font-family: var($font);
+  font-size: $size;
+  font-style: normal;
+  font-weight: $weight;
+  line-height: normal;
+}

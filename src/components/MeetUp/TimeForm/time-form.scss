@@ -1,0 +1,110 @@
+@import "../../../style/mixins";
+
+.MuiPaper-root {
+  .MuiDialogContent-root {
+    .MuiPickersLayout-root {
+      .MuiDialogActions-root {
+        .MuiButtonBase-root {
+          color: black;
+        }
+      }
+      .MuiPickersLayout-contentWrapper {
+        .MuiDateCalendar-root {
+          .MuiDayCalendar-monthContainer {
+            .Mui-selected {
+              color: black;
+              background-color: #fff49b;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.MuiPaper-root {
+  .MuiDialogContent-root {
+    .MuiPickersLayout-root {
+      .MuiPickersLayout-contentWrapper {
+        .MuiTimeClock-root {
+          .MuiClock-clock {
+            background: #f8f8f8;
+
+            .Mui-selected {
+              color: black;
+            }
+          }
+          .MuiClock-root {
+            .MuiClock-pin {
+              background-color: #fff49b;
+            }
+            .MuiClockPointer-root {
+              background-color: #fff49b;
+
+              .MuiClockPointer-thumb {
+                border: 15px solid #fff49b;
+                background-color: #fff49b;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.Mui-selected {
+  color: red;
+}
+
+.time-form-style {
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+
+  .title {
+    margin-right: auto;
+    @include font-style(--font-text, 16px, black, 500);
+  }
+
+  .MuiFormControl-root {
+    border-radius: 121px;
+    width: fit-content;
+    background: white;
+    outline: 1px solid #ddd;
+    padding: 11px 15px;
+    margin-right: 10px;
+    .MuiInputBase-root {
+      padding: 0;
+      .MuiInputBase-input {
+        width: 90px;
+        color: #b1b1b1;
+        font-family: Inter;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 17px;
+        padding: 0;
+        text-align: center;
+      }
+      .MuiOutlinedInput-notchedOutline {
+        border: none;
+      }
+    }
+  }
+
+  .time {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: fit-content;
+
+    border-radius: 121px;
+    border: 1px solid #ddd;
+    background: #fff;
+
+    padding: 11px 22px;
+    @include font-style(--font-text, 14px, #b1b1b1, 500);
+  }
+}

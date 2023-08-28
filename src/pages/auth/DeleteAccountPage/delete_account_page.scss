@@ -1,0 +1,56 @@
+.p-common-style {
+  font: {
+    family: var(--font-text);
+    size: 14px;
+    style: normal;
+    weight: 400;
+  }
+  line-height: 17px;
+}
+
+.delete-account-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: calc(100% - 102px);
+
+  .guide-text-container {
+    margin-top: 32px;
+    width: 85%;
+    flex-grow: 1;
+
+    h2 {
+      color: #000;
+      font: {
+        family: var(--font-title);
+        size: 20px;
+        style: normal;
+        weight: 400;
+      }
+      line-height: 17px; /* 85% */
+    }
+
+    p {
+      margin-top: 20px;
+      text-align: start;
+      color: #000;
+      @extend .p-common-style;
+    }
+  }
+
+  .agreement-container {
+    display: flex;
+    width: 85%;
+    margin-bottom: 24px;
+
+    p {
+      margin-left: 8px;
+      @extend .p-common-style;
+    }
+  }
+
+  .custom-event-btn-style {
+    position: absolute;
+    bottom: 50px;
+  }
+}
