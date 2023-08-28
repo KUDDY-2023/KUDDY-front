@@ -10,7 +10,7 @@ interface SpotType {
 
 interface PhotoType {
   photoId: number;
-  photo: string;
+  src: string;
 }
 
 interface PostType {
@@ -34,4 +34,19 @@ interface TalkingBoardPost extends PostType {
   joinPeople?: number;
   joinDate?: string;
   joinDistrict?: string;
+}
+
+interface userInfoType {
+  nickname: string;
+  profile: string;
+  hasBadge: boolean;
+  isCreator: boolean;
+}
+
+interface CommentType {
+  userInfo: userInfoType;
+  content: string;
+  date: string;
+  time: string;
+  depth: number;
 }

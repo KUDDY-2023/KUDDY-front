@@ -1,6 +1,9 @@
 import { useParams } from "react-router-dom";
-import BackNavBar from "@components/_common/backnavbar";
-import PostDetail from "@components/communitydetailpage/postcontent";
+import BackNavBar from "@components/_common/BackNavbar";
+import PostContent from "@components/CommunityDetailPage/PostContent";
+import CommentList from "@components/CommunityDetailPage/CommentList";
+import CommentInput from "@components/CommunityDetailPage/CommentInput";
+
 import {
   ItineraryFeedbackPostData,
   TalkingBoardPostData,
@@ -27,9 +30,11 @@ const CommunityDetailPage = () => {
             ? "Itinerary Feedback"
             : "Talking Board"
         }
-        isShare={false}
+        isShare={true}
       />
-      <PostDetail {...PostData} />
+      <PostContent {...PostData} />
+      <CommentList />
+      <CommentInput />
     </>
   );
 };

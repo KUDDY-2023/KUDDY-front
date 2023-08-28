@@ -1,7 +1,7 @@
 import "./top-bar.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Menu from "@components/communitylistpage/menu";
+import Menu from "@components/CommunityListPage/Menu";
 import { ReactComponent as ChatIcon } from "@assets/icon/NavBar/chat.svg";
 import { ReactComponent as NewChatIcon } from "@assets/icon/NavBar/new_chat.svg";
 
