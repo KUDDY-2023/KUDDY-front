@@ -95,6 +95,7 @@ const KuddysPickPreview = () => {
                 <div
                   className="kuddyspickpreview-content-rect"
                   key={`${item.id}${content.id}`}
+                  onClick={() => nav(`/travel/${content.id}`)}
                 >
                   <div className="kuddyspickpreview-content-img-rect">
                     <img src={content.thumbnail} alt={content.name} />

@@ -1,10 +1,12 @@
 import "./kuddys-pick-travel-block.scss";
 import { ReactComponent as BookmarkIcon } from "@assets/icon/bookmark.svg";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import useBookmark from "@utils/hooks/useBookmark";
 
 const KuddysPickTravelBlock = ({ travel }: KuddysPickDetailContentType) => {
   const { id, name, district, category, thumbnail } = travel;
+  const nav = useNavigate();
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
   useEffect(() => {
@@ -14,7 +16,10 @@ const KuddysPickTravelBlock = ({ travel }: KuddysPickDetailContentType) => {
   const { state, toggle } = useBookmark(isBookmarked, id);
   return (
     <div className="kuddyspicktravelblock-wrapper">
-      <div className="kuddyspickpreview-content-rect">
+      <div
+        className="kuddyspickpreview-content-rect"
+        onClick={() => nav(`/travel/${id}`)}
+      >
         <div className="kuddyspickpreview-content-img-rect">
           <img src={thumbnail} alt={name} />
         </div>

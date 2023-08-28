@@ -109,10 +109,12 @@
   color: color(black);
 }
 
-.topbar-chat-container {
-  width: 30px;
+.topbar-icon-container {
+  width: 76px;
   height: 30px;
   margin-right: 24px;
+  display: flex;
+  justify-content: space-between;
 
   svg {
     width: 28px;
