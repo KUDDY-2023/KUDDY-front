@@ -1,0 +1,141 @@
+@mixin font-style($color, $font-weight) {
+  color: $color;
+  font-weight: $font-weight;
+
+  text-align: center;
+  font-family: var(--font-text);
+  font-size: 14px;
+  font-style: normal;
+  line-height: normal;
+}
+
+@mixin gray-font {
+  @include font-style(#b1b1b1, 400);
+}
+
+@mixin black-font {
+  @include font-style(#000, 500);
+}
+
+.confirmed-request-message-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin: 36px 0 16px 0;
+}
+
+.confirmed-request-message {
+  position: relative;
+
+  width: 336px;
+  height: 240px;
+  border-radius: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+
+  #meetup-icon {
+    position: absolute;
+    top: 0;
+    left: calc(336px / 2);
+    transform: translate(-50%, -40%);
+  }
+
+  .active-meetup {
+    background: #fff8bd;
+  }
+
+  .inactive-meetup {
+    background: #eee;
+  }
+
+  .request-partner-section {
+    display: flex;
+    justify-content: center;
+    p {
+      margin-top: 41px;
+      @include black-font;
+      font-weight: 600;
+    }
+
+    width: 336px;
+    height: 72px;
+    border-radius: 15px 15px 0px 0px;
+  }
+
+  .request-info-section {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+
+    padding: 21px 23px 12px 23px;
+
+    .info-grid {
+      display: flex;
+
+      .grid-left {
+        display: flex;
+        flex-direction: column;
+        width: 44px;
+        height: 78px;
+        p {
+          margin-bottom: 10px !important;
+          @include gray-font;
+          text-align: start;
+        }
+      }
+
+      .grid-right {
+        margin-left: 12px;
+        flex-grow: 1;
+        height: 78px;
+
+        div {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          margin-bottom: 10px;
+
+          #right-icon {
+            margin-right: 47px !important;
+          }
+        }
+        p {
+          @include black-font;
+        }
+      }
+    }
+
+    .request-btn {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      width: 290px;
+      height: 40px;
+
+      padding: 8px 0px;
+      margin-top: 18px;
+
+      border-radius: 100px;
+      border: 1px solid #ddd;
+      background: #fff;
+
+      @include black-font;
+    }
+
+    .black-text {
+      color: black;
+    }
+
+    .red-text {
+      color: #f33;
+    }
+
+    .blue-text {
+      color: #54a3ff;
+    }
+  }
+}

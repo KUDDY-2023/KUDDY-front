@@ -1,0 +1,58 @@
+@function color($color-name) {
+  @return var(--color-#{$color-name});
+}
+
+.trending-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.trending-title {
+  color: color(black);
+  font: {
+    family: var(--font-title);
+    weight: 500;
+    size: 22px;
+  }
+  margin-left: 22px;
+}
+
+.trending-more {
+  display: flex;
+  align-items: center;
+  margin-right: 16px;
+
+  p {
+    color: color(black);
+    font: {
+      family: var(--font-text);
+      weight: 500;
+      size: 14px;
+    }
+    margin-right: 5px;
+  }
+
+  svg {
+    width: 6px;
+    margin-top: 2px;
+  }
+}
+
+.trending-container {
+  display: flex;
+  margin-left: 17px;
+  gap: 10px;
+  overflow-x: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  .end {
+    width: 7px;
+    flex-shrink: 0;
+  }
+}

@@ -1,0 +1,106 @@
+@mixin font-style($size, $color, $weight) {
+  color: $color;
+  font-family: var(--font-text);
+  font-size: $size;
+  font-style: normal;
+  font-weight: $weight;
+  line-height: normal;
+}
+
+.pay-form-style {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+
+  .form-input-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    p {
+      @include font-style(16px, black, 500);
+    }
+
+    .cost-form {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      padding-left: 24px;
+
+      width: 266px;
+      height: 40px;
+
+      border-radius: 121px;
+      border: 1px solid #ddd;
+      background: #fff;
+
+      @include font-style(16px, black, 500);
+
+      input {
+        border: none;
+        background-color: transparent;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+
+  .receipt-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 12px;
+
+    width: 75%;
+    margin-left: auto;
+
+    div {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      margin-bottom: 5px;
+
+      h2 {
+        margin: 0;
+        @include font-style(14px, black, 400);
+      }
+
+      p {
+        @include font-style(14px, black, 400);
+      }
+
+      #total {
+        @include font-style(14px, black, 600);
+      }
+    }
+
+    .description {
+      text-align: start;
+      @include font-style(12px, #aeaeae, 400);
+
+      margin-bottom: 20px !important;
+    }
+  }
+
+  .policy-container {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+
+    #checkbox {
+      margin-right: 8px;
+      transform: translateY(2px);
+    }
+    p {
+      @include font-style(14px, black, 400);
+    }
+
+    #arrow {
+      transform: translateY(2px);
+
+      margin-left: auto;
+    }
+  }
+}
