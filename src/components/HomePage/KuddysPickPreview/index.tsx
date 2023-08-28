@@ -4,20 +4,6 @@ import { useNavigate } from "react-router-dom";
 import KuddysPickMainInfo from "@components/KuddysPickDetailPage/KuddysPickMainInfo";
 import { ReactComponent as ArrowIcon } from "@assets/icon/home_text_arrow.svg";
 
-type ContentType = {
-  id: number;
-  thumbnail: string;
-  name: string;
-  description: string;
-};
-export type KuddysPickPreviewType = {
-  id: number;
-  thumbnail: string;
-  title: string;
-  description: string;
-  contents: ContentType[];
-};
-
 // onClick 영역 및 네비게이트할 Path 확정 필요
 const KuddysPickPreview = () => {
   const nav = useNavigate();

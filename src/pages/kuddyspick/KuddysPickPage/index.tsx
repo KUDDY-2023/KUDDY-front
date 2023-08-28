@@ -3,12 +3,6 @@ import KuddysPickSearchBar from "@components/KuddysPickPage/KuddysPickSearchBar"
 import KuddysPickBlock from "@components/KuddysPickPage/KuddysPickBlock";
 import { useState, useEffect } from "react";
 
-export type KuddysPickType = {
-  id: number;
-  thumbnail: string;
-  title: string;
-};
-
 // 검색어 저장 recoil 추가 필요
 const KuddysPickPage = () => {
   const [kuddysPickList, setKuddysPickList] = useState<KuddysPickType[]>([

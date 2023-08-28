@@ -2,13 +2,12 @@ import "./pick.scss";
 import TopBar from "@components/_common/TopBar";
 import BottomNavBar from "@components/_common/BottomNavBar";
 import TravelBlock from "@components/Travel/TravelBlock";
-import { TravelType } from "@pages/travel/TravelPage/index";
 import { useState, useEffect } from "react";
-import { travelArray } from "@pages/travel/TravelPage/index";
+import { travelArray } from "@pages/travel/TravelPage/_mock";
 // GetPick, UnLike api
 
 const Pick = () => {
-  const [pickList, setPickList] = useState<TravelType[]>(travelArray);
+  const [pickList, setPickList] = useState<TravelPreviewType[]>(travelArray);
 
   const onDelete = (id: number) => {
     // UnLike(id)

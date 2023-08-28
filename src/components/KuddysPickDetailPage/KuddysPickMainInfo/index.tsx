@@ -1,6 +1,4 @@
 import "./kuddys-pick-main-info.scss";
-import { KuddysPickDetailType } from "@pages/kuddyspick/KuddysPickDetailPage/index";
-import { KuddysPickPreviewType } from "@components/HomePage/KuddysPickPreview";
 
 const KuddysPickMainInfo = ({
   thumbnail,
