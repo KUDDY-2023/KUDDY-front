@@ -1,7 +1,7 @@
 import "./messageinput.scss";
 import { useState } from "react";
-import { ReactComponent as SendIcon } from "@assets/icon/chat/send.svg";
-import { ReactComponent as MakeMeetupBtn } from "@assets/icon/chat/bt_meetup.svg";
+import { ReactComponent as SendIcon } from "@assets/chat/send.svg";
+import { ReactComponent as MakeMeetupBtn } from "@assets/chat/bt_meetup.svg";
 
 interface Props {
   meetupBtnVisible: boolean;

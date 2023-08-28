@@ -1,11 +1,11 @@
-import "./travel-search.scss";
+import "./travel-search-page.scss";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ReactComponent as BackIcon } from "@assets/icon/back.svg";
 import { ReactComponent as SearchIcon } from "@assets/icon/search.svg";
-import { categoryArray, districtArray } from "@components/TravelPage/index";
+import { categoryArray, districtArray } from "@pages/travel/TravelPage/index";
 
-const TravelSearch = () => {
+const TravelSearchPage = () => {
   const nav = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchInput, setSearchInput] = useState<string>("");
@@ -113,4 +113,4 @@ const TravelSearch = () => {
   );
 };
 
-export default TravelSearch;
+export default TravelSearchPage;
