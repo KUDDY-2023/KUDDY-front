@@ -6,7 +6,7 @@ type TravelBlockProps = {
   id: number;
   name: string;
   district: string;
-  thumbnail: string;
+  imageUrl: string;
   isPick?: boolean | undefined; // 픽한 장소 모아보기에서만 true, 아닐땐 생략
   onDelete?: (value: any) => void; // 픽한 장소 모아보기에서만 전달
 };
@@ -16,7 +16,7 @@ const TravelBlock = ({
   id,
   name,
   district,
-  thumbnail,
+  imageUrl,
   isPick,
   onDelete,
 }: TravelBlockProps) => {
@@ -25,7 +25,7 @@ const TravelBlock = ({
     <div className="travelblock-wrapper">
       <div className="block" onClick={() => nav(`/travel/${id}`)}>
         <div className="img-rect">
-          <img src={thumbnail} alt={name} />
+          <img src={imageUrl} alt={name} />
         </div>
         <div className="name">{name}</div>
         <div className="district">{district}</div>

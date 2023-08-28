@@ -1,5 +1,5 @@
 import "./loginguidepage.scss";
-import Xicon from "@assets/icon/xicon.png";
+import Xicon from "@assets/icon/xbtn.svg";
 import GoogleBtn from "@components/Auth/GoogleBtn";
 import KakaoBtn from "@components/Auth/KakaoBtn";
 export default function LoginGuidePage() {
