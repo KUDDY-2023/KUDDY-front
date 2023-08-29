@@ -5,6 +5,7 @@ import PlaceForm from "../PlaceForm";
 import TimeForm from "../TimeForm";
 import PayForm from "../PayForm";
 import BottomUpModal from "@components/_common/BottomUpModal";
+
 interface Props {
   isModalOpen: boolean;
   onClose: () => void;

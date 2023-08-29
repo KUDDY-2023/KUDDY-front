@@ -1,5 +1,8 @@
 @import "../../../style/mixins";
 
+.MuiDialog-root {
+  z-index: 9999999999 !important;
+}
 // 날짜
 .MuiPaper-root {
   .MuiDialogContent-root {
