@@ -1,10 +1,13 @@
-@mixin text-style {
-  color: #000;
-  font-family: var(--font-text);
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 17px;
+@import "../../../style/mixins";
+
+.MuiModal-root {
+  z-index: 9999999999 !important;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0 15px;
 }
 
 .place-form-style {
@@ -15,16 +18,25 @@
     justify-content: space-between;
     align-items: center;
 
-    p {
-      @include text-style();
+    .title {
+      @include font-style(--font-text, 16px, --color-black, 500);
+      width: 42px;
     }
 
-    div {
-      width: 266px;
+    .form {
+      margin-left: 20px;
+      width: 90%;
       height: 40px;
       border-radius: 59px;
-      border: 1px solid #ededed;
+      border: 1px solid #ddd;
       background: #fff;
+
+      padding: 0 0 0 24px;
+      @include font-style(--font-text, 16px, --color-black, 500);
+
+      &:focus {
+        outline: none;
+      }
     }
   }
 }
