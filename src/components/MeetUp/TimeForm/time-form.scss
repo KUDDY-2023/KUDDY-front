@@ -101,17 +101,22 @@
       padding: 0;
       .MuiInputBase-input {
         width: 90px;
-        color: #b1b1b1;
-        font-family: Inter;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 17px;
+
+        @include font-style(--font-text, 14px, #b1b1b1, 500);
+
         padding: 0;
         text-align: center;
       }
       .MuiOutlinedInput-notchedOutline {
         border: none;
+      }
+    }
+  }
+
+  .active-text {
+    .MuiInputBase-root {
+      .MuiInputBase-input {
+        color: black;
       }
     }
   }
