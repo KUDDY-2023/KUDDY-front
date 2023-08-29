@@ -17,7 +17,7 @@
 
   overflow: hidden;
 
-  .search-secction {
+  .search-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -35,7 +35,13 @@
     }
   }
 
-  .result-secction {
+  #short-version {
+    margin-left: auto;
+    width: calc(100% - 55px);
+  }
+
+  .result-section {
+    position: relative;
     height: 100%;
 
     display: flex;
@@ -45,9 +51,9 @@
     padding: 0 0 30px 0;
 
     #no-result-text {
-      width: 100%;
+      white-space: nowrap;
       position: absolute;
-      top: 42%;
+      top: 40%;
       left: 50%;
       transform: translate(-50%, -50%);
       @include font-style(black, 400);

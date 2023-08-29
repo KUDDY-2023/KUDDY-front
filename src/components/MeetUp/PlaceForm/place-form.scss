@@ -1,11 +1,4 @@
-@mixin text-style {
-  color: #000;
-  font-family: var(--font-text);
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 17px;
-}
+@import "../../../style/mixins";
 
 .place-form-style {
   margin-bottom: 24px;
@@ -16,7 +9,7 @@
     align-items: center;
 
     .title {
-      @include text-style();
+      @include font-style(--font-text, 16px, --color-black, 500);
       width: 42px;
     }
 
@@ -27,6 +20,9 @@
       border-radius: 59px;
       border: 1px solid #ddd;
       background: #fff;
+
+      padding: 0 0 0 24px;
+      @include font-style(--font-text, 16px, --color-black, 500);
     }
   }
 }
