@@ -53,9 +53,10 @@ const CommentList = () => {
   return (
     <div className="comment-list-container">
       <div className="comment-list-inner-container">
-        {commentData.map(item => {
+        {commentData.map((item, index) => {
           return (
             <div
+              key={index}
               className={
                 item.depth === 1
                   ? "comment-item-container"

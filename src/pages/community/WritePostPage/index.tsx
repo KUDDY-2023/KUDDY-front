@@ -1,4 +1,4 @@
-import "./writepostpage.scss";
+import "./write-post-page.scss";
 
 const WritePostPage = () => {
   return <></>;
