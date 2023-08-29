@@ -16,7 +16,7 @@ export default function PayForm() {
   return (
     <div className="pay-form-style">
       <div className="form-input-container">
-        <p>Pay</p>
+        <div className="title">Pay</div>
 
         <div className="cost-form">
           $

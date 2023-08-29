@@ -16,19 +16,21 @@ export default function MakeMeetUpModal({ isModalOpen, onClose }: Props) {
       onClose={onClose}
       navbarHeight={47}
     >
-      <h2>Set meet up</h2>
+      <div id="meet-up-container">
+        <h2>Set meet up</h2>
 
-      <div className="form-container">
-        <PlaceForm />
-        <TimeForm />
-        <PayForm />
+        <div className="form-container">
+          <PlaceForm />
+          <TimeForm />
+          <PayForm />
+        </div>
+
+        <EventBtn
+          btnName="Send invitaion"
+          isActive={true}
+          onClick={() => console.log("?")}
+        />
       </div>
-
-      <EventBtn
-        btnName="Send invitaion"
-        isActive={true}
-        onClick={() => console.log("?")}
-      />
     </BottomUpModal>
   );
 }

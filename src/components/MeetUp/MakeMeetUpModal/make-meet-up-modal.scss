@@ -1,71 +1,22 @@
-@mixin font-style($size, $color, $weight) {
-  color: $color;
-  font-family: var(--font-text);
-  font-size: $size;
-  font-style: normal;
-  font-weight: $weight;
-  line-height: normal;
-}
+@import "../../../style/mixins";
 
-.kuddy-container {
-  .kuddy-modal {
-    width: 100%;
-    height: calc(100% - 47px);
-
-    position: relative;
-
-    border-radius: 20px 20px 0px 0px;
-
-    z-index: 1000;
-    position: fixed;
-    top: 100%;
-    left: 0;
-
-    background: #f8f8f8;
-
-    margin: 0;
-    padding: 0;
-
-    transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
-
-    .form-container {
-      display: flex;
-      flex-direction: column;
-      margin: 28px 31px;
-    }
-
-    #bar {
-      margin: 12px auto 0 auto;
-      width: 36px;
-      height: 6px;
-      border-radius: 2.5px;
-      background: var(
-        --labels-vibrant-tertiary,
-        linear-gradient(
-          0deg,
-          rgba(61, 61, 61, 0.5) 0%,
-          rgba(61, 61, 61, 0.5) 100%
-        ),
-        rgba(127, 127, 127, 0.4)
-      );
-      background-blend-mode: overlay, luminosity;
-    }
-
-    h2 {
-      margin: 13px 0 0 31px;
-      @include font-style(24px, black, 600);
-    }
-
-    .custom-event-btn-style {
-      margin: 10px auto 0 auto;
-      position: absolute;
-      left: 50%;
-      bottom: 60px;
-      transform: translateX(-50%);
-    }
+#meet-up-container {
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    margin: 28px 31px;
   }
-}
 
-.kuddy-container.kuddy-modal-open .kuddy-modal {
-  top: 56px;
+  h2 {
+    margin: 13px 0 0 31px;
+    @include font-style(--font-text, 24px, black, 600);
+  }
+
+  .custom-event-btn-style {
+    margin: 10px auto 0 auto;
+    position: absolute;
+    left: 50%;
+    bottom: 60px;
+    transform: translateX(-50%);
+  }
 }

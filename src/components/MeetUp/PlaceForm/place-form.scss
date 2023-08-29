@@ -15,15 +15,17 @@
     justify-content: space-between;
     align-items: center;
 
-    p {
+    .title {
       @include text-style();
+      width: 42px;
     }
 
-    div {
-      width: 266px;
+    .form {
+      margin-left: 20px;
+      width: 90%;
       height: 40px;
       border-radius: 59px;
-      border: 1px solid #ededed;
+      border: 1px solid #ddd;
       background: #fff;
     }
   }

@@ -14,15 +14,12 @@ export default function TimeForm() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className="time-form-style">
-        <p className="title">Time</p>
-        <MobileDatePicker
-          defaultValue={dayjs("2023-08-27")}
-          sx={{
-            "& .MuiButtonBase-root-MuiPickersDay-root  ": { color: "red" },
-          }}
-        />
+        <div className="title">Time</div>
+        <div className="forms-container">
+          <MobileDatePicker defaultValue={dayjs("2023-08-27")} />
 
-        <MobileTimePicker defaultValue={dayjs("2022-04-17T15:30")} />
+          <MobileTimePicker defaultValue={dayjs("2022-04-17T15:30")} />
+        </div>
       </div>
     </LocalizationProvider>
   );

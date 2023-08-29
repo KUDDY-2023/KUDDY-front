@@ -11,8 +11,8 @@ export default function PlaceForm() {
         <PlaceSearch />
       ) : (
         <div className="default-form">
-          <p>Place</p>
-          <div onClick={() => setSearch(true)}></div>
+          <div className="title">Place</div>
+          <div className="form" onClick={() => setSearch(true)}></div>
         </div>
       )}
     </div>

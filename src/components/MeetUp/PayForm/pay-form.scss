@@ -18,7 +18,8 @@
     justify-content: space-between;
     align-items: center;
 
-    p {
+    .title {
+      width: 42px;
       @include font-style(16px, black, 500);
     }
 
@@ -28,7 +29,8 @@
       align-items: center;
       padding-left: 24px;
 
-      width: 266px;
+      margin-left: 20px;
+      width: 90%;
       height: 40px;
 
       border-radius: 121px;
@@ -38,6 +40,7 @@
       @include font-style(16px, black, 500);
 
       input {
+        width: 80%;
         border: none;
         background-color: transparent;
         &:focus {
