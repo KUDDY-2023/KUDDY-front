@@ -5,11 +5,15 @@ import { ReactComponent as UnCheckedBox } from "@assets/icon/check_on.svg";
 import { ReactComponent as ArrowDown } from "@assets/icon/arrow_down.svg";
 
 export default function PayForm() {
-  const [cost, setCost] = useState<number>(0);
+  const [cost, setCost] = useState<string>("0");
 
   // 금액 입력 - 앞 자리 0은 삭제해야함
   const _handleSetCost = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCost(parseInt(e.target.value));
+    let number = e.target.value.toString();
+    if (number[0] === "0") {
+      number = number.slice(1);
+    }
+    setCost(number);
   };
 
   return (
@@ -19,7 +23,7 @@ export default function PayForm() {
 
         <div className="cost-form">
           $
-          <input type="number" value={cost} onChange={e => _handleSetCost(e)} />
+          <input type="text" value={cost} onChange={e => _handleSetCost(e)} />
         </div>
       </div>
 
