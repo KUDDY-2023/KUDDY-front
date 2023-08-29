@@ -33,6 +33,10 @@
 
       padding: 0 0 0 24px;
       @include font-style(--font-text, 16px, --color-black, 500);
+
+      &:focus {
+        outline: none;
+      }
     }
   }
 }
