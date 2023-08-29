@@ -1,17 +1,14 @@
 $main-yellow: var(--color-main-yellow);
+@import "../../../../../style/mixins";
+
 .nationality-form-container {
   margin-top: 16px;
   width: 85%;
 
   .title {
-    color: #000;
-    font: {
-      family: var(--font-title);
-      size: 20px;
-      style: normal;
-      weight: 500;
-    }
+    @include font-style(--font-title, 20px, var(--color-black), 500);
     text-align: start;
+    width: 85%;
   }
 
   .form-container {

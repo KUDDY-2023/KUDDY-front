@@ -1,17 +1,14 @@
 $main-yellow: var(--color-main-yellow);
+@import "../../../../../style/mixins";
+
 .area-form-container {
   margin-top: 16px;
   width: 85%;
 
   .title {
-    color: #000;
-    font: {
-      family: var(--font-title);
-      size: 20px;
-      style: normal;
-      weight: 500;
-    }
+    @include font-style(--font-title, 20px, var(--color-black), 500);
     text-align: start;
+    width: 85%;
   }
 
   .form-container {
@@ -22,13 +19,8 @@ $main-yellow: var(--color-main-yellow);
   }
 
   .count {
-    color: #000;
-    font: {
-      family: var(--font-text);
-      size: 14px;
-      style: normal;
-      weight: 500;
-    }
+    margin-left: 6px;
+    @include font-style(--font-text, 14px, var(--color-black), 500);
   }
 
   .city-container {
@@ -48,26 +40,12 @@ $main-yellow: var(--color-main-yellow);
       margin-right: 12px;
       margin-bottom: 12px;
 
-      color: #000;
+      @include font-style(--font-text, 14px, var(--color-black), 500);
       text-align: center;
-      font: {
-        family: var(--font-text);
-        size: 14px;
-        style: normal;
-        weight: 500;
-      }
-      line-height: normal;
     }
 
     #active {
       display: flex;
-      padding: 8px 16px;
-      width: fit-content;
-
-      justify-content: center;
-      align-items: center;
-      border-radius: 100px;
-      outline: none;
       background: $main-yellow;
     }
   }

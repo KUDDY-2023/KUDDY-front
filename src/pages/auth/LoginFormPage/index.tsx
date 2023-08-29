@@ -16,7 +16,7 @@ import { KuddyFormPages, TravelerFormPages } from "./formPages";
 
 export default function LoginFormPage() {
   // 유저 종류 구분 <- 전역 관리
-  const [isBuddy, setIsBuddy] = useState(true);
+  const [isBuddy, setIsBuddy] = useState(false);
 
   // 유저 프로필 initial data <- 전역 관리하면 필요 없을 듯
   const [data, setData] = useState(

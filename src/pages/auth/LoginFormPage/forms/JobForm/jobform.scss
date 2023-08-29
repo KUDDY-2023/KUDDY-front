@@ -1,17 +1,14 @@
+@import "../../../../../style/mixins";
+
 $main-yellow: var(--color-main-yellow);
 .job-form-container {
   margin-top: 16px;
   width: 85%;
 
   .title {
-    color: #000;
-    font: {
-      family: var(--font-title);
-      size: 20px;
-      style: normal;
-      weight: 500;
-    }
+    @include font-style(--font-title, 20px, var(--color-black), 500);
     text-align: start;
+    width: 85%;
   }
 
   .form-container {
@@ -22,35 +19,25 @@ $main-yellow: var(--color-main-yellow);
     display: flex;
 
     p {
-      color: #aeaeae;
-      font: {
-        family: var(--font-text);
-        size: 16px;
-        style: normal;
-        weight: 500;
-      }
-
+      @include font-style(--font-text, 16px, #aeaeae, 500);
       height: 34px;
-      line-height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: start;
       margin-right: 40px;
     }
 
     input {
       border: none;
       border-bottom: 1px solid #ddd;
-      width: 200px;
+      width: 80%;
       height: 34px;
-      color: #000;
-      font: {
-        family: var(--font-text);
-        size: 18px;
-        style: normal;
-        weight: 500;
-      }
-      line-height: normal;
-
+      @include font-style(--font-text, 16px, var(--color-black), 500);
       &:focus {
         outline: none;
+      }
+      &::placeholder {
+        @include font-style(--font-text, 16px, var(--color-grey-text), 500);
       }
     }
   }
