@@ -1,5 +1,4 @@
 import Sheet from "react-modal-sheet";
-import { useState } from "react";
 import "./bottom-up-modal.scss";
 
 import { ReactNode } from "react";
