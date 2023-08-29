@@ -21,7 +21,7 @@ export default function Translate({ isTranslated, message, onClick }: Props) {
   return (
     <div>
       {isTranslated ? (
-        <div id="translate-box">
+        <div id="translate-box" onClick={onClick}>
           <p id="tanslate-text">{translatedText}</p>
           <p id="translate-btn-text">translated</p>
         </div>
