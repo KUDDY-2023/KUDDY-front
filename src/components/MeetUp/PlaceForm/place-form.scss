@@ -1,5 +1,15 @@
 @import "../../../style/mixins";
 
+.MuiModal-root {
+  z-index: 9999999999 !important;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 0 15px;
+}
+
 .place-form-style {
   margin-bottom: 24px;
 

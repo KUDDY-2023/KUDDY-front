@@ -1,13 +1,17 @@
 import "./place-search.scss";
-import { useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { ReactComponent as SearchIcon } from "@assets/icon/search.svg";
 import SearchResultPlaceItem from "../SearchResultPlaceItem";
 
 import useInput from "@utils/hooks/userInput";
 interface Props {
   onSelectPlace: (placeName: string) => void;
+  onCloseSearchForm: () => void;
 }
-export default function PlaceSearch({ onSelectPlace }: Props) {
+export default function PlaceSearch({
+  onSelectPlace,
+  onCloseSearchForm,
+}: Props) {
   const searchPlaceInput = useInput("");
   const [short, setShort] = useState(false);
 
@@ -26,8 +30,26 @@ export default function PlaceSearch({ onSelectPlace }: Props) {
     { id: 1, placeName: "asfsdf" },
   ];
 
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      wrapperRef.current &&
+      !wrapperRef.current.contains(event.target as Node)
+    ) {
+      onCloseSearchForm(); // 장소 검색 창 닫기
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="place-search-style">
+    <div className="place-search-style" ref={wrapperRef}>
       <div className="search-section" id={short ? "short-version" : ""}>
         <input type="text" {...searchPlaceInput} />
         <SearchIcon onClick={e => _handleReqPlaceSearch(e)} />
