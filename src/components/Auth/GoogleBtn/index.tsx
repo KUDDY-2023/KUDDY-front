@@ -1,5 +1,5 @@
-import "./googleBtn.scss";
 import google from "@assets/auth/google.png";
+import "./googleBtn.scss";
 export default function GoogleBtn() {
   return (
     <div className="google-btn">
