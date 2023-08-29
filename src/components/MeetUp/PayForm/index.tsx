@@ -2,7 +2,6 @@ import "./pay-form.scss";
 import { useState } from "react";
 import { ReactComponent as CheckedBox } from "@assets/icon/check_on.svg";
 import { ReactComponent as UnCheckedBox } from "@assets/icon/check_on.svg";
-
 import { ReactComponent as ArrowDown } from "@assets/icon/arrow_down.svg";
 
 export default function PayForm() {
@@ -27,23 +26,23 @@ export default function PayForm() {
       {!!cost && (
         <div className="receipt-container">
           <div>
-            <h2>Deposit</h2>
+            <p className="receipt-title">Deposit</p>
             <p>10$</p>
           </div>
           <p className="description">
             This is the fee used to prevent no-show. If the traveler
-            unilaterally cancels the appointment, he cannot get this fee back
-            and it will be paid to you.
+            unilaterally cancels the appointment he cannot get this fee back and
+            it will be paid to you.
           </p>
           <div>
-            <h2>KUDDY Service fee</h2>
+            <p className="receipt-title">KUDDY Service fee</p>
             <p>3$</p>
           </div>
           <p className="description">
             This helps us run our platform and services.
           </p>
           <div>
-            <h2>Total</h2>
+            <p className="receipt-title">Total</p>
             <p id="total">28$</p>
           </div>
         </div>

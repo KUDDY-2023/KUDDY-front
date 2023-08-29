@@ -65,7 +65,7 @@
 
       margin-bottom: 5px;
 
-      h2 {
+      .receipt-title {
         margin: 0;
         @include font-style(14px, black, 400);
       }
