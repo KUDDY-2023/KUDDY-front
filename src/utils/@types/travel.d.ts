@@ -6,24 +6,37 @@ interface TravelPreviewType {
   category: string;
 }
 
+interface TravelNearbyType extends TravelPreviewType {
+  mapX?: string;
+  mapY?: string;
+}
+
 interface TravelDetailType {
-  id: number;
+  contentId: number;
   name: string;
   district: string;
   imageList: string[];
   category: string;
+  heart: number;
   about: string;
   phoneNum: string;
   homepage: string;
   location: string;
   post: string;
-  nearbyPlace: TravePreviewType[];
+  nearbyPlace: TravelNearbyType[];
+  kuddyList: PickedMatesType[];
+  travelerList: PickedMatesType[];
+  additionalInfo: any;
 }
 
 interface PickedMatesType {
   id: number;
-  type: string;
+  roleType: string;
+  username: string;
   nickname: string;
-  profileImg: string;
-  introduce: string;
+  profileImageUrl: string;
+  createdDate: string;
+  modifiedDate: string | null;
+  email: string;
+  providerType: string;
 }

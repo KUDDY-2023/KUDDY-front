@@ -6,7 +6,9 @@ type TravelBlockProps = {
   contentId: number;
   name: string;
   district: string;
+  category: string;
   imageUrl: string;
+  isNearby?: boolean | undefined;
   isPick?: boolean | undefined; // 픽한 장소 모아보기에서만 true, 아닐땐 생략
   onDelete?: (value: any) => void; // 픽한 장소 모아보기에서만 전달
 };
@@ -16,7 +18,9 @@ const TravelBlock = ({
   contentId,
   name,
   district,
+  category,
   imageUrl,
+  isNearby,
   isPick,
   onDelete,
 }: TravelBlockProps) => {
@@ -28,7 +32,9 @@ const TravelBlock = ({
           <img src={imageUrl} alt={name} />
         </div>
         <div className="name">{name}</div>
-        <div className="district">{district}</div>
+        <div className="district">
+          {isNearby === true ? category : district}
+        </div>
       </div>
       {isPick ? (
         <div className="click-area">
