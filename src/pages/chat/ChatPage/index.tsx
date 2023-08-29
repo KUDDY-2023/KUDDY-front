@@ -6,11 +6,10 @@ import TodayBar from "@components/Chat/TodayBar";
 import SystemMessage from "@components/Chat/SystemMessage";
 import ConfirmedRequestMessage from "@components/Chat/ConfirmedRequestMessage";
 import RequestMessage from "@components/Chat/RequestMessage";
-import BottomUpModalLayout from "@components/MeetUp/BottomUpModalLayout";
+import MakeMeetUpModal from "@components/MeetUp/MakeMeetUpModal";
 import { url, mockMessage } from "./_mock";
 import { useState } from "react";
 
-import BottomUpModal from "@components/_common/BottomUpModal";
 export default function ChatPage() {
   let tempInfo = {
     partnerName: "jane",
@@ -30,17 +29,18 @@ export default function ChatPage() {
   };
 
   const [isOpenBottomModal, setIsOpenBottomModal] = useState(false);
+  const _handleCloseModal = () => {
+    setIsOpenBottomModal(false);
+  };
   const _handleOpenBottomModal = () => {
-    setIsOpenBottomModal(!isOpenBottomModal);
+    setIsOpenBottomModal(true);
+    console.log("열기");
   };
   return (
     <div className="chat-page-style">
-      <BottomUpModal isModalOpen={true}>
-        <h1>안뇽</h1>
-      </BottomUpModal>
-      <BottomUpModalLayout
-        isOpen={isOpenBottomModal}
-        onClose={_handleOpenBottomModal}
+      <MakeMeetUpModal
+        isModalOpen={isOpenBottomModal}
+        onClose={_handleCloseModal}
       />
       <PartnerHead userName="User name" profileImgUrl={url} />
       <div className="message-container">
