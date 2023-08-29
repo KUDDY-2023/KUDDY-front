@@ -24,9 +24,11 @@ export default function MessageInput({
 
   return (
     <div className="message-input-style">
-      {meetupBtnVisible && (
-        <MakeMeetupBtn className="make-meetup-btn" onClick={onMakeMeetUp} />
-      )}
+      <div className="make-meetup-btn-container">
+        {meetupBtnVisible && (
+          <MakeMeetupBtn className="make-meetup-btn" onClick={onMakeMeetUp} />
+        )}
+      </div>
 
       <div className="input-box" id={radius}>
         <TextareaAutosize

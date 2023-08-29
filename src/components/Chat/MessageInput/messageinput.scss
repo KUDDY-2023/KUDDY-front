@@ -19,10 +19,16 @@
   border-top: 1px solid #dddddd;
   padding: 12px 11px;
 
-  .make-meetup-btn {
-    min-width: 40px;
-    min-height: 40px;
-    margin-right: 8px;
+  .make-meetup-btn-container {
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    .make-meetup-btn {
+      min-width: 40px;
+      min-height: 40px;
+      margin-right: 8px;
+    }
   }
 
   .input-box {
@@ -39,9 +45,8 @@
     width: 100%;
 
     padding: 2px 4px 2px 26px;
-
+    border-radius: 59px;
     textarea {
-      border-radius: 59px;
       resize: none;
       border: none;
       width: 90%;
