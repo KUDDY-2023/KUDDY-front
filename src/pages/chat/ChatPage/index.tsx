@@ -68,7 +68,7 @@ export default function ChatPage() {
       </div>
 
       <MessageInput
-        meetupBtnVisible={true}
+        meetupBtnVisible={false}
         onMakeMeetUp={_handleOpenBottomModal}
       />
     </div>
