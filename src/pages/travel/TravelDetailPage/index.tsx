@@ -1,4 +1,3 @@
-import "./travel-detail-page.scss";
 import BackNavBar from "@components/_common/BackNavBar";
 import { useState, useEffect } from "react";
 import TravelDetailTitle from "@components/Travel/TravelDetailTitle";

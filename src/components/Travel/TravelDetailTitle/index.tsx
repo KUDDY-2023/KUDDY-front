@@ -50,7 +50,10 @@ const TravelDetailTitle = ({
       <div className="title">{name}</div>
       <div className="sub-title">{`${district} · ${category}`}</div>
       <div className="flex-container">
-        <div className="mates-container">
+        <div
+          className="mates-container"
+          onClick={() => nav(`/travel/${contentId}/mates`)}
+        >
           <div
             className="profile-circle-container"
             style={{ width: `${20 * matesPreview.length + 10}px` }}
