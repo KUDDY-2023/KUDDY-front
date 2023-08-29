@@ -1,5 +1,4 @@
 interface TravelPreviewType {
-  id: number;
   contentId: number;
   name: string;
   district: string;

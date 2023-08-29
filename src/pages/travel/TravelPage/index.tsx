@@ -161,7 +161,7 @@ const TravelPage = () => {
           ) : (
             <>
               {searchedList.map(item => (
-                <TravelBlock {...item} key={item.id} />
+                <TravelBlock {...item} key={item.contentId} />
               ))}
             </>
           ))}

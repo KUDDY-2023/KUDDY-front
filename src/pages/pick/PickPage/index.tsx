@@ -13,7 +13,7 @@ const Pick = () => {
     // UnLike(id)
     //   .then(res => setPickList(res.data))
     //   .catch();
-    setPickList(pickList.filter(item => item.id !== id));
+    setPickList(pickList.filter(item => item.contentId !== id));
   };
 
   useEffect(() => {
@@ -30,8 +30,8 @@ const Pick = () => {
               <TravelBlock
                 {...item}
                 isPick={true}
-                onDelete={() => onDelete(item.id)}
-                key={item.id}
+                onDelete={() => onDelete(item.contentId)}
+                key={item.contentId}
               />
             ))}
         </div>

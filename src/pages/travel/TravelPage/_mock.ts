@@ -39,7 +39,6 @@ export const districtArray = [
 
 export const travelArray: TravelPreviewType[] = [
   {
-    id: 1,
     contentId: 1,
     name: "Cheonggyecheon",
     district: "Jongno",
@@ -48,8 +47,7 @@ export const travelArray: TravelPreviewType[] = [
     category: "attraction",
   },
   {
-    id: 2,
-    contentId: 1,
+    contentId: 2,
     name: "EWHA Womans University",
     district: "Seodaemun",
     imageUrl:
@@ -57,8 +55,7 @@ export const travelArray: TravelPreviewType[] = [
     category: "",
   },
   {
-    id: 3,
-    contentId: 1,
+    contentId: 3,
     name: "N Seoul Tower",
     district: "Yongsan",
     imageUrl:
@@ -66,8 +63,7 @@ export const travelArray: TravelPreviewType[] = [
     category: "attraction",
   },
   {
-    id: 4,
-    contentId: 1,
+    contentId: 4,
     name: "Cheonggyecheon",
     district: "Jongno",
     imageUrl:
@@ -75,8 +71,7 @@ export const travelArray: TravelPreviewType[] = [
     category: "attraction",
   },
   {
-    id: 5,
-    contentId: 1,
+    contentId: 5,
     name: "EWHA Womans University",
     district: "Seodaemun",
     imageUrl:
@@ -84,8 +79,7 @@ export const travelArray: TravelPreviewType[] = [
     category: "culture",
   },
   {
-    id: 6,
-    contentId: 1,
+    contentId: 6,
     name: "N Seoul Tower",
     district: "Yongsan",
     imageUrl:
@@ -93,8 +87,7 @@ export const travelArray: TravelPreviewType[] = [
     category: "shopping",
   },
   {
-    id: 7,
-    contentId: 1,
+    contentId: 7,
     name: "N Seoul Tower",
     district: "Yongsan",
     imageUrl:

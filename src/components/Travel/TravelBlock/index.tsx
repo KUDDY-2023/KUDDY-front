@@ -3,7 +3,7 @@ import { ReactComponent as BookmarkIcon } from "@assets/icon/bookmark.svg";
 import { useNavigate } from "react-router-dom";
 
 type TravelBlockProps = {
-  id: number;
+  contentId: number;
   name: string;
   district: string;
   imageUrl: string;
@@ -13,7 +13,7 @@ type TravelBlockProps = {
 
 // 1:1 이미지 + 이름 + 구로 이루어진 하나의 장소 블록
 const TravelBlock = ({
-  id,
+  contentId,
   name,
   district,
   imageUrl,
@@ -23,7 +23,7 @@ const TravelBlock = ({
   const nav = useNavigate();
   return (
     <div className="travelblock-wrapper">
-      <div className="block" onClick={() => nav(`/travel/${id}`)}>
+      <div className="block" onClick={() => nav(`/travel/${contentId}`)}>
         <div className="img-rect">
           <img src={imageUrl} alt={name} />
         </div>
