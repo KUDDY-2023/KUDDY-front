@@ -1,0 +1,36 @@
+@import "../../../style/mixins";
+
+$black: var(--color-black);
+$grey: var(--color-grey-text);
+$grey-line: var(--color-grey-line);
+$inter: var(--font-text);
+
+.read-alarm-item {
+  p {
+    text-align: start;
+  }
+  .type {
+    @include font-style($inter, 15px, $grey-line, 600);
+  }
+  .content {
+    @include font-style($inter, 14px, $grey-line, 400);
+  }
+  .date {
+    @include font-style($inter, 12px, $grey-line, 400);
+  }
+}
+
+.unread-alarm-item {
+  p {
+    text-align: start;
+  }
+  .type {
+    @include font-style($inter, 15px, $black, 600);
+  }
+  .content {
+    @include font-style($inter, 14px, $black, 400);
+  }
+  .date {
+    @include font-style($inter, 12px, $grey, 400);
+  }
+}
