@@ -8,7 +8,7 @@ export default function RegisterPage() {
   //const [cookies, setCookie] = useCookies(["refreshToken"]);
 
   const CLIENT_MAIN_URL = process.env.REACT_APP_REACT_URL; // 로컬
-  const REST_API_KEY = process.env.REACT_APP_REST_API_KEY; // api key
+  const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY; // api key
   const REDIRECT_URI = `${CLIENT_MAIN_URL}KakaoLogin`; // redirect uri
   const SPRING_URI = "";
 
