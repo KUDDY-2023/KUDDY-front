@@ -25,8 +25,6 @@ export default function LanguageForm() {
   };
 
   const _handleSelectArr = (idx: number, type: string, item: string) => {
-    console.log(idx, type, item);
-
     if (type === "Language") {
       let newItem = { ...languageLevelArr[idx], language: item };
       updateItem(idx, newItem);
