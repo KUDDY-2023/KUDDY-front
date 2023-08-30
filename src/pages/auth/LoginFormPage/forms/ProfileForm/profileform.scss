@@ -1,16 +1,13 @@
+@import "../../../../../style/mixins";
+
 .profile-img-form-container {
   margin-top: 16px;
   width: 85%;
 
   .title {
-    color: #000;
-    font: {
-      family: var(--font-title);
-      size: 20px;
-      style: normal;
-      weight: 500;
-    }
+    width: 85%;
     text-align: start;
+    @include font-style(--font-title, 20px, var(--color-black), 500);
   }
 
   .form-container {

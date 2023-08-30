@@ -48,7 +48,7 @@ export default function AreaForm() {
 
   return (
     <div className="area-form-container">
-      <p className="title">Choose your avialable area</p>
+      <p className="title">Choose your region</p>
 
       <div className="form-container">
         <div className="count">{count} / 10</div>

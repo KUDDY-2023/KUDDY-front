@@ -1,114 +1,92 @@
+@import "../../../../../style/mixins";
+
 $main-yellow: var(--color-main-yellow);
+
+@mixin grey-title {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  height: 38px;
+  text-align: start;
+
+  width: 57px;
+  margin-right: 20px;
+  @include font-style(--font-text, 16px, #aeaeae, 500);
+}
+
+@mixin gender-btn-style {
+  border: none;
+  display: flex;
+  width: fit-content;
+  padding: 8px 20px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  outline: 1px solid #ddd;
+
+  text-align: center;
+  @include font-style(--font-text, 18px, var(--color-black), 500);
+}
+
+@mixin active-btn-style() {
+  display: flex;
+  width: fit-content;
+  padding: 8px 20px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  outline: none;
+  background: $main-yellow;
+  @include font-style(--font-text, 18px, var(--color-black), 500);
+}
+
 .basic-form-container {
   margin-top: 16px;
   width: 85%;
 
   .title {
-    color: #000;
-    font: {
-      family: var(--font-title);
-      size: 20px;
-      style: normal;
-      weight: 500;
-    }
+    @include font-style(--font-title, 20px, var(--color-black), 500);
     text-align: start;
+    width: 85%;
   }
 
   .form-container {
     margin-top: 180px;
     width: 100%;
-    display: flex;
-  }
 
-  .left-box {
-    margin-right: 30px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 134px;
-
-    p {
-      height: 38px;
-      line-height: 38px;
-      text-align: start;
-      color: #aeaeae;
-      font: {
-        family: var(--font-text);
-        size: 16px;
-        style: normal;
-        weight: 500;
-      }
-    }
-  }
-
-  .right-box {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 134px;
-
-    .buttons-box-flex {
+    .gender-form-container {
       display: flex;
+      margin-bottom: 30px;
+      p {
+        @include grey-title();
+      }
+      .buttons-box-container {
+        .gender-btn {
+          margin-bottom: 16px;
+          @include gender-btn-style();
+        }
+        #active {
+          @include active-btn-style();
+        }
+      }
     }
 
-    .gender-btn {
-      border: none;
+    .age-form-container {
       display: flex;
-      width: 64px;
-      padding: 8px 0px;
-      justify-content: center;
-      align-items: center;
-      border-radius: 100px;
-      outline: 1px solid #ddd;
-
-      color: #000;
-      text-align: center;
-      font: {
-        family: var(--font-text);
-        size: 18px;
-        style: normal;
-        weight: 500;
+      p {
+        @include grey-title();
       }
-    }
 
-    .right {
-      margin-left: 12px;
-    }
+      input {
+        border: none;
+        border-bottom: 1px solid #ddd;
+        width: 200px;
+        height: 34px;
+        @include font-style(--font-text, 18px, var(--color-black), 500);
 
-    #active {
-      display: flex;
-      width: 64px;
-      padding: 8px 0px;
-      justify-content: center;
-      align-items: center;
-      border-radius: 100px;
-      outline: none;
-      background: $main-yellow;
-
-      font: {
-        family: var(--font-text);
-        size: 18px;
-        style: normal;
-        weight: 500;
-      }
-    }
-
-    input {
-      border: none;
-      border-bottom: 1px solid #ddd;
-      width: 200px;
-      height: 34px;
-      color: #000;
-      font: {
-        family: var(--font-text);
-        size: 18px;
-        style: normal;
-        weight: 500;
-      }
-      line-height: normal;
-
-      &:focus {
-        outline: none;
+        &:focus {
+          outline: none;
+        }
       }
     }
   }

@@ -1,0 +1,55 @@
+@import "../../../style/mixins";
+
+.login-guide-page {
+  width: 100%;
+  height: 100%;
+
+  .navbar-container {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+
+    padding: 18px 22px;
+
+    img {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .profile-container {
+    margin-top: 21px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .icon {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-color: #ddd;
+      margin-bottom: 15px;
+    }
+
+    p:nth-of-type(1) {
+      @include font-style(--font-title, 24px, var(--color-black), 600);
+      text-align: center;
+      margin-bottom: 19px;
+    }
+
+    p:nth-of-type(2) {
+      @include font-style(--font-text, 14px, var(--color-black), 400);
+      text-align: center;
+      margin-top: 15px;
+    }
+  }
+
+  .login-btn-container {
+    width: auto;
+    margin: 80px 26px 0 26px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}

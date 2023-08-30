@@ -1,17 +1,14 @@
 $main-yellow: var(--color-main-yellow);
+@import "../../../../../style/mixins";
+
 .personality-form-container {
   margin-top: 16px;
   width: 85%;
 
   .title {
-    color: #000;
-    font: {
-      family: var(--font-title);
-      size: 20px;
-      style: normal;
-      weight: 500;
-    }
+    @include font-style(--font-title, 20px, var(--color-black), 500);
     text-align: start;
+    width: 85%;
   }
 
   .form-container {
@@ -27,13 +24,11 @@ $main-yellow: var(--color-main-yellow);
     margin-bottom: 40px;
 
     p {
+      display: flex;
+      justify-self: center;
+      align-items: center;
       margin: 0 16px;
-      color: #aeaeae;
-      font-family: Inter;
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 34px;
+      @include font-style(--font-text, 16px, #aeaeae, 500);
     }
   }
 
@@ -46,14 +41,8 @@ $main-yellow: var(--color-main-yellow);
     border-radius: 100px;
     outline: 1px solid #ddd;
 
-    color: #000;
+    @include font-style(--font-text, 18px, var(--color-black), 500);
     text-align: center;
-    font: {
-      family: var(--font-text);
-      size: 18px;
-      style: normal;
-      weight: 500;
-    }
   }
 
   #active {
@@ -64,31 +53,5 @@ $main-yellow: var(--color-main-yellow);
     border-radius: 100px;
     outline: none;
     background: $main-yellow;
-
-    font: {
-      family: var(--font-text);
-      size: 18px;
-      style: normal;
-      weight: 500;
-    }
-  }
-
-  input {
-    border: none;
-    border-bottom: 1px solid #ddd;
-    width: 200px;
-    height: 34px;
-    color: #000;
-    font: {
-      family: var(--font-text);
-      size: 18px;
-      style: normal;
-      weight: 500;
-    }
-    line-height: normal;
-
-    &:focus {
-      outline: none;
-    }
   }
 }
