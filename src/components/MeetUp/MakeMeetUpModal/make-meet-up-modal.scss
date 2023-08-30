@@ -1,0 +1,22 @@
+@import "../../../style/mixins";
+
+#meet-up-container {
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    margin: 28px 31px;
+  }
+
+  h2 {
+    margin: 13px 0 0 31px;
+    @include font-style(--font-text, 24px, black, 600);
+  }
+
+  .custom-event-btn-style {
+    margin: 10px auto 0 auto;
+    position: absolute;
+    left: 50%;
+    bottom: 60px;
+    transform: translateX(-50%);
+  }
+}
