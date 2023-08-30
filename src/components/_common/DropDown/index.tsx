@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./dropdown.scss";
@@ -8,18 +8,30 @@ import { ReactComponent as ArrowDown } from "@assets/icon/arrow_down.svg";
 
 interface Props {
   items: string[];
+  type: string;
   placeholder: string;
+  id: number;
+  state: string;
+  onSelect: (idx: number, type: string, item: string) => void;
 }
 
-export default function DownDown({ items, placeholder }: Props) {
-  const [item, setItems] = useState(items);
-  const [selected, setSelected] = useState(placeholder);
+export default function DownDown({
+  items,
+  type,
+  placeholder,
+  id,
+  state,
+  onSelect,
+}: Props) {
+  const [selected, setSelected] = useState<string>(state);
 
   const _handleClickToggle = (nation: string) => {
     setSelected(nation);
   };
 
-  // 선택된게 있다면 블랙으로 변경
+  useEffect(() => {
+    onSelect(id, type, selected);
+  }, [selected]);
 
   return (
     <Dropdown id="kuddy-custom-dropdown">
@@ -28,18 +40,20 @@ export default function DownDown({ items, placeholder }: Props) {
         id="dropdown-basic"
         className={selected !== placeholder ? "active" : ""}
       >
-        {selected}
+        {state}
         <ArrowDown />
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
-        {item.map(i => {
+        {items.map(i => {
           if (i === selected) {
             return (
               <Dropdown.Item
                 id="active-custom-item"
-                href="#/action-1"
-                onClick={() => _handleClickToggle(i)}
+                onClick={e => {
+                  _handleClickToggle(i);
+                  e.stopPropagation();
+                }}
               >
                 {i} <img src={check} alt="check" />
               </Dropdown.Item>
@@ -48,8 +62,10 @@ export default function DownDown({ items, placeholder }: Props) {
             return (
               <Dropdown.Item
                 id="custom-item"
-                href="#/action-1"
-                onClick={() => _handleClickToggle(i)}
+                onClick={e => {
+                  _handleClickToggle(i);
+                  e.stopPropagation();
+                }}
               >
                 {i}
               </Dropdown.Item>

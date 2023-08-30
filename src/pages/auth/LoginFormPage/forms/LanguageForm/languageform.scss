@@ -26,6 +26,8 @@ $main-yellow: var(--color-main-yellow);
 
   .form-box {
     display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 14px;
 
     #kuddy-custom-dropdown {
@@ -36,7 +38,7 @@ $main-yellow: var(--color-main-yellow);
   .add-box {
     margin-top: 12px;
 
-    img {
+    svg {
       margin-right: 16px;
     }
     display: flex;

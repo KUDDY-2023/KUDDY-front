@@ -18,3 +18,9 @@ interface KuddyUserProfile extends UserProfile {
 interface TravelerUserProfile extends UserProfile {
   nationality: number;
 }
+
+// 언어 수준
+interface LanguageLevelType {
+  language: string;
+  level: string;
+}
