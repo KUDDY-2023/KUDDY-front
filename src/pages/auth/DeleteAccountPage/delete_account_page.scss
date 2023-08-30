@@ -1,10 +1,7 @@
-.p-common-style {
-  font: {
-    family: var(--font-text);
-    size: 14px;
-    style: normal;
-    weight: 400;
-  }
+@import ".././../../style/mixins";
+
+@mixin p-common-style {
+  @include font-style(--font-text, 14px, var(--color-black), 400);
   line-height: 17px;
 }
 
@@ -20,21 +17,14 @@
     flex-grow: 1;
 
     h2 {
-      color: #000;
-      font: {
-        family: var(--font-title);
-        size: 20px;
-        style: normal;
-        weight: 400;
-      }
-      line-height: 17px; /* 85% */
+      @include font-style(--font-title, 20px, var(--color-black), 400);
+      line-height: 17px;
     }
 
     p {
       margin-top: 20px;
       text-align: start;
-      color: #000;
-      @extend .p-common-style;
+      @include p-common-style;
     }
   }
 
@@ -43,9 +33,15 @@
     width: 85%;
     margin-bottom: 24px;
 
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
     p {
       margin-left: 8px;
-      @extend .p-common-style;
+      text-align: start;
+      @include p-common-style;
     }
   }
 

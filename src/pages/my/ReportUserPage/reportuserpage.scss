@@ -1,3 +1,5 @@
+@import "../../../style/mixins";
+
 $main-yellow: var(-color-main-yellow);
 
 .report-user-page {
@@ -21,13 +23,9 @@ $main-yellow: var(-color-main-yellow);
       display: flex;
 
       p {
+        @include font-style(--font-text, 16px, var(--color-black), 500);
         margin-left: 12px;
-        color: #1b1b1b;
-        font-family: var(--font-text);
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: normal;
+        text-align: start;
       }
     }
 
@@ -68,9 +66,13 @@ $main-yellow: var(-color-main-yellow);
   }
 
   .explain-container {
+    display: flex;
+    flex-direction: column;
+
     margin-top: 16px;
     width: 85%;
-    height: 100%;
+    margin-bottom: 30px;
+    flex-grow: 1;
 
     h2 {
       margin: 0;
@@ -82,27 +84,18 @@ $main-yellow: var(-color-main-yellow);
     textarea {
       margin-top: 12px;
       width: 100%;
-      height: calc((100% - 52px) * 0.7);
+      flex-grow: 1;
       border-radius: 10px;
       border: 1px solid #ddd;
 
       padding: 12px 16px;
       resize: none;
 
-      color: #000;
-      font-family: Inter;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: 20px; /* 142.857% */
+      @include font-style(--font-text, 14px, var(--color-black), 500);
+      line-height: 20px;
 
       &::placeholder {
-        color: #b1b1b1;
-        font-family: Inter;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 20px;
+        @include font-style(--font-text, 14px, var(--color-grey-text), 500);
       }
 
       &:focus {
@@ -113,5 +106,10 @@ $main-yellow: var(-color-main-yellow);
         display: none;
       }
     }
+  }
+
+  .custom-event-btn-style {
+    margin-bottom: 60px;
+    margin-top: auto;
   }
 }
