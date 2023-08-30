@@ -13,7 +13,7 @@ import MyRoutes from "@routes/MyRoutes";
 import ChatRoutes from "@routes/ChatRoutes";
 import ProfileRoutes from "@routes/ProfileRoutes";
 import AlarmViewPage from "@pages/alarm/AlarmViewPage";
-
+import Test from "@pages/Test";
 function App() {
   return (
     <Routes>
@@ -27,6 +27,7 @@ function App() {
       <Route path="/chat/*" element={<ChatRoutes />} />
       <Route path="/profile/*" element={<ProfileRoutes />} />
       <Route path="/alarm" element={<AlarmViewPage />} />
+      <Route path="/test" element={<Test />} />
     </Routes>
   );
 }

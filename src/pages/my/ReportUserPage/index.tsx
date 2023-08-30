@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import EventBtn from "@components/_common/EventBtn";
 
+import { useAuthReportUser } from "@lib/hooks/auth";
 export default function ReportUserPage() {
   // 쿼리스트링에 유저 아이디 포함하기
 
@@ -36,6 +37,8 @@ export default function ReportUserPage() {
 
   const _handleSubmitReport = () => {
     console.log("버튼 함수 실행");
+    let report = { targetId: 1, reason: selectedId, explanation: text };
+    useAuthReportUser(report);
   };
 
   return (
