@@ -1,9 +1,10 @@
-@import "@style/font.scss";
+@import "../../../style/mixins";
 
 $kakao-yellow: #fddc3f;
 $kakao-brown: #3a2929;
 
 .kakao-btn {
+  width: 80%;
   position: relative;
 
   display: flex;
@@ -12,11 +13,10 @@ $kakao-brown: #3a2929;
 
   height: 50px;
   border-radius: 6px;
-  width: 80%;
   margin-bottom: 23px;
   background: $kakao-yellow;
 
-  img {
+  svg {
     position: absolute;
     left: 16px;
     top: 18px;
@@ -25,12 +25,6 @@ $kakao-brown: #3a2929;
   }
 
   p {
-    color: $kakao-brown;
-    text-align: center;
-    font-family: "Roboto", sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+    @include font-style(--font-roboto, 16px, $kakao-brown, 500);
   }
 }

@@ -1,9 +1,10 @@
 import "./kakaoBtn.scss";
-import kakao from "@assets/auth/kakao.png";
+import { ReactComponent as Kakao } from "@assets/auth/kakao.svg";
+
 export default function KakaoBtn() {
   return (
     <div className="kakao-btn">
-      <img src={kakao} alt="kakao" />
+      <Kakao />
       <p>Login with Kakao</p>
     </div>
   );
