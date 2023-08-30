@@ -4,6 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./dropdown.scss";
 import check from "@assets/icon/check.svg";
 
+import { ReactComponent as ArrowDown } from "@assets/icon/arrow_down.svg";
+
 interface Props {
   items: string[];
   placeholder: string;
@@ -27,6 +29,7 @@ export default function DownDown({ items, placeholder }: Props) {
         className={selected !== placeholder ? "active" : ""}
       >
         {selected}
+        <ArrowDown />
       </Dropdown.Toggle>
 
       <Dropdown.Menu>
@@ -34,7 +37,7 @@ export default function DownDown({ items, placeholder }: Props) {
           if (i === selected) {
             return (
               <Dropdown.Item
-                id="custom-item"
+                id="active-custom-item"
                 href="#/action-1"
                 onClick={() => _handleClickToggle(i)}
               >
@@ -53,9 +56,6 @@ export default function DownDown({ items, placeholder }: Props) {
             );
           }
         })}
-
-        {/* <Dropdown.Item href="#/action-2">US</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">~~</Dropdown.Item> */}
       </Dropdown.Menu>
     </Dropdown>
   );
