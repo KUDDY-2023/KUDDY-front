@@ -2,7 +2,7 @@ import "./loginguidepage.scss";
 import Xicon from "@assets/icon/xbtn.svg";
 import GoogleBtn from "@components/Auth/GoogleBtn";
 import KakaoBtn from "@components/Auth/KakaoBtn";
-export default function LoginGuidePage() {
+export default function RegisterPage() {
   return (
     <div className="login-guide-page">
       <div className="navbar-container">
