@@ -23,7 +23,7 @@ const ProfileDetailPage = () => {
     <div className="profile-detail-container">
       <NavBar />
       <IntroSection {...Props} />
-      <AboutBuddySection />
+      <AboutBuddySection {...Props} />
       <ReviewSection />
     </div>
   );
