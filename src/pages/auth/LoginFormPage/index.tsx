@@ -1,29 +1,20 @@
 import "./loginformpage.scss";
 import BackNavBar from "@components/_common/BackNavBar";
 import LoginProgressBar from "@components/Auth/LoginProgressBar";
-
-import {
-  initialKuddyProfileData,
-  initialTravelerProfileData,
-} from "@utils/data/userProfile";
 import { useState, useEffect } from "react";
-
 import { ReactComponent as PreviousIcon } from "@assets/icon/arrow_left.svg";
 import { ReactComponent as NextIconBlack } from "@assets/auth/arrow_right.svg";
 import { ReactComponent as NextIconGrey } from "@assets/auth/arrow_right_grey.svg";
-
 import { KuddyFormPages, TravelerFormPages } from "./formPages";
 
+import { useRecoilState, useRecoilValue } from "recoil";
+import { userTypeState } from "@services/store/auth";
+
 export default function LoginFormPage() {
-  // 유저 종류 구분 <- 전역 관리
-  const [isBuddy, setIsBuddy] = useState(false);
-
-  // 유저 프로필 initial data <- 전역 관리하면 필요 없을 듯
-  const [data, setData] = useState(
-    isBuddy ? initialKuddyProfileData : initialTravelerProfileData,
-  );
-
+  // 1) 유저 구분 값 가져오기
+  const userType = useRecoilValue(userTypeState);
   const [num, setNum] = useState(0); // 페이지의 번호
+  const isBuddy = userType === "KUDDY";
   const FormComponent = isBuddy ? KuddyFormPages[num] : TravelerFormPages[num]; // 유저별 페이지
 
   // completed 값 계산
@@ -33,7 +24,7 @@ export default function LoginFormPage() {
     setCompleted(10 * (num + 1));
   }, [num]);
 
-  // 페이지가 넘어갈 때 마다 form이 채워졌는지 확인
+  // 페이지가 넘어갈 때 마다 form이 채워졌는지 확인해야함
   // next 버튼 활성화 용
   const [canNext, setCanNext] = useState(true);
 
