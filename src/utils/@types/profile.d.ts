@@ -43,27 +43,31 @@ interface TravelerUserInfo extends UserInfo {
 interface ReviewType {
   reviewId: number;
   content: string;
-  grade: "perfect" | "good" | "disappoint";
   createdAt: string;
 }
 
 interface KuddyReviewType extends ReviewType {
-  writerId: number;
+  grade: "perfect" | "good" | "disappoint";
+  writer: {
+    name: string;
+    profileImg: string;
+  };
 }
 
 interface TravelerReviewType extends ReviewType {
-  kuddyId: number;
+  kuddy: {
+    name: string;
+    profileImg: string;
+  };
 }
 
 interface ReviewListInfo {
-  count: number;
+  reviewCount: number;
+  meetCount: number;
 }
 
 interface KuddyReviewListInfo extends ReviewListInfo {
   reviews: KuddyReviewType[];
-  perfect: number;
-  good: number;
-  disappoint: number;
 }
 
 interface TravelerReviewListInfo extends ReviewListInfo {

@@ -91,3 +91,67 @@ export const TravelerUserData: TravelerUserInfo = {
   nationality: "Spanish",
   ticketStatus: "Not Submitted",
 };
+
+export const KuddyReviewData: KuddyReviewListInfo = {
+  reviewCount: 9,
+  meetCount: 12,
+  reviews: [
+    {
+      reviewId: 1,
+      content: `Review text here.
+    great! awesome! yor are great tour maker!
+    I hope to see you again on my next trip!`,
+      createdAt: "2099.99.99",
+      grade: "perfect",
+      writer: {
+        name: "user name",
+        profileImg:
+          "https://s3-alpha-sig.figma.com/img/26ed/3c74/5b209583feb572746ffd38d141b5cd12?Expires=1694390400&Signature=CiOFj~fEHRsEETPuJsN22hUxhGPFaw1jcfqdv5DByh7KnGGET~aeHe5N6ISJFHs~rrsQ~E9FUFDUw8Vqqlac2o~JsvQHuFmK4T~vhz4qSfyrZXkEDnOuP4WhMJa55tuC07GYg4uDDoPlAXkMohTSlgISkHi-ejnjLYEjIOZAZgt0Oo6qVB3CA1FR3Xu98jiHqGr0lWUN2g0ToUuyec0ju2kKR2ChjmdfVDC9YW25I7j437mH3Hu61EJWnzYqVH4j5OkXgxqrBup4tUDIlV1Kn27uL6NXqeN8sW0ukdoqpBtOG2ZFWN4BZsbgL5foK1fTL4ralBRar505yNiNTMIZLg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
+      },
+    },
+    {
+      reviewId: 2,
+      content: `Review text here.
+    great! awesome! yor are great tour maker!
+    I hope to see you again on my next trip!`,
+      createdAt: "2099.99.99",
+      grade: "perfect",
+      writer: {
+        name: "user name",
+        profileImg:
+          "https://s3-alpha-sig.figma.com/img/26ed/3c74/5b209583feb572746ffd38d141b5cd12?Expires=1694390400&Signature=CiOFj~fEHRsEETPuJsN22hUxhGPFaw1jcfqdv5DByh7KnGGET~aeHe5N6ISJFHs~rrsQ~E9FUFDUw8Vqqlac2o~JsvQHuFmK4T~vhz4qSfyrZXkEDnOuP4WhMJa55tuC07GYg4uDDoPlAXkMohTSlgISkHi-ejnjLYEjIOZAZgt0Oo6qVB3CA1FR3Xu98jiHqGr0lWUN2g0ToUuyec0ju2kKR2ChjmdfVDC9YW25I7j437mH3Hu61EJWnzYqVH4j5OkXgxqrBup4tUDIlV1Kn27uL6NXqeN8sW0ukdoqpBtOG2ZFWN4BZsbgL5foK1fTL4ralBRar505yNiNTMIZLg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
+      },
+    },
+  ],
+};
+
+export const TravelerReviewData: TravelerReviewListInfo = {
+  reviewCount: 5,
+  meetCount: 12,
+  reviews: [
+    {
+      reviewId: 1,
+      content: `Review text here.
+      great! awesome! yor are great tour maker!
+      I hope to see you again on my next trip!  Have a good day. Good morning, good evening.Have a good day.`,
+      createdAt: "2099.99.99",
+      kuddy: {
+        name: "user name",
+        profileImg:
+          "https://s3-alpha-sig.figma.com/img/26ed/3c74/5b209583feb572746ffd38d141b5cd12?Expires=1694390400&Signature=CiOFj~fEHRsEETPuJsN22hUxhGPFaw1jcfqdv5DByh7KnGGET~aeHe5N6ISJFHs~rrsQ~E9FUFDUw8Vqqlac2o~JsvQHuFmK4T~vhz4qSfyrZXkEDnOuP4WhMJa55tuC07GYg4uDDoPlAXkMohTSlgISkHi-ejnjLYEjIOZAZgt0Oo6qVB3CA1FR3Xu98jiHqGr0lWUN2g0ToUuyec0ju2kKR2ChjmdfVDC9YW25I7j437mH3Hu61EJWnzYqVH4j5OkXgxqrBup4tUDIlV1Kn27uL6NXqeN8sW0ukdoqpBtOG2ZFWN4BZsbgL5foK1fTL4ralBRar505yNiNTMIZLg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
+      },
+    },
+    {
+      reviewId: 2,
+      content: `Review text here.
+      great! awesome! yor are great tour maker!
+      I hope to see you again on my next trip!  Have a good day. Good morning, good evening.Have a good day.`,
+      createdAt: "2099.99.99",
+      kuddy: {
+        name: "user name",
+        profileImg:
+          "https://s3-alpha-sig.figma.com/img/26ed/3c74/5b209583feb572746ffd38d141b5cd12?Expires=1694390400&Signature=CiOFj~fEHRsEETPuJsN22hUxhGPFaw1jcfqdv5DByh7KnGGET~aeHe5N6ISJFHs~rrsQ~E9FUFDUw8Vqqlac2o~JsvQHuFmK4T~vhz4qSfyrZXkEDnOuP4WhMJa55tuC07GYg4uDDoPlAXkMohTSlgISkHi-ejnjLYEjIOZAZgt0Oo6qVB3CA1FR3Xu98jiHqGr0lWUN2g0ToUuyec0ju2kKR2ChjmdfVDC9YW25I7j437mH3Hu61EJWnzYqVH4j5OkXgxqrBup4tUDIlV1Kn27uL6NXqeN8sW0ukdoqpBtOG2ZFWN4BZsbgL5foK1fTL4ralBRar505yNiNTMIZLg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
+      },
+    },
+  ],
+};
