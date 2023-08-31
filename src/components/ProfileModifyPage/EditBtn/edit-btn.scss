@@ -1,0 +1,25 @@
+@function color($color-name) {
+  @return var(--color-#{$color-name});
+}
+
+.profile-edit-btn {
+  display: flex;
+  height: 32px;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 16px;
+  gap: 12px;
+
+  border-radius: 100px;
+  border: 1px solid color(grey);
+  cursor: pointer;
+
+  p {
+    color: color(black);
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+}
