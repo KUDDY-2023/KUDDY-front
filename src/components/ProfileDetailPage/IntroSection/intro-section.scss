@@ -81,6 +81,7 @@
       background: color(grey);
       font-size: 14px;
       font-weight: 500;
+      cursor: pointer;
     }
   }
 }
@@ -97,13 +98,14 @@
 
 .interest-list {
   display: flex;
+  width: calc(100% + 25px);
+  align-self: flex-start;
   align-items: flex-start;
   gap: 8px;
 
   overflow-x: scroll;
-  scrollbar-width: none;
   -ms-overflow-style: none;
-
+  scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
   }

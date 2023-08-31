@@ -40,10 +40,10 @@ const IntroSection = ({ ...props }) => {
               <img src={badgeIcon} />
               <div className="badge-text">{badgeText}</div>
             </div>
-            <div className="profile-btn">
-              {isMine && <img src={edit} />}
-              {isMine ? "edit" : "Send message"}
-            </div>
+          </div>
+          <div className="profile-btn">
+            {isMine && <img src={edit} />}
+            {isMine ? "edit" : "Send message"}
           </div>
         </div>
       </div>
