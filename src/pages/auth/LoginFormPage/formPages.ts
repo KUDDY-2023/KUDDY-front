@@ -9,14 +9,24 @@ import NationalityForm from "./forms/NationalityForm";
 import LanguageForm from "./forms/LanguageForm";
 import InterestForm from "./forms/InterestForm";
 
-export const FormPages = [
+export const TravelerFormPages = [
+  TypeForm,
+  ProfileForm,
+  BasicForm,
+  JobForm,
+  PersonalityForm,
+  NationalityForm,
+  LanguageForm,
+  InterestForm,
+];
+
+export const KuddyFormPages = [
   TypeForm,
   ProfileForm,
   BasicForm,
   JobForm,
   PersonalityForm,
   AreaForm,
-  NationalityForm,
   LanguageForm,
   InterestForm,
 ];

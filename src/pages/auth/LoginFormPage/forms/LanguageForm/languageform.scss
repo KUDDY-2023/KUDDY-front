@@ -1,17 +1,14 @@
 $main-yellow: var(--color-main-yellow);
+@import "../../../../../style/mixins";
+
 .language-form-container {
   margin-top: 16px;
   width: 85%;
 
   .title {
-    color: #000;
-    font: {
-      family: var(--font-title);
-      size: 20px;
-      style: normal;
-      weight: 500;
-    }
+    @include font-style(--font-title, 20px, var(--color-black), 500);
     text-align: start;
+    width: 85%;
   }
 
   .form-container {
@@ -23,19 +20,14 @@ $main-yellow: var(--color-main-yellow);
   }
 
   .description {
-    color: #000;
+    @include font-style(--font-title, 12px, var(--color-black), 500);
     text-align: start;
-
-    font: {
-      family: var(--font-text);
-      size: 12px;
-      style: normal;
-      weight: 500;
-    }
   }
 
   .form-box {
     display: flex;
+    justify-content: center;
+    align-items: center;
     margin-top: 14px;
 
     #kuddy-custom-dropdown {
@@ -46,7 +38,7 @@ $main-yellow: var(--color-main-yellow);
   .add-box {
     margin-top: 12px;
 
-    img {
+    svg {
       margin-right: 16px;
     }
     display: flex;
@@ -57,15 +49,7 @@ $main-yellow: var(--color-main-yellow);
     border: 1px solid #eee;
 
     p {
-      color: #000;
-      text-align: center;
-      font: {
-        family: var(--font-text);
-        size: 14px;
-        style: normal;
-        weight: 500;
-      }
-      line-height: normal;
+      @include font-style(--font-title, 14px, var(--color-black), 500);
     }
   }
 }

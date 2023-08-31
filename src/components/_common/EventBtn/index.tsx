@@ -3,7 +3,7 @@ import "./eventbtn.scss";
 interface Props {
   btnName: string;
   isActive: boolean;
-  onClick: () => void;
+  onClick: any;
 }
 
 export default function EventBtn({ btnName, isActive, onClick }: Props) {

@@ -1,14 +1,24 @@
 import "./typeform.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { useRecoilState } from "recoil";
+import { profileState } from "@services/store/auth";
+import { useUpdateProfile } from "@services/hooks/auth";
 
 export default function TypeForm() {
-  const [type, setType] = useState([true, false]);
+  const [userType, setUserType] = useRecoilState(profileState); // 전역상태
+  const isBuddy = userType.roleType === "KUDDY"; // 전역상태 - 버튼상태 연결
+  const [type, setType] = useState(isBuddy ? [true, false] : [false, true]); // 버튼 활성화
+
+  const onUpdateProfile = useUpdateProfile();
 
   const _handleClickTypeBtn = (type: string) => {
     if (type === "k-buddy") {
       setType([true, false]);
+      onUpdateProfile({ roleType: "KUDDY" });
     } else if (type === "traveler") {
       setType([false, true]);
+      onUpdateProfile({ roleType: "TRAVELER" });
     }
   };
 

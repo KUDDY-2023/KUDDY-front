@@ -1,49 +1,39 @@
 import BackNavBar from "@components/_common/BackNavBar";
 import "./reportuserpage.scss";
 import { useEffect, useState } from "react";
-
 import EventBtn from "@components/_common/EventBtn";
-
+import { reasonsData } from "./reasonsData";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useAuthReportUser } from "@services/hooks/auth";
 export default function ReportUserPage() {
-  // 쿼리스트링에 유저 아이디 포함하기
+  const [searchParams, _] = useSearchParams();
+  const userId = Number(searchParams.get("userId"));
 
-  // 이유
-  const [reasons, setReasons] = useState([
-    { id: 0, reason: "Impersonation" },
-    { id: 1, reason: "Spam" },
-    { id: 2, reason: "Intellectual property violation" },
-    { id: 3, reason: "Harassment or privacy violation" },
-    { id: 4, reason: "Nudity or pornography" },
-    { id: 5, reason: "Other" },
-  ]);
+  const [selectedId, setSelectedId] = useState<number>(-1); // 선택한 이유 번호
+  const [text, setText] = useState(""); // 입력한 이유
 
-  const [text, setText] = useState("");
-  const [isActive, setIsActive] = useState(false);
-
-  const [selectedId, setSelectedId] = useState<number>(-1);
+  const [isActive, setIsActive] = useState(false); // 이벤트 버튼
 
   const _handleRadioChange = (selectedId: number) => {
     setSelectedId(selectedId);
   };
 
   useEffect(() => {
-    if (text !== "" && selectedId !== -1) {
-      setIsActive(true);
-    } else {
-      setIsActive(false);
-    }
+    setIsActive(text !== "" && selectedId !== -1);
   }, [text, selectedId]);
 
-  const _handleSubmitReport = () => {
-    console.log("버튼 함수 실행");
-  };
+  const { onReport } = useAuthReportUser({
+    targetId: userId,
+    reason: selectedId,
+    explanation: text,
+  });
 
   return (
     <div className="report-user-page">
-      <BackNavBar middleTitle="report user" isShare={true} />
+      <BackNavBar middleTitle="report user" isShare={false} />
 
       <div className="reason-container">
-        {reasons.map(r => {
+        {reasonsData.map(r => {
           let id = `r${r.id}`;
           return (
             <div className="radio-div" onClick={() => _handleRadioChange(r.id)}>
@@ -68,11 +58,7 @@ export default function ReportUserPage() {
         ></textarea>
       </div>
 
-      <EventBtn
-        btnName="Submit"
-        isActive={isActive}
-        onClick={_handleSubmitReport}
-      />
+      <EventBtn btnName="Submit" isActive={isActive} onClick={onReport} />
     </div>
   );
 }

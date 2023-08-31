@@ -6,13 +6,13 @@ export default function JobForm() {
 
   return (
     <div className="job-form-container">
-      <p className="title">Write your job</p>
+      <p className="title">Enter your job</p>
 
       <div className="form-container">
         <p>Job</p>
         <input
           type="text"
-          placeholder="enter your job"
+          placeholder="Enter your job"
           value={job}
           onChange={e => setJob(e.target.value)}
         />

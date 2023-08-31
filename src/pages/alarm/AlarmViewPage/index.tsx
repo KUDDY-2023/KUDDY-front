@@ -7,7 +7,7 @@ export default function AlarmViewPage() {
     <div className="alarm-view-page">
       <BackNavBar middleTitle="Notification" isShare={false} />
 
-      <div>
+      <div className="alarm-item-container">
         {alarmData.map(a => (
           <AlarmItem alarm={a} key={a.id} />
         ))}

@@ -40,4 +40,20 @@ export const InterestData = [
       { id: 11, inter: "Baseball", selected: false },
     ],
   },
+  {
+    category: "category",
+    interests: [
+      { id: 9, inter: "Running", selected: false },
+      { id: 10, inter: "Basketball", selected: false },
+      { id: 11, inter: "Baseball", selected: false },
+    ],
+  },
+  {
+    category: "category",
+    interests: [
+      { id: 9, inter: "Running", selected: false },
+      { id: 10, inter: "Basketball", selected: false },
+      { id: 11, inter: "Baseball", selected: false },
+    ],
+  },
 ];

@@ -1,17 +1,11 @@
+@import "../../../../../style/mixins";
 .type-form-container {
   margin-top: 16px;
   width: 85%;
 
   .title {
-    color: #000;
-    font: {
-      family: var(--font-title);
-      size: 20px;
-      style: normal;
-      weight: 500;
-    }
+    @include font-style(--font-title, 20px, var(--color-black), 500);
     text-align: start;
-
     width: 85%;
   }
 
@@ -23,16 +17,8 @@
       margin-bottom: 40px;
 
       p {
-        color: #aeaeae;
+        @include font-style(--font-text, 14px, var(--color-grey-text), 500);
         text-align: center;
-        font: {
-          family: var(--font-text);
-          size: 14px;
-          style: normal;
-          weight: 500;
-        }
-        line-height: normal;
-
         margin-top: 16px;
       }
 
@@ -47,15 +33,8 @@
         border-radius: 100px;
         outline: 1px solid #ddd;
 
-        color: #000;
+        @include font-style(--font-text, 18px, var(--color-black), 500);
         text-align: center;
-        font: {
-          family: var(--font-text);
-          size: 18px;
-          style: normal;
-          weight: 500;
-        }
-        line-height: normal;
       }
 
       #active {

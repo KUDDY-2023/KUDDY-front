@@ -5,10 +5,21 @@ $grey: var(--color-grey-text);
 $grey-line: var(--color-grey-line);
 $inter: var(--font-text);
 
-.read-alarm-item {
+@mixin alarmItem {
+  height: 89px;
+  margin-top: 8px;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   p {
     text-align: start;
   }
+}
+
+.read-alarm-item {
+  @include alarmItem();
+
   .type {
     @include font-style($inter, 15px, $grey-line, 600);
   }
@@ -21,9 +32,8 @@ $inter: var(--font-text);
 }
 
 .unread-alarm-item {
-  p {
-    text-align: start;
-  }
+  @include alarmItem();
+
   .type {
     @include font-style($inter, 15px, $black, 600);
   }
