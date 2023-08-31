@@ -26,8 +26,8 @@ export const authRefreshAccessToken = async () => {
 
 // 회원 탈퇴
 export const authDeleteAccount = async () => {
-  const url = `/api/v1/members/profile/ 탈퇴`;
-  return apiClient.post(url).then(res => {
+  const url = `/api/v1/members`;
+  return apiClient.delete(url).then(res => {
     return res.data;
   });
 };
