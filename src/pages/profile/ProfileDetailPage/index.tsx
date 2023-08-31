@@ -24,7 +24,7 @@ const ProfileDetailPage = () => {
       <NavBar />
       <IntroSection {...Props} />
       <AboutBuddySection {...Props} />
-      <ReviewSection />
+      <ReviewSection {...Props} />
     </div>
   );
 };
