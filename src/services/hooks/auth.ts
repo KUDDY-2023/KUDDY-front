@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { authReportUser } from "@lib/api/auth";
+import { authReportUser } from "@services/api/auth";
 import { useQuery } from "react-query";
 
 /*

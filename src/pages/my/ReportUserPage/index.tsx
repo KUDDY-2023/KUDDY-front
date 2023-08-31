@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import EventBtn from "@components/_common/EventBtn";
 
-import { useAuthReportUser } from "@lib/hooks/auth";
+import { useAuthReportUser } from "@services/hooks/auth";
 export default function ReportUserPage() {
   // 쿼리스트링에 유저 아이디 포함하기
 

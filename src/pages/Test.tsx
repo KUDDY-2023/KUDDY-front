@@ -1,4 +1,4 @@
-import { apiClient } from "@lib/api";
+import { apiClient } from "@services/api";
 
 export default function Test() {
   const test = () => {

@@ -1,4 +1,4 @@
-import { useAuthLogin } from "@lib/hooks/auth";
+import { useAuthLogin } from "@services/hooks/auth";
 
 export default function KakaoLoginPage() {
   useAuthLogin();
