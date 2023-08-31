@@ -14,6 +14,7 @@ import ChatRoutes from "@routes/ChatRoutes";
 import ProfileRoutes from "@routes/ProfileRoutes";
 import AlarmViewPage from "@pages/alarm/AlarmViewPage";
 import Test from "@pages/Test";
+
 function App() {
   return (
     <Routes>
