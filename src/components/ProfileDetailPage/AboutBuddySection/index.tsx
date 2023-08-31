@@ -39,8 +39,12 @@ const AboutBuddySection = ({ ...props }) => {
           <div key={item.id} className="about-buddy-detail-container">
             <img src={item.src} />
             <div className="about-buddy-text-container">
-              {item.texts?.map((text: string) => {
-                return <div className="about-buddy-text">{text}</div>;
+              {item.texts?.map((text: string, index: number) => {
+                return (
+                  <div key={index} className="about-buddy-text">
+                    {text}
+                  </div>
+                );
               })}
             </div>
           </div>
