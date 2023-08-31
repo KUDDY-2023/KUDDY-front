@@ -5,6 +5,11 @@ import { useEffect, useState } from "react";
 import DropDown from "@components/_common/DropDown";
 import useArrayState from "@utils/hooks/useArrayState";
 
+type LanguageLevelType = {
+  language: string;
+  level: string;
+};
+
 export default function LanguageForm() {
   const languages = ["English", "Korean", "Djdsflsdkjf", "Isdf"];
   const advances = ["1", "2", "3"];
