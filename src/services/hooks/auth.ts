@@ -2,13 +2,30 @@ import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { authReportUser } from "@services/api/auth";
 import { useQuery, useMutation } from "react-query";
-
+import { profileState } from "@services/store/auth";
+import { useRecoilState } from "recoil";
 // useQuery : get
 // useMutation : post, delete, patch, put
 
 /*
 react-query 또는 recoil 관련 등 api 호출 후의 로직 포함  
+
+함수 이름은 use로 시작 
 */
+
+// 테스트
+// 프로필 업데이트 훅
+export const useUpdateProfile = () => {
+  const [profile, setProfile] = useRecoilState(profileState);
+
+  const onUpdateProfile = (updates: any) =>
+    setProfile(profile => ({
+      ...profile,
+      ...updates,
+    }));
+
+  return onUpdateProfile;
+};
 
 // ✅ 로그인
 export const useAuthLogin = () => {
