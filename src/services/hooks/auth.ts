@@ -13,9 +13,23 @@ react-query 또는 recoil 관련 등 api 호출 후의 로직 포함
 함수 이름은 use로 시작 
 */
 
-// 테스트
+// ✅ 소셜 로그인 요청 훅
+export const useAuthSocialLogin = () => {
+  type socialType = "kakao" | "google";
 
-// ✅ 로그인
+  const onLogin = (social: socialType) => {
+    const SOCIAL = social;
+    const CLIENT_MAIN_URL = process.env.REACT_APP_REACT_URL; // 현재 나의 uri
+    const REDIRECT_URI = `${CLIENT_MAIN_URL}/auth/processing`; // redirect uri
+    const SPRING = process.env.REACT_APP_API_HOST; // spring 서버
+    const URL = `${SPRING}/oauth2/authorization/${SOCIAL}?redirect_uri=${REDIRECT_URI}`;
+    window.location.href = URL; // 이동
+  };
+
+  return onLogin;
+};
+
+// ✅ AccessToken 저장 훅
 export const useAuthLogin = () => {
   const [searchParams, _] = useSearchParams();
   const navigate = useNavigate();
