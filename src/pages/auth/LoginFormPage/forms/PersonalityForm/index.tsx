@@ -1,23 +1,36 @@
 import "./personalityform.scss";
 import { useState } from "react";
-
+import { useRecoilState } from "recoil";
+import { profileState } from "@services/store/auth";
+import { useUpdateProfile } from "@services/hooks/auth";
 export default function PersonalityForm() {
-  const [intro, setIntro] = useState([true, false]);
-  const [judge, setJudge] = useState([true, false]);
+  const [profile, setProfile] = useRecoilState(profileState); // 전역상태
+
+  const Intro = profile.temperament === "INTROVERT";
+  const Judge = profile.decisionMaking === "JUDGING";
+
+  const [intro, setIntro] = useState([Intro, !Intro]); // 연결
+  const [judge, setJudge] = useState([Judge, !Judge]); // 연결
+
+  const onUpdateProfile = useUpdateProfile();
 
   const _handleClickIntroBtn = (intro: boolean) => {
     if (intro) {
       setIntro([true, false]);
+      onUpdateProfile({ temperament: "INTROVERT" });
     } else {
       setIntro([false, true]);
+      onUpdateProfile({ temperament: "EXTROVERT" });
     }
   };
 
   const _handleClickJudgeBtn = (judge: boolean) => {
     if (judge) {
       setJudge([true, false]);
+      onUpdateProfile({ decisionMaking: "JUDGING" });
     } else {
       setJudge([false, true]);
+      onUpdateProfile({ decisionMaking: "PROSPECTING" });
     }
   };
 
