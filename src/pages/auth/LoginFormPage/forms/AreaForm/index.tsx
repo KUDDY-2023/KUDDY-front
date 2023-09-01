@@ -2,11 +2,8 @@ import "./areaform.scss";
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { profileState } from "@services/store/auth";
-import { useUpdateProfile } from "@services/hooks/auth";
-
+import { useUpdateProfile } from "@services/hooks/profile";
 import { citiesData } from "./citiesData";
-
-// [{ areaName: string },{ areaName: string },{ areaName: string }]
 
 export default function AreaForm() {
   const [profile, setProfile] = useRecoilState(profileState); // 전역상태

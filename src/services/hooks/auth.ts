@@ -14,18 +14,6 @@ react-query 또는 recoil 관련 등 api 호출 후의 로직 포함
 */
 
 // 테스트
-// 프로필 업데이트 훅
-export const useUpdateProfile = () => {
-  const [profile, setProfile] = useRecoilState(profileState);
-
-  const onUpdateProfile = (updates: any) =>
-    setProfile(profile => ({
-      ...profile,
-      ...updates,
-    }));
-
-  return onUpdateProfile;
-};
 
 // ✅ 로그인
 export const useAuthLogin = () => {

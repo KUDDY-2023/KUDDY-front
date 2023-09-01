@@ -5,7 +5,20 @@ import { useQuery, useMutation } from "react-query";
 import { profileState, uniqueNameState } from "@services/store/auth";
 import { useRecoilState } from "recoil";
 
-// Next 버튼 활성화 검사 hook
+// ✅ 프로필 업데이트 훅
+export const useUpdateProfile = () => {
+  const [profile, setProfile] = useRecoilState(profileState);
+
+  const onUpdateProfile = (updates: any) =>
+    setProfile(profile => ({
+      ...profile,
+      ...updates,
+    }));
+
+  return onUpdateProfile;
+};
+
+// ✅ Next 버튼 활성화 검사 hook
 export const useCanNext = () => {
   const [profile, setProfile] = useRecoilState(profileState);
   const [uniqueName, setUniqueName] = useRecoilState(uniqueNameState);

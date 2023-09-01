@@ -2,7 +2,7 @@ import "./personalityform.scss";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { profileState } from "@services/store/auth";
-import { useUpdateProfile } from "@services/hooks/auth";
+import { useUpdateProfile } from "@services/hooks/profile";
 export default function PersonalityForm() {
   const [profile, setProfile] = useRecoilState(profileState); // 전역상태
 

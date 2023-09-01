@@ -7,7 +7,7 @@ import useArrayState from "@utils/hooks/useArrayState";
 
 import { useRecoilState } from "recoil";
 import { profileState } from "@services/store/auth";
-import { useUpdateProfile } from "@services/hooks/auth";
+import { useUpdateProfile } from "@services/hooks/profile";
 
 export default function LanguageForm() {
   const [profile, setProfile] = useRecoilState(profileState); // 전역상태

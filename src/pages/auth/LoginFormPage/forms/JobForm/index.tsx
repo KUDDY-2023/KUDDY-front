@@ -2,7 +2,7 @@ import "./jobform.scss";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { profileState } from "@services/store/auth";
-import { useUpdateProfile } from "@services/hooks/auth";
+import { useUpdateProfile } from "@services/hooks/profile";
 export default function JobForm() {
   const [profile, setProfile] = useRecoilState(profileState); // 전역상태
   const [job, setJob] = useState(profile.job); // 상태 연결

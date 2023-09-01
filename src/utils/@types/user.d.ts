@@ -3,10 +3,12 @@ type GenderType = "MR" | "MS" | "N"; // 중성은 뭐지..?
 type TemperamentType = "INTROVERT" | "EXTROVERT";
 type DicisionMakingType = "JUDGING" | "PROSPECTING";
 type AvailableLanguageType = { languageType: string; languageLevel: string };
-type DistrictType = { areaName: string }; // 지역 타입 정해야할까..
+type DistrictType = { areaName: string };
 
 /*
-이거 정해진거임? - 선택 안하면 안 넣어도 되나? 
+이거 어찌할지 결정해 
+
+
 wellbeing: "HEALTH";
   activitiesInvestmentTech: "STOCK";
   careerMajor: "STUDY";
