@@ -1,0 +1,26 @@
+.nav-bar-container {
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 55px !important;
+  width: 100%;
+
+  #back-icon {
+    position: absolute;
+    left: 28px;
+    top: 18px;
+
+    cursor: pointer;
+  }
+
+  #else-icon {
+    position: absolute;
+    right: 28px;
+    top: 18px;
+
+    cursor: pointer;
+  }
+}

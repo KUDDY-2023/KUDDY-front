@@ -1,0 +1,91 @@
+@function color($color-name) {
+  @return var(--color-#{$color-name});
+}
+
+.review-content-container {
+  display: flex;
+  width: 50%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 14px 15px;
+  gap: 8px;
+
+  border-radius: 20px;
+  border: 1px solid color(grey);
+
+  img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 100%;
+  }
+
+  &.kuddy {
+    align-items: center;
+
+    img {
+      width: 52px;
+      height: 52px;
+    }
+  }
+}
+
+.review-profile-traveler {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .review-profile-inner-traveler {
+    display: flex;
+    width: 92px;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+}
+
+.review-grade-kuddy {
+  display: flex;
+  width: 140px;
+  justify-content: space-between;
+  align-items: center;
+
+  .review-grade-box {
+    display: flex;
+    height: 22px;
+    padding: 5px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    border-radius: 100px;
+    background: color(main-yellow);
+
+    color: color(black);
+    font-family: Inter;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+}
+
+.review-content-text {
+  color: color(black);
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.review-date-text {
+  color: #666;
+  font-family: Inter;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
