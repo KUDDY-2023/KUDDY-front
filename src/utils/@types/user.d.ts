@@ -2,7 +2,7 @@ type UserType = "KUDDY" | "TRAVELER";
 type GenderType = "MR" | "MS" | "N"; // 중성은 뭐지..?
 type TemperamentType = "INTROVERT" | "EXTROVERT";
 type DicisionMakingType = "JUDGING" | "PROSPECTING";
-type AvailableLanguageType = { languageType: string; languageLevel: number };
+type AvailableLanguageType = { languageType: string; languageLevel: string };
 type DistrictType = { areaName: string }; // 지역 타입 정해야할까..
 
 /*
