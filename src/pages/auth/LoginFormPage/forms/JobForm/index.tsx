@@ -1,8 +1,18 @@
 import "./jobform.scss";
 import { useState } from "react";
-
+import { useRecoilState } from "recoil";
+import { profileState } from "@services/store/auth";
+import { useUpdateProfile } from "@services/hooks/auth";
 export default function JobForm() {
-  const [job, setJob] = useState("");
+  const [profile, setProfile] = useRecoilState(profileState); // 전역상태
+  const [job, setJob] = useState(profile.job); // 상태 연결
+
+  const onUpdateProfile = useUpdateProfile();
+
+  const onChangeJob = (jobText: string) => {
+    setJob(jobText);
+    onUpdateProfile({ job: jobText });
+  };
 
   return (
     <div className="job-form-container">
@@ -14,7 +24,7 @@ export default function JobForm() {
           type="text"
           placeholder="Enter your job"
           value={job}
-          onChange={e => setJob(e.target.value)}
+          onChange={e => onChangeJob(e.target.value)}
         />
       </div>
     </div>
