@@ -5,22 +5,23 @@ import { useEffect, useState } from "react";
 import DropDown from "@components/_common/DropDown";
 import useArrayState from "@utils/hooks/useArrayState";
 
-type LanguageLevelType = {
-  language: string;
-  level: string;
-};
+import { useRecoilState } from "recoil";
+import { profileState } from "@services/store/auth";
+import { useUpdateProfile } from "@services/hooks/auth";
 
 export default function LanguageForm() {
+  const [profile, setProfile] = useRecoilState(profileState); // 전역상태
+
+  const [languageLevelArr, { addItem, removeItem, updateItem }] =
+    useArrayState<AvailableLanguageType>(profile.availableLanguages);
+
   const languages = ["English", "Korean", "Djdsflsdkjf", "Isdf"];
   const advances = ["1", "2", "3"];
 
-  const [languageLevelArr, { addItem, removeItem, updateItem }] =
-    useArrayState<LanguageLevelType>([{ language: "English", level: "Level" }]);
-
   const _handleAddDropdowm = () => {
     let newItem = {
-      language: "Language",
-      level: "Level",
+      languageType: "Language",
+      languageLevel: "0",
     };
     addItem(newItem);
   };
@@ -30,14 +31,22 @@ export default function LanguageForm() {
   };
 
   const _handleSelectArr = (idx: number, type: string, item: string) => {
-    if (type === "Language") {
-      let newItem = { ...languageLevelArr[idx], language: item };
-      updateItem(idx, newItem);
-    } else {
-      let newItem = { ...languageLevelArr[idx], level: item };
-      updateItem(idx, newItem);
-    }
+    let newItem =
+      type === "Language"
+        ? { ...languageLevelArr[idx], languageType: item }
+        : { ...languageLevelArr[idx], languageLevel: item };
+
+    updateItem(idx, newItem);
   };
+
+  // 전역 상태 관리
+  const onUpdateProfile = useUpdateProfile();
+
+  useEffect(() => {
+    onUpdateProfile({
+      availableLanguages: languageLevelArr,
+    });
+  }, [languageLevelArr]);
 
   return (
     <div className="language-form-container">
@@ -54,7 +63,7 @@ export default function LanguageForm() {
               type="Language"
               placeholder="Language"
               id={idx}
-              state={a.language}
+              state={a.languageType}
               onSelect={_handleSelectArr}
             />
             <DropDown
@@ -63,7 +72,7 @@ export default function LanguageForm() {
               type="Level"
               placeholder="Level"
               id={idx}
-              state={a.level}
+              state={a.languageLevel}
               onSelect={_handleSelectArr}
             />
 
