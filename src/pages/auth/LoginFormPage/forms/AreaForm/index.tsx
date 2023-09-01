@@ -1,44 +1,38 @@
 import "./areaform.scss";
 import { useState, useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { profileState } from "@services/store/auth";
+import { useUpdateProfile } from "@services/hooks/auth";
+
+import { citiesData } from "./citiesData";
+
+// [{ areaName: string },{ areaName: string },{ areaName: string }]
 
 export default function AreaForm() {
-  const [citys, setCitys] = useState([
-    { id: 1, city: "Gangnam", selected: false },
-    { id: 2, city: "Gangdong", selected: false },
-    { id: 3, city: "Gangbuk", selected: false },
-    { id: 4, city: "Gangseo", selected: false },
-    { id: 5, city: "Gwanak", selected: false },
-    { id: 6, city: "Gwangjin", selected: false },
-    { id: 7, city: "Guro", selected: false },
-    { id: 8, city: "Geumcheon", selected: false },
-    { id: 9, city: "Nowon", selected: false },
-    { id: 10, city: "Dobong", selected: false },
-    { id: 11, city: "Dongdaemun", selected: false },
-    { id: 12, city: "Dongjak", selected: false },
-    { id: 13, city: "Mapo", selected: false },
-    { id: 14, city: "Seodaemun", selected: false },
-    { id: 15, city: "Seocho", selected: false },
-    { id: 16, city: "Seongdong", selected: false },
-    { id: 17, city: "Seongbuk", selected: false },
-    { id: 18, city: "Songpa", selected: false },
-    { id: 19, city: "Yangcheon", selected: false },
-    { id: 20, city: "Yeongdeungpo", selected: false },
-    { id: 21, city: "Yongsan", selected: false },
-    { id: 22, city: "Eunpyeong", selected: false },
-    { id: 23, city: "Jongno", selected: false },
-    { id: 24, city: "Junggu", selected: false },
-    { id: 25, city: "Jungnang", selected: false },
-  ]);
+  const [profile, setProfile] = useRecoilState(profileState); // 전역상태
+  let tempArr = profile.districts.map(p => p.areaName);
+  let newArr = citiesData.map(c => {
+    return { ...c, selected: tempArr.includes(c.city) };
+  });
+
+  const [citys, setCitys] = useState(newArr); // 연결
 
   const [count, setCount] = useState(0);
+
+  const onUpdateProfile = useUpdateProfile();
 
   const _handleClickCityBtn = (id: number) => {
     const updatedCitys = citys.map(city =>
       city.id === id ? { ...city, selected: !city.selected } : city,
     );
 
+    const updatedCitysName = updatedCitys
+      .filter(c => c.selected)
+      .map(c => ({ areaName: c.city }));
+
     if (count < 10 || (count >= 10 && citys[id - 1].selected)) {
       setCitys(updatedCitys);
+      onUpdateProfile({ districts: updatedCitysName });
     }
   };
 
