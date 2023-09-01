@@ -8,6 +8,7 @@ import PickPage from "@pages/pick/PickPage";
 import AuthRoutes from "@routes/AuthRoutes";
 import KuddysPickRoutes from "@routes/KuddysPickRoutes";
 import TravelRoutes from "@routes/TravelRoutes";
+import MatesRoutes from "@routes/MatesRoutes";
 import CommunityRoutes from "@routes/CommunityRoutes";
 import MyRoutes from "@routes/MyRoutes";
 import ChatRoutes from "@routes/ChatRoutes";
@@ -20,6 +21,7 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/pick" element={<PickPage />} />
       <Route path="/travel/*" element={<TravelRoutes />} />
+      <Route path="/mates/*" element={<MatesRoutes />} />
       <Route path="/kuddys-pick/*" element={<KuddysPickRoutes />} />
       <Route path="/auth/*" element={<AuthRoutes />} />
       <Route path="/community/*" element={<CommunityRoutes />} />
