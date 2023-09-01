@@ -8,18 +8,21 @@ import { apiClient } from ".";
  * 그 외 복잡한 로직은 hooks에서 처리
  */
 
-// 유저 신고
-export const authReportUser = (report: IReport) => {
-  const url = `/api/v1/reports`;
-  return apiClient.post(url, report).then(res => {
+// ✅ 토큰 재발급
+export const authGetRefreshToken = async (refreshToken: string) => {
+  const url = `/api/v1/auth/token/refresh`;
+  const headers = {
+    Cookie: `refreshToken=${refreshToken}`,
+  };
+  return apiClient.post(url, {}, { headers: headers }).then(res => {
     return res.data;
   });
 };
 
-// 토큰 재발급
-export const authRefreshAccessToken = async () => {
-  const url = `/api/v1/auth/token`;
-  return apiClient.post(url).then(res => {
+// 유저 신고
+export const authReportUser = (report: IReport) => {
+  const url = `/api/v1/reports`;
+  return apiClient.post(url, report).then(res => {
     return res.data;
   });
 };
