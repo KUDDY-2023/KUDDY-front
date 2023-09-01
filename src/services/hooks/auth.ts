@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { authReportUser } from "@services/api/auth";
+import { authReportUser, authGetRefreshToken } from "@services/api/auth";
 import { useQuery, useMutation } from "react-query";
 import { profileState } from "@services/store/auth";
 import { useRecoilState } from "recoil";
@@ -47,6 +47,25 @@ export const useAuthLogin = () => {
     } else {
       alert("로그인에 실패하였습니다.");
       navigate("/auth/register");
+    }
+  };
+};
+
+// ✅ refreshToken으로 accessToken 다시 저장하는 훅
+export const useAuthReLogin = () => {
+  // 토큰 꺼내오는 로직 필요
+  const refreshToken = "~~";
+
+  useEffect(() => {
+    ReLogin();
+  }, []);
+
+  const ReLogin = async () => {
+    try {
+      const { accessToken } = await authGetRefreshToken(refreshToken); // 토큰 요청
+      localStorage.setItem("accessToken", accessToken); // 새 토큰 저장
+    } catch {
+      alert("엑세스 토큰 재발급 실패");
     }
   };
 };
