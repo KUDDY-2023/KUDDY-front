@@ -33,10 +33,25 @@ export const profileState = atom<IUserProfile>({
     temperament: "INTROVERT",
     decisionMaking: "JUDGING",
     job: "",
-    nationality: "",
-    availableLanguages: [],
+    nationality: "", // 보내기 전에 커디 유저는 코리아로 보내기
+    availableLanguages: [], // 보내기 전에 빈건 'NOT_SELECTED' 넣기
     districts: [],
+    wellbeing: [],
+    activitiesInvestmentTech: [],
+    careerMajor: [],
+    entertainment: [],
+    hobbiesInterests: [],
+    lifestyle: [],
+    artBeauty: [],
+    food: [],
+    sports: [],
   },
+});
+
+// 닉네임 테스트
+export const uniqueNameState = atom<boolean>({
+  key: "uniqueNameState",
+  default: false,
 });
 
 // 최초 로그인 후 프로필과 이미지 등록할 수 있도록 해야함

@@ -1,6 +1,6 @@
 export const InterestData = [
   {
-    category: "category",
+    category: "category1",
     interests: [
       { id: 0, inter: "Running", selected: false },
       { id: 1, inter: "Basketball", selected: false },
@@ -11,7 +11,7 @@ export const InterestData = [
     ],
   },
   {
-    category: "category",
+    category: "category2",
     interests: [
       { id: 3, inter: "Running", selected: false },
       { id: 4, inter: "Basketball", selected: false },
@@ -22,7 +22,7 @@ export const InterestData = [
     ],
   },
   {
-    category: "category",
+    category: "category3",
     interests: [
       { id: 6, inter: "Running", selected: false },
       { id: 7, inter: "Basketball", selected: false },
@@ -33,7 +33,7 @@ export const InterestData = [
     ],
   },
   {
-    category: "category",
+    category: "category4",
     interests: [
       { id: 9, inter: "Running", selected: false },
       { id: 10, inter: "Basketball", selected: false },
@@ -41,7 +41,7 @@ export const InterestData = [
     ],
   },
   {
-    category: "category",
+    category: "category5",
     interests: [
       { id: 9, inter: "Running", selected: false },
       { id: 10, inter: "Basketball", selected: false },
@@ -49,7 +49,7 @@ export const InterestData = [
     ],
   },
   {
-    category: "category",
+    category: "category6",
     interests: [
       { id: 9, inter: "Running", selected: false },
       { id: 10, inter: "Basketball", selected: false },

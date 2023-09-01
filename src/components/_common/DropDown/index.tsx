@@ -23,22 +23,16 @@ export default function DownDown({
   state,
   onSelect,
 }: Props) {
-  const [selected, setSelected] = useState<string>(state);
-
   const _handleClickToggle = (nation: string) => {
-    setSelected(nation);
+    onSelect(id, type, nation);
   };
-
-  useEffect(() => {
-    onSelect(id, type, selected);
-  }, [selected]);
 
   return (
     <Dropdown id="kuddy-custom-dropdown">
       <Dropdown.Toggle
         variant="success"
         id="dropdown-basic"
-        className={selected !== placeholder ? "active" : ""}
+        className={state !== placeholder ? "active" : ""}
       >
         {state}
         <ArrowDown />
@@ -46,13 +40,12 @@ export default function DownDown({
 
       <Dropdown.Menu>
         {items.map(i => {
-          if (i === selected) {
+          if (i === state) {
             return (
               <Dropdown.Item
                 id="active-custom-item"
                 onClick={e => {
                   _handleClickToggle(i);
-                  e.stopPropagation();
                 }}
               >
                 {i} <img src={check} alt="check" />
@@ -64,7 +57,6 @@ export default function DownDown({
                 id="custom-item"
                 onClick={e => {
                   _handleClickToggle(i);
-                  e.stopPropagation();
                 }}
               >
                 {i}

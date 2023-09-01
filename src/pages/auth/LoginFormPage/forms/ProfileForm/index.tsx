@@ -5,7 +5,7 @@ import { ReactComponent as Camera } from "@assets/auth/camera.svg";
 
 import { useRecoilState } from "recoil";
 import { profileState } from "@services/store/auth";
-import { useUpdateProfile } from "@services/hooks/auth";
+import { useUpdateProfile } from "@services/hooks/profile";
 
 export default function ProfileForm() {
   const [profile, setProfile] = useRecoilState(profileState); // 전역상태

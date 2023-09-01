@@ -1,27 +1,47 @@
 import "./basicform.scss";
 import { useState } from "react";
+import { useRecoilState } from "recoil";
+import { profileState } from "@services/store/auth";
+import { useUpdateProfile } from "@services/hooks/profile";
 
 export default function BasicForm() {
-  const [gender, setGender] = useState([true, false, false]);
-  const [age, setAge] = useState<string>("0");
+  const [profile, setProfile] = useRecoilState(profileState); // 전역상태
+  const [gender, setGender] = useState([
+    profile.gender === "MR",
+    profile.gender === "MS",
+    profile.gender === "N",
+  ]); // 성별
+  const [age, setAge] = useState<string>(profile.age.toString()); // 나이
+
+  const onUpdateProfile = useUpdateProfile();
 
   const _handleClickGenderBtn = (sex: string) => {
+    let newGender = [false, false, false];
+    let newProfileGender = "";
+
     if (sex === "M") {
-      setGender([true, false, false]);
+      newGender = [true, false, false];
+      newProfileGender = "MR";
     } else if (sex === "F") {
-      setGender([false, true, false]);
+      newGender = [false, true, false];
+      newProfileGender = "MS";
     } else {
-      setGender([false, false, true]);
+      newGender = [false, false, true];
+      newProfileGender = "N";
     }
+
+    setGender(newGender);
+    onUpdateProfile({ gender: newProfileGender });
   };
 
-  //  앞 자리 0은 삭제해야함
+  //  앞 자리 0은 삭제하는 로직
   const _handleSetAge = (e: React.ChangeEvent<HTMLInputElement>) => {
     let number = e.target.value.toString();
     if (number[0] === "0") {
       number = number.slice(1);
     }
     setAge(number);
+    onUpdateProfile({ age: Number(number) });
   };
 
   return (
