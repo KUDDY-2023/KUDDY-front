@@ -10,23 +10,23 @@ import LanguageForm from "./forms/LanguageForm";
 import InterestForm from "./forms/InterestForm";
 
 export const TravelerFormPages = [
-  TypeForm,
-  ProfileForm,
-  BasicForm,
-  JobForm,
-  PersonalityForm,
-  NationalityForm,
-  LanguageForm,
-  InterestForm,
+  { type: "", component: TypeForm },
+  { type: "uniqueName", component: ProfileForm },
+  { type: "age", component: BasicForm },
+  { type: "job", component: JobForm },
+  { type: "", component: PersonalityForm },
+  { type: "nationality", component: NationalityForm },
+  { type: "language", component: LanguageForm },
+  { type: "", component: InterestForm },
 ];
 
 export const KuddyFormPages = [
-  TypeForm,
-  ProfileForm,
-  BasicForm,
-  JobForm,
-  PersonalityForm,
-  AreaForm,
-  LanguageForm,
-  InterestForm,
+  { type: "", component: TypeForm },
+  { type: "uniqueName", component: ProfileForm },
+  { type: "age", component: BasicForm },
+  { type: "job", component: JobForm },
+  { type: "", component: PersonalityForm },
+  { type: "region", component: AreaForm },
+  { type: "language", component: LanguageForm },
+  { type: "", component: InterestForm },
 ];
