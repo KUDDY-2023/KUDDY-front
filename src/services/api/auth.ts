@@ -8,7 +8,7 @@ import { apiClient } from ".";
  * 그 외 복잡한 로직은 hooks에서 처리
  */
 
-// 🔥 유저 신고
+// 유저 신고
 export const authReportUser = (report: IReport) => {
   const url = `/api/v1/reports`;
   return apiClient.post(url, report).then(res => {
