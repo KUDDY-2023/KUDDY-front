@@ -5,23 +5,21 @@ type DicisionMakingType = "JUDGING" | "PROSPECTING";
 type AvailableLanguageType = { languageType: string; languageLevel: string };
 type DistrictType = { areaName: string };
 
-/*
-이거 어찌할지 결정해 
+// 관심사 타입
+interface InterestType {
+  wellbeing: wellbeingType[];
+  activitiesInvestmentTech: activitiesInvestmentTechType[];
+  careerMajor: careerMajorType[];
+  entertainment: entertainmentType[];
+  hobbiesInterests: hobbiesInterestsType[];
+  lifestyle: lifestyleType[];
+  artBeauty: artBeautyType[];
+  food: foodType[];
+  sports: sportsType[];
+}
 
-
-wellbeing: "HEALTH";
-  activitiesInvestmentTech: "STOCK";
-  careerMajor: "STUDY";
-  entertainment: "STARTUP";
-  hobbiesInterests: "SHOPPING";
-  lifestyle: "LIGHTHEARTED";
-  artBeauty: "MUSIC";
-  food: "SALAD";
-  sports: "DANCE";
-*/
-
-// 프로필 정보 생성
-interface IUserProfile {
+// 프로필 기본 정보 + 관심사
+interface IUserProfile extends InterestType {
   roleType: UserType;
   nickname: string;
   profileImage: string;

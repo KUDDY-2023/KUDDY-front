@@ -34,8 +34,17 @@ export const profileState = atom<IUserProfile>({
     decisionMaking: "JUDGING",
     job: "",
     nationality: "", // 보내기 전에 커디 유저는 코리아로 보내기
-    availableLanguages: [],
+    availableLanguages: [], // 보내기 전에 빈건 'NOT_SELECTED' 넣기
     districts: [],
+    wellbeing: [],
+    activitiesInvestmentTech: [],
+    careerMajor: [],
+    entertainment: [],
+    hobbiesInterests: [],
+    lifestyle: [],
+    artBeauty: [],
+    food: [],
+    sports: [],
   },
 });
 
