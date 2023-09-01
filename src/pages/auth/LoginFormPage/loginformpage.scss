@@ -1,6 +1,16 @@
 $grey: var(--color-grey);
 $main-yellow: var(--color-main-yellow);
 
+@mixin next-style() {
+  display: inline-flex;
+  height: 40px;
+  padding: 0px 20px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100px;
+  margin-left: auto;
+}
+
 .login-form-page {
   display: flex;
   flex-direction: column;
@@ -46,16 +56,19 @@ $main-yellow: var(--color-main-yellow);
       background: $grey;
     }
 
-    .next {
-      display: inline-flex;
-      height: 40px;
-      padding: 0px 20px;
-      justify-content: center;
-      align-items: center;
-      border-radius: 100px;
+    .active-next {
+      @include next-style();
       background: $main-yellow;
+      outline: 1px solid var(--color-grey-line);
+    }
 
-      margin-left: auto;
+    .next {
+      @include next-style();
+      background: white;
+      outline: 1px solid var(--color-grey-line);
+      p {
+        color: var(--color-grey-text);
+      }
     }
   }
 }

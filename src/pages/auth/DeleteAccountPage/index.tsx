@@ -4,8 +4,8 @@ import { useState } from "react";
 import BackNavBar from "@components/_common/BackNavBar";
 import EventBtn from "@components/_common/EventBtn";
 
-import check_on from "@assets/icon/check_on.svg";
-import check_off from "@assets/icon/check_off.svg";
+import { ReactComponent as CheckOn } from "@assets/icon/check_on.svg";
+import { ReactComponent as CheckOff } from "@assets/icon/check_off.svg";
 
 export default function DeleteAccountPage() {
   const [isCheck, setIsCheck] = useState(false);
@@ -28,9 +28,7 @@ export default function DeleteAccountPage() {
       </div>
 
       <div className="agreement-container" onClick={_handleCheck}>
-        <div>
-          <img src={isCheck ? check_on : check_off} alt="agreement-check" />
-        </div>
+        {isCheck ? <CheckOn /> : <CheckOff />}
         <p>I have read the precautions carefully and agree to everything.</p>
       </div>
       <EventBtn

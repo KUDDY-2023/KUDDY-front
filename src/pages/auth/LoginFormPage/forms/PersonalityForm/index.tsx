@@ -23,7 +23,7 @@ export default function PersonalityForm() {
 
   return (
     <div className="personality-form-container">
-      <p className="title">Fill your basic information</p>
+      <p className="title">Choose your personality</p>
 
       <div className="form-container">
         <div className="btn-container-flex">

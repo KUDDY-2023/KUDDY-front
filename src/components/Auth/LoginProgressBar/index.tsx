@@ -19,7 +19,7 @@ export default function LoginProgressBar({ completed }: Props) {
       height="4px"
       width={width}
       completed={completed}
-      maxCompleted={100}
+      maxCompleted={80}
       isLabelVisible={false}
       bgColor="#000"
       transitionDuration="0.5s"

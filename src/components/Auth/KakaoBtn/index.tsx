@@ -1,9 +1,13 @@
 import "./kakaoBtn.scss";
-import kakao from "@assets/auth/kakao.png";
-export default function KakaoBtn() {
+import { ReactComponent as Kakao } from "@assets/auth/kakao.svg";
+
+interface Props {
+  onClick: () => void;
+}
+export default function KakaoBtn({ onClick }: Props) {
   return (
-    <div className="kakao-btn">
-      <img src={kakao} alt="kakao" />
+    <div className="kakao-btn" onClick={onClick}>
+      <Kakao />
       <p>Login with Kakao</p>
     </div>
   );

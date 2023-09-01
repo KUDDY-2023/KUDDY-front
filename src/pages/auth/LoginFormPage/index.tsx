@@ -1,29 +1,36 @@
 import "./loginformpage.scss";
 import BackNavBar from "@components/_common/BackNavBar";
 import LoginProgressBar from "@components/Auth/LoginProgressBar";
-
-import {
-  initialKuddyProfileData,
-  initialTravelerProfileData,
-} from "@utils/data/userProfile";
 import { useState, useEffect } from "react";
-
 import { ReactComponent as PreviousIcon } from "@assets/icon/arrow_left.svg";
-import { ReactComponent as NextIcon } from "@assets/icon/arrow_right.svg";
+import { ReactComponent as NextIconBlack } from "@assets/auth/arrow_right.svg";
+import { ReactComponent as NextIconGrey } from "@assets/auth/arrow_right_grey.svg";
+import { KuddyFormPages, TravelerFormPages } from "./formPages";
 
-import { FormPages } from "./formPages";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { userTypeState } from "@services/store/auth";
 
 export default function LoginFormPage() {
-  const [isBuddy, setIsBuddy] = useState(true); // 유저 종류 구분
-  // initial data
-  const [data, setData] = useState(
-    isBuddy ? initialKuddyProfileData : initialTravelerProfileData,
-  );
-  // completed 값 계산
-  let completed = 50;
+  // 1) 유저 구분 값 가져오기
+  const userType = useRecoilValue(userTypeState);
+  const [num, setNum] = useState(0); // 페이지의 번호
+  const isBuddy = userType === "KUDDY";
+  const FormComponent = isBuddy ? KuddyFormPages[num] : TravelerFormPages[num]; // 유저별 페이지
 
-  const [num, setNum] = useState(1);
-  const FormComponent = FormPages[num];
+  // completed 값 계산
+  const [completed, setCompleted] = useState<number>(10 * (num + 1));
+
+  useEffect(() => {
+    setCompleted(10 * (num + 1));
+  }, [num]);
+
+  // 페이지가 넘어갈 때 마다 form이 채워졌는지 확인해야함
+  // next 버튼 활성화 용
+  const [canNext, setCanNext] = useState(true);
+
+  useEffect(() => {
+    setCanNext(true);
+  }, [num]);
 
   return (
     <div className="login-form-page">
@@ -33,13 +40,25 @@ export default function LoginFormPage() {
       <FormComponent />
 
       <div className="btns-contrainer">
-        <div className="previous" onClick={() => setNum(num - 1)}>
-          <PreviousIcon className="previous-icon" />
-          <p>Previous</p>
-        </div>
-        <div className="next" onClick={() => setNum(num + 1)}>
+        {num != 0 && (
+          <div className="previous" onClick={() => setNum(num - 1)}>
+            <PreviousIcon className="previous-icon" />
+            <p>Previous</p>
+          </div>
+        )}
+
+        <div
+          className={canNext ? "active-next" : "next"}
+          onClick={() => {
+            if (num !== 7) setNum(num + 1);
+          }}
+        >
           <p>next</p>
-          <NextIcon className="next-icon" />
+          {canNext ? (
+            <NextIconBlack className="next-icon" />
+          ) : (
+            <NextIconGrey className="next-icon" />
+          )}
         </div>
       </div>
     </div>

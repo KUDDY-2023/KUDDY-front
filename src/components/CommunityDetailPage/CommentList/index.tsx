@@ -1,10 +1,12 @@
 import "./comment-list.scss";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import kuddyBadge from "@assets/community/kuddy_badge.svg";
 import creatorBadge from "@assets/community/creator_badge.svg";
 
 // depth 1이면 reply 버튼, 2이면 들여쓰기
 const CommentList = () => {
+  const nav = useNavigate();
   const [commentData, setCommentData] = useState<CommentType[]>([
     {
       userInfo: {
@@ -50,6 +52,10 @@ const CommentList = () => {
     },
   ]);
 
+  const handleProfileClick = (nickname: string) => {
+    nav(`/profile/${nickname}`);
+  };
+
   return (
     <div className="comment-list-container">
       <div className="comment-list-inner-container">
@@ -64,7 +70,13 @@ const CommentList = () => {
               }
             >
               <div className="comment-profile">
-                <img src={item.userInfo.profile} alt="profile" />
+                <img
+                  src={item.userInfo.profile}
+                  alt="profile"
+                  onClick={() => {
+                    handleProfileClick(item.userInfo.nickname);
+                  }}
+                />
               </div>
 
               <div className="comment-content-container">

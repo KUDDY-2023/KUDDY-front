@@ -1,12 +1,10 @@
+@import "../../../style/mixins";
+
 p {
   margin-bottom: 0 !important ;
 }
 
 #kuddy-custom-dropdown {
-  #custom-dropdown {
-    background-color: none;
-  }
-
   button {
     background-color: transparent;
     display: inline-flex;
@@ -15,17 +13,13 @@ p {
 
     border-radius: 100px;
     border: 1px solid var(--grey, #eee);
+    @include font-style(--font-text, 18px, #aeaeae, 500);
 
-    color: #aeaeae;
-    text-align: center;
-    font-family: var(--font-text);
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-
+    svg {
+      margin-left: 16px;
+    }
     &::after {
-      margin-left: 12px;
+      display: none;
     }
   }
 
@@ -39,21 +33,21 @@ p {
     border: 1px solid #ddd;
     background: #fff;
 
-    #custom-item {
+    #active-custom-item {
       margin-bottom: 8px;
-
-      color: #000;
-      font-family: Inter;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 500;
-      line-height: normal;
-
+      @include font-style(--font-text, 14px, var(--color-black), 700);
       display: flex;
 
       img {
         margin-left: 16px;
       }
+    }
+
+    #custom-item {
+      margin-bottom: 8px;
+      display: flex;
+
+      @include font-style(--font-text, 14px, var(--color-black), 500);
     }
   }
 }

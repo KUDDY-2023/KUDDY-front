@@ -1,18 +1,15 @@
 $main-yellow: var(--color-main-yellow);
+@import "../../../../../style/mixins";
+
 .interest-form-container {
   margin-top: 16px;
   width: 100%;
 
   .title {
-    margin-left: 7%;
-    color: #000;
-    font: {
-      family: var(--font-title);
-      size: 20px;
-      style: normal;
-      weight: 500;
-    }
+    @include font-style(--font-title, 20px, var(--color-black), 500);
     text-align: start;
+    width: 85%;
+    margin-left: 7%;
   }
 
   .form-container {
@@ -23,13 +20,7 @@ $main-yellow: var(--color-main-yellow);
 
     .count {
       margin-left: 7%;
-      color: #000;
-      font: {
-        family: var(--font-text);
-        size: 14px;
-        style: normal;
-        weight: 500;
-      }
+      @include font-style(--font-text, 14px, var(--color-black), 500);
     }
   }
 
@@ -42,13 +33,7 @@ $main-yellow: var(--color-main-yellow);
       margin-bottom: 12px;
       margin-left: 10px;
       margin-left: 7%;
-      color: #aeaeae;
-      font: {
-        family: var(--font-text);
-        size: 16px;
-        style: normal;
-        weight: 500;
-      }
+      @include font-style(--font-text, 14px, #aeaeae, 500);
     }
 
     // interest btn 쭉 나열된 곳
@@ -75,26 +60,11 @@ $main-yellow: var(--color-main-yellow);
       margin-left: 12px;
       margin-bottom: 12px;
 
-      color: #000;
+      @include font-style(--font-text, 14px, var(--color-black), 500);
       text-align: center;
-      font: {
-        family: var(--font-text);
-        size: 14px;
-        style: normal;
-        weight: 500;
-      }
-      line-height: normal;
     }
 
     #active {
-      display: flex;
-      padding: 8px 16px;
-      width: fit-content;
-
-      justify-content: center;
-      align-items: center;
-      border-radius: 100px;
-      outline: none;
       background: $main-yellow;
     }
   }
