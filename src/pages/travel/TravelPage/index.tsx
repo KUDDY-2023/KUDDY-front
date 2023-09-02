@@ -104,7 +104,7 @@ const TravelPage = () => {
         <BackIcon onClick={() => nav("/")} />
         <div
           className="kuddyspicksearchbar-rect"
-          onClick={() => nav("/travel/search")}
+          onClick={() => nav(`/travel/search${window.location.search}`)}
         >
           <form>
             <input

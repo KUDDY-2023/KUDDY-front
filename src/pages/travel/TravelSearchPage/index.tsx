@@ -5,7 +5,6 @@ import { ReactComponent as BackIcon } from "@assets/icon/back.svg";
 import { ReactComponent as SearchIcon } from "@assets/icon/search.svg";
 import { categoryArray, districtArray } from "@pages/travel/TravelPage/_mock";
 
-// 검색어 유지?
 const TravelSearchPage = () => {
   const nav = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -50,7 +49,9 @@ const TravelSearchPage = () => {
   return (
     <div className="travelsearch-wrapper">
       <div className="kuddyspicksearchbar-wrapper">
-        <BackIcon onClick={() => nav("/travel/list")} />
+        <BackIcon
+          onClick={() => nav(`/travel/list${window.location.search}`)}
+        />
         <div className="kuddyspicksearchbar-rect">
           <form onSubmit={handleSubmit}>
             <input

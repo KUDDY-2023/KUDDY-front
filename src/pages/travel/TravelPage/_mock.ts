@@ -1,5 +1,5 @@
 export const categoryArray = [
-  { id: 0, params: null },
+  { id: 0, params: "" },
   { id: 1, params: "attraction" },
   { id: 2, params: "culture" },
   { id: 3, params: "shopping" },
@@ -9,7 +9,7 @@ export const categoryArray = [
 ];
 
 export const districtArray = [
-  { id: 0, params: null },
+  { id: 0, params: "" },
   { id: 1, params: "gangnam" },
   { id: 2, params: "gangdong" },
   { id: 3, params: "gangbuk" },

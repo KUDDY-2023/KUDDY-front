@@ -10,10 +10,14 @@
 
   .img-rect {
     width: calc(100% - 32px);
-    height: 390px;
+    height: 380px;
     border-radius: 10px;
     overflow: hidden;
     margin-top: 10px;
+
+    .swiper-container {
+      height: 380px !important;
+    }
 
     img {
       width: 100%;

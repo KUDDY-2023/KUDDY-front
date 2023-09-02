@@ -1,8 +1,18 @@
 import "./travel-detail-title.scss";
-import { ReactComponent as BookmarkIcon } from "@assets/icon/bookmark.svg";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useBookmark from "@utils/hooks/useBookmark";
-import { useState, useEffect } from "react";
+import { ReactComponent as BookmarkIcon } from "@assets/icon/bookmark.svg";
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, { Autoplay } from "swiper";
+import "swiper/swiper.scss";
+import ImageView from "@components/CommunityDetailPage/ImageView";
+
+type ImageViewType = {
+  isOpen: boolean;
+  index: number;
+  imgUrl: string;
+};
 
 const TravelDetailTitle = ({
   contentId,
@@ -42,10 +52,32 @@ const TravelDetailTitle = ({
       );
   }, [kuddyList, travelerList]);
 
+  SwiperCore.use([Autoplay]);
+  const [imageView, setImageView] = useState<ImageViewType>({
+    isOpen: false,
+    index: 0,
+    imgUrl: "",
+  });
+
   return (
     <div className="travel-detail-title-wrapper">
       <div className="img-rect">
-        <img src={imageList[0]} alt={name} />
+        <Swiper
+          centeredSlides={true}
+          loop={true}
+          autoplay={{ delay: 3000, disableOnInteraction: false }}
+        >
+          {imageList.map((src, idx) => (
+            <SwiperSlide
+              key={src}
+              onClick={() =>
+                setImageView({ isOpen: true, index: idx, imgUrl: src })
+              }
+            >
+              <img alt={src} src={src} />
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
       <div className="title">{name}</div>
       <div className="sub-title">{`${district} · ${category}`}</div>
@@ -76,6 +108,15 @@ const TravelDetailTitle = ({
           fill={state ? "var(--color-main-yellow)" : "var(--color-white)"}
         />
       </div>
+      {imageView.isOpen && (
+        <ImageView
+          photoInfo={imageList.map((item, idx) => {
+            return { photoId: idx, src: item };
+          })}
+          clickedIndex={imageView.index}
+          onClose={() => setImageView({ ...imageView, isOpen: false })}
+        />
+      )}
     </div>
   );
 };
