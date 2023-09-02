@@ -10,8 +10,12 @@ import { KuddyFormPages, TravelerFormPages } from "./formPages";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userTypeState } from "@services/store/auth";
 import { useCanNext } from "@services/hooks/profile";
+import { useSetDefaultProfile } from "@services/hooks/profile";
 
 export default function LoginFormPage() {
+  // 기본 정보 세팅
+  useSetDefaultProfile();
+
   // 1) 유저 구분 값 가져오기
   const userType = useRecoilValue(userTypeState);
   const [num, setNum] = useState(0); // 페이지의 번호
