@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { authReportUser } from "@services/api/auth";
 import { useQuery, useMutation } from "react-query";
 import { profileState, uniqueNameState } from "@services/store/auth";
+import { profileCheckNickname } from "@services/api/profile";
 import { useRecoilState } from "recoil";
 
 // ✅ 프로필 업데이트 훅
@@ -46,4 +47,19 @@ export const useCanNext = () => {
   };
 
   return onCanNextNow;
+};
+
+// ✅ 닉네임 중복 확인 hook
+export const useCheckAvailableNickname = () => {
+  const onCheck = async (nickname: string) => {
+    try {
+      const data: any = await profileCheckNickname(nickname);
+      return data.message === "SUCCESS";
+    } catch (err) {
+      console.log("닉네임 중복 검사 실패");
+      console.log(err);
+    }
+  };
+
+  return onCheck;
 };
