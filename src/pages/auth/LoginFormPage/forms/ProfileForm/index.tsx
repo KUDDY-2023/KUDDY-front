@@ -4,20 +4,52 @@ import { useState, useCallback } from "react";
 import { ReactComponent as Camera } from "@assets/auth/camera.svg";
 
 import { useRecoilState } from "recoil";
-import { profileState } from "@services/store/auth";
-import { useUpdateProfile } from "@services/hooks/auth";
+import { profileState, uniqueNameState } from "@services/store/auth";
+import {
+  useUpdateProfile,
+  useCheckAvailableNickname,
+} from "@services/hooks/profile";
+
+import useCheckNickname from "@utils/hooks/useCheckNickname";
 
 export default function ProfileForm() {
   const [profile, setProfile] = useRecoilState(profileState); // 전역상태
   const [name, setName] = useState(profile.nickname); // 이름
   const [profileImgUrl, setProfileImgUrl] = useState(profile.profileImage); // 프로필
+  const [nameAlert, setNameAlert] = useState({
+    alert: "Only alphabetic, numeric, and underbar",
+    textColor: "grey-alert",
+  });
+  const [isAvailable, setIsAvailable] = useRecoilState(uniqueNameState); // 전역상태
 
   const onUpdateProfile = useUpdateProfile();
+  const onCheckNickname = useCheckNickname();
 
   const onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // 중복 검사 상태 False로 바꾸기
+    setIsAvailable(false);
+
+    // 닉네임 변경
     let newName = e.target.value;
-    setName(newName);
-    setProfile({ ...profile, nickname: newName });
+    let alertText = "";
+
+    // 유효성 검사 + 글자수 검사
+    if (!onCheckNickname(newName)) {
+      alertText = "Only alphabetic, numeric, and underbar";
+    } else if (newName.length > 15) {
+      alertText = "Up to 15 letters";
+    } else if (newName.length < 3) {
+      alertText = "At least 3 letters";
+    }
+
+    // 경고 문구 반영
+    setNameAlert({
+      textColor: alertText ? "red-alert" : "grey-alert",
+      alert: alertText ? alertText : "Only alphabetic, numeric, and underbar",
+    });
+
+    setName(newName); // state
+    setProfile({ ...profile, nickname: newName }); // 전역
   };
 
   const onChangeProfileImg = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,6 +97,13 @@ export default function ProfileForm() {
     });
   };
 
+  const onCheck = useCheckAvailableNickname();
+
+  const onCheckAvailableNickname = async () => {
+    const result = await onCheck(name);
+    if (result) setIsAvailable(true);
+  };
+
   return (
     <div className="profile-img-form-container">
       <p className="title">Set your profile</p>
@@ -90,6 +129,13 @@ export default function ProfileForm() {
           onChange={e => onChangeNickname(e)}
           type="text"
         />
+        <div className={nameAlert.textColor}>
+          <p>{nameAlert.alert}</p>
+          <p>{name.length}/15</p>
+        </div>
+        <button onClick={onCheckAvailableNickname}>
+          닉네임 중복 검사 {isAvailable ? "true" : "false"}
+        </button>
       </div>
     </div>
   );

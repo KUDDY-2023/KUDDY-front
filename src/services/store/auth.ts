@@ -1,3 +1,4 @@
+import { profile } from "console";
 import { atom, selector } from "recoil";
 //import { recoilPersist } from 'recoil-persist';
 // const { persistAtom } = recoilPersist();
@@ -24,22 +25,35 @@ export const profileState = atom<IUserProfile>({
   key: "profileState",
   default: {
     roleType: "KUDDY",
-    nickname: "Jane", // 카카오에서 가져온거 넣어야 하는데
-    // 카카오에서 가져온거 기본 값 설정
-    profileImage:
-      "https://file3.instiz.net/data/cached_img/upload/2021/07/01/23/d98ce916efb0fad63fd3e857e4b674e9.jpg",
+    nickname: "", // 카카오 기본 값 세팅
+    profileImage: "", // 카카오 기본 값 세팅
     gender: "MR",
     age: 0,
     temperament: "INTROVERT",
     decisionMaking: "JUDGING",
     job: "",
-    nationality: "",
-    availableLanguages: [],
+    nationality: "", // 보내기 전에 커디 유저는 코리아로 보내기
+    availableLanguages: [], // 보내기 전에 빈건 'NOT_SELECTED' 넣기
     districts: [],
+    wellbeing: [],
+    activitiesInvestmentTech: [],
+    careerMajor: [],
+    entertainment: [],
+    hobbiesInterests: [],
+    lifestyle: [],
+    artBeauty: [],
+    food: [],
+    sports: [],
   },
 });
 
-// 최초 로그인 후 프로필과 이미지 등록할 수 있도록 해야함
+// 닉네임 테스트
+export const uniqueNameState = atom<boolean>({
+  key: "uniqueNameState",
+  default: true,
+});
+
+// 최초 로그인 후, 프로필과 이미지 등록할 수 있도록 해야함
 
 // 유저 타입 꺼내는 셀렉터
 export const userTypeState = selector({

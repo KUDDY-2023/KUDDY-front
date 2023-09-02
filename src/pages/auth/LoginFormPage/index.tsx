@@ -9,13 +9,21 @@ import { KuddyFormPages, TravelerFormPages } from "./formPages";
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userTypeState } from "@services/store/auth";
+import { useCanNext } from "@services/hooks/profile";
+import { useSetDefaultProfile } from "@services/hooks/profile";
 
 export default function LoginFormPage() {
+  // 기본 정보 세팅
+  useSetDefaultProfile();
+
   // 1) 유저 구분 값 가져오기
   const userType = useRecoilValue(userTypeState);
   const [num, setNum] = useState(0); // 페이지의 번호
   const isBuddy = userType === "KUDDY";
-  const FormComponent = isBuddy ? KuddyFormPages[num] : TravelerFormPages[num]; // 유저별 페이지
+
+  const FormComponent = isBuddy
+    ? KuddyFormPages[num].component
+    : TravelerFormPages[num].component; // 유저별 페이지
 
   // completed 값 계산
   const [completed, setCompleted] = useState<number>(10 * (num + 1));
@@ -24,13 +32,30 @@ export default function LoginFormPage() {
     setCompleted(10 * (num + 1));
   }, [num]);
 
-  // 페이지가 넘어갈 때 마다 form이 채워졌는지 확인해야함
+  // next 버튼 함수
+  const onClickNextBtn = () => {
+    if (canNext && num !== 7) setNum(num + 1);
+    else if (num === 7) console.log("프로필 생성 api 호출");
+  };
+
   // next 버튼 활성화 용
   const [canNext, setCanNext] = useState(true);
+
+  const onCanNextNow = useCanNext();
 
   useEffect(() => {
     setCanNext(true);
   }, [num]);
+
+  useEffect(() => {
+    // 현재 페이지의 타입
+    let currentPageType = isBuddy
+      ? KuddyFormPages[num].type
+      : TravelerFormPages[num].type;
+
+    let can = onCanNextNow(currentPageType);
+    setCanNext(can);
+  });
 
   return (
     <div className="login-form-page">
@@ -49,9 +74,7 @@ export default function LoginFormPage() {
 
         <div
           className={canNext ? "active-next" : "next"}
-          onClick={() => {
-            if (num !== 7) setNum(num + 1);
-          }}
+          onClick={onClickNextBtn}
         >
           <p>next</p>
           {canNext ? (

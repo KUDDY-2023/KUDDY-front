@@ -1,7 +1,14 @@
 import "./interestform.scss";
 import { useState, useEffect } from "react";
 import { InterestData } from "./interestsData";
+
+import { useRecoilState } from "recoil";
+import { profileState } from "@services/store/auth";
+import { useUpdateProfile } from "@services/hooks/profile";
+
 export default function InterestForm() {
+  const [profile, setProfile] = useRecoilState(profileState); // 전역상태
+
   const [count, setCount] = useState(0);
   const [interests, setInterests] = useState(InterestData);
 
