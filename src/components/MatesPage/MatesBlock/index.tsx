@@ -25,7 +25,9 @@ const MatesBlock = ({
         <div className="introduce">{introduce}</div>
         <div className="interests-container">
           {interests.map(item => (
-            <div className="interests">{item}</div>
+            <div className="interests" key={item}>
+              {item}
+            </div>
           ))}
         </div>
       </div>

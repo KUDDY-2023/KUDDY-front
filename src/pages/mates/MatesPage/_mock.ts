@@ -58,7 +58,7 @@ export const matesArrayK: MatesType[] = [
 
 export const matesArrayT: MatesType[] = [
   {
-    id: 1,
+    id: 7,
     nickname: "jenny",
     profileImageUrl:
       "https://images.unsplash.com/photo-1691155056059-82a814c79240?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY5MzI4OTkxMw&ixlib=rb-4.0.3&q=80&w=1080",
@@ -67,7 +67,7 @@ export const matesArrayT: MatesType[] = [
     interests: ["Tteobokki", "Game", "DIY"],
   },
   {
-    id: 2,
+    id: 8,
     nickname: "mark",
     profileImageUrl:
       "https://plus.unsplash.com/premium_photo-1676892435585-d29aee82ad6d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY5MzI4OTkyMQ&ixlib=rb-4.0.3&q=80&w=1080",
@@ -76,7 +76,7 @@ export const matesArrayT: MatesType[] = [
     interests: ["homebody", "Netflix", "book"],
   },
   {
-    id: 3,
+    id: 9,
     nickname: "alice",
     profileImageUrl:
       "https://images.unsplash.com/photo-1681255633332-61b53fa198e4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY5MzI4OTkzMA&ixlib=rb-4.0.3&q=80&w=1080",
@@ -85,7 +85,7 @@ export const matesArrayT: MatesType[] = [
     interests: ["photo", "polaroid", "walk"],
   },
   {
-    id: 4,
+    id: 10,
     nickname: "jane",
     profileImageUrl:
       "https://images.unsplash.com/photo-1692023383905-487b88c9bf0d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTY5MzI4OTk0NQ&ixlib=rb-4.0.3&q=80&w=1080",
@@ -94,4 +94,37 @@ export const matesArrayT: MatesType[] = [
       "I love the nature of Seoul I love the nature of Seoul I love the nature of Seoul.",
     interests: ["Dog", "surfing", "beer"],
   },
+];
+
+export const languageArray: string[] = [
+  "english",
+  "korean",
+  "japanese",
+  "chinese",
+];
+
+export type InterestType = {
+  group: string;
+  element: string;
+};
+export const interestArray: InterestType[] = [
+  { group: "group1", element: "element11" },
+  { group: "group1", element: "element12" },
+  { group: "group1", element: "element13" },
+  { group: "group2", element: "element21" },
+  { group: "group2", element: "element22" },
+  { group: "group2", element: "element23" },
+  { group: "group2", element: "element24" },
+  { group: "group3", element: "element31" },
+  { group: "group3", element: "element32" },
+  { group: "group3", element: "element33" },
+  { group: "group3", element: "element34" },
+  { group: "group3", element: "element35" },
+  { group: "group4", element: "element41" },
+  { group: "group4", element: "element42" },
+  { group: "group4", element: "element43" },
+  { group: "group4", element: "element44" },
+  { group: "group5", element: "element51" },
+  { group: "group5", element: "element52" },
+  { group: "group5", element: "element53" },
 ];

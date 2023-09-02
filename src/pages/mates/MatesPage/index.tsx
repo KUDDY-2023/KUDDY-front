@@ -1,8 +1,10 @@
 import "./mates-page.scss";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import useModal from "@utils/hooks/useModal";
 import TopBar from "@components/_common/TopBar";
 import BottomNavBar from "@components/_common/BottomNavBar";
+import MatesSearchBar from "@components/MatesPage/MatesSearchBar";
 import MatesBlock from "@components/MatesPage/MatesBlock";
 import { ReactComponent as ArrowIcon } from "@assets/icon/arrow_down.svg";
 import { ReactComponent as CheckIcon } from "@assets/icon/check.svg";
@@ -13,35 +15,22 @@ const MatesPage = () => {
   const [matesType, setMatesType] = useState<string>("K-Buddy");
   const matetype = ["K-Buddy", "Traveler"];
   const [matesArray, setMatesArray] = useState<MatesType[]>(matesArrayK);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     setMatesArray(matesType === "K-Buddy" ? matesArrayK : matesArrayT);
   }, [matesType]);
 
-  const [isOpened, setIsOpened] = useState<boolean>(true);
-  const buttonRef = useRef<HTMLDivElement>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const clickOutside = (e: any) => {
-      if (
-        isOpened &&
-        modalRef.current &&
-        !modalRef.current.contains(e.target) &&
-        buttonRef.current &&
-        !buttonRef.current.contains(e.target)
-      ) {
-        setIsOpened(false);
-      }
-    };
-    document.addEventListener("mousedown", clickOutside);
-    return () => {
-      document.removeEventListener("mousedown", clickOutside);
-    };
-  }, [isOpened]);
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+  const { buttonRef, modalRef } = useModal(isOpened, setIsOpened);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  useEffect(() => {
+    setMatesArray(matesArray);
+  }, [searchParams]);
 
   return (
     <>
@@ -65,6 +54,7 @@ const MatesPage = () => {
                 setMatesType(item);
                 setIsOpened(false);
               }}
+              key={item}
             >
               <p style={{ fontWeight: matesType === item ? "700" : "500" }}>
                 {item}
@@ -74,9 +64,10 @@ const MatesPage = () => {
           ))}
         </div>
       )}
+      <MatesSearchBar />
       <div className="mates-block-wrapper">
         {matesArray.map(item => (
-          <MatesBlock {...item} />
+          <MatesBlock {...item} key={item.id} />
         ))}
       </div>
       <BottomNavBar />
