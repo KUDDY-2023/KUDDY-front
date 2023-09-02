@@ -31,7 +31,7 @@ const TravelPage = () => {
   }, [searchParams]);
 
   const handleCategory = (item: any) => {
-    if (item.params === null) {
+    if (item.params === "") {
       searchParams.delete("category");
       setSearchParams(searchParams);
     } else {
@@ -122,7 +122,11 @@ const TravelPage = () => {
         {categoryArray.map((item, idx) => (
           <div
             className={
-              currentCategory === item.params ? "rect selected" : "rect"
+              currentCategory === null && item.params === ""
+                ? "rect selected"
+                : currentCategory === item.params
+                ? "rect selected"
+                : "rect"
             }
             ref={currentCategory === item.params ? selectedCategory : null}
             key={item.id}
@@ -131,7 +135,7 @@ const TravelPage = () => {
               marginRight: idx === categoryArray.length - 1 ? "25px" : "0",
             }}
           >
-            {item.params === null
+            {item.params === ""
               ? "All"
               : item.params.replace(/^[a-z]/, char => char.toUpperCase())}
           </div>

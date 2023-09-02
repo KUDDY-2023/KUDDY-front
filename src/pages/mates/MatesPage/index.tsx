@@ -66,9 +66,15 @@ const MatesPage = () => {
       )}
       <MatesSearchBar />
       <div className="mates-block-wrapper">
-        {matesArray.map(item => (
-          <MatesBlock {...item} key={item.id} />
-        ))}
+        {matesArray &&
+          (matesArray.length === 0 ? (
+            <div className="empty">
+              <div className="no-result">No result</div>
+              <p>Try searching differently</p>
+            </div>
+          ) : (
+            matesArray.map(item => <MatesBlock {...item} key={item.id} />)
+          ))}
       </div>
       <BottomNavBar />
     </>
