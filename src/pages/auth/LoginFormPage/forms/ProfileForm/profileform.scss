@@ -74,4 +74,21 @@
     }
     line-height: normal;
   }
+
+  @mixin text-color($color) {
+    p {
+      color: $color;
+    }
+  }
+
+  .grey-alert {
+    background-color: transparent;
+    @include text-color(grey);
+  }
+
+  .red-alert {
+    background-color: transparent;
+
+    @include text-color(red);
+  }
 }
