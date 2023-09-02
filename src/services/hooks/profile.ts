@@ -3,8 +3,36 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { authReportUser } from "@services/api/auth";
 import { useQuery, useMutation } from "react-query";
 import { profileState, uniqueNameState } from "@services/store/auth";
-import { profileCheckNickname } from "@services/api/profile";
+import { profileCheckNickname, profileGetProfile } from "@services/api/profile";
 import { useRecoilState } from "recoil";
+
+// ✅ default 프로필 이미지 + 닉네임 세팅하는 hook
+export const useSetDefaultProfile = () => {
+  const onUpdateProfile = useUpdateProfile();
+
+  useEffect(() => {
+    setDefaultInfo();
+  }, []);
+
+  const setDefaultInfo = async () => {
+    try {
+      // const { data }: any = await profileGetProfile();
+      // let nickname = data.nickname;
+      // let profileImage = data.profileImage;
+
+      // onUpdateProfile({ nickname: nickname, profileImage: profileImage });
+
+      // 임시
+      onUpdateProfile({
+        nickname: "What",
+        profileImage:
+          "https://image.blip.kr/v1/file/6f1bf4c95ef96f263472ce67b3ea800a",
+      });
+    } catch (err) {
+      console.log("기본 정보 조회 실패", err);
+    }
+  };
+};
 
 // ✅ 프로필 업데이트 훅
 export const useUpdateProfile = () => {
