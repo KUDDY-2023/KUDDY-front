@@ -17,7 +17,7 @@ export type TicketInfoType = {
 const TicketVerificationPage = () => {
   const [ticketInfo, setTicketInfo] = useState<TicketInfoType>({
     ticketImageUrl: "",
-    ticketStatus: "SCREENING_IN_PROGRESS",
+    ticketStatus: "NOT_YET",
   });
   return (
     <>
