@@ -1,5 +1,5 @@
 import "./profileform.scss";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 // import profile from "@assets/auth/user.png";
 import { ReactComponent as Camera } from "@assets/auth/camera.svg";
 
@@ -31,21 +31,25 @@ export default function ProfileForm() {
 
     // 닉네임 변경
     let newName = e.target.value;
-    let alertText = "";
+    let alertText = "Please press the checking button";
+    let textColor = "grey-alert";
 
     // 유효성 검사 + 글자수 검사
     if (!onCheckNickname(newName)) {
       alertText = "Only alphabetic, numeric, and underbar";
+      textColor = "red-alert";
     } else if (newName.length > 15) {
       alertText = "Up to 15 letters";
+      textColor = "red-alert";
     } else if (newName.length < 3) {
       alertText = "At least 3 letters";
+      textColor = "red-alert";
     }
 
     // 경고 문구 반영
     setNameAlert({
-      textColor: alertText ? "red-alert" : "grey-alert",
-      alert: alertText ? alertText : "Only alphabetic, numeric, and underbar",
+      textColor: textColor,
+      alert: alertText,
     });
 
     setName(newName); // state
@@ -100,10 +104,20 @@ export default function ProfileForm() {
   const onCheck = useCheckAvailableNickname();
 
   const onCheckAvailableNickname = async () => {
-    const result = await onCheck(name);
-    if (result) setIsAvailable(true);
+    if (nameAlert.alert === "Please press the checking button") {
+      const result = await onCheck(name);
+      if (result) setIsAvailable(true);
+    }
   };
 
+  useEffect(() => {
+    if (isAvailable) {
+      setNameAlert({
+        textColor: "blue-alert",
+        alert: "You can use this name",
+      });
+    }
+  }, [isAvailable]);
   return (
     <div className="profile-img-form-container">
       <p className="title">Set your profile</p>
@@ -129,13 +143,20 @@ export default function ProfileForm() {
           onChange={e => onChangeNickname(e)}
           type="text"
         />
-        <div className={nameAlert.textColor}>
+        <div className={`status-text ${nameAlert.textColor}`}>
           <p>{nameAlert.alert}</p>
           <p>{name.length}/15</p>
         </div>
-        <button onClick={onCheckAvailableNickname}>
-          닉네임 중복 검사 {isAvailable ? "true" : "false"}
-        </button>
+        <div className="checking-btn-container">
+          <button
+            onClick={onCheckAvailableNickname}
+            className={`checking-btn ${
+              isAvailable ? "grey-btn" : "yellow-btn"
+            }`}
+          >
+            checking
+          </button>
+        </div>
       </div>
     </div>
   );
