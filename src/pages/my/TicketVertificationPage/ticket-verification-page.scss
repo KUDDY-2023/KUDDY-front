@@ -1,0 +1,59 @@
+@function color($color-name) {
+  @return var(--color-#{$color-name});
+}
+
+.ticket-verification-page-wrapper {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 100px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .button {
+    position: absolute;
+    bottom: 0;
+    width: calc(100% - 50px);
+    height: 52px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font: {
+      family: var(--font-text);
+      size: 18px;
+      weight: 600;
+    }
+    color: color(black);
+    background-color: color(main-yellow);
+
+    &.disabled {
+      color: color(grey-text);
+      background-color: color(grey);
+    }
+  }
+}
+
+.completed-menu-wrapper {
+  width: 100%;
+  height: calc(100vh - 160px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  p {
+    color: color(black);
+    font: {
+      family: var(--font-text);
+      size: 14px;
+      weight: 500;
+    }
+    margin-top: 12px;
+  }
+}
