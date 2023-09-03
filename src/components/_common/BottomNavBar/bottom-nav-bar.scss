@@ -1,16 +1,11 @@
 @import "../../../style/mixins";
 
-// @function color($color-name) {
-//   @return var(--color-#{$color-name});
-// }
-
 .nav-container {
   position: fixed;
   bottom: 0;
   z-index: 999;
   display: flex;
   justify-content: center;
-  // background-color: color(white) !important;
   background-color: color(white);
 
   width: 100%;
@@ -51,6 +46,6 @@
     size: 9px;
     weight: 400;
   }
-  color: color(black) !important;
+  color: color(black);
   margin-top: 6px;
 }
