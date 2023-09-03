@@ -43,7 +43,7 @@ const TopBar = ({ isCommunity }: TopBarProps) => {
     return (
       <>
         <div className="left">
-          <div className="topbar-profile-circle" onClick={() => nav("/mypage")}>
+          <div className="topbar-profile-circle" onClick={() => nav("/my")}>
             <img
               src="https://c1.wallpaperflare.com/preview/714/489/198/chess-chess-board-game-board-flag.jpg"
               alt="profile"
