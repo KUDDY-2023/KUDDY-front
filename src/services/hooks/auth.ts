@@ -20,9 +20,10 @@ export const useAuthSocialLogin = () => {
   const onLogin = (social: socialType) => {
     const SOCIAL = social;
     const CLIENT_MAIN_URL = process.env.REACT_APP_REACT_URL; // 현재 나의 uri
-    const REDIRECT_URI = `${CLIENT_MAIN_URL}/auth/processing`; // redirect uri
+    const REDIRECT_URI = `${CLIENT_MAIN_URL}`; // redirect uri
     const SPRING = process.env.REACT_APP_API_HOST; // spring 서버
     const URL = `${SPRING}/oauth2/authorization/${SOCIAL}?redirect_uri=${REDIRECT_URI}`;
+
     window.location.href = URL; // 이동
   };
 

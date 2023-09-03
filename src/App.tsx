@@ -13,8 +13,8 @@ import MyRoutes from "@routes/MyRoutes";
 import ChatRoutes from "@routes/ChatRoutes";
 import ProfileRoutes from "@routes/ProfileRoutes";
 import AlarmViewPage from "@pages/alarm/AlarmViewPage";
+import LoginProcessingPage from "@pages/auth/LoginProcessingPage";
 import Test from "@pages/Test";
-
 function App() {
   return (
     <Routes>
@@ -23,11 +23,14 @@ function App() {
       <Route path="/travel/*" element={<TravelRoutes />} />
       <Route path="/kuddys-pick/*" element={<KuddysPickRoutes />} />
       <Route path="/auth/*" element={<AuthRoutes />} />
+      <Route path="/oauth2/redirect" element={<LoginProcessingPage />} />
+
       <Route path="/community/*" element={<CommunityRoutes />} />
       <Route path="/my/*" element={<MyRoutes />} />
       <Route path="/chat/*" element={<ChatRoutes />} />
       <Route path="/profile/*" element={<ProfileRoutes />} />
       <Route path="/alarm" element={<AlarmViewPage />} />
+
       <Route path="/test" element={<Test />} />
     </Routes>
   );
