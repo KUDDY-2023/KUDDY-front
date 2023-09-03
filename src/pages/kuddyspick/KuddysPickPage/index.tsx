@@ -2,12 +2,7 @@ import "./kuddys-pick-page.scss";
 import KuddysPickSearchBar from "@components/KuddysPickPage/KuddysPickSearchBar";
 import KuddysPickBlock from "@components/KuddysPickPage/KuddysPickBlock";
 import { useState, useEffect } from "react";
-
-export type KuddysPickType = {
-  id: number;
-  thumbnail: string;
-  title: string;
-};
+import useInput from "@utils/hooks/useInput";
 
 // 검색어 저장 recoil 추가 필요
 const KuddysPickPage = () => {
@@ -37,7 +32,7 @@ const KuddysPickPage = () => {
       title: "10 The best view point for Han-River",
     },
   ]);
-  const [searchInput, setSearchInput] = useState<string>("");
+  const { value, onChange, reset, setValue } = useInput("");
   const [searchedWord, setSearchedWord] = useState<string>("");
 
   useEffect(() => {
@@ -53,8 +48,9 @@ const KuddysPickPage = () => {
   return (
     <div className="kuddyspickmenu-wrapper">
       <KuddysPickSearchBar
-        searchInput={searchInput}
-        setSearchInput={setSearchInput}
+        searchInput={value}
+        setSearchInput={setValue}
+        onChange={onChange}
         searchedWord={searchedWord}
         setSearchedWord={setSearchedWord}
       />

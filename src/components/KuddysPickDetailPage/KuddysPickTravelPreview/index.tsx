@@ -1,5 +1,4 @@
 import "./kuddys-pick-travel-preview.scss";
-import { KuddysPickDetailContentType } from "@pages/kuddyspick/KuddysPickDetailPage/index";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper.scss";
 
@@ -41,9 +40,9 @@ const KuddysPickTravelPreview = ({
           centeredSlides={true}
         >
           {image.map(item => (
-            <SwiperSlide key={item.id}>
+            <SwiperSlide key={item}>
               <div className="swiper-rect">
-                <img src={item.imgSrc} alt={item.alt} />
+                <img src={item} />
               </div>
             </SwiperSlide>
           ))}

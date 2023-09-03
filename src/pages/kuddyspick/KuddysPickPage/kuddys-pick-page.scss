@@ -21,9 +21,11 @@
   p {
     color: var(--color-grey-text);
     text-align: center;
-    font-family: var(--font-text);
-    font-size: 14px;
-    font-weight: 500;
+    font: {
+      family: var(--font-text);
+      size: 14px;
+      weight: 500;
+    }
     margin-top: 12px;
   }
 }

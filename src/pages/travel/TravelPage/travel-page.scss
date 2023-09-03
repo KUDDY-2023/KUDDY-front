@@ -81,5 +81,9 @@
     justify-content: space-between;
     flex-wrap: wrap;
     margin-top: 7px;
+
+    .empty {
+      height: calc(100vh - 200px);
+    }
   }
 }

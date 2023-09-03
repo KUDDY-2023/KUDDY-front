@@ -12,14 +12,16 @@
   border-radius: 59px;
   cursor: pointer;
 
-  color: color(black);
+  color: color(grey-text);
   font-family: "Inter";
   font-size: 14px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 500;
   line-height: normal;
 
   &.active {
     background-color: color(main-yellow);
+    color: color(black);
+    font-weight: 600;
   }
 }

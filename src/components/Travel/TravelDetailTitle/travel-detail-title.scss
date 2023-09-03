@@ -1,0 +1,96 @@
+@function color($color-name) {
+  @return var(--color-#{$color-name});
+}
+
+.travel-detail-title-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .img-rect {
+    width: calc(100% - 32px);
+    height: 380px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 10px;
+
+    .swiper-container {
+      height: 380px !important;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .title {
+    width: calc(100% - 50px);
+    color: color(black);
+    font: {
+      family: var(--font-title);
+      size: 24px;
+      weight: 600;
+    }
+    line-height: 120%;
+    margin-top: 20px;
+  }
+
+  .sub-title {
+    width: calc(100% - 50px);
+    color: color(black);
+    font: {
+      family: var(--font-text);
+      size: 14px;
+      weight: 500;
+    }
+    margin-top: 10px;
+  }
+
+  .flex-container {
+    width: calc(100% - 50px);
+    height: 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: {
+      top: 20px;
+      bottom: 10px;
+    }
+
+    .mates-container {
+      display: flex;
+    }
+
+    .profile-circle-container {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .profile-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      overflow: hidden;
+      position: absolute;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .number {
+      margin-left: 10px;
+      color: color(black);
+      font: {
+        family: var(--font-text);
+        size: 14px;
+        weight: 500;
+      }
+    }
+  }
+}

@@ -7,6 +7,7 @@ import { ReactComponent as SearchIcon } from "@assets/icon/search.svg";
 type SearchBarProps = {
   searchInput: string;
   setSearchInput: (value: any) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   searchedWord: string;
   setSearchedWord: (value: any) => void;
 };
@@ -14,20 +15,19 @@ type SearchBarProps = {
 const KuddysPickSearchBar = ({
   searchInput,
   setSearchInput,
+  onChange,
   searchedWord,
   setSearchedWord,
 }: SearchBarProps) => {
   const nav = useNavigate();
   const input = useRef<HTMLInputElement>(null);
   const [isInitial, setIsInitial] = useState<boolean>(true);
+
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (input.current) input.current.blur();
     setIsInitial(false);
     setSearchedWord(searchInput);
-  };
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value);
   };
   return (
     <>
@@ -37,7 +37,7 @@ const KuddysPickSearchBar = ({
           <form onSubmit={handleSubmit}>
             <input
               value={searchInput}
-              onChange={handleInput}
+              onChange={onChange}
               placeholder={`Search Kuddy's Pick by title`}
               ref={input}
             />

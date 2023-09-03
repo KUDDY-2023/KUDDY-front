@@ -3,7 +3,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { ReactComponent as SearchIcon } from "@assets/icon/search.svg";
 import SearchResultPlaceItem from "../SearchResultPlaceItem";
 
-import useInput from "@utils/hooks/userInput";
+import useInput from "@utils/hooks/useInput";
 interface Props {
   onSelectPlace: (placeName: string) => void;
   onCloseSearchForm: () => void;
