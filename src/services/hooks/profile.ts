@@ -1,14 +1,77 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { authReportUser } from "@services/api/auth";
 import { useQuery, useMutation } from "react-query";
-import { profileState, uniqueNameState } from "@services/store/auth";
+import {
+  profileState,
+  uniqueNameState,
+  interestsArrState,
+} from "@services/store/auth";
 import {
   profileCheckNickname,
   profileGetSocialProfile,
+  profileCreateTheFirstProfile,
 } from "@services/api/profile";
 import { useRecoilState } from "recoil";
 import useCheckNickname from "@utils/hooks/useCheckNickname";
+
+// ✅ 프로필 최초 생성
+export const useCreateProfile = () => {
+  const update = useUpdateProfile();
+
+  // 전역에서 프로필 정보 가져오기
+  const [profile, _] = useRecoilState(profileState);
+  const [interestsArr, _i] = useRecoilState(interestsArrState);
+
+  const navigate = useNavigate();
+
+  const newProfile = JSON.parse(JSON.stringify(profile));
+
+  // profile 가공 필요
+  // 1. 사용 가능 언어 level number 타입으로 바꾸기
+  let newL = newProfile.availableLanguages.map((l: any) => {
+    return { ...l, languageLevel: Number(l.languageLevel) };
+  });
+
+  newProfile.availableLanguages = newL;
+
+  // 2. 흥미 선택한거 가져와서, profile에 넣기
+  for (let i = 0; i < interestsArr.length; i++) {
+    let temp = interestsArr[i].interests
+      .filter(inter => inter.selected)
+      .map(inter => inter.inter);
+
+    if (temp.length === 0) temp = ["NOT_SELECTED"];
+
+    if (i === 0) newProfile.artBeauty = temp;
+    if (i === 1) newProfile.activitiesInvestmentTech = temp;
+    if (i === 2) newProfile.careerMajor = temp;
+    if (i === 3) newProfile.entertainment = temp;
+    if (i === 4) newProfile.food = temp;
+    if (i === 5) newProfile.hobbiesInterests = temp;
+    if (i === 6) newProfile.lifestyle = temp;
+    if (i === 7) newProfile.sports = temp;
+  }
+
+  // 3. nation이 비어있다면 korea로 넣기
+  if (!newProfile.nationality) newProfile.nationality = "KOREA";
+
+  const { mutate: createProfile } = useMutation(profileCreateTheFirstProfile, {
+    onSuccess: res => {
+      console.log("프로필 생성 성공", res);
+      navigate("/");
+    },
+    onError: err => {
+      console.log("실패", err);
+    },
+  });
+
+  const onCreateProfile = () => {
+    console.log("변환한거", newProfile);
+    createProfile(newProfile);
+  };
+
+  return { onCreateProfile };
+};
 
 // ✅ default 프로필 이미지 + 닉네임 세팅하는 hook
 export const useSetDefaultProfile = () => {

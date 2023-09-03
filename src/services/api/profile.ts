@@ -18,3 +18,10 @@ export const profileGetProfile = async () => {
   const url = `/api/v1/members/profile`;
   return apiClient.get(url);
 };
+
+// ✅ 프로필 최초 생성
+export const profileCreateTheFirstProfile = (profile: IUserProfile) => {
+  const url = `/api/v1/members/profile`;
+  console.log(profile);
+  return apiClient.post(url, profile);
+};

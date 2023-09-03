@@ -12,6 +12,7 @@ import { userTypeState } from "@services/store/auth";
 import { useCanNext } from "@services/hooks/profile";
 import { useSetDefaultProfile } from "@services/hooks/profile";
 
+import { useCreateProfile } from "@services/hooks/profile";
 export default function LoginFormPage() {
   // 기본 정보 세팅
   useSetDefaultProfile();
@@ -35,7 +36,7 @@ export default function LoginFormPage() {
   // next 버튼 함수
   const onClickNextBtn = () => {
     if (canNext && num !== 7) setNum(num + 1);
-    else if (num === 7) console.log("프로필 생성 api 호출");
+    else if (num === 7) onCreateProfile(); // 프로필 생성
   };
 
   // next 버튼 활성화 용
@@ -56,6 +57,8 @@ export default function LoginFormPage() {
     let can = onCanNextNow(currentPageType);
     setCanNext(can);
   });
+
+  const { onCreateProfile } = useCreateProfile();
 
   return (
     <div className="login-form-page">
