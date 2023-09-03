@@ -1,6 +1,4 @@
-@function color($color-name) {
-  @return var(--color-#{$color-name});
-}
+@import "../../../style/mixins";
 
 .topbar-container {
   width: 100%;
@@ -12,6 +10,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  @media (min-width: 576px) {
+    width: 390px;
+  }
 
   .left {
     display: flex;

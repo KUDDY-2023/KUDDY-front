@@ -2,6 +2,7 @@ import "./top-bar.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Menu from "@components/CommunityListPage/Menu";
+import defaultprofile from "@assets/topbar/profile_default.svg";
 import { ReactComponent as ChatIcon } from "@assets/topbar/chat_default.svg";
 import { ReactComponent as NewChatIcon } from "@assets/topbar/chat_new.svg";
 import { ReactComponent as NotificationIcon } from "@assets/topbar/notification_default.svg";
@@ -44,10 +45,7 @@ const TopBar = ({ isCommunity }: TopBarProps) => {
       <>
         <div className="left">
           <div className="topbar-profile-circle" onClick={() => nav("/my")}>
-            <img
-              src="https://c1.wallpaperflare.com/preview/714/489/198/chess-chess-board-game-board-flag.jpg"
-              alt="profile"
-            />
+            <img src={defaultprofile} alt="profile" />
           </div>
           <div className="topbar-title">KUDDY</div>
         </div>

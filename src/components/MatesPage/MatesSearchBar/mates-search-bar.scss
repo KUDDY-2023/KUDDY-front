@@ -1,6 +1,4 @@
-@function color($color-name) {
-  @return var(--color-#{$color-name});
-}
+@import "../../../style/mixins";
 
 .mates-search-bar-wrapper {
   width: 100%;

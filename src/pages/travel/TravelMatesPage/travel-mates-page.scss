@@ -1,6 +1,4 @@
-@function color($color-name) {
-  @return var(--color-#{$color-name});
-}
+@import "../../../style/mixins";
 
 .travel-mates-selectbar-container {
   width: calc(100% - 42px);
