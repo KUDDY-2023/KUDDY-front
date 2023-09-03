@@ -1,3 +1,5 @@
+@import "./common.scss";
+
 @mixin font-style($font, $size, $color, $weight) {
   color: $color;
   font-family: var($font);
@@ -11,4 +13,9 @@
   @media screen and (max-width: 370px) {
     @content;
   }
+}
+
+@function color($color-name) {
+  $color-value: map-get($colors, $color-name);
+  @return $color-value;
 }
