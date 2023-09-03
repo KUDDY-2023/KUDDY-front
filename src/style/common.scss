@@ -16,8 +16,6 @@ $colors: (
   touch: #d1f9ff,
   red: #ff3333,
   light-red: #ffc6c6,
-  white: #ffffff,
-  black: #31302a,
 );
 
 // CSS variable
@@ -25,6 +23,9 @@ $colors: (
   @each $name, $color in $colors {
     --color-#{$name}: #{$color};
   }
+  --color-white: #ffffff;
+  --color-black: #31302a;
+
   --font-title: Geologica;
   --font-text: Inter;
   --font-roboto: Roboto;
