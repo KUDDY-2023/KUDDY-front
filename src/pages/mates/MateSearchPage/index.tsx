@@ -1,6 +1,7 @@
 import "@pages/travel/TravelSearchPage/travel-search-page.scss";
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import useInput from "@utils/hooks/useInput";
 import { ReactComponent as BackIcon } from "@assets/icon/back.svg";
 import { ReactComponent as SearchIcon } from "@assets/icon/search.svg";
 import MatesDropDown from "@components/MatesPage/MatesDropDown";
@@ -10,17 +11,17 @@ import { languageArray, interestArray } from "@pages/mates/MatesPage/_mock";
 const MatesSearchPage = () => {
   const nav = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const [searchInput, setSearchInput] = useState<string | null>(
-    searchParams.get("keyword"),
+  const { value, onChange, reset, setValue } = useInput(
+    searchParams.get("keyword") === null
+      ? ""
+      : String(searchParams.get("keyword")),
   );
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value);
-  };
-  const handleKeyword = (input: string) => {
-    searchParams.set("keyword", input);
-    setSearchParams(searchParams);
-  };
+  useEffect(() => {
+    if (value === "") {
+      searchParams.delete("keyword");
+      setSearchParams(searchParams);
+    }
+  }, [value]);
 
   const [selectedLanguage, setSelectedLanguage] = useState<string | null>(
     searchParams.get("language") === null
@@ -95,7 +96,7 @@ const MatesSearchPage = () => {
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (searchInput) handleKeyword(searchInput);
+    if (value) handleItem("keyword", value);
     nav(`/mates/list${window.location.search}`);
   };
 
@@ -106,8 +107,8 @@ const MatesSearchPage = () => {
         <div className="kuddyspicksearchbar-rect">
           <form onSubmit={handleSubmit}>
             <input
-              value={searchInput !== null ? searchInput : undefined}
-              onChange={handleInput}
+              value={value}
+              onChange={onChange}
               placeholder={`You can search by name`}
             />
             <button type="submit">

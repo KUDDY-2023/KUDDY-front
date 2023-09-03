@@ -1,6 +1,7 @@
 import "./travel-search-page.scss";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import useInput from "@utils/hooks/useInput";
 import { ReactComponent as BackIcon } from "@assets/icon/back.svg";
 import { ReactComponent as SearchIcon } from "@assets/icon/search.svg";
 import { categoryArray, districtArray } from "@pages/travel/TravelPage/_mock";
@@ -8,10 +9,12 @@ import { categoryArray, districtArray } from "@pages/travel/TravelPage/_mock";
 const TravelSearchPage = () => {
   const nav = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchInput, setSearchInput] = useState<string>("");
-  const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value);
-  };
+  const { value, onChange, reset, setValue } = useInput(
+    searchParams.get("keyword") === null
+      ? ""
+      : String(searchParams.get("keyword")),
+  );
+
   const handleCategory = (item: any) => {
     searchParams.set("category", item.params);
     setSearchParams(searchParams);
@@ -37,13 +40,19 @@ const TravelSearchPage = () => {
     }
     setSearchParams(searchParams);
   };
+  useEffect(() => {
+    if (value === "") {
+      searchParams.delete("keyword");
+      setSearchParams(searchParams);
+    }
+  }, [value]);
   const handleKeyword = (input: string) => {
     searchParams.set("keyword", input);
     setSearchParams(searchParams);
   };
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (searchInput) handleKeyword(searchInput);
+    if (value) handleKeyword(value);
     nav(`/travel/list${window.location.search}`);
   };
   return (
@@ -55,8 +64,8 @@ const TravelSearchPage = () => {
         <div className="kuddyspicksearchbar-rect">
           <form onSubmit={handleSubmit}>
             <input
-              value={searchInput}
-              onChange={handleInput}
+              value={value}
+              onChange={onChange}
               placeholder={`Everything for your travel`}
             />
             <button type="submit">
