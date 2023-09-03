@@ -1,5 +1,3 @@
-@import "./common.scss";
-
 @mixin font-style($font, $size, $color, $weight) {
   color: $color;
   font-family: var($font);
@@ -15,7 +13,23 @@
   }
 }
 
+$colors-kuddy: (
+  main-yellow: #fff798,
+  light-yellow: #fffbca,
+  grey: #eeeeee,
+  light-grey: #f7f7f7,
+  grey-line: #dddddd,
+  grey-text: #b1b1b1,
+  blue: #54a3ff,
+  light-blue: #cee8ff,
+  touch: #d1f9ff,
+  red: #ff3333,
+  light-red: #ffc6c6,
+  white: #ffffff,
+  black: #31302a,
+);
+
 @function color($color-name) {
-  $color-value: map-get($colors, $color-name);
+  $color-value: map-get($colors-kuddy, $color-name);
   @return $color-value;
 }
