@@ -22,9 +22,22 @@ $colors: (
 
 // CSS variable
 :root {
-  @each $name, $color in $colors {
-    --color-#{$name}: #{$color};
-  }
+  // @each $name, $color in $colors-common {
+  //   --color-#{$name}: #{$color};
+  // }
+  --color-main-yellow: #fff798;
+  --color-light-yellow: #fffbca;
+  --color-grey: #eeeeee;
+  --color-light-grey: #f7f7f7;
+  --color-grey-line: #dddddd;
+  --color-grey-text: #b1b1b1;
+  --color-blue: #54a3ff;
+  --color-light-blue: #cee8ff;
+  --color-touch: #d1f9ff;
+  --color-red: #ff3333;
+  --color-light-red: #ffc6c6;
+  --color-white: #ffffff;
+  --color-black: #31302a;
 
   --font-title: Geologica;
   --font-text: Inter;
