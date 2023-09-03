@@ -3,7 +3,10 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { authReportUser } from "@services/api/auth";
 import { useQuery, useMutation } from "react-query";
 import { profileState, uniqueNameState } from "@services/store/auth";
-import { profileCheckNickname, profileGetProfile } from "@services/api/profile";
+import {
+  profileCheckNickname,
+  profileGetSocialProfile,
+} from "@services/api/profile";
 import { useRecoilState } from "recoil";
 import useCheckNickname from "@utils/hooks/useCheckNickname";
 
@@ -17,18 +20,12 @@ export const useSetDefaultProfile = () => {
 
   const setDefaultInfo = async () => {
     try {
-      // const { data }: any = await profileGetProfile();
-      // let nickname = data.nickname;
-      // let profileImage = data.profileImage;
+      const { data }: any = await profileGetSocialProfile();
 
-      // onUpdateProfile({ nickname: nickname, profileImage: profileImage });
+      let nickname = data.data.nickname;
+      let profileImage = data.data.profileImageUrl;
 
-      // 임시
-      onUpdateProfile({
-        nickname: "정다윤",
-        profileImage:
-          "https://image.blip.kr/v1/file/6f1bf4c95ef96f263472ce67b3ea800a",
-      });
+      onUpdateProfile({ nickname: nickname, profileImage: profileImage });
     } catch (err) {
       console.log("기본 정보 조회 실패", err);
     }
@@ -82,9 +79,9 @@ export const useCanNext = () => {
 export const useCheckAvailableNickname = () => {
   const onCheck = async (nickname: string) => {
     try {
-      const res: any = await profileCheckNickname(nickname);
-      console.log(res.data.message);
-      return res.data.message === "SUCCESS";
+      const { data }: any = await profileCheckNickname(nickname);
+      console.log(data.message);
+      return data.message === "SUCCESS";
     } catch (err) {
       console.log("닉네임 중복 검사 실패");
       console.log(err);

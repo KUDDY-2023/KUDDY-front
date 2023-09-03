@@ -6,7 +6,14 @@ export const profileCheckNickname = async (nickname: string) => {
   return apiClient.get(url);
 };
 
-// ✅ 유저 프로필 조회
+// ✅ 유저 로그인 정보 조회
+// 카카오 프로필 이미지와 닉네임 반환
+export const profileGetSocialProfile = async () => {
+  const url = `/api/v1/members/me`;
+  return apiClient.get(url);
+};
+
+// ✅ 프로필 정보 조회
 export const profileGetProfile = async () => {
   const url = `/api/v1/members/profile`;
   return apiClient.get(url);
