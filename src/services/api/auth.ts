@@ -41,11 +41,3 @@ export const authDeleteAccount = async () => {
     return res.data;
   });
 };
-
-// 프로필 생성
-export const authCreateProfile = (name: IUserProfile) => {
-  const url = `/api/v1/members/profile`;
-  return apiClient.post(url, name).then(res => {
-    return res.data;
-  });
-};

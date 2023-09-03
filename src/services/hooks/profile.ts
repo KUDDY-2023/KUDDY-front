@@ -1,10 +1,77 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { authReportUser } from "@services/api/auth";
 import { useQuery, useMutation } from "react-query";
-import { profileState, uniqueNameState } from "@services/store/auth";
-import { profileCheckNickname, profileGetProfile } from "@services/api/profile";
+import {
+  profileState,
+  uniqueNameState,
+  interestsArrState,
+} from "@services/store/auth";
+import {
+  profileCheckNickname,
+  profileGetSocialProfile,
+  profileCreateTheFirstProfile,
+} from "@services/api/profile";
 import { useRecoilState } from "recoil";
+import useCheckNickname from "@utils/hooks/useCheckNickname";
+
+// ✅ 프로필 최초 생성
+export const useCreateProfile = () => {
+  const update = useUpdateProfile();
+
+  // 전역에서 프로필 정보 가져오기
+  const [profile, _] = useRecoilState(profileState);
+  const [interestsArr, _i] = useRecoilState(interestsArrState);
+
+  const navigate = useNavigate();
+
+  const newProfile = JSON.parse(JSON.stringify(profile));
+
+  // profile 가공 필요
+  // 1. 사용 가능 언어 level number 타입으로 바꾸기
+  let newL = newProfile.availableLanguages.map((l: any) => {
+    return { ...l, languageLevel: Number(l.languageLevel) };
+  });
+
+  newProfile.availableLanguages = newL;
+
+  // 2. 흥미 선택한거 가져와서, profile에 넣기
+  for (let i = 0; i < interestsArr.length; i++) {
+    let temp = interestsArr[i].interests
+      .filter(inter => inter.selected)
+      .map(inter => inter.inter);
+
+    if (temp.length === 0) temp = ["NOT_SELECTED"];
+
+    if (i === 0) newProfile.artBeauty = temp;
+    if (i === 1) newProfile.activitiesInvestmentTech = temp;
+    if (i === 2) newProfile.careerMajor = temp;
+    if (i === 3) newProfile.entertainment = temp;
+    if (i === 4) newProfile.food = temp;
+    if (i === 5) newProfile.hobbiesInterests = temp;
+    if (i === 6) newProfile.lifestyle = temp;
+    if (i === 7) newProfile.sports = temp;
+  }
+
+  // 3. nation이 비어있다면 korea로 넣기
+  if (!newProfile.nationality) newProfile.nationality = "KOREA";
+
+  const { mutate: createProfile } = useMutation(profileCreateTheFirstProfile, {
+    onSuccess: res => {
+      console.log("프로필 생성 성공", res);
+      navigate("/");
+    },
+    onError: err => {
+      console.log("실패", err);
+    },
+  });
+
+  const onCreateProfile = () => {
+    console.log("변환한거", newProfile);
+    createProfile(newProfile);
+  };
+
+  return { onCreateProfile };
+};
 
 // ✅ default 프로필 이미지 + 닉네임 세팅하는 hook
 export const useSetDefaultProfile = () => {
@@ -16,18 +83,12 @@ export const useSetDefaultProfile = () => {
 
   const setDefaultInfo = async () => {
     try {
-      // const { data }: any = await profileGetProfile();
-      // let nickname = data.nickname;
-      // let profileImage = data.profileImage;
+      const { data }: any = await profileGetSocialProfile();
 
-      // onUpdateProfile({ nickname: nickname, profileImage: profileImage });
+      let nickname = data.data.nickname;
+      let profileImage = data.data.profileImageUrl;
 
-      // 임시
-      onUpdateProfile({
-        nickname: "What",
-        profileImage:
-          "https://image.blip.kr/v1/file/6f1bf4c95ef96f263472ce67b3ea800a",
-      });
+      onUpdateProfile({ nickname: nickname, profileImage: profileImage });
     } catch (err) {
       console.log("기본 정보 조회 실패", err);
     }
@@ -81,7 +142,8 @@ export const useCanNext = () => {
 export const useCheckAvailableNickname = () => {
   const onCheck = async (nickname: string) => {
     try {
-      const data: any = await profileCheckNickname(nickname);
+      const { data }: any = await profileCheckNickname(nickname);
+      console.log(data.message);
       return data.message === "SUCCESS";
     } catch (err) {
       console.log("닉네임 중복 검사 실패");
@@ -90,4 +152,26 @@ export const useCheckAvailableNickname = () => {
   };
 
   return onCheck;
+};
+
+// ✅ 닉네임 검사 hook
+export const CheckNicknameString = (newName: string) => {
+  const onCheckNickname = useCheckNickname();
+
+  let alertText = "Please press the checking button";
+  let textColor = "grey-alert";
+
+  // 유효성 검사 + 글자수 검사
+  if (!onCheckNickname(newName)) {
+    alertText = "Only alphabetic, numeric, and underbar";
+    textColor = "red-alert";
+  } else if (newName.length > 15) {
+    alertText = "Up to 15 letters";
+    textColor = "red-alert";
+  } else if (newName.length < 3) {
+    alertText = "At least 3 letters";
+    textColor = "red-alert";
+  }
+
+  return [alertText, textColor];
 };
