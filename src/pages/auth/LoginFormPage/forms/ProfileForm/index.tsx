@@ -8,9 +8,8 @@ import { profileState, uniqueNameState } from "@services/store/auth";
 import {
   useUpdateProfile,
   useCheckAvailableNickname,
+  CheckNicknameString,
 } from "@services/hooks/profile";
-
-import useCheckNickname from "@utils/hooks/useCheckNickname";
 
 export default function ProfileForm() {
   const [profile, setProfile] = useRecoilState(profileState); // 전역상태
@@ -23,7 +22,6 @@ export default function ProfileForm() {
   const [isAvailable, setIsAvailable] = useRecoilState(uniqueNameState); // 전역상태
 
   const onUpdateProfile = useUpdateProfile();
-  const onCheckNickname = useCheckNickname();
 
   const onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     // 중복 검사 상태 False로 바꾸기
@@ -31,20 +29,7 @@ export default function ProfileForm() {
 
     // 닉네임 변경
     let newName = e.target.value;
-    let alertText = "Please press the checking button";
-    let textColor = "grey-alert";
-
-    // 유효성 검사 + 글자수 검사
-    if (!onCheckNickname(newName)) {
-      alertText = "Only alphabetic, numeric, and underbar";
-      textColor = "red-alert";
-    } else if (newName.length > 15) {
-      alertText = "Up to 15 letters";
-      textColor = "red-alert";
-    } else if (newName.length < 3) {
-      alertText = "At least 3 letters";
-      textColor = "red-alert";
-    }
+    let [alertText, textColor] = CheckNicknameString(newName);
 
     // 경고 문구 반영
     setNameAlert({
@@ -118,6 +103,15 @@ export default function ProfileForm() {
       });
     }
   }, [isAvailable]);
+
+  useEffect(() => {
+    // 맨 처음에만 실행
+    let [alertText, textColor] = CheckNicknameString(name);
+    setNameAlert({
+      textColor: textColor,
+      alert: alertText,
+    });
+  }, []);
   return (
     <div className="profile-img-form-container">
       <p className="title">Set your profile</p>

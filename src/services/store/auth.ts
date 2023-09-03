@@ -50,7 +50,7 @@ export const profileState = atom<IUserProfile>({
 // 닉네임 테스트
 export const uniqueNameState = atom<boolean>({
   key: "uniqueNameState",
-  default: true,
+  default: false,
 });
 
 // 최초 로그인 후, 프로필과 이미지 등록할 수 있도록 해야함

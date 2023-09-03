@@ -5,6 +5,7 @@ import { useQuery, useMutation } from "react-query";
 import { profileState, uniqueNameState } from "@services/store/auth";
 import { profileCheckNickname, profileGetProfile } from "@services/api/profile";
 import { useRecoilState } from "recoil";
+import useCheckNickname from "@utils/hooks/useCheckNickname";
 
 // ✅ default 프로필 이미지 + 닉네임 세팅하는 hook
 export const useSetDefaultProfile = () => {
@@ -24,7 +25,7 @@ export const useSetDefaultProfile = () => {
 
       // 임시
       onUpdateProfile({
-        nickname: "What",
+        nickname: "정다윤",
         profileImage:
           "https://image.blip.kr/v1/file/6f1bf4c95ef96f263472ce67b3ea800a",
       });
@@ -81,8 +82,9 @@ export const useCanNext = () => {
 export const useCheckAvailableNickname = () => {
   const onCheck = async (nickname: string) => {
     try {
-      const data: any = await profileCheckNickname(nickname);
-      return data.message === "SUCCESS";
+      const res: any = await profileCheckNickname(nickname);
+      console.log(res.data.message);
+      return res.data.message === "SUCCESS";
     } catch (err) {
       console.log("닉네임 중복 검사 실패");
       console.log(err);
@@ -90,4 +92,26 @@ export const useCheckAvailableNickname = () => {
   };
 
   return onCheck;
+};
+
+// ✅ 닉네임 검사 hook
+export const CheckNicknameString = (newName: string) => {
+  const onCheckNickname = useCheckNickname();
+
+  let alertText = "Please press the checking button";
+  let textColor = "grey-alert";
+
+  // 유효성 검사 + 글자수 검사
+  if (!onCheckNickname(newName)) {
+    alertText = "Only alphabetic, numeric, and underbar";
+    textColor = "red-alert";
+  } else if (newName.length > 15) {
+    alertText = "Up to 15 letters";
+    textColor = "red-alert";
+  } else if (newName.length < 3) {
+    alertText = "At least 3 letters";
+    textColor = "red-alert";
+  }
+
+  return [alertText, textColor];
 };
