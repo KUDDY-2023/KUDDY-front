@@ -1,0 +1,120 @@
+@function color($color-name) {
+  @return var(--color-#{$color-name});
+}
+
+.travel-detail-section-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+
+  .section-border {
+    width: calc(100% - 50px);
+    border-bottom: 1px solid color(grey);
+  }
+
+  .flex-container {
+    width: calc(100% - 50px);
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+
+    .title {
+      color: color(black);
+      font: {
+        family: var(--font-title);
+        size: 20px;
+        weight: 500;
+      }
+    }
+  }
+
+  .content {
+    width: calc(100% - 50px);
+    color: color(black);
+    font: {
+      family: var(--font-text);
+      size: 14px;
+      weight: 500;
+    }
+    margin: 12px 0;
+
+    &.about {
+      word-break: keep-all;
+      color: #6f6f6f;
+      font: {
+        weight: 400;
+      }
+      line-height: 150%;
+
+      &.about-closed {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+      }
+    }
+
+    &.homepage {
+      /* text-decoration: none; */
+    }
+
+    &.location {
+      a {
+        color: color(black);
+        font: {
+          family: var(--font-text);
+          size: 14px;
+          weight: 400;
+        }
+        text-decoration: underline;
+      }
+      .post {
+        margin-top: 12px;
+        font: {
+          weight: 500;
+        }
+        text-decoration: none;
+      }
+    }
+
+    &.nearby {
+      display: flex;
+      gap: 10px;
+      overflow-x: scroll;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    &.addinfo {
+      .sub-title {
+        color: color(black);
+        font: {
+          family: var(--font-title);
+          size: 16px;
+          weight: 500;
+        }
+      }
+
+      .sub-content {
+        color: color(black);
+        font: {
+          family: var(--font-text);
+          size: 14px;
+          weight: 400;
+        }
+        margin: {
+          top: 5px;
+          bottom: 16px;
+        }
+      }
+    }
+  }
+}

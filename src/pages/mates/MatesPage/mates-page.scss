@@ -1,0 +1,66 @@
+@function color($color-name) {
+  @return var(--color-#{$color-name});
+}
+
+.mates-type-container {
+  display: flex;
+  align-items: center;
+  margin: {
+    top: 70px;
+    left: 35px;
+    bottom: 20px;
+  }
+  .type-text {
+    color: color(black);
+    font: {
+      family: var(--font-text);
+      size: 18px;
+      weight: 600;
+    }
+    text-decoration: underline;
+    margin-right: 5px;
+  }
+}
+
+.mates-type-dropdown {
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  border: 1px solid color(grey-line);
+  background-color: color(white);
+  position: absolute;
+  z-index: 50;
+  left: 35px;
+  top: 105px;
+  padding: 8px 0;
+
+  .click-area {
+    display: flex;
+    align-items: center;
+    height: 34px;
+    p {
+      margin: {
+        left: 16px;
+        right: 12px;
+      }
+      color: color(black);
+      font: {
+        family: var(--font-text);
+        size: 14px;
+      }
+    }
+  }
+}
+
+.mates-block-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 120px;
+
+  .empty {
+    height: calc(100vh - 310px);
+  }
+}

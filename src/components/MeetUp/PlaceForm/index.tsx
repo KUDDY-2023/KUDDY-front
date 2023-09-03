@@ -2,7 +2,7 @@ import "./place-form.scss";
 import { useState } from "react";
 
 import PlaceSearch from "../PlaceSearch";
-import useInput from "@utils/hooks/userInput";
+import useInput from "@utils/hooks/useInput";
 import Modal from "@mui/material/Modal";
 
 export default function PlaceForm() {

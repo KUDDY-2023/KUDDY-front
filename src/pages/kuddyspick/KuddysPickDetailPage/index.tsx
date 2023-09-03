@@ -1,34 +1,9 @@
 import "./kuddys-pick-detail-page.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BackNavBar from "@components/_common/BackNavBar";
 import KuddysPickMainInfo from "@components/KuddysPickDetailPage/KuddysPickMainInfo";
 import KuddysPickTravelPreview from "@components/KuddysPickDetailPage/KuddysPickTravelPreview";
 import KuddysPickTravelBlock from "@components/KuddysPickDetailPage/KuddysPickTravelBlock";
-
-export type ImageType = {
-  id: number;
-  alt: string;
-  imgSrc: string;
-};
-export type KuddysPickDetailContentType = {
-  id: number;
-  travel: {
-    id: number;
-    name: string;
-    district: string;
-    category: string;
-    thumbnail: string;
-  };
-  description: string;
-  image: ImageType[];
-};
-export type KuddysPickDetailType = {
-  id: number;
-  thumbnail: string;
-  title: string;
-  description: string;
-  contents: KuddysPickDetailContentType[];
-};
 
 const KuddysPickDetailPage = () => {
   const [currentKuddysPick, setCurrentKuddysPick] =
@@ -53,24 +28,9 @@ const KuddysPickDetailPage = () => {
           description:
             "With 123 floors and 555 meters in height, LOTTE WORLD TOWER is the world’s 5th tallest building.\n\nThe future-oriented vertical metropolis in which globalism, Korea’s traditional beauty, human technology, cutting-edge technology, and nature exists in harmony.",
           image: [
-            {
-              id: 1,
-              alt: "Lotte World Tower 1",
-              imgSrc:
-                "https://korean.visitseoul.net/comm/getImage?srvcId=POST&parentSn=21278&fileTy=POSTTHUMB&fileNo=1",
-            },
-            {
-              id: 2,
-              alt: "Lotte World Tower 2",
-              imgSrc:
-                "https://media.triple.guide/triple-cms/c_limit,f_auto,h_1024,w_1024/9f33865c-7d6e-42f0-a9ae-7c7a80112ff1.jpeg",
-            },
-            {
-              id: 3,
-              alt: "Lotte World Tower 3",
-              imgSrc:
-                "https://ak-d.tripcdn.com/images/1i64u22348rcao7018AC3.jpg?proc=source/trip",
-            },
+            "https://korean.visitseoul.net/comm/getImage?srvcId=POST&parentSn=21278&fileTy=POSTTHUMB&fileNo=1",
+            "https://media.triple.guide/triple-cms/c_limit,f_auto,h_1024,w_1024/9f33865c-7d6e-42f0-a9ae-7c7a80112ff1.jpeg",
+            "https://ak-d.tripcdn.com/images/1i64u22348rcao7018AC3.jpg?proc=source/trip",
           ],
         },
         {
@@ -86,22 +46,15 @@ const KuddysPickDetailPage = () => {
           description:
             "With 123 floors and 555 meters in height, LOTTE WORLD TOWER is the world’s 5th tallest building.\n\nThe future-oriented vertical metropolis in which globalism, Korea’s traditional beauty, human technology, cutting-edge technology, and nature exists in harmony.",
           image: [
-            {
-              id: 1,
-              alt: "Songpa Naru 1",
-              imgSrc:
-                "https://여기유.com/data/editor/2203/20220307122514_fe8623518b810259338b56c4742c978a_98ba.jpg",
-            },
-            {
-              id: 2,
-              alt: "Songpa Naru 2",
-              imgSrc:
-                "https://여기유.com/data/editor/2203/20220307122514_fe8623518b810259338b56c4742c978a_98ba.jpg",
-            },
+            "https://여기유.com/data/editor/2203/20220307122514_fe8623518b810259338b56c4742c978a_98ba.jpg",
           ],
         },
       ],
     });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <div className="kuddyspickdetail-wrapper">
       <BackNavBar middleTitle="" isShare={true} />

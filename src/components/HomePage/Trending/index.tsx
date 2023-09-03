@@ -4,19 +4,11 @@ import { useNavigate } from "react-router-dom";
 import TravelBlock from "@components/Travel/TravelBlock";
 import { ReactComponent as ArrowIcon } from "@assets/icon/home_text_arrow.svg";
 
-type TrendingPlaceType = {
-  spotId: number;
-  name: string;
-  district: string;
-  category: string;
-  imageUrl: string;
-};
-
 const Trending = () => {
   const nav = useNavigate();
-  const [trendingPlace, setTrendingPlace] = useState<TrendingPlaceType[]>([
+  const [trendingPlace, setTrendingPlace] = useState<TravelPreviewType[]>([
     {
-      spotId: 1,
+      contentId: 1,
       name: "Cheonggyecheon",
       district: "Jongno",
       category: "",
@@ -24,7 +16,7 @@ const Trending = () => {
         "https://mblogthumb-phinf.pstatic.net/MjAyMDA1MjlfMjU3/MDAxNTkwNzQwNjUwNDAz.LG_RjNhuhqDfES31GQX60XeEZXsohLRWPLXnU3iYxcMg.dVYHAJiv9-rFDEtHxzrS55021Wtdjq0L1jIwlBVPdFkg.PNG.hec_pr/55.png?type=w800",
     },
     {
-      spotId: 2,
+      contentId: 2,
       name: "EWHA Womans University",
       district: "Seodaemun",
       category: "",
@@ -32,7 +24,7 @@ const Trending = () => {
         "https://www.eduinnews.co.kr/news/photo/201804/9074_4551_5956.png",
     },
     {
-      spotId: 3,
+      contentId: 3,
       name: "N Seoul Tower",
       district: "Yongsan",
       category: "",
@@ -51,7 +43,7 @@ const Trending = () => {
       </div>
       <div className="trending-container">
         {trendingPlace.map(item => (
-          <TravelBlock key={item.spotId} id={item.spotId} {...item} />
+          <TravelBlock key={item.contentId} {...item} />
         ))}
         <div className="end"></div>
       </div>

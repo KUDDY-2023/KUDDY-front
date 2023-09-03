@@ -1,0 +1,23 @@
+@function color($color-name) {
+  @return var(--color-#{$color-name});
+}
+
+.travel-mates-selectbar-container {
+  width: calc(100% - 42px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: {
+    left: 21px;
+    top: 10px;
+    bottom: 20px;
+  }
+}
+
+.travel-mates-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 20px;
+}

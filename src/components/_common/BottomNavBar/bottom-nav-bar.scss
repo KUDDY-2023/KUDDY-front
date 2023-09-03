@@ -8,7 +8,7 @@
   z-index: 999;
   display: flex;
   justify-content: center;
-  background-color: color(white);
+  background-color: color(white) !important;
   width: 100%;
   height: 98px;
   border-top: 1px solid #efefef;
@@ -47,6 +47,6 @@
     size: 9px;
     weight: 400;
   }
-  color: color(black);
+  color: color(black) !important;
   margin-top: 6px;
 }

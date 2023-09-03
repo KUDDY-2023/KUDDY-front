@@ -2,8 +2,10 @@ import "./top-bar.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Menu from "@components/CommunityListPage/Menu";
-import { ReactComponent as ChatIcon } from "@assets/topbar/chat.svg";
-import { ReactComponent as NewChatIcon } from "@assets/topbar/new_chat.svg";
+import { ReactComponent as ChatIcon } from "@assets/topbar/chat_default.svg";
+import { ReactComponent as NewChatIcon } from "@assets/topbar/chat_new.svg";
+import { ReactComponent as NotificationIcon } from "@assets/topbar/notification_default.svg";
+import { ReactComponent as NewNotificationIcon } from "@assets/topbar/notification_new.svg";
 
 type TopBarProps = {
   isCommunity?: boolean;
@@ -12,6 +14,7 @@ type TopBarProps = {
 const TopBar = ({ isCommunity }: TopBarProps) => {
   const nav = useNavigate();
   const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [newNotification, isNewNotification] = useState<boolean>(true);
   const [newChat, isNewChat] = useState<boolean>(true);
 
   // 네비게이션 바 스크롤 감지에 따른 상태
@@ -40,7 +43,7 @@ const TopBar = ({ isCommunity }: TopBarProps) => {
     return (
       <>
         <div className="left">
-          <div className="topbar-profile-circle" onClick={() => nav("/mypage")}>
+          <div className="topbar-profile-circle" onClick={() => nav("/my")}>
             <img
               src="https://c1.wallpaperflare.com/preview/714/489/198/chess-chess-board-game-board-flag.jpg"
               alt="profile"
@@ -48,11 +51,17 @@ const TopBar = ({ isCommunity }: TopBarProps) => {
           </div>
           <div className="topbar-title">KUDDY</div>
         </div>
-        <div
-          className="topbar-chat-container"
-          onClick={() => nav(isLogin ? "/chat/list" : "login")}
-        >
-          {newChat ? <NewChatIcon /> : <ChatIcon />}
+        <div className="topbar-icon-container">
+          <div onClick={() => nav(isLogin ? "/alarm" : "/auth/login")}>
+            {newNotification && isLogin ? (
+              <NewNotificationIcon />
+            ) : (
+              <NotificationIcon />
+            )}
+          </div>
+          <div onClick={() => nav(isLogin ? "/chat/list" : "/auth/login")}>
+            {newChat && isLogin ? <NewChatIcon /> : <ChatIcon />}
+          </div>
         </div>
       </>
     );

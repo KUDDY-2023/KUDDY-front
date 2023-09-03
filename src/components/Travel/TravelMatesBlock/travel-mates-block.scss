@@ -1,0 +1,47 @@
+$black: #31302a;
+
+.travel-mates-block-container {
+  width: calc(100% - 52px);
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  .img-circle {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    margin-right: 16px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .text-section {
+    .name {
+      color: $black;
+      font: {
+        family: var(--font-text);
+        size: 17px;
+        weight: 600;
+      }
+    }
+    .description {
+      color: $black;
+      font: {
+        family: var(--font-text);
+        size: 13px;
+        weight: 400;
+      }
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+  }
+}
