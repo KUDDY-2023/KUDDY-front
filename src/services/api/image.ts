@@ -3,8 +3,8 @@ import { apiClient } from ".";
 
 // ✅ presigned url 발급 받기
 export const imagePresignedUrl = async (imgList: string[]) => {
-  const url = `/api/v1/images`;
-  return apiClient.post(url, imgList);
+  const url = `/api/v1/posts/images`;
+  return apiClient.post(url, { imgList: imgList });
 };
 
 /*

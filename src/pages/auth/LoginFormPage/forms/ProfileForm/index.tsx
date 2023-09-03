@@ -11,6 +11,8 @@ import {
   CheckNicknameString,
 } from "@services/hooks/profile";
 
+import { useGetPresignedUrl } from "@services/hooks/image";
+
 export default function ProfileForm() {
   const [profile, setProfile] = useRecoilState(profileState); // 전역상태
   const [name, setName] = useState(profile.nickname); // 이름
@@ -22,6 +24,7 @@ export default function ProfileForm() {
   const [isAvailable, setIsAvailable] = useRecoilState(uniqueNameState); // 전역상태
 
   const onUpdateProfile = useUpdateProfile();
+  const onGetUrl = useGetPresignedUrl();
 
   const onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     // 중복 검사 상태 False로 바꾸기
@@ -41,7 +44,7 @@ export default function ProfileForm() {
     setProfile({ ...profile, nickname: newName }); // 전역
   };
 
-  const onChangeProfileImg = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
     // 1) input type=file에서 사진 고름
     if (!e.target.files) {
       return;
@@ -55,6 +58,10 @@ export default function ProfileForm() {
     let presignedUrl = ""; // 받아온 url
 
     // 3) 해당 url로 s3 업로드 == presignedUrl로 put 메소드로 올린다.
+
+    const list = await onGetUrl(["asdf.jpg", "ffff.png", "www.jpg"]);
+    console.log("presigned url 요청 결과", list);
+
     // body는 binary로 보내야함.
     /*
 
