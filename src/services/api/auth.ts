@@ -19,13 +19,6 @@ export const authGetRefreshToken = async (refreshToken: string) => {
   });
 };
 
-// 소셜 로그인 테스트
-export const test = async () => {
-  const url = `https://api.kuddy.co.kr/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/`;
-
-  return apiClient.get(url).then(res => console.log(res));
-};
-
 // 유저 신고
 export const authReportUser = (report: IReport) => {
   const url = `/api/v1/reports`;
