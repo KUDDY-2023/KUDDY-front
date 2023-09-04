@@ -9,13 +9,13 @@
 }
 
 .homesearchbar-box {
-  width: 340px;
+  width: calc(100% - 40px);
   height: 40px;
   border-radius: 20px;
   border: 1px solid color(grey-line);
   display: flex;
   align-items: center;
-  background-color: color(light-grey);
+  background-color: color(white);
 
   svg {
     width: 20px;

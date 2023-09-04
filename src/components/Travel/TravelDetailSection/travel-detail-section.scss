@@ -89,6 +89,13 @@
       }
       -ms-overflow-style: none;
       scrollbar-width: none;
+
+      .travelblock-wrapper {
+        width: 32%;
+        @media (min-width: 600px) {
+          width: 174px;
+        }
+      }
     }
 
     &.addinfo {
