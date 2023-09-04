@@ -26,7 +26,7 @@ export default function ReportUserPage() {
 
   const { onReport } = useAuthReportUser({
     targetId: userId,
-    reason: reasonsData[selectedId].reason,
+    reason: selectedId,
     explanation: text,
   });
 

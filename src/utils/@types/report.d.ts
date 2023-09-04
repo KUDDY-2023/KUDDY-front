@@ -1,5 +1,5 @@
 interface IReport {
   targetId: number;
-  reason: string;
+  reason: number;
   explanation: string;
 }

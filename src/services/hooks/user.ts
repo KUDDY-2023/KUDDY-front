@@ -5,6 +5,14 @@ import { useQuery, useMutation } from "react-query";
 
 // 🔥 유저 신고 hook
 export const useAuthReportUser = (report: IReport) => {
+  const reasons = [
+    "IMPERSONATION",
+    "SPAM",
+    "INTELLECTUAL_PROPERTY_VIOLATION",
+    "HARASSMENT_OR_PRIVACY_VIOLATION",
+    "NUDITY_OR_PORNOGRAPHY",
+    "OTHER",
+  ];
   const navigate = useNavigate();
 
   const { mutate: reportUser } = useMutation(authReportUser, {
@@ -23,7 +31,9 @@ export const useAuthReportUser = (report: IReport) => {
     if (
       // eslint-disable-next-line no-restricted-globals
       confirm(
-        `해당 유저를 신고하시겠습니까? ${report.targetId} ${report.reason} ${report.explanation}`,
+        `해당 유저를 신고하시겠습니까? ${report.targetId} ${
+          reasons[report.reason]
+        } ${report.explanation}`,
       )
     ) {
       reportUser(report);

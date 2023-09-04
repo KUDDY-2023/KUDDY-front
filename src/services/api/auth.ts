@@ -22,9 +22,7 @@ export const authGetRefreshToken = async (refreshToken: string) => {
 // 유저 신고
 export const authReportUser = (report: IReport) => {
   const url = `/api/v1/reports`;
-  return apiClient.post(url, report).then(res => {
-    return res.data;
-  });
+  return apiClient.post(url, report);
 };
 
 // 회원 탈퇴
