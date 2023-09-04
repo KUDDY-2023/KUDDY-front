@@ -40,6 +40,7 @@ const SwiperCard = () => {
         slidesPerView={"auto"}
         spaceBetween={8}
         centeredSlides={true}
+        loop={true}
         onSlideChange={swiperCore => setSwiperIndex(swiperCore.activeIndex)}
       >
         {swiperInfo.map(item => (

@@ -1,6 +1,14 @@
+.kuddyspickblock-container {
+  position: relative;
+  width: calc(100% - 50px);
+}
+
 .kuddyspickblock-img-rect {
-  width: 340px;
-  height: 240px;
+  width: 100%;
+  aspect-ratio: 34 / 24;
+  @media (min-width: 442px) {
+    height: 265px;
+  }
   border-radius: 12px;
   overflow: hidden;
   position: relative;

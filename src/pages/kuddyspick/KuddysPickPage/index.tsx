@@ -63,9 +63,7 @@ const KuddysPickPage = () => {
         ) : (
           <>
             {kuddysPickList.map(item => (
-              <div key={item.id}>
-                <KuddysPickBlock {...item} />
-              </div>
+              <KuddysPickBlock {...item} key={item.id} />
             ))}
             <div style={{ height: "30px" }} />
           </>
