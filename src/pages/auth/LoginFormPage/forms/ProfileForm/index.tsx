@@ -11,7 +11,7 @@ import {
   CheckNicknameString,
 } from "@services/hooks/profile";
 
-import { useGetPresignedUrl } from "@services/hooks/image";
+import { useGetPresignedUrl, usePostImage } from "@services/hooks/image";
 
 export default function ProfileForm() {
   const [profile, setProfile] = useRecoilState(profileState); // 전역상태
@@ -25,6 +25,7 @@ export default function ProfileForm() {
 
   const onUpdateProfile = useUpdateProfile();
   const onGetUrl = useGetPresignedUrl();
+  const onPostImage = usePostImage();
 
   const onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
     // 중복 검사 상태 False로 바꾸기
@@ -45,52 +46,25 @@ export default function ProfileForm() {
   };
 
   const onChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    // 1) input type=file에서 사진 고름
     if (!e.target.files) {
       return;
     }
     let fileName = e.target.files[0].name;
+    const presignedUrlList = await onGetUrl([fileName]); // url 받아오기
+    if (presignedUrlList) {
+      try {
+        const res = await onPostImage(presignedUrlList[0], e.target.files[0]);
+        console.log("이미지 업로드 성공", res);
 
-    // 2) url 하나 받아옴
-    let body = {
-      imgList: [fileName],
-    };
-    let presignedUrl = ""; // 받아온 url
-
-    // 3) 해당 url로 s3 업로드 == presignedUrl로 put 메소드로 올린다.
-
-    const list = await onGetUrl(["asdf.jpg", "ffff.png", "www.jpg"]);
-    console.log("presigned url 요청 결과", list);
-
-    // body는 binary로 보내야함.
-    /*
-
-     코드 예시 
-     function uploadImageToS3(presignedUrl: string, uploadFile: File) {
-    console.log(uploadFile);
-    setUploadedFile(uploadFile.name)
-    console.log(uploadedFile) // 업로드할 파일 확인
-  
-    axios
-      .put(presignedUrl, uploadFile, {
-        headers: {
-          'Content-Type': 'image/png', // 업로드할 파일의 콘텐츠 유형 지정
-        },
-      })
-      .then((response) => console.log(response))
-      .catch((error) => console.error(error));
-  }
-     */
-
-    // 4) 해당 url로 profileImgUrl 업데이트
-    // 성공하면 지역, 전역 상태 업데이트
-    setProfileImgUrl(
-      "https://image.blip.kr/v1/file/310072664ead6aaf16326c739c9c3347",
-    );
-    onUpdateProfile({
-      profileImage:
-        "https://image.blip.kr/v1/file/310072664ead6aaf16326c739c9c3347",
-    });
+        let newImg = presignedUrlList[0].split("?")[0];
+        setProfileImgUrl(newImg);
+        onUpdateProfile({
+          profileImage: newImg,
+        });
+      } catch (err) {
+        alert(err);
+      }
+    }
   };
 
   const onCheck = useCheckAvailableNickname();
