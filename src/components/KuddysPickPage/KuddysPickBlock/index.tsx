@@ -6,7 +6,7 @@ const KuddysPickBlock = ({ id, thumbnail, title }: KuddysPickType) => {
   return (
     <div
       onClick={() => nav(`/kuddys-pick/${id}`)}
-      style={{ position: "relative" }}
+      className="kuddyspickblock-container"
     >
       <div className="kuddyspickblock-img-rect">
         <img src={thumbnail} />

@@ -2,17 +2,17 @@
 
 .travelblock-wrapper {
   position: relative;
+  width: calc((100% - 10px) / 2);
+  @media (min-width: 600px) {
+    width: 178px;
+  }
+  flex-shrink: 0;
 
   .block {
-    width: 43vw;
-    @media (min-width: 574px) {
-      // PC뷰
-      width: 170px;
-    }
-    flex-shrink: 0;
+    width: 100%;
     position: relative;
     z-index: 5;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 
     .img-rect {
       width: 100%;
@@ -39,6 +39,9 @@
         top: 8px;
         left: 2px;
       }
+      @media (max-width: 400px) {
+        font-size: 4vw;
+      }
     }
 
     .district {
@@ -51,6 +54,9 @@
       margin: {
         top: 7px;
         left: 2px;
+      }
+      @media (max-width: 400px) {
+        font-size: 2.9vw;
       }
     }
   }
