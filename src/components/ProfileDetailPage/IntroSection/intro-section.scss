@@ -1,6 +1,4 @@
-@function color($color-name) {
-  @return var(--color-#{$color-name});
-}
+@import "../../../style/mixins";
 
 .intro-section-container {
   display: flex;

@@ -1,6 +1,4 @@
-@function color($color-name) {
-  @return var(--color-#{$color-name});
-}
+@import "../../../style/mixins";
 
 .review-section-container {
   width: calc(100% - 20px);
