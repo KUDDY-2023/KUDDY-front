@@ -4,27 +4,29 @@ import { useEffect, useState } from "react";
 import EventBtn from "@components/_common/EventBtn";
 import { reasonsData } from "./reasonsData";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { useAuthReportUser } from "@services/hooks/auth";
+import { useAuthReportUser } from "@services/hooks/user";
 export default function ReportUserPage() {
   const [searchParams, _] = useSearchParams();
   const userId = Number(searchParams.get("userId"));
 
-  const [selectedId, setSelectedId] = useState<number>(-1); // 선택한 이유 번호
+  const [selectedId, setSelectedId] = useState<number>(0); // 선택한 이유 번호
   const [text, setText] = useState(""); // 입력한 이유
+  const [isSelected, setIsSelected] = useState(false);
 
   const [isActive, setIsActive] = useState(false); // 이벤트 버튼
 
   const _handleRadioChange = (selectedId: number) => {
     setSelectedId(selectedId);
+    setIsSelected(true);
   };
 
   useEffect(() => {
-    setIsActive(text !== "" && selectedId !== -1);
+    setIsActive(text !== "" && isSelected);
   }, [text, selectedId]);
 
   const { onReport } = useAuthReportUser({
     targetId: userId,
-    reason: selectedId,
+    reason: reasonsData[selectedId].reason,
     explanation: text,
   });
 
