@@ -54,12 +54,12 @@ export default function ProfileForm() {
     if (presignedUrlList) {
       try {
         const res = await onPostImage(presignedUrlList[0], e.target.files[0]);
-        console.log(res);
+        console.log("이미지 업로드 성공", res);
 
-        // 성공하면
-        setProfileImgUrl(presignedUrlList[0]);
+        let newImg = presignedUrlList[0].split("?")[0];
+        setProfileImgUrl(newImg);
         onUpdateProfile({
-          profileImage: presignedUrlList[0],
+          profileImage: newImg,
         });
       } catch (err) {
         alert(err);

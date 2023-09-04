@@ -22,7 +22,6 @@ export const useGetPresignedUrl = () => {
 export const usePostImage = () => {
   const onPostImage = async (presignedUrl: string, uploadFile: File) => {
     try {
-      console.log("업로드 요청", presignedUrl, uploadFile);
       const res = await imageUploadImg(presignedUrl, uploadFile);
       return res;
     } catch (err) {

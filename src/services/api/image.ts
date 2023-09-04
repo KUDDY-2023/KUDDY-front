@@ -12,5 +12,6 @@ export const imageUploadImg = async (
   presignedUrl: string,
   uploadFile: File,
 ) => {
-  return apiClient.put(presignedUrl, uploadFile);
+  const headers = { "Content-Type": "image/*" };
+  return axios.put(presignedUrl, uploadFile, { headers });
 };
