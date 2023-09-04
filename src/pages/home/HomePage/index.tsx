@@ -9,7 +9,11 @@ import WeeklyUser from "@components/HomePage/WeeklyUser/index";
 import KuddysPickPreview from "@components/HomePage/KuddysPickPreview/index";
 import Ad from "@components/HomePage/Ad/index";
 
+import { useIsFirstLogin } from "@services/hooks/auth";
+
 const HomePage = () => {
+  useIsFirstLogin("NEW_USER");
+
   return (
     <>
       <TopBar />

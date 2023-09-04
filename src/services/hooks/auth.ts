@@ -4,6 +4,9 @@ import { authReportUser, authGetRefreshToken } from "@services/api/auth";
 import { useQuery, useMutation } from "react-query";
 import { profileState } from "@services/store/auth";
 import { useRecoilState } from "recoil";
+
+import { useGetProfile } from "./profile";
+import { profileGetProfile } from "@services/api/profile";
 // useQuery : get
 // useMutation : post, delete, patch, put
 
@@ -67,6 +70,37 @@ export const useAuthReLogin = () => {
       localStorage.setItem("accessToken", accessToken); // 새 토큰 저장
     } catch {
       alert("엑세스 토큰 재발급 실패");
+    }
+  };
+};
+
+// ✅ 최초 로그인 여부  - main 페이지에서 활용
+type state = "NEW_USER" | "NOT_NEW_USER";
+
+export const useIsFirstLogin = (state: state) => {
+  const navigate = useNavigate();
+
+  const { data, isLoading, error } = useQuery(
+    "userProfile",
+    profileGetProfile,
+    { retry: false }, // 재요청 끄기
+  );
+
+  useEffect(() => {
+    if (!isLoading) {
+      isFirst();
+    }
+  }, [data, isLoading, error]);
+
+  const isFirst = () => {
+    if (state === "NEW_USER" && error) {
+      console.log("홈 조회 결과", data, isLoading, error);
+      // 프로필 없는 최초 로그인 유저는 form으로 이동 필수
+      navigate("/auth/form");
+    } else if (state === "NOT_NEW_USER" && data) {
+      console.log("이미 프로필 있음", data, isLoading, error);
+      // 이미 프로필을 만든 유저는 form 페이지 접근 불가
+      navigate("/");
     }
   };
 };

@@ -13,7 +13,12 @@ import { useCanNext } from "@services/hooks/profile";
 import { useSetDefaultProfile } from "@services/hooks/profile";
 
 import { useCreateProfile } from "@services/hooks/profile";
+import { useIsFirstLogin } from "@services/hooks/auth";
+
 export default function LoginFormPage() {
+  // 프로필 유무 확인
+  useIsFirstLogin("NOT_NEW_USER");
+
   // 기본 정보 세팅
   useSetDefaultProfile();
 
