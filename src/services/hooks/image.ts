@@ -1,17 +1,34 @@
 import { useNavigate } from "react-router-dom";
 import { useQuery, useMutation } from "react-query";
-import { imagePresignedUrl } from "@services/api/image";
+import { imagePresignedUrl, imageUploadImg } from "@services/api/image";
 
 // ✅ presigned Url 발급 hook
 export const useGetPresignedUrl = () => {
   const onGetUrl = async (imgList: string[]) => {
     try {
-      const urlList = await imagePresignedUrl(imgList);
-      return urlList;
+      const res = await imagePresignedUrl(imgList);
+      console.log(res);
+      const urlList = res.data.data.map((i: any) => i.presignedUrl);
+      return urlList as string[];
     } catch (err) {
       console.log(err);
     }
   };
 
   return onGetUrl;
+};
+
+// ✅ 하나의 url로 이미지 업로드하는 hook
+export const usePostImage = () => {
+  const onPostImage = async (presignedUrl: string, uploadFile: File) => {
+    try {
+      console.log("업로드 요청", presignedUrl, uploadFile);
+      const res = await imageUploadImg(presignedUrl, uploadFile);
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return onPostImage;
 };
