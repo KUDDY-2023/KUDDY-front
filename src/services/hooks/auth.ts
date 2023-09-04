@@ -93,6 +93,7 @@ export const useIsFirstLogin = (state: state) => {
   }, [data, isLoading, error]);
 
   const isFirst = () => {
+    console.log("조회 결과", data, isLoading, error);
     if (state === "NEW_USER" && error) {
       console.log("홈 조회 결과", data, isLoading, error);
       // 프로필 없는 최초 로그인 유저는 form으로 이동 필수

@@ -10,9 +10,19 @@ import KuddysPickPreview from "@components/HomePage/KuddysPickPreview/index";
 import Ad from "@components/HomePage/Ad/index";
 
 import { useIsFirstLogin } from "@services/hooks/auth";
+import { profileGetProfile } from "@services/api/profile";
+
+import { useQuery } from "react-query";
 
 const HomePage = () => {
-  useIsFirstLogin("NEW_USER");
+  // 🔥 토큰이 있는 경우에 - 프로필 없으면 /auth/form으로 이동 필요
+
+  // useIsFirstLogin("NEW_USER");
+  // const { data, isLoading, error } = useQuery(
+  //   "userProfile",
+  //   profileGetProfile,
+  //   { retry: false },
+  // );
 
   return (
     <>

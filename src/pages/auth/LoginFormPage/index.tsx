@@ -17,7 +17,10 @@ import { useIsFirstLogin } from "@services/hooks/auth";
 
 export default function LoginFormPage() {
   // 프로필 유무 확인
-  useIsFirstLogin("NOT_NEW_USER");
+  // useIsFirstLogin("NOT_NEW_USER");
+
+  // 🔥 토큰이 있는 경우에 - 프로필이 이미 있다면 /으로 돌아가기
+  // 🔥 토큰이 없는 경우 /auth/register로 이동
 
   // 기본 정보 세팅
   useSetDefaultProfile();
