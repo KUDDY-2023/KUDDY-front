@@ -4,6 +4,9 @@ import { authReportUser, authGetRefreshToken } from "@services/api/auth";
 import { useQuery, useMutation } from "react-query";
 import { profileState } from "@services/store/auth";
 import { useRecoilState } from "recoil";
+
+import { useGetProfile } from "./profile";
+import { profileGetProfile } from "@services/api/profile";
 // useQuery : get
 // useMutation : post, delete, patch, put
 
@@ -71,34 +74,36 @@ export const useAuthReLogin = () => {
   };
 };
 
-// 🔥 유저 신고
-export const useAuthReportUser = (report: IReport) => {
+// ✅ 최초 로그인 여부  - main 페이지에서 활용
+type state = "NEW_USER" | "NOT_NEW_USER";
+
+export const useIsFirstLogin = (state: state) => {
   const navigate = useNavigate();
 
-  const { mutate: reportUser } = useMutation(authReportUser, {
-    onSuccess: res => {
-      // 성공 뒤 실행
-      console.log("성공", res);
-      navigate(-1);
-    },
-    onError: err => {
-      // 실패 뒤 실행
-      console.log("실패", err);
-    },
-  });
+  const { data, isLoading, error } = useQuery(
+    "userProfile",
+    profileGetProfile,
+    { retry: false }, // 재요청 끄기
+  );
 
-  const onReport = () => {
-    if (
-      // eslint-disable-next-line no-restricted-globals
-      confirm(
-        `해당 유저를 신고하시겠습니까? ${report.targetId} ${report.reason} ${report.explanation}`,
-      )
-    ) {
-      reportUser(report);
+  useEffect(() => {
+    if (!isLoading) {
+      isFirst();
+    }
+  }, [data, isLoading, error]);
+
+  const isFirst = () => {
+    console.log("조회 결과", data, isLoading, error);
+    if (state === "NEW_USER" && error) {
+      console.log("홈 조회 결과", data, isLoading, error);
+      // 프로필 없는 최초 로그인 유저는 form으로 이동 필수
+      navigate("/auth/form");
+    } else if (state === "NOT_NEW_USER" && data) {
+      console.log("이미 프로필 있음", data, isLoading, error);
+      // 이미 프로필을 만든 유저는 form 페이지 접근 불가
+      navigate("/");
     }
   };
-
-  return { onReport };
 };
 
 // 토큰 재발급
