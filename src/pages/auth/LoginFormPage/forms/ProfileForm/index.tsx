@@ -16,7 +16,7 @@ import { useGetPresignedUrl, usePostImage } from "@services/hooks/image";
 export default function ProfileForm() {
   const [profile, setProfile] = useRecoilState(profileState); // 전역상태
   const [name, setName] = useState(profile.nickname); // 이름
-  const [profileImgUrl, setProfileImgUrl] = useState(profile.profileImage); // 프로필
+  const [profileImgUrl, setProfileImgUrl] = useState(profile.profileImageUrl); // 프로필
   const [nameAlert, setNameAlert] = useState({
     alert: "Only alphabetic, numeric, and underbar",
     textColor: "grey-alert",
@@ -59,7 +59,7 @@ export default function ProfileForm() {
         let newImg = presignedUrlList[0].split("?")[0];
         setProfileImgUrl(newImg);
         onUpdateProfile({
-          profileImage: newImg,
+          profileImageUrl: newImg,
         });
       } catch (err) {
         alert(err);

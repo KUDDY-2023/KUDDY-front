@@ -7,25 +7,16 @@ export const profileState = atom<IUserProfile>({
   key: "profileState",
   default: {
     roleType: "KUDDY",
-    nickname: "", // 카카오 기본 값 세팅
-    profileImage: "", // 카카오 기본 값 세팅
-    gender: "MR",
+    nickname: "",
+    profileImageUrl: "",
+    genderType: "MR",
     age: 0,
     temperament: "INTROVERT",
     decisionMaking: "JUDGING",
     job: "",
-    nationality: "", // 보내기 전에 커디 유저는 코리아로 보내기
-    availableLanguages: [], // 보내기 전에 빈건 'NOT_SELECTED' 넣기
+    nationality: "",
+    availableLanguages: [],
     districts: [],
-    wellbeing: [],
-    activitiesInvestmentTech: [],
-    careerMajor: [],
-    entertainment: [],
-    hobbiesInterests: [],
-    lifestyle: [],
-    artBeauty: [],
-    food: [],
-    sports: [],
   },
 });
 

@@ -10,6 +10,7 @@ import {
   profileCheckNickname,
   profileGetSocialProfile,
   profileCreateTheFirstProfile,
+  profileGetProfile,
 } from "@services/api/profile";
 import { useRecoilState } from "recoil";
 import useCheckNickname from "@utils/hooks/useCheckNickname";
@@ -35,29 +36,35 @@ export const useCreateProfile = () => {
   newProfile.availableLanguages = newL;
 
   // 2. 흥미 선택한거 가져와서, profile에 넣기
+  let interests: Record<string, string[]> = {};
+
+  const categories: string[] = [
+    "artBeauty",
+    "activitiesInvestmentTech",
+    "careerMajor",
+    "entertainment",
+    "food",
+    "hobbiesInterests",
+    "lifestyle",
+    "sports",
+    "wellbeing",
+  ];
+
   for (let i = 0; i < interestsArr.length; i++) {
-    let temp = interestsArr[i].interests
+    const temp = interestsArr[i].interests
       .filter(inter => inter.selected)
       .map(inter => inter.inter);
 
-    if (temp.length === 0) temp = ["NOT_SELECTED"];
-
-    if (i === 0) newProfile.artBeauty = temp;
-    if (i === 1) newProfile.activitiesInvestmentTech = temp;
-    if (i === 2) newProfile.careerMajor = temp;
-    if (i === 3) newProfile.entertainment = temp;
-    if (i === 4) newProfile.food = temp;
-    if (i === 5) newProfile.hobbiesInterests = temp;
-    if (i === 6) newProfile.lifestyle = temp;
-    if (i === 7) newProfile.sports = temp;
+    interests[categories[i]] = temp.length ? temp : ["NOT_SELECTED"];
   }
+
+  newProfile.interests = interests; // 적용
 
   // 3. nation이 비어있다면 korea로 넣기
   if (!newProfile.nationality) newProfile.nationality = "KOREA";
 
   const { mutate: createProfile } = useMutation(profileCreateTheFirstProfile, {
     onSuccess: res => {
-      console.log("프로필 생성 성공", res);
       navigate("/");
     },
     onError: err => {
@@ -66,7 +73,6 @@ export const useCreateProfile = () => {
   });
 
   const onCreateProfile = () => {
-    console.log("변환한거", newProfile);
     createProfile(newProfile);
   };
 
@@ -86,13 +92,19 @@ export const useSetDefaultProfile = () => {
       const { data }: any = await profileGetSocialProfile();
 
       let nickname = data.data.nickname;
-      let profileImage = data.data.profileImageUrl;
+      let profileImageUrl = data.data.profileImageUrl;
 
-      onUpdateProfile({ nickname: nickname, profileImage: profileImage });
+      onUpdateProfile({ nickname: nickname, profileImageUrl: profileImageUrl });
     } catch (err) {
       console.log("기본 정보 조회 실패", err);
     }
   };
+};
+
+// ✅ 프로필 조회 훅
+export const useGetProfile = () => {
+  const { data, isLoading, error } = useQuery("userProfile", profileGetProfile);
+  return { data, isLoading, error };
 };
 
 // ✅ 프로필 업데이트 훅
