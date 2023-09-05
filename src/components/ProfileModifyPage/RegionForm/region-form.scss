@@ -1,0 +1,34 @@
+@import "../../../style/mixins";
+
+.region-edit-container {
+  width: calc(100% - 50px);
+
+  .selected-region-cnt {
+    margin-left: 5px;
+    margin-bottom: 20px;
+    @include font-style(--font-text, 14px, black, 500);
+  }
+}
+
+.region-btn-container {
+  display: inline-flex;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+
+  .region-btn {
+    display: flex;
+    padding: 8px 16px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 100px;
+    background: color(light-grey);
+    cursor: pointer;
+
+    &.selected {
+      background: color(main-yellow);
+    }
+  }
+}
