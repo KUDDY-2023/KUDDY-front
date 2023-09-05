@@ -35,7 +35,7 @@ const EditModal = ({ isModalOpen, onClose, form }: Props) => {
       isModalOpen={isModalOpen}
       onClose={onClose}
       navbarHeight={56}
-      whiteBackground={true}
+      isWhiteBackground={true}
     >
       <div className="edit-title">{title}</div>
       <div className="edit-form-container">
