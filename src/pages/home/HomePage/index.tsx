@@ -1,6 +1,5 @@
 import TopBar from "@components/_common/TopBar/index";
 import BottomNavBar from "@components/_common/BottomNavBar/index";
-
 import SwiperCard from "@components/HomePage/SwiperCard/index";
 import HomeSearchBar from "@components/HomePage/HomeSearchBar/index";
 import Trending from "@components/HomePage/Trending/index";
@@ -9,48 +8,38 @@ import WeeklyUser from "@components/HomePage/WeeklyUser/index";
 import KuddysPickPreview from "@components/HomePage/KuddysPickPreview/index";
 import Ad from "@components/HomePage/Ad/index";
 
+import { useEffect } from "react";
 import { useIsFirstLogin } from "@services/hooks/auth";
 import { profileGetProfile } from "@services/api/profile";
 
 import { useQuery } from "react-query";
 
 const HomePage = () => {
-  // 🔥 토큰이 있는 경우에 - 프로필 없으면 /auth/form으로 이동 필요
+  const { data, isLoading, error, Goto } = useIsFirstLogin("NEW_USER");
 
-  //useIsFirstLogin("NEW_USER")
+  useEffect(() => {
+    if (!isLoading) {
+      Goto();
+    }
+  }, [isLoading]);
 
-  // useIsFirstLogin("NEW_USER");
-
-  // const { data, isLoading, error } = useQuery(
-  //   "userProfile",
-  //   profileGetProfile,
-  //   { retry: false },
-  // );
-
-  /*
-    const params = useParams();
-  const bookmarkId = Number(params?.id);
-  const isAuthLoadingValue = useRecoilValue(isAuthLoading);
-  const isLoggedIn = useRecoilValue(isUserLoggedIn);
-
-  const queryFn = () => getBookmark(bookmarkId);
-  const { data, isLoading } = useQuery(bookmarkKeys.detail(bookmarkId), queryFn, {
-    enabled: !isAuthLoadingValue && isLoggedIn,
-  });
-
-  return { id: bookmarkId, data, isLoading };
-  */
   return (
     <>
-      <TopBar />
-      <SwiperCard />
-      <HomeSearchBar />
-      <Trending />
-      <HomeMenu />
-      <WeeklyUser />
-      <KuddysPickPreview />
-      <Ad />
-      <BottomNavBar />
+      {isLoading ? (
+        <p>로딩 중</p>
+      ) : (
+        <>
+          <TopBar />
+          <SwiperCard />
+          <HomeSearchBar />
+          <Trending />
+          <HomeMenu />
+          <WeeklyUser />
+          <KuddysPickPreview />
+          <Ad />
+          <BottomNavBar />
+        </>
+      )}
     </>
   );
 };
