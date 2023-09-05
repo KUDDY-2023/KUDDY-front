@@ -1,0 +1,30 @@
+@import "../../../style/mixins";
+
+.edit-form-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.edit-title {
+  margin-left: 31px;
+  margin-bottom: 32px;
+  align-self: flex-start;
+  @include font-style(--font-text, 24px, black, 600);
+}
+
+.save-btn {
+  position: absolute;
+  bottom: 61px;
+  display: flex;
+  width: calc(100% - 50px);
+  height: 52px;
+  padding: 14px 5px;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  background: var(--main_yellow, #fff49b);
+  @include font-style(--font-text, 18px, black, 600);
+  cursor: pointer;
+}

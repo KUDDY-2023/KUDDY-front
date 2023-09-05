@@ -7,6 +7,7 @@ type DistrictType = { areaName: string };
 
 // 관심사 타입
 interface InterestType {
+  [key: string]: any;
   wellbeing: wellbeingType[];
   activitiesInvestmentTech: activitiesInvestmentTechType[];
   careerMajor: careerMajorType[];
@@ -33,65 +34,45 @@ interface IUserProfile {
   nationality: string;
 }
 
-interface LanguageInfo {
-  languageType: string;
-  languageLevel: string;
-}
-
-interface UserInfo {
+interface UserInfo extends InterestType {
   memberId: number;
-  role: "kuddy" | "traveler";
+  role: UserType;
   nickname: string;
   profileImage: string;
   age: number;
-  introduction: string; // 소개글
-  job: string;
-  gender: "Mr" | "Ms" | "Neutral";
-  personality: {
-    temperament: "Extrovert" | "Introvert";
-    decisionMaking: "Judging" | "Prospecting";
-  };
-  interest?: {
-    wellbeing?: string[];
-    activitiesInvestmentTech?: string[];
-    careerMajor?: string[];
-    entertainment?: string[];
-    hobbiesInterests?: string[];
-    lifestyle?: string[];
-    food?: string[];
-    sports?: string[];
-  };
+  temperament: TemperamentType;
+  decisionMaking: DicisionMakingType;
+  gender: GenderType;
+  job: string; // 추가 필요
+  introduction: string; // 추가 필요
   languages: LanguageInfo[];
-}
-
-interface KuddyUserInfo extends UserInfo {
-  guidGrade: string;
-  activeRegion: string;
+  guideGrade?: string;
+  activeRegion?: string;
   certificate?: string;
-}
-
-interface TravelerUserInfo extends UserInfo {
-  nationality: string;
-  ticketStatus: "Submitted" | "Not Submitted";
+  nationality?: string;
+  ticketStatus?: "Submitted" | "Not Submitted";
 }
 
 interface ReviewType {
   reviewId: number;
+  meetupId: number;
   content: string;
-  createdAt: string;
+  createdDate: string;
 }
 
 interface KuddyReviewType extends ReviewType {
   grade: "perfect" | "good" | "disappoint";
   writer: {
-    name: string;
+    memberId: number;
+    nickname: string;
     profileImg: string;
   };
 }
 
 interface TravelerReviewType extends ReviewType {
   kuddy: {
-    name: string;
+    memberId: number;
+    nickname: string;
     profileImg: string;
   };
 }
@@ -99,12 +80,5 @@ interface TravelerReviewType extends ReviewType {
 interface ReviewListInfo {
   reviewCount: number;
   meetCount: number;
-}
-
-interface KuddyReviewListInfo extends ReviewListInfo {
-  reviews: KuddyReviewType[];
-}
-
-interface TravelerReviewListInfo extends ReviewListInfo {
-  reviews: TravelerReviewType[];
+  reviews: KuddyReviewType[] | TravelerReviewType[];
 }

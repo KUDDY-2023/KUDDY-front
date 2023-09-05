@@ -21,9 +21,7 @@ const iconSrc = [
 
 const MyMenuPage = () => {
   const nav = useNavigate();
-  const [userInfo, setUserInfo] = useState<KuddyUserInfo | TravelerUserInfo>(
-    KuddyUserData,
-  );
+  const [userInfo, setUserInfo] = useState<UserInfo>(KuddyUserData);
 
   const onLogout = () => {};
 
@@ -41,8 +39,8 @@ const MyMenuPage = () => {
         {iconSrc.map(
           (item, idx) =>
             ((idx !== 2 && idx !== 3) ||
-              (idx === 2 && userInfo.role === "kuddy") ||
-              (idx === 3 && userInfo.role === "traveler")) && (
+              (idx === 2 && userInfo.role === "KUDDY") ||
+              (idx === 3 && userInfo.role === "TRAVELER")) && (
               <div
                 className="section"
                 key={item.text}
