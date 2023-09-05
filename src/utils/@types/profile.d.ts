@@ -20,18 +20,18 @@ interface InterestType {
 }
 
 // 프로필 기본 정보 + 관심사
-interface IUserProfile extends InterestType {
+interface IUserProfile {
+  job: string;
   roleType: UserType;
   nickname: string;
-  profileImage: string;
-  gender: GenderType;
   age: number; // 음수는 걸러야되는데 ?
-  temperament: TemperamentType;
+  profileImageUrl: string;
+  genderType: GenderType;
   decisionMaking: DicisionMakingType;
-  job: string;
-  nationality: string;
-  availableLanguages: AvailableLanguageType[];
+  temperament: TemperamentType;
   districts: DistrictType[];
+  availableLanguages: AvailableLanguageType[];
+  nationality: string;
 }
 
 interface UserInfo extends InterestType {

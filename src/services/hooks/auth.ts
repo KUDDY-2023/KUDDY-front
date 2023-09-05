@@ -1,17 +1,12 @@
 import { useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { authReportUser, authGetRefreshToken } from "@services/api/auth";
 import { useQuery, useMutation } from "react-query";
-import { profileState } from "@services/store/auth";
+import { profileState, isLoginState } from "@services/store/auth";
 import { useRecoilState } from "recoil";
-// useQuery : get
-// useMutation : post, delete, patch, put
 
-/*
-react-query 또는 recoil 관련 등 api 호출 후의 로직 포함  
-
-함수 이름은 use로 시작 
-*/
+import { useGetProfile } from "./profile";
+import { profileGetProfile } from "@services/api/profile";
 
 // ✅ 소셜 로그인 요청 훅
 export const useAuthSocialLogin = () => {
@@ -30,8 +25,25 @@ export const useAuthSocialLogin = () => {
   return onLogin;
 };
 
+// ✅ 로그인 상태를 관리하는 훅
+export const useSetLoginState = () => {
+  const location = useLocation();
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+
+  useEffect(() => {
+    IsLogin();
+    console.log("로그인 상태", isLogin);
+  }, [location.pathname]);
+
+  const IsLogin = () => {
+    const accessToken = localStorage.getItem("accessToken");
+    setIsLogin(accessToken ? true : false);
+  };
+};
+
 // ✅ AccessToken 저장 훅
 export const useAuthLogin = () => {
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [searchParams, _] = useSearchParams();
   const navigate = useNavigate();
 
@@ -44,6 +56,7 @@ export const useAuthLogin = () => {
     const accessToken = searchParams.get("accessToken");
     if (accessToken) {
       localStorage.setItem("accessToken", accessToken); // 로컬 스토리지에 저장
+      setIsLogin(true); // 로그인 상태
       navigate("/");
     } else {
       alert("로그인에 실패하였습니다.");
@@ -71,34 +84,33 @@ export const useAuthReLogin = () => {
   };
 };
 
-// 🔥 유저 신고
-export const useAuthReportUser = (report: IReport) => {
+// ✅ 최초 로그인 여부  - main 페이지에서 활용
+type state = "NEW_USER" | "NOT_NEW_USER";
+
+export const useIsFirstLogin = (state: state) => {
+  const [isLogin, _] = useRecoilState(isLoginState);
   const navigate = useNavigate();
 
-  const { mutate: reportUser } = useMutation(authReportUser, {
-    onSuccess: res => {
-      // 성공 뒤 실행
-      console.log("성공", res);
-      navigate(-1);
-    },
-    onError: err => {
-      // 실패 뒤 실행
-      console.log("실패", err);
-    },
-  });
+  const { data, isLoading, error } = useQuery(
+    "userProfile",
+    profileGetProfile,
+    { retry: false, enabled: isLogin }, // 로그인 상태에서만 실행
+  );
 
-  const onReport = () => {
-    if (
-      // eslint-disable-next-line no-restricted-globals
-      confirm(
-        `해당 유저를 신고하시겠습니까? ${report.targetId} ${report.reason} ${report.explanation}`,
-      )
-    ) {
-      reportUser(report);
+  const Goto = () => {
+    console.log("프로필 조회 결과 ??? ", data);
+    if (state === "NEW_USER" && error && isLogin) {
+      alert("프로필 만들어주세요...");
+      // 프로필 없는 최초 로그인 유저는 form으로 이동 필수
+      navigate("/auth/form");
+    } else if (state === "NOT_NEW_USER" && data && isLogin) {
+      alert("이미 만드셨네요.....");
+      // 이미 프로필을 만든 유저는 form 페이지 접근 불가
+      navigate("/");
     }
   };
 
-  return { onReport };
+  return { data, isLoading, error, Goto, isLogin };
 };
 
 // 토큰 재발급
@@ -128,13 +140,4 @@ export const useAuthLogout = () => {
   const Logout = async () => {
     localStorage.removeItem("accessToken");
   };
-};
-
-// 프로필 생성
-export const useAuthPostProfile = () => {
-  useEffect(() => {
-    PostProfile();
-  }, []);
-
-  const PostProfile = async () => {};
 };

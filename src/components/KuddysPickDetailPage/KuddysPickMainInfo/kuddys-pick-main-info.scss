@@ -6,10 +6,10 @@ $black: var(--color-black);
 
 .kuddyspickmaininfo-thumbnail-rect {
   width: 100%;
-  @media (min-width: 574px) {
-    width: 340px;
-  }
   aspect-ratio: 1 / 1;
+  @media (min-width: 400px) {
+    height: 340px;
+  }
   border-radius: 12px;
   overflow: hidden;
 

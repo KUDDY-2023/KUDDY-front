@@ -2,6 +2,7 @@ import "./loginformpage.scss";
 import BackNavBar from "@components/_common/BackNavBar";
 import LoginProgressBar from "@components/Auth/LoginProgressBar";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { ReactComponent as PreviousIcon } from "@assets/icon/arrow_left.svg";
 import { ReactComponent as NextIconBlack } from "@assets/auth/arrow_right.svg";
 import { ReactComponent as NextIconGrey } from "@assets/auth/arrow_right_grey.svg";
@@ -13,7 +14,22 @@ import { useCanNext } from "@services/hooks/profile";
 import { useSetDefaultProfile } from "@services/hooks/profile";
 
 import { useCreateProfile } from "@services/hooks/profile";
+import { useIsFirstLogin } from "@services/hooks/auth";
+
 export default function LoginFormPage() {
+  // 프로필 유무 확인
+  const { data, isLoading, error, Goto, isLogin } =
+    useIsFirstLogin("NOT_NEW_USER");
+
+  useEffect(() => {
+    if (!isLoading) {
+      Goto();
+    }
+  }, [isLoading]);
+
+  // 🔥 토큰이 있는 경우에 - 프로필이 이미 있다면 /으로 돌아가기
+  // 🔥 토큰이 없는 경우 /auth/register로 이동
+
   // 기본 정보 세팅
   useSetDefaultProfile();
 
@@ -62,31 +78,37 @@ export default function LoginFormPage() {
 
   return (
     <div className="login-form-page">
-      <BackNavBar middleTitle="Join" isShare={false} />
-      <LoginProgressBar completed={completed} />
+      {isLoading ? (
+        <p>로딩 중..</p>
+      ) : (
+        <>
+          <BackNavBar middleTitle="Join" isShare={false} />
+          <LoginProgressBar completed={completed} />
 
-      <FormComponent />
+          <FormComponent />
 
-      <div className="btns-contrainer">
-        {num != 0 && (
-          <div className="previous" onClick={() => setNum(num - 1)}>
-            <PreviousIcon className="previous-icon" />
-            <p>Previous</p>
+          <div className="btns-contrainer">
+            {num != 0 && (
+              <div className="previous" onClick={() => setNum(num - 1)}>
+                <PreviousIcon className="previous-icon" />
+                <p>Previous</p>
+              </div>
+            )}
+
+            <div
+              className={canNext ? "active-next" : "next"}
+              onClick={onClickNextBtn}
+            >
+              <p>next</p>
+              {canNext ? (
+                <NextIconBlack className="next-icon" />
+              ) : (
+                <NextIconGrey className="next-icon" />
+              )}
+            </div>
           </div>
-        )}
-
-        <div
-          className={canNext ? "active-next" : "next"}
-          onClick={onClickNextBtn}
-        >
-          <p>next</p>
-          {canNext ? (
-            <NextIconBlack className="next-icon" />
-          ) : (
-            <NextIconGrey className="next-icon" />
-          )}
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 }

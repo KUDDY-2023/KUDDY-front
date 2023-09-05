@@ -7,9 +7,9 @@ import { useUpdateProfile } from "@services/hooks/profile";
 export default function BasicForm() {
   const [profile, setProfile] = useRecoilState(profileState); // 전역상태
   const [gender, setGender] = useState([
-    profile.gender === "MR",
-    profile.gender === "MS",
-    profile.gender === "N",
+    profile.genderType === "MR",
+    profile.genderType === "MS",
+    profile.genderType === "N",
   ]); // 성별
   const [age, setAge] = useState<string>(profile.age.toString()); // 나이
 
@@ -31,7 +31,7 @@ export default function BasicForm() {
     }
 
     setGender(newGender);
-    onUpdateProfile({ gender: newProfileGender });
+    onUpdateProfile({ genderType: newProfileGender });
   };
 
   //  앞 자리 0은 삭제하는 로직
