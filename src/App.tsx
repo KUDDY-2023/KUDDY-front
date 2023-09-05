@@ -16,7 +16,12 @@ import ProfileRoutes from "@routes/ProfileRoutes";
 import AlarmViewPage from "@pages/alarm/AlarmViewPage";
 import LoginProcessingPage from "@pages/auth/LoginProcessingPage";
 import Test from "@pages/Test";
+
+import { useSetLoginState } from "@services/hooks/auth";
+
 function App() {
+  useSetLoginState(); // 로그인 상태 업데이트
+
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />

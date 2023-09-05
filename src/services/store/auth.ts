@@ -2,6 +2,12 @@ import { profile } from "console";
 import { atom, selector } from "recoil";
 import { InterestData } from "@pages/auth/LoginFormPage/forms/InterestForm/interestsData";
 
+// ⭐ 로그인 여부
+export const isLoginState = atom<boolean>({
+  key: "isLoginState",
+  default: !!localStorage.getItem("accessToken"),
+});
+
 // ⭐ 프로필 생성 Atom
 export const profileState = atom<IUserProfile>({
   key: "profileState",
