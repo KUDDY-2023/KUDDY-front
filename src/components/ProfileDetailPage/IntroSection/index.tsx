@@ -11,11 +11,11 @@ const IntroSection = ({ ...props }) => {
   let isMine = false; // 임의
   let badgeText, badgeIcon;
   switch (props.role) {
-    case "kuddy":
-      badgeText = props.guidGrade;
+    case "KUDDY":
+      badgeText = props.guideGrade;
       badgeIcon = guideGrade;
       break;
-    case "traveler":
+    case "TRAVELER":
       if (props.ticketStatus === "Submitted") {
         badgeText = "Verified";
         badgeIcon = verified;

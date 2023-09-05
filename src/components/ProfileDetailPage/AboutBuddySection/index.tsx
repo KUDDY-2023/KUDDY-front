@@ -12,7 +12,7 @@ const AboutBuddySection = ({ ...props }) => {
       src: personIcon,
       texts: [
         `${props.gender}, ${props.age}`,
-        `${props.personality.temperament} & ${props.personality.decisionMaking}`,
+        `${props.temperament} & ${props.decisionMaking}`,
       ],
     },
     { id: 2, src: jobIcon, texts: [props.job] },
@@ -20,13 +20,14 @@ const AboutBuddySection = ({ ...props }) => {
       id: 3,
       src: pinIcon,
       texts:
-        props.role === "kuddy" ? [props.activeRegion] : [props.nationality],
+        props.role === "KUDDY" ? [props.activeRegion] : [props.nationality],
     },
     {
       id: 4,
       src: languageIcon,
       texts: props.languages.map(
-        (item: LanguageInfo) => `${item.languageType} - ${item.languageLevel}`,
+        (item: AvailableLanguageType) =>
+          `${item.languageType} - ${item.languageLevel}`,
       ),
     },
   ]);

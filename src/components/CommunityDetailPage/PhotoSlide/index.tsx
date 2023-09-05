@@ -10,15 +10,15 @@ const PhotoSlide = () => {
   const [photoInfo, setPhotoInfo] = useState<PhotoType[]>([
     {
       photoId: 1,
-      src: "https://s3-alpha-sig.figma.com/img/1d1e/d4ca/2af3a9a59e0e8f7e44937ac553ce8e6e?Expires=1693180800&Signature=jUI6LzN76yuls53Nq5Eoc6g7SNn~bB6zxbStq9VNUAhOmChkaRkFItJUGKuc30155ywM6YYxYefgmGvA2zJV9G1pmzU52IHUP6RIEtjJ716dW5XQ2UskZyEdjLxFA6YKUWfbKsBkv9qtwAjdZdTrdpl4qoqr4SvXB-QX3O14p-cZeSvVbychHjmfwmiyxTnh~LZNDvjAg6625qqppZJBK-GbbeSUyZTj1ooRo4HOthR6kSebqXe2dpIl~9sklmZoKo4lA9jBO1T93eGZsDMJSEO4VylajpWUyC3dYh0xJNmdkdNJAkhVCpDCiqXKyWeqjNQBQUvYm3Q9tTZz~4c5Mg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
+      src: "https://homecuisine.co.kr/files/attach/images/140/001/083/558d170258752df2dd76bef00861497f.JPG",
     },
     {
       photoId: 2,
-      src: "https://s3-alpha-sig.figma.com/img/9a52/5465/cd2edd6fb14c2d8b4bc3e90fca935b79?Expires=1693180800&Signature=UUBNQzSIYx~oQ6SLNyqUbl0FuJ~B~t4er9L6mcPojxnmntSldI4GN1RAtWWdyGYobGtTbPoiv-~sBSTH~JQd32dhNntQYFaxdI8rC87O4htGsblybKwupECZgAS5de8EDs9z9UUBcdU-dywgM8N2hFriuQdiyekZLOmSAKe8RzUuSFB0e73yZ5o51yk4tOSJS6Ja4Sn1kFoEgvZYzMBkVNSCj9HpYQKCSQaMXcZwS0Ca79~06PbxmifIfwZyMBESoT6vb0pJ1YDFyzAxIHanYk2~BkxYQJqIYUY6zd6k5A~JwemXgsEf8ueEFRwr4f5f36tUlkychQXDIrCI0a~YwQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
+      src: "https://homecuisine.co.kr/files/attach/images/140/890/106/e4c935050f606a96407eeb9bd96ba090.jpg",
     },
     {
       photoId: 3,
-      src: "https://s3-alpha-sig.figma.com/img/4566/68e2/3f9b21481ee80a9a897a3bb7aa4fd489?Expires=1693180800&Signature=CbxneAbZ6KMQbfgLWJHmMJ-XbbZ2NzwOi5TdGVA007EPK2UEOgE97rRX~pzhGef985BBkNhRgGjahkK4nMhDN5h1hudqBAuzxvEHAXZ8x~rSCx8dlCuwvTkVVnI7OhV6dOP6CRRYgMjJzerFjJlc0yyMN3S6Xk-lmy6JS85bBntZOr8HTr2kovvewXyKDPs2U4pxtYtEv7L~rjscXOPzoD8sUsiF3Y86ucT6eo8b5VpfgOeCpsHqvrSpLtPSkMGXE8OdvJummWgvuxMZ9W5xhWd66naEk0Kodo1L700QcAirkI~ERyq73kEyms2zf1YMJyfvObOltxZ2D24UXC0hlg__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
+      src: "https://static.wtable.co.kr/image/production/service/recipe/762/ee6abd30-9069-4fe5-becf-d2c437ffb612.jpg",
     },
   ]);
 
