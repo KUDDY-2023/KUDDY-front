@@ -28,7 +28,7 @@ apiClient.interceptors.response.use(
       } catch (err) {
         console.log("토큰 재발급 실패 ", err);
         alert("다시 로그인해주세요!");
-        window.location.href = `${process.env.REACT_APP_REACT_URL}/auth/register`;
+        // window.location.href = `${process.env.REACT_APP_REACT_URL}/auth/register`;
       }
     }
     return Promise.reject(error);

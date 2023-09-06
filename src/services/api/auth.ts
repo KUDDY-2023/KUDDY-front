@@ -20,7 +20,6 @@ axiosTemp.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem
 
 export const authGetRefreshToken = async () => {
   const url = `/api/v1/token/refresh`;
-
   return axiosTemp.post(url);
 };
 
