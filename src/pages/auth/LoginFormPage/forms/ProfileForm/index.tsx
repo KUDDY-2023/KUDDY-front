@@ -71,8 +71,16 @@ export default function ProfileForm() {
 
   const onCheckAvailableNickname = async () => {
     if (nameAlert.alert === "Please press the checking button") {
-      const result = await onCheck(name);
-      if (result) setIsAvailable(true);
+      const available = await onCheck(name);
+      if (available) {
+        setIsAvailable(true);
+      } else {
+        setIsAvailable(false);
+        setNameAlert({
+          textColor: "red-alert",
+          alert: "Name already registered",
+        });
+      }
     }
   };
 

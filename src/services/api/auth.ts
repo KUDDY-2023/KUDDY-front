@@ -9,26 +9,29 @@ import { apiClient } from ".";
  */
 
 // ✅ 토큰 재발급
-export const authGetRefreshToken = async (refreshToken: string) => {
-  const url = `/api/v1/auth/token/refresh`;
-  const headers = {
-    Cookie: `refreshToken=${refreshToken}`,
-  };
-  return apiClient.post(url, {}, { headers: headers }).then(res => {
-    return res.data;
-  });
+
+export const axiosTemp = axios.create({
+  baseURL: process.env.REACT_APP_API_HOST || "/",
+  withCredentials: true,
+});
+axiosTemp.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem(
+  "accessToken",
+)}`;
+
+export const authGetRefreshToken = async () => {
+  const url = `/api/v1/token/refresh`;
+  return axiosTemp.post(url);
 };
 
-// 유저 신고
-export const authReportUser = (report: IReport) => {
-  const url = `/api/v1/reports`;
-  return apiClient.post(url, report);
+// ✅ 로그아웃
+export const authLogOut = async (accessToken: string) => {
+  const url = `/api/v1/token/blacklist`;
+  return apiClient.post(url, { accessToken: accessToken });
 };
 
-// 회원 탈퇴
+// ✅ 회원 탈퇴
 export const authDeleteAccount = async () => {
   const url = `/api/v1/members`;
-  return apiClient.delete(url).then(res => {
-    return res.data;
-  });
+  const accessToken = localStorage.getItem("accessToken") || "";
+  return apiClient.delete(url, { data: { accessToken: accessToken } });
 };

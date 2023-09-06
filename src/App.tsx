@@ -4,6 +4,8 @@ import "@style/common.scss";
 import "@style/button.scss";
 
 import HomePage from "@pages/home/HomePage";
+import YoutubePage from "@pages/home/YoutubePage";
+import LocationRoutes from "@routes/LocationRoutes";
 import PickPage from "@pages/pick/PickPage";
 import AuthRoutes from "@routes/AuthRoutes";
 import KuddysPickRoutes from "@routes/KuddysPickRoutes";
@@ -25,6 +27,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/youtube" element={<YoutubePage />} />
+      <Route path="/location/*" element={<LocationRoutes />} />
       <Route path="/pick" element={<PickPage />} />
       <Route path="/travel/*" element={<TravelRoutes />} />
       <Route path="/mates/*" element={<MatesRoutes />} />

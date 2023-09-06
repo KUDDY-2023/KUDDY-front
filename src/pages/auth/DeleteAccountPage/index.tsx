@@ -7,9 +7,14 @@ import EventBtn from "@components/_common/EventBtn";
 import { ReactComponent as CheckOn } from "@assets/icon/check_on.svg";
 import { ReactComponent as CheckOff } from "@assets/icon/check_off.svg";
 
+import { useAuthDeleteAccount } from "@services/hooks/auth";
+
 export default function DeleteAccountPage() {
   const [isCheck, setIsCheck] = useState(false);
   const _handleCheck = () => setIsCheck(!isCheck);
+
+  const onDeleteAccount = useAuthDeleteAccount();
+
   return (
     <div className="delete-account-page">
       <BackNavBar middleTitle="Delete my account" isShare={false} />
@@ -34,7 +39,7 @@ export default function DeleteAccountPage() {
       <EventBtn
         btnName="Delete my account"
         isActive={isCheck}
-        onClick={() => console.log("탈퇴 로직")}
+        onClick={() => onDeleteAccount()}
       />
     </div>
   );

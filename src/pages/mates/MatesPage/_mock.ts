@@ -97,10 +97,20 @@ export const matesArrayT: MatesType[] = [
 ];
 
 export const languageArray: string[] = [
-  "english",
-  "korean",
-  "japanese",
-  "chinese",
+  "English",
+  "Korean",
+  "Japanese",
+  "Chinese",
+  "Spanish",
+  "French",
+  "German",
+  "Russian",
+  "Portuguese",
+  "Italian",
+  "Vietnamese",
+  "Thai",
+  "Indonesian",
+  "Hindi",
 ];
 
 export type InterestType = {
