@@ -1,5 +1,6 @@
 import axios from "axios";
 import { authGetRefreshToken } from "./auth";
+import { useAuthReLogin } from "@services/hooks/auth";
 
 export const apiClient = axios.create({
   baseURL: process.env.REACT_APP_API_HOST || "/",
@@ -17,11 +18,13 @@ apiClient.interceptors.response.use(
       try {
         const res = await authGetRefreshToken();
         const newAccessToken = res.data.data.accessToken;
+
         console.log("토큰 재발급 요청 결과 >> ", res);
 
         if (newAccessToken) {
+          const ReLogin = useAuthReLogin();
+          ReLogin(newAccessToken);
           originalRequest.headers["Authorization"] = "Bearer " + newAccessToken;
-          localStorage.setItem("accessToken", newAccessToken);
         }
 
         return axios(originalRequest);
