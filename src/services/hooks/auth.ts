@@ -2,11 +2,17 @@ import { useEffect } from "react";
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { authReportUser, authGetRefreshToken } from "@services/api/auth";
 import { useQuery, useMutation } from "react-query";
-import { profileState, isLoginState } from "@services/store/auth";
+import {
+  profileState,
+  isLoginState,
+  accessTokenState,
+} from "@services/store/auth";
 import { useRecoilState } from "recoil";
 
 import { useGetProfile } from "./profile";
 import { profileGetProfile } from "@services/api/profile";
+
+import { updateAuthHeader } from "@services/api"; // axios 토큰 업데이트
 
 // ✅ 소셜 로그인 요청 훅
 export const useAuthSocialLogin = () => {
@@ -43,6 +49,7 @@ export const useSetLoginState = () => {
 
 // ✅ AccessToken 저장 훅
 export const useAuthLogin = () => {
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const [searchParams, _] = useSearchParams();
   const navigate = useNavigate();
@@ -53,10 +60,12 @@ export const useAuthLogin = () => {
 
   const Login = async () => {
     console.log("로그인 실행 - accessToken 저장");
-    const accessToken = searchParams.get("accessToken");
-    if (accessToken) {
-      localStorage.setItem("accessToken", accessToken); // 로컬 스토리지에 저장
+    const newAccessToken = searchParams.get("accessToken");
+    if (newAccessToken) {
+      updateAuthHeader(newAccessToken); // axios 헤더 바꾸는 훅 필요
+      // setAccessToken(newAccessToken); // accessToken atom 변경
       setIsLogin(true); // 로그인 상태
+      localStorage.setItem("accessToken", newAccessToken); // 로컬 스토리지에 저장
       navigate("/");
     } else {
       alert("로그인에 실패하였습니다.");
@@ -65,52 +74,63 @@ export const useAuthLogin = () => {
   };
 };
 
-// ✅ refreshToken으로 accessToken 다시 저장하는 훅
-export const useAuthReLogin = () => {
-  // 토큰 꺼내오는 로직 필요
-  const refreshToken = "~~";
+/*
+- 토큰 만료라는 오류가 뜨면 무조건 실행되는 훅이어야함 
+- 만약 refreshToken도 유효하지 않다면 localstorage 날리고 재로그인 시키기
+*/
 
-  useEffect(() => {
-    ReLogin();
-  }, []);
+// ✅ 토큰 재발급 훅
+export const useAuthReLogin = () => {
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
 
   const ReLogin = async () => {
     try {
-      const { accessToken } = await authGetRefreshToken(refreshToken); // 토큰 요청
-      localStorage.setItem("accessToken", accessToken); // 새 토큰 저장
-    } catch {
-      alert("엑세스 토큰 재발급 실패");
+      const res = await authGetRefreshToken(); // 토큰 요청
+      const newAccessToken = res.data.data.accessToken;
+      updateAuthHeader(newAccessToken); // axios 헤더 바꾸는 훅 필요
+      //setAccessToken(newAccessToken); // accessToken atom 변경
+      setIsLogin(true); // 로그인 상태
+      localStorage.setItem("accessToken", newAccessToken); // 새 토큰 저장
+    } catch (err) {
+      console.log("엑세스 토큰 재발급 실패", err);
+      alert("다시 로그인해주세요");
     }
   };
+
+  return { ReLogin };
 };
 
-// ✅ 최초 로그인 여부  - main 페이지에서 활용
-type state = "NEW_USER" | "NOT_NEW_USER";
+// ✅ 최초 로그인 여부 - main 페이지에서 활용
+type state = "MAIN" | "FORM";
 
-export const useIsFirstLogin = (state: state) => {
+export const useIsFirstLogin = async (state: state) => {
   const [isLogin, _] = useRecoilState(isLoginState);
   const navigate = useNavigate();
 
-  const { data, isLoading, error } = useQuery(
-    "userProfile",
-    profileGetProfile,
-    { retry: false, enabled: isLogin }, // 로그인 상태에서만 실행
-  );
+  useEffect(() => {
+    Goto();
+  }, []);
 
-  const Goto = () => {
-    console.log("프로필 조회 결과 ??? ", data);
-    if (state === "NEW_USER" && error && isLogin) {
-      alert("프로필 만들어주세요...");
-      // 프로필 없는 최초 로그인 유저는 form으로 이동 필수
-      navigate("/auth/form");
-    } else if (state === "NOT_NEW_USER" && data && isLogin) {
-      alert("이미 만드셨네요.....");
-      // 이미 프로필을 만든 유저는 form 페이지 접근 불가
-      navigate("/");
+  const Goto = async () => {
+    if (state === "MAIN" && !isLogin) {
+      console.log("메인, 로그인 안해서 필요 없음");
+      return;
+    }
+    try {
+      const res = await profileGetProfile(); // 조회
+      if (state === "FORM") {
+        alert("이미 만드셨네요.....");
+        navigate("/");
+      }
+    } catch (err) {
+      if (state === "MAIN") {
+        alert("프로필 만들어주세요...");
+        navigate("/auth/form");
+      }
+      return err;
     }
   };
-
-  return { data, isLoading, error, Goto, isLogin };
 };
 
 // 토큰 재발급
