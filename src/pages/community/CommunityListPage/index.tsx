@@ -8,11 +8,6 @@ const CommunityListPage = () => {
   return (
     <div className="community-list-container">
       <TopBar isCommunity={true} />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
       <PostList />
       <div style={{ height: "120vh" }} />
       <WritePostBtn />
