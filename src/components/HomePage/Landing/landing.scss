@@ -1,0 +1,26 @@
+.landing-wrapper {
+  width: 100%;
+  height: 100svh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .flex {
+    display: flex;
+    align-items: center;
+
+    img {
+      height: 32px;
+      margin-right: 10px;
+    }
+
+    p {
+      color: var(--color-black);
+      font: {
+        family: var(--font-title);
+        size: 38px;
+        weight: 700;
+      }
+    }
+  }
+}

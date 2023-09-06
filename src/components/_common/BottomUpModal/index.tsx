@@ -8,18 +8,22 @@ interface Props {
   onClose: () => void;
   navbarHeight: number;
   children: ReactNode;
+  isWhiteBackground: boolean;
 }
 export default function BottomUpModal({
   isModalOpen,
   onClose,
   navbarHeight,
   children,
+  isWhiteBackground,
 }: Props) {
   let h = (window.innerHeight - navbarHeight) / window.innerHeight;
 
   return (
     <Sheet isOpen={isModalOpen} onClose={onClose} snapPoints={[h]}>
-      <Sheet.Container>
+      <Sheet.Container
+        style={{ backgroundColor: isWhiteBackground ? "#fff" : "#f8f8f8" }}
+      >
         <Sheet.Header />
         <Sheet.Content>{children}</Sheet.Content>
       </Sheet.Container>

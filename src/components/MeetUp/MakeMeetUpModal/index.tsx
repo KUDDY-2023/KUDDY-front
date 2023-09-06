@@ -16,6 +16,7 @@ export default function MakeMeetUpModal({ isModalOpen, onClose }: Props) {
       isModalOpen={isModalOpen}
       onClose={onClose}
       navbarHeight={47}
+      isWhiteBackground={false}
     >
       <div id="meet-up-container">
         <h2>Set meet up</h2>

@@ -1,0 +1,18 @@
+@import "../../../style/mixins";
+
+.loading-rect {
+  position: absolute;
+  z-index: 500;
+  top: 55px;
+  width: 100%;
+  height: calc(100svh - 55px);
+  background-color: color(white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#map {
+  width: 100%;
+  height: calc(100svh - 55px);
+}

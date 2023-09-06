@@ -1,6 +1,4 @@
-@function color($color-name) {
-  @return var(--color-#{$color-name});
-}
+@import "../../../style/mixins";
 
 .comment-list-container {
   width: 100%;
@@ -37,6 +35,7 @@
     width: 30px;
     height: 30px;
     border-radius: 30px;
+    object-fit: cover;
   }
 }
 
