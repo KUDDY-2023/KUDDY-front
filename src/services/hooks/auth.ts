@@ -105,20 +105,11 @@ export const useAuthReLogin = () => {
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const navigate = useNavigate();
 
-  const ReLogin = async () => {
-    try {
-      const res = await authGetRefreshToken(); // 토큰 요청
-      const newAccessToken = res.data.data.accessToken;
-
-      updateAuthHeader(newAccessToken); // axios 헤더 바꾸는 훅 필요
-      setAccessToken(newAccessToken); // accessToken atom 변경
-      setIsLogin(true); // 로그인 상태
-      localStorage.setItem("accessToken", newAccessToken); // 새 토큰 저장
-    } catch (err) {
-      console.log("엑세스 토큰 재발급 실패", err);
-      alert("다시 로그인해주세요");
-      navigate("/");
-    }
+  const ReLogin = (newAccessToken: string) => {
+    updateAuthHeader(newAccessToken); // axios 헤더 바꾸는 훅 필요
+    setAccessToken(newAccessToken); // accessToken atom 변경
+    setIsLogin(true); // 로그인 상태
+    localStorage.setItem("accessToken", newAccessToken); // 새 토큰 저장
   };
 
   return ReLogin;
