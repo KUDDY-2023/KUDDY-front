@@ -12,8 +12,8 @@ apiClient.interceptors.response.use(
   },
   async function (error) {
     const originalRequest = error.config;
-    if (error.response.status === 401 && !originalRequest.headers._retry) {
-      originalRequest.headers._retry = true;
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
       try {
         const res = await authGetRefreshToken();
         const newAccessToken = res.data.data.accessToken;
@@ -27,6 +27,8 @@ apiClient.interceptors.response.use(
         return axios(originalRequest);
       } catch (err) {
         console.log("토큰 재발급 실패 ", err);
+        alert("다시 로그인해주세요!");
+        window.location.href = `${process.env.REACT_APP_REACT_URL}/auth/register`;
       }
     }
     return Promise.reject(error);
