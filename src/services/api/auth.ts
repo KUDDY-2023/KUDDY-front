@@ -18,6 +18,12 @@ export const authGetRefreshToken = async () => {
   return apiClient.post(url);
 };
 
+// ✅ 로그아웃
+export const authLogOut = async (accessToken: string) => {
+  const url = `/api/v1/token/blacklist`;
+  return apiClient.post(url, { accessToken: accessToken });
+};
+
 // 회원 탈퇴
 export const authDeleteAccount = async () => {
   const url = `/api/v1/members`;

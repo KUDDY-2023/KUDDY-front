@@ -1,18 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
-import { authGetRefreshToken } from "@services/api/auth";
-import { authReportUser } from "@services/api/user";
-import { useQuery, useMutation } from "react-query";
-import {
-  profileState,
-  isLoginState,
-  accessTokenState,
-} from "@services/store/auth";
 import { useRecoilState } from "recoil";
 
-import { useGetProfile } from "./profile";
-import { profileGetProfile } from "@services/api/profile";
+import { isLoginState, accessTokenState } from "@services/store/auth";
 
+import { authGetRefreshToken, authLogOut } from "@services/api/auth";
+import { profileGetProfile } from "@services/api/profile";
 import { updateAuthHeader } from "@services/api"; // axios 토큰 업데이트
 
 // ✅ 소셜 로그인 요청 훅
@@ -64,7 +57,7 @@ export const useAuthLogin = () => {
     const newAccessToken = searchParams.get("accessToken");
     if (newAccessToken) {
       updateAuthHeader(newAccessToken); // axios 헤더 바꾸는 훅 필요
-      // setAccessToken(newAccessToken); // accessToken atom 변경
+      setAccessToken(newAccessToken); // accessToken atom 변경
       setIsLogin(true); // 로그인 상태
       localStorage.setItem("accessToken", newAccessToken); // 로컬 스토리지에 저장
       navigate("/");
@@ -75,12 +68,38 @@ export const useAuthLogin = () => {
   };
 };
 
+// 로그아웃
+export const useAuthLogout = () => {
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const navigate = useNavigate();
+
+  const Logout = async () => {
+    try {
+      const res = await authLogOut(accessToken);
+    } catch (err) {
+      alert("서버 오류로 로그아웃에 실패했습니다.");
+      console.log("로그아웃 실패 >> ", err);
+    }
+
+    // 서버 성공 여부와 상관 없이 클라이언트에선 로그아웃 진행
+
+    setAccessToken(""); // 토큰 날리기
+    setIsLogin(false); // 비로그인상태
+    updateAuthHeader(); // axios 헤더에서 토큰 비우기
+    localStorage.removeItem("accessToken"); // localstorage 삭제
+    navigate("/"); // 메인 페이지로 이동
+  };
+
+  return Logout;
+};
+
 /*
 - 토큰 만료라는 오류가 뜨면 무조건 실행되는 훅이어야함 
-- 만약 refreshToken도 유효하지 않다면 localstorage 날리고 재로그인 시키기
+- 만약 refreshToken도 유효하지 않다면 localstorage 날리고 재로그인 시켜야함 
 */
 
-// ✅ 토큰 재발급 훅
+// 토큰 재발급 훅
 export const useAuthReLogin = () => {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
@@ -156,15 +175,4 @@ export const useAuthDeleteAccount = () => {
   }, []);
 
   const DeleteAccount = async () => {};
-};
-
-// 로그아웃
-export const useAuthLogout = () => {
-  useEffect(() => {
-    Logout();
-  }, []);
-
-  const Logout = async () => {
-    localStorage.removeItem("accessToken");
-  };
 };

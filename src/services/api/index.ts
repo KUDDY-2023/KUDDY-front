@@ -9,7 +9,7 @@ const accessToken = localStorage.getItem("accessToken");
 
 apiClient.defaults.headers.common["Authorization"] = accessToken
   ? `Bearer ${accessToken}`
-  : null;
+  : "";
 
 // 헤더 비우는 훅
 export const initAuthHeader = () => {
