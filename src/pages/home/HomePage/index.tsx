@@ -15,31 +15,19 @@ import { profileGetProfile } from "@services/api/profile";
 import { useQuery } from "react-query";
 
 const HomePage = () => {
-  const { data, isLoading, error, Goto } = useIsFirstLogin("NEW_USER");
-
-  useEffect(() => {
-    if (!isLoading) {
-      Goto();
-    }
-  }, [isLoading]);
+  useIsFirstLogin("MAIN");
 
   return (
     <>
-      {isLoading ? (
-        <p>로딩 중</p>
-      ) : (
-        <>
-          <TopBar />
-          <SwiperCard />
-          <HomeSearchBar />
-          <Trending />
-          <HomeMenu />
-          <WeeklyUser />
-          <KuddysPickPreview />
-          <Ad />
-          <BottomNavBar />
-        </>
-      )}
+      <TopBar />
+      <SwiperCard />
+      <HomeSearchBar />
+      <Trending />
+      <HomeMenu />
+      <WeeklyUser />
+      <KuddysPickPreview />
+      <Ad />
+      <BottomNavBar />
     </>
   );
 };
