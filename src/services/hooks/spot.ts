@@ -1,3 +1,4 @@
+import { error } from "console";
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery, useMutation } from "react-query";
@@ -12,12 +13,16 @@ react-query 또는 recoil 관련 등 api 호출 후의 로직 포함
 */
 
 // near my location
-export const useNearLocation = async (x: number, y: number) => {
-  try {
-    const { data } = await spotGetNearLocation(x, y);
-    console.log(data);
-    return data;
-  } catch {
-    console.log("x");
-  }
+export const useNearLocation = (page: number, x: number, y: number) => {
+  useEffect(() => {
+    GetLocation();
+  }, []);
+  const GetLocation = async () => {
+    try {
+      const { data } = await spotGetNearLocation(page, x, y);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 };

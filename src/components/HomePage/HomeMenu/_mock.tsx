@@ -1,11 +1,11 @@
-import menuimg1 from "@assets/homemenu/attraction.svg";
-import menuimg2 from "@assets/homemenu/culture.svg";
-import menuimg3 from "@assets/homemenu/shopping.svg";
-import menuimg4 from "@assets/homemenu/restaurant.svg";
-import menuimg5 from "@assets/homemenu/leisure.svg";
-import menuimg6 from "@assets/homemenu/festival.svg";
-import menuimg7 from "@assets/homemenu/youtube.svg";
-import menuimg8 from "@assets/homemenu/location.svg";
+import menuimg1 from "@assets/home/attraction.svg";
+import menuimg2 from "@assets/home/culture.svg";
+import menuimg3 from "@assets/home/shopping.svg";
+import menuimg4 from "@assets/home/restaurant.svg";
+import menuimg5 from "@assets/home/leisure.svg";
+import menuimg6 from "@assets/home/festival.svg";
+import menuimg7 from "@assets/home/youtube.svg";
+import menuimg8 from "@assets/home/location.svg";
 
 type menu = {
   index: number;

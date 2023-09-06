@@ -18,8 +18,12 @@ export const spotGetTrendingNow = async () => {
 // district
 
 // near my location
-export const spotGetNearLocation = async (x: number, y: number) => {
-  const url = `/api/v1/spots?x=${x}&y=${y}`;
+export const spotGetNearLocation = async (
+  page: number,
+  x: number,
+  y: number,
+) => {
+  const url = `/api/v1/spots/recommendation?page=${page}&x=${x}&y=${y}`;
   return apiClient.get(url);
 };
 
