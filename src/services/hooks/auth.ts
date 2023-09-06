@@ -123,8 +123,9 @@ export const useIsFirstLogin = async (state: state) => {
         alert("이미 만드셨네요.....");
         navigate("/");
       }
-    } catch (err) {
-      if (state === "MAIN") {
+    } catch (err: any) {
+      let errCode = err.response.data.message;
+      if (state === "MAIN" && errCode === "프로필을 찾을 수 없습니다.") {
         alert("프로필 만들어주세요...");
         navigate("/auth/form");
       }

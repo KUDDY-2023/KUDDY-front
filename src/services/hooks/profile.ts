@@ -15,6 +15,8 @@ import {
 import { useRecoilState } from "recoil";
 import useCheckNickname from "@utils/hooks/useCheckNickname";
 
+import { useAuthReLogin } from "./auth";
+
 // ✅ 프로필 최초 생성
 export const useCreateProfile = () => {
   const update = useUpdateProfile();
@@ -82,6 +84,7 @@ export const useCreateProfile = () => {
 // ✅ default 프로필 이미지 + 닉네임 세팅하는 hook
 export const useSetDefaultProfile = () => {
   const onUpdateProfile = useUpdateProfile();
+  const { ReLogin } = useAuthReLogin();
 
   useEffect(() => {
     setDefaultInfo();
@@ -96,6 +99,9 @@ export const useSetDefaultProfile = () => {
 
       onUpdateProfile({ nickname: nickname, profileImageUrl: profileImageUrl });
     } catch (err) {
+      // 401 에러면
+      //if() ReLogin();
+
       console.log("기본 정보 조회 실패", err);
     }
   };
