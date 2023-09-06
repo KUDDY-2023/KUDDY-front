@@ -1,7 +1,13 @@
 .btn-container {
+  z-index: 40;
   position: fixed;
   right: 28px;
   bottom: 119px;
+
+  @media (min-width: 600px) {
+    right: 21%;
+    transform: translateX(-28px);
+  }
 
   img {
     width: 50px;
