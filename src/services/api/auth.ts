@@ -9,14 +9,13 @@ import { apiClient } from ".";
  */
 
 // ✅ 토큰 재발급
-export const authGetRefreshToken = async (refreshToken: string) => {
-  const url = `/api/v1/auth/token/refresh`;
-  const headers = {
-    Cookie: `refreshToken=${refreshToken}`,
-  };
-  return apiClient.post(url, {}, { headers: headers }).then(res => {
-    return res.data;
-  });
+export const authGetRefreshToken = async () => {
+  const url = `/api/v1/token/refresh`;
+  // const headers = {
+  //   Cookie: `refreshToken=${refreshToken}`,
+  // };
+  // 헤더는 알아서 들어갈 듯?
+  return apiClient.post(url);
 };
 
 // 유저 신고
