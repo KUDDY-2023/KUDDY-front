@@ -29,10 +29,9 @@ export const authLogOut = async (accessToken: string) => {
   return apiClient.post(url, { accessToken: accessToken });
 };
 
-// 회원 탈퇴
+// ✅ 회원 탈퇴
 export const authDeleteAccount = async () => {
   const url = `/api/v1/members`;
-  return apiClient.delete(url).then(res => {
-    return res.data;
-  });
+  const accessToken = localStorage.getItem("accessToken") || "";
+  return apiClient.delete(url, { data: { accessToken: accessToken } });
 };

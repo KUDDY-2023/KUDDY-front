@@ -4,7 +4,7 @@ import { useRecoilState } from "recoil";
 
 import { isLoginState, accessTokenState } from "@services/store/auth";
 
-import { authGetRefreshToken, authLogOut } from "@services/api/auth";
+import { authLogOut, authDeleteAccount } from "@services/api/auth";
 import { profileGetProfile } from "@services/api/profile";
 import { updateAuthHeader } from "@services/api"; // axios 토큰 업데이트
 
@@ -94,12 +94,7 @@ export const useAuthLogout = () => {
   return Logout;
 };
 
-/*
-- 토큰 만료라는 오류가 뜨면 무조건 실행되는 훅이어야함 
-- 만약 refreshToken도 유효하지 않다면 localstorage 날리고 재로그인 시켜야함 
-*/
-
-// 토큰 재발급 훅
+// ✅ 토큰 재발급 후 토큰 상태 관리하는 훅
 export const useAuthReLogin = () => {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
@@ -115,7 +110,7 @@ export const useAuthReLogin = () => {
   return ReLogin;
 };
 
-// ✅ 최초 로그인 여부 - main 페이지에서 활용
+// ✅ 최초 로그인 여부 (main페이지와 form 페이지에서 사용)
 type state = "MAIN" | "FORM";
 
 export const useIsFirstLogin = async (state: state) => {
@@ -146,28 +141,30 @@ export const useIsFirstLogin = async (state: state) => {
         alert("프로필 만들어주세요...");
         navigate("/auth/form");
       }
-
-      // 토큰 문제
-
-      // 리프레시도 만료 됐을 경우
     }
   };
 };
 
-// 토큰 재발급
-export const useAuthRefresh = () => {
-  useEffect(() => {
-    RefreshTokens();
-  }, []);
-
-  const RefreshTokens = async () => {};
-};
-
-// 탈퇴
+// ✅ 탈퇴 요청
 export const useAuthDeleteAccount = () => {
-  useEffect(() => {
-    DeleteAccount();
-  }, []);
+  const [_, setAccessToken] = useRecoilState(accessTokenState);
+  const [__, setIsLogin] = useRecoilState(isLoginState);
+  const navigate = useNavigate();
 
-  const DeleteAccount = async () => {};
+  const onDeleteAccount = async () => {
+    try {
+      const res = await authDeleteAccount();
+      updateAuthHeader(""); // axios 헤더 비우기
+      setAccessToken(""); // accessToken atom 변경
+      setIsLogin(false); // 로그인 상태
+      localStorage.removeItem("accessToken"); // 토큰 삭제
+      alert("성공적으로 탈퇴하였습니다.");
+      navigate("/");
+    } catch (err) {
+      alert("서버 문제로 탈퇴 실패! 다시 시도해주세요");
+      console.log(err);
+    }
+  };
+
+  return onDeleteAccount;
 };
