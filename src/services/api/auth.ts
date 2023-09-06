@@ -18,12 +18,6 @@ export const authGetRefreshToken = async () => {
   return apiClient.post(url);
 };
 
-// 유저 신고
-export const authReportUser = (report: IReport) => {
-  const url = `/api/v1/reports`;
-  return apiClient.post(url, report);
-};
-
 // 회원 탈퇴
 export const authDeleteAccount = async () => {
   const url = `/api/v1/members`;

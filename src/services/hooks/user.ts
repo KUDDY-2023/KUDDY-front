@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { authReportUser, authGetRefreshToken } from "@services/api/auth";
+import { authGetRefreshToken } from "@services/api/auth";
+import { authReportUser } from "@services/api/user";
 import { useQuery, useMutation } from "react-query";
 
 // 🔥 유저 신고 hook
