@@ -163,9 +163,13 @@ export const useCheckAvailableNickname = () => {
       const { data }: any = await profileCheckNickname(nickname);
       console.log(data.message);
       return data.message === "SUCCESS";
-    } catch (err) {
-      console.log("닉네임 중복 검사 실패");
-      console.log(err);
+    } catch (err: any) {
+      const errMessage = err.response.data.message;
+
+      if (errMessage === "중복된 닉네임이 존재합니다.") {
+        console.log(errMessage);
+        return false;
+      }
     }
   };
 
