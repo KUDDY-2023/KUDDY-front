@@ -34,7 +34,7 @@ export const locationArray = {
       name: "Sinchon Sisters Hostel [Korea Quality] / 신촌 시스터즈 [한국관광 품질인증/Korea Quality]",
       contentId: 2710540,
       district: "Mapo",
-      category: "",
+      category: "Shopping",
       imageUrl:
         "http://tong.visitkorea.or.kr/cms/resource/92/2708492_image2_1.jpg",
       mapX: 126.9356725027,
@@ -113,7 +113,7 @@ export const locationArray = {
       name: "Suite Room [Korea Quality] 스위트룸[한국관광 품질인증]",
       contentId: 2988081,
       district: "Mapo",
-      category: "",
+      category: "Shopping",
       imageUrl:
         "http://tong.visitkorea.or.kr/cms/resource/66/2950566_image2_1.jpg",
       mapX: 126.9279370248,
