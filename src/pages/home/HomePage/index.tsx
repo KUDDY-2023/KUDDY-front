@@ -8,6 +8,8 @@ import WeeklyUser from "@components/HomePage/WeeklyUser/index";
 import KuddysPickPreview from "@components/HomePage/KuddysPickPreview/index";
 import Ad from "@components/HomePage/Ad/index";
 import Landing from "@components/HomePage/Landing";
+import Modal from "@components/_common/Modal";
+import ReviewModal from "@components/HomePage/ReviewModal";
 
 import { useEffect, useState } from "react";
 import { useIsFirstLogin } from "@services/hooks/auth";
@@ -24,7 +26,7 @@ const HomePage = () => {
     }
   }, [isLoading]);
 
-  const [isSplash, setIsSplash] = useState<boolean>(true);
+  const [isSplash, setIsSplash] = useState<boolean>(false);
   useEffect(() => {
     window.scrollTo(0, 0);
     if (sessionStorage.getItem("visited") !== "true") {
@@ -37,6 +39,10 @@ const HomePage = () => {
       setIsSplash(false);
     }
   }, []);
+
+  // 약속 n시간 후 ~ n일까지 리뷰 작성하러 가기 위한 모달 상태
+  // default false
+  const [reviewModal, setReviewModal] = useState<boolean>(true);
 
   return (
     <>
@@ -57,6 +63,15 @@ const HomePage = () => {
               <KuddysPickPreview />
               <Ad />
               <BottomNavBar />
+              {reviewModal && (
+                <Modal
+                  isOpen={reviewModal}
+                  closer={() => setReviewModal(false)}
+                  isXbtn={true}
+                >
+                  <ReviewModal />
+                </Modal>
+              )}
             </>
           )}
         </>
