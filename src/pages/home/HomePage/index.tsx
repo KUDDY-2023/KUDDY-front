@@ -18,13 +18,7 @@ import { profileGetProfile } from "@services/api/profile";
 import { useQuery } from "react-query";
 
 const HomePage = () => {
-  const { data, isLoading, error, Goto } = useIsFirstLogin("NEW_USER");
-
-  useEffect(() => {
-    if (!isLoading) {
-      Goto();
-    }
-  }, [isLoading]);
+  useIsFirstLogin("MAIN");
 
   const [isSplash, setIsSplash] = useState<boolean>(false);
   useEffect(() => {
@@ -51,29 +45,23 @@ const HomePage = () => {
         <Landing />
       ) : (
         <>
-          {isLoading ? (
-            <p>로딩 중</p>
-          ) : (
-            <>
-              <TopBar />
-              <SwiperCard />
-              <HomeSearchBar />
-              <Trending />
-              <HomeMenu />
-              <WeeklyUser />
-              <KuddysPickPreview />
-              <Ad />
-              <BottomNavBar />
-              {reviewModal && (
-                <Modal
-                  isOpen={reviewModal}
-                  closer={() => setReviewModal(false)}
-                  isXbtn={true}
-                >
-                  <ReviewModal />
-                </Modal>
-              )}
-            </>
+          <TopBar />
+          <SwiperCard />
+          <HomeSearchBar />
+          <Trending />
+          <HomeMenu />
+          <WeeklyUser />
+          <KuddysPickPreview />
+          <Ad />
+          <BottomNavBar />
+          {reviewModal && (
+            <Modal
+              isOpen={reviewModal}
+              closer={() => setReviewModal(false)}
+              isXbtn={true}
+            >
+              <ReviewModal />
+            </Modal>
           )}
         </>
       )}

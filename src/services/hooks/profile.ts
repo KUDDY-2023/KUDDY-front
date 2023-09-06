@@ -15,6 +15,8 @@ import {
 import { useRecoilState } from "recoil";
 import useCheckNickname from "@utils/hooks/useCheckNickname";
 
+import { useAuthReLogin } from "./auth";
+
 // ✅ 프로필 최초 생성
 export const useCreateProfile = () => {
   const update = useUpdateProfile();
@@ -82,6 +84,7 @@ export const useCreateProfile = () => {
 // ✅ default 프로필 이미지 + 닉네임 세팅하는 hook
 export const useSetDefaultProfile = () => {
   const onUpdateProfile = useUpdateProfile();
+  const ReLogin = useAuthReLogin();
 
   useEffect(() => {
     setDefaultInfo();
@@ -95,8 +98,10 @@ export const useSetDefaultProfile = () => {
       let profileImageUrl = data.data.profileImageUrl;
 
       onUpdateProfile({ nickname: nickname, profileImageUrl: profileImageUrl });
-    } catch (err) {
-      console.log("기본 정보 조회 실패", err);
+    } catch (err: any) {
+      let errCode = err.response.status;
+      // if (errCode === 401) ReLogin();
+      // console.log("기본 정보 조회 실패", err);
     }
   };
 };
@@ -157,9 +162,13 @@ export const useCheckAvailableNickname = () => {
       const { data }: any = await profileCheckNickname(nickname);
       console.log(data.message);
       return data.message === "SUCCESS";
-    } catch (err) {
-      console.log("닉네임 중복 검사 실패");
-      console.log(err);
+    } catch (err: any) {
+      const errMessage = err.response.data.message;
+
+      if (errMessage === "중복된 닉네임이 존재합니다.") {
+        console.log(errMessage);
+        return false;
+      }
     }
   };
 

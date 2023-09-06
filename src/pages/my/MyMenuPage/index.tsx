@@ -11,6 +11,8 @@ import tic from "@assets/my/ticket.svg";
 import del from "@assets/my/delete_account.svg";
 import log from "@assets/my/logout.svg";
 
+import { useAuthLogout } from "@services/hooks/auth";
+
 const iconSrc = [
   { text: "My appoitment", src: app, navTo: "/my/appointment" },
   { text: "My post", src: pos, navTo: "/my/post" },
@@ -23,7 +25,7 @@ const MyMenuPage = () => {
   const nav = useNavigate();
   const [userInfo, setUserInfo] = useState<UserInfo>(KuddyUserData);
 
-  const onLogout = () => {};
+  const onLogout = useAuthLogout();
 
   return (
     <div className="my-menu-page-wrapper">

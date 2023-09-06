@@ -9,20 +9,16 @@ import { apiClient } from ".";
  */
 
 // ✅ 토큰 재발급
-export const authGetRefreshToken = async (refreshToken: string) => {
-  const url = `/api/v1/auth/token/refresh`;
-  const headers = {
-    Cookie: `refreshToken=${refreshToken}`,
-  };
-  return apiClient.post(url, {}, { headers: headers }).then(res => {
-    return res.data;
-  });
+export const authGetRefreshToken = async () => {
+  const url = `/api/v1/token/refresh`;
+  let headers = { _retry: true };
+  return apiClient.post(url, {}, { headers });
 };
 
-// 유저 신고
-export const authReportUser = (report: IReport) => {
-  const url = `/api/v1/reports`;
-  return apiClient.post(url, report);
+// ✅ 로그아웃
+export const authLogOut = async (accessToken: string) => {
+  const url = `/api/v1/token/blacklist`;
+  return apiClient.post(url, { accessToken: accessToken });
 };
 
 // 회원 탈퇴
