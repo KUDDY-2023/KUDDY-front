@@ -1,15 +1,37 @@
 import axios from "axios";
+import { authGetRefreshToken } from "./auth";
 
 export const apiClient = axios.create({
   baseURL: process.env.REACT_APP_API_HOST || "/",
   withCredentials: true,
 });
 
-const accessToken = localStorage.getItem("accessToken");
+apiClient.interceptors.response.use(
+  response => {
+    return response;
+  },
+  async function (error) {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest.headers._retry) {
+      originalRequest.headers._retry = true;
+      try {
+        const res = await authGetRefreshToken();
+        const newAccessToken = res.data.data.accessToken;
+        console.log("토큰 재발급 요청 결과 >> ", res);
 
-apiClient.defaults.headers.common["Authorization"] = accessToken
-  ? `Bearer ${accessToken}`
-  : "";
+        if (newAccessToken) {
+          originalRequest.headers["Authorization"] = "Bearer " + newAccessToken;
+          localStorage.setItem("accessToken", newAccessToken);
+        }
+
+        return axios(originalRequest);
+      } catch (err) {
+        console.log("토큰 재발급 실패 ", err);
+      }
+    }
+    return Promise.reject(error);
+  },
+);
 
 // 헤더 비우는 훅
 export const initAuthHeader = () => {
@@ -26,3 +48,6 @@ export const updateAuthHeader = (newAccessToken = "") => {
   }
   apiClient.defaults.headers.common.Authorization = `Bearer ${newAccessToken}`;
 };
+
+const accessToken = localStorage.getItem("accessToken");
+updateAuthHeader(accessToken || "");

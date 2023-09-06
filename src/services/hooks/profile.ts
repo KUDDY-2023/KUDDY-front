@@ -84,7 +84,7 @@ export const useCreateProfile = () => {
 // ✅ default 프로필 이미지 + 닉네임 세팅하는 hook
 export const useSetDefaultProfile = () => {
   const onUpdateProfile = useUpdateProfile();
-  const { ReLogin } = useAuthReLogin();
+  const ReLogin = useAuthReLogin();
 
   useEffect(() => {
     setDefaultInfo();
@@ -98,11 +98,10 @@ export const useSetDefaultProfile = () => {
       let profileImageUrl = data.data.profileImageUrl;
 
       onUpdateProfile({ nickname: nickname, profileImageUrl: profileImageUrl });
-    } catch (err) {
-      // 401 에러면
-      //if() ReLogin();
-
-      console.log("기본 정보 조회 실패", err);
+    } catch (err: any) {
+      let errCode = err.response.status;
+      // if (errCode === 401) ReLogin();
+      // console.log("기본 정보 조회 실패", err);
     }
   };
 };
