@@ -70,6 +70,6 @@ export const menus: menu[] = [
     name: "location",
     color: "#EEFFDD",
     img: menuimg8,
-    path: "/location",
+    path: "/location/map",
   },
 ];
