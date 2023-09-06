@@ -14,9 +14,6 @@ export const axiosTemp = axios.create({
   baseURL: process.env.REACT_APP_API_HOST || "/",
   withCredentials: true,
 });
-axiosTemp.defaults.headers.common.Authorization = `Bearer ${localStorage.getItem(
-  "accessToken",
-)}`;
 
 export const authGetRefreshToken = async () => {
   const url = `/api/v1/token/refresh`;
