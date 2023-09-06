@@ -22,8 +22,7 @@ apiClient.interceptors.response.use(
         console.log("토큰 재발급 요청 결과 >> ", res);
 
         if (newAccessToken) {
-          const ReLogin = useAuthReLogin();
-          ReLogin(newAccessToken);
+          localStorage.setItem("accessToken", newAccessToken); // 새 토큰 저장
           originalRequest.headers["Authorization"] = "Bearer " + newAccessToken;
         }
 
