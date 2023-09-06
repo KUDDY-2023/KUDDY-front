@@ -1,5 +1,5 @@
 import "./landing.scss";
-import logoimg from "@assets/homemenu/logo.png";
+import logoimg from "@assets/home/logo.png";
 
 const Landing = () => {
   return (
