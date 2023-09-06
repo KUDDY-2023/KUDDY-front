@@ -7,7 +7,7 @@ import curpin from "@assets/location/pin_current.svg";
 import { ReactComponent as RefreshIcon } from "@assets/location/refresh.svg";
 import { locationArray } from "@pages/home/LocationListPage/_mock";
 import { LocationPreviewBlockProps } from "@components/Location/LocationPreviewBlock";
-import { useNearLocation } from "@services/hooks/spot";
+import { spotGetNearLocation } from "@services/api/spot";
 
 declare global {
   interface Window {
@@ -22,6 +22,7 @@ type pos = {
 const LocationMapPage = () => {
   const { kakao } = window;
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [locArray, setLocArray] = useState<TravelNearbyType[]>([]);
   const [map, setMap] = useState<any>();
   const [pos, setPos] = useState<pos>({ y: 33.450701, x: 126.570667 });
   const [clickedId, setClickedId] = useState<number>(0);
@@ -105,6 +106,7 @@ const LocationMapPage = () => {
 
   var selectedMarker: any = null;
   useEffect(() => {
+    // spotGetNearLocation(0, pos.y, pos.x);
     if (isLoading === false) {
       var positions = locationArray.data.map(item => {
         return {
@@ -137,8 +139,6 @@ const LocationMapPage = () => {
         }),
     );
   }, [clickedId]);
-
-  // useNearLocation(pos.x, pos.y);
 
   return (
     <div className="location-map-page-wrapper">
