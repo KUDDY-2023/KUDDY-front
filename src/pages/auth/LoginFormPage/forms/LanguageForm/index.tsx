@@ -15,7 +15,22 @@ export default function LanguageForm() {
   const [languageLevelArr, { addItem, removeItem, updateItem }] =
     useArrayState<AvailableLanguageType>(profile.availableLanguages);
 
-  const languages = ["English", "Korean", "Djdsflsdkjf", "Isdf"];
+  const languages = [
+    "English",
+    "Korean",
+    "Japanese",
+    "Chinese",
+    "Spanish",
+    "French",
+    "German",
+    "Russian",
+    "Portuguese",
+    "Italian",
+    "Vietnamese",
+    "Thai",
+    "Indonesian",
+    "Hindi",
+  ];
   const advances = ["1", "2", "3"];
 
   const _handleAddDropdowm = () => {
