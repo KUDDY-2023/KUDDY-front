@@ -12,10 +12,33 @@ $main-yellow: var(--color-main-yellow);
   }
 
   .form-container {
+    display: flex;
+
     margin-top: 180px;
     width: 100%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+
+    p {
+      @include font-style(--font-text, 16px, #aeaeae, 500);
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      margin-right: 40px;
+    }
+
+    input {
+      border: none;
+      border-bottom: 1px solid #ddd;
+      width: 80%;
+      height: 34px;
+      @include font-style(--font-text, 16px, var(--color-black), 500);
+      &:focus {
+        outline: none;
+      }
+      &::placeholder {
+        @include font-style(--font-text, 16px, var(--color-grey-text), 500);
+      }
+    }
   }
 }

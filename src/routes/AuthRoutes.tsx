@@ -4,11 +4,12 @@ import RegisterPage from "@pages/auth/RegisterPage";
 import LoginFormPage from "@pages/auth/LoginFormPage";
 import LoginDonePage from "@pages/auth/LoginDonePage";
 import DeleteAccountPage from "@pages/auth/DeleteAccountPage";
-
+import PrivacyPage from "@pages/auth/PrivacyPage";
 import PrivateRoute from "./PrivateRoute";
 export default function LoginRoutes() {
   return (
     <Routes>
+      <Route path="/privacy" element={<PrivacyPage />} />
       <Route element={<PrivateRoute authentication={false} />}>
         <Route path="/register" element={<RegisterPage />} />
       </Route>

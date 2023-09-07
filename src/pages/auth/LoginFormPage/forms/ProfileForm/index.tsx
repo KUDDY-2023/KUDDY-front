@@ -17,18 +17,21 @@ export default function ProfileForm() {
   const [profile, setProfile] = useRecoilState(profileState); // 전역상태
   const [name, setName] = useState(profile.nickname); // 이름
   const [profileImgUrl, setProfileImgUrl] = useState(profile.profileImageUrl); // 프로필
-  const [nameAlert, setNameAlert] = useState({
-    alert: "Only alphabetic, numeric, and underbar",
-    textColor: "grey-alert",
-  });
   const [isAvailable, setIsAvailable] = useRecoilState(uniqueNameState); // 전역상태
+
+  const [nameAlert, setNameAlert] = useState({
+    alert: isAvailable
+      ? "You can use this name"
+      : "Only alphabetic, numeric, and underbar",
+    textColor: isAvailable ? "blue-alert" : "grey-alert",
+  });
 
   const onUpdateProfile = useUpdateProfile();
   const onGetUrl = useGetPresignedUrl();
   const onPostImage = usePostImage();
 
   const onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // 중복 검사 상태 False로 바꾸기
+    // 중복 검사 상태 False로 바꾸기 - 전역
     setIsAvailable(false);
 
     // 닉네임 변경
@@ -95,12 +98,15 @@ export default function ProfileForm() {
 
   useEffect(() => {
     // 맨 처음에만 실행
-    let [alertText, textColor] = CheckNicknameString(name);
-    setNameAlert({
-      textColor: textColor,
-      alert: alertText,
-    });
+    if (!isAvailable) {
+      let [alertText, textColor] = CheckNicknameString(name);
+      setNameAlert({
+        textColor: textColor,
+        alert: alertText,
+      });
+    }
   }, []);
+
   return (
     <div className="profile-img-form-container">
       <p className="title">Set your profile</p>
