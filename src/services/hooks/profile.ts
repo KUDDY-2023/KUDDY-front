@@ -19,8 +19,6 @@ import { useAuthReLogin } from "./auth";
 
 // ✅ 프로필 최초 생성
 export const useCreateProfile = () => {
-  const update = useUpdateProfile();
-
   // 전역에서 프로필 정보 가져오기
   const [profile, _] = useRecoilState(profileState);
   const [interestsArr, _i] = useRecoilState(interestsArrState);
@@ -80,20 +78,23 @@ export const useCreateProfile = () => {
   // 3. nation이 비어있다면 korea로 넣기
   if (!newProfile.nationality) newProfile.nationality = "KOREA";
 
-  const { mutate: createProfile } = useMutation(profileCreateTheFirstProfile, {
-    onSuccess: res => {
-      navigate("/");
+  const { mutate: createProfile, isLoading } = useMutation(
+    profileCreateTheFirstProfile,
+    {
+      onSuccess: res => {
+        navigate("/auth/done");
+      },
+      onError: err => {
+        console.log("실패", err);
+      },
     },
-    onError: err => {
-      console.log("실패", err);
-    },
-  });
+  );
 
   const onCreateProfile = () => {
     createProfile(newProfile);
   };
 
-  return { onCreateProfile };
+  return { onCreateProfile, isLoading };
 };
 
 // ✅ default 프로필 이미지 + 닉네임 세팅하는 hook

@@ -39,10 +39,14 @@ export default function LoginFormPage() {
     setCompleted(10 * (num + 1));
   }, [num]);
 
+  const { onCreateProfile, isLoading } = useCreateProfile();
+
   // next 버튼 함수
   const onClickNextBtn = () => {
     if (canNext && num !== 7) setNum(num + 1);
-    else if (num === 7) onCreateProfile(); // 프로필 생성
+    else if (num === 7) {
+      onCreateProfile(); // 프로필 생성 요청 API
+    }
   };
 
   // next 버튼 활성화 용
@@ -64,10 +68,9 @@ export default function LoginFormPage() {
     setCanNext(can);
   });
 
-  const { onCreateProfile } = useCreateProfile();
-
   return (
     <div className="login-form-page">
+      {isLoading && <p>로딩 컴포넌트</p>}
       <BackNavBar middleTitle="Join" isShare={false} />
       <LoginProgressBar completed={completed} />
 
