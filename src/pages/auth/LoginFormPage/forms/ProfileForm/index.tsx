@@ -28,7 +28,7 @@ export default function ProfileForm() {
   const onPostImage = usePostImage();
 
   const onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // 중복 검사 상태 False로 바꾸기
+    // 중복 검사 상태 False로 바꾸기 - 전역
     setIsAvailable(false);
 
     // 닉네임 변경
@@ -91,7 +91,7 @@ export default function ProfileForm() {
         alert: "You can use this name",
       });
     }
-  }, [isAvailable]);
+  });
 
   useEffect(() => {
     // 맨 처음에만 실행
