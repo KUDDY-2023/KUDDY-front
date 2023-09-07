@@ -1,5 +1,6 @@
 import "./loginguidepage.scss";
-import Xicon from "@assets/icon/xbtn.svg";
+import { ReactComponent as Xicon } from "@assets/icon/xbtn.svg";
+import { ReactComponent as LogoProfile } from "@assets/logo/login_profile.svg";
 import GoogleBtn from "@components/Auth/GoogleBtn";
 import KakaoBtn from "@components/Auth/KakaoBtn";
 import { useNavigate } from "react-router-dom";
@@ -12,10 +13,10 @@ export default function RegisterPage() {
   return (
     <div className="login-guide-page">
       <div className="navbar-container">
-        <img src={Xicon} alt="xicon" />
+        <Xicon />
       </div>
       <div className="profile-container">
-        <div className="icon"></div>
+        <LogoProfile />
         <p>Join KUDDY!</p>
         <p>KUDDY Slogan-catchphrase</p>
       </div>
