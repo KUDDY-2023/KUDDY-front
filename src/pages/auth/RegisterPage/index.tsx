@@ -8,7 +8,12 @@ import { useNavigate } from "react-router-dom";
 import { useAuthSocialLogin } from "@services/hooks/auth";
 
 export default function RegisterPage() {
+  const navigate = useNavigate();
   const onLogin = useAuthSocialLogin();
+
+  const onGotoPrivacy = () => {
+    navigate("/auth/privacy");
+  };
 
   return (
     <div className="login-guide-page">
@@ -23,6 +28,9 @@ export default function RegisterPage() {
       <div className="login-btn-container ">
         <KakaoBtn onClick={() => onLogin("kakao")} />
         <GoogleBtn onClick={() => onLogin("google")} />
+        <a id="privacy" onClick={onGotoPrivacy}>
+          privacy policy
+        </a>
       </div>
     </div>
   );
