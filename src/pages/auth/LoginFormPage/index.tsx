@@ -48,7 +48,7 @@ export default function LoginFormPage() {
   // next 버튼 활성화 용
   const [canNext, setCanNext] = useState(true);
 
-  const onCanNextNow = useCanNext();
+  const onCanNextNow = useCanNext(); // 넘어갈 수 있는지 판단하는 hook
 
   useEffect(() => {
     setCanNext(true);

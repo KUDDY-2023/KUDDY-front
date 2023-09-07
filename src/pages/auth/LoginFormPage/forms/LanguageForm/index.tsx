@@ -11,7 +11,6 @@ import { useUpdateProfile } from "@services/hooks/profile";
 
 export default function LanguageForm() {
   const [profile, setProfile] = useRecoilState(profileState); // 전역상태
-
   const [languageLevelArr, { addItem, removeItem, updateItem }] =
     useArrayState<AvailableLanguageType>(profile.availableLanguages);
 
@@ -36,7 +35,7 @@ export default function LanguageForm() {
   const _handleAddDropdowm = () => {
     let newItem = {
       languageType: "Language",
-      languageLevel: "0",
+      languageLevel: "Level",
     };
     addItem(newItem);
   };
@@ -80,6 +79,7 @@ export default function LanguageForm() {
               id={idx}
               state={a.languageType}
               onSelect={_handleSelectArr}
+              inActive={idx === 0}
             />
             <DropDown
               key={`lev-drop-${idx}`}

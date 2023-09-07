@@ -13,6 +13,7 @@ interface Props {
   id: number;
   state: string;
   onSelect: (idx: number, type: string, item: string) => void;
+  inActive?: boolean;
 }
 
 export default function DownDown({
@@ -22,8 +23,10 @@ export default function DownDown({
   id,
   state,
   onSelect,
+  inActive,
 }: Props) {
   const _handleClickToggle = (nation: string) => {
+    if (inActive) return; // 선택 불가능
     onSelect(id, type, nation);
   };
 
