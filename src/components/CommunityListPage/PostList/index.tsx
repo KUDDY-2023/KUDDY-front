@@ -1,25 +1,11 @@
 import "./post-list.scss";
-import { useLocation } from "react-router-dom";
-import {
-  ItineraryFeedbackPostData,
-  TalkingBoardPostData,
-} from "@utils/data/communityPost";
+import { useState, useEffect } from "react";
 import PostItem from "@components/CommunityListPage/PostItem";
 
-const PostList = () => {
-  const clickedMenuType = new URLSearchParams(useLocation().search).get(
-    "category",
-  );
-
+const PostList = ({ postList }: any) => {
   return (
     <div className="post-list-wrapper">
-      {clickedMenuType === "itinerary-feedback"
-        ? ItineraryFeedbackPostData.map(item => (
-            <PostItem key={item.postId} {...item} />
-          ))
-        : TalkingBoardPostData.map(item => (
-            <PostItem key={item.postId} {...item} />
-          ))}
+      {postList?.map((post: any) => <PostItem key={post.postId} post={post} />)}
     </div>
   );
 };

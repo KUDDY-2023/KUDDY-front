@@ -14,7 +14,7 @@ const CommunityDetailPage = () => {
   const { category, id } = useParams() as { category: MenuType; id: string };
 
   // 게시물 데이터 조회 코드 추가 필요
-  let PostData: ItineraryFeedbackPost | TalkingBoardPost;
+  let PostData;
   switch (category) {
     case "itinerary-feedback":
       PostData = ItineraryFeedbackPostData[parseInt(id) - 1];
