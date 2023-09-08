@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import backIcon from "@assets/icon/back.svg";
 
 interface Props {
-  photoInfo: PhotoType[];
+  photoInfo: string[];
   clickedIndex: number;
   onClose(): void;
 }
@@ -31,9 +31,9 @@ const ImageView = ({ photoInfo, clickedIndex, onClose }: Props) => {
           setCurIndex(swiperCore.activeIndex + 1);
         }}
       >
-        {photoInfo.map(item => (
-          <SwiperSlide className="image-view-slide" key={item.photoId}>
-            <img src={item.src} />
+        {photoInfo.map((item, index) => (
+          <SwiperSlide className="image-view-slide" key={index}>
+            <img src={item} />
           </SwiperSlide>
         ))}
       </Swiper>

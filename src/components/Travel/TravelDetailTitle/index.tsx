@@ -110,9 +110,7 @@ const TravelDetailTitle = ({
       </div>
       {imageView.isOpen && (
         <ImageView
-          photoInfo={imageList.map((item, idx) => {
-            return { photoId: idx, src: item };
-          })}
+          photoInfo={imageList}
           clickedIndex={imageView.index}
           onClose={() => setImageView({ ...imageView, isOpen: false })}
         />
