@@ -15,3 +15,19 @@ interface ISingleMessage {
   readCount: number;
   isUpdated: number;
 }
+
+interface IChatRoom {
+  chatRoomId: number;
+  createMember: string;
+  joinMember: string;
+  regDate: number;
+  participant: {
+    nickname: string;
+    profile: string;
+  };
+  latestMessage: {
+    context: string;
+    sendAt: number;
+  };
+  unReadCount: 0;
+}

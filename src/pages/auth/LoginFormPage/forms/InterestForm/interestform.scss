@@ -29,6 +29,10 @@ $main-yellow: var(--color-main-yellow);
     display: flex;
     flex-direction: column;
 
+    overflow-y: auto;
+
+    margin-bottom: 92px;
+
     h2 {
       margin-bottom: 12px;
       margin-left: 10px;

@@ -1,5 +1,5 @@
 import "./profileform.scss";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 // import profile from "@assets/auth/user.png";
 import { ReactComponent as Camera } from "@assets/auth/camera.svg";
 
@@ -16,7 +16,9 @@ import { useGetPresignedUrl, usePostImage } from "@services/hooks/image";
 export default function ProfileForm() {
   const [profile, setProfile] = useRecoilState(profileState); // 전역상태
   const [name, setName] = useState(profile.nickname); // 이름
-  const [profileImgUrl, setProfileImgUrl] = useState(profile.profileImageUrl); // 프로필
+  const [profileImgUrl, setProfileImgUrl] = useState<string>(
+    profile.profileImageUrl,
+  ); // 프로필
   const [isAvailable, setIsAvailable] = useRecoilState(uniqueNameState); // 전역상태
 
   const [nameAlert, setNameAlert] = useState({
@@ -25,6 +27,8 @@ export default function ProfileForm() {
       : "Only alphabetic, numeric, and underbar",
     textColor: isAvailable ? "blue-alert" : "grey-alert",
   });
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onUpdateProfile = useUpdateProfile();
   const onGetUrl = useGetPresignedUrl();
@@ -49,6 +53,16 @@ export default function ProfileForm() {
   };
 
   const onChangeProfileImg = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!inputRef.current) return;
+
+    if (inputRef.current.files) {
+      const reader = new FileReader();
+      reader.readAsDataURL(inputRef.current.files[0]);
+      reader.onloadend = () => {
+        setProfileImgUrl(reader.result as string);
+      };
+    }
+
     if (!e.target.files) {
       return;
     }
@@ -124,6 +138,7 @@ export default function ProfileForm() {
           accept="image/*"
           hidden
           onChange={onChangeProfileImg}
+          ref={inputRef}
         />
 
         <input
