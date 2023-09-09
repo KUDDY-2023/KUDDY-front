@@ -16,6 +16,8 @@ import { useSetDefaultProfile } from "@services/hooks/profile";
 import { useCreateProfile } from "@services/hooks/profile";
 import { useIsFirstLogin } from "@services/hooks/auth";
 
+import Loading from "@components/_common/Loading";
+
 export default function LoginFormPage() {
   // 프로필 유무 확인
   useIsFirstLogin("FORM");
@@ -70,7 +72,8 @@ export default function LoginFormPage() {
 
   return (
     <div className="login-form-page">
-      {isLoading && <p>로딩 컴포넌트</p>}
+      {isLoading && <Loading />}
+
       <BackNavBar middleTitle="Join" isShare={false} />
       <LoginProgressBar completed={completed} />
 
