@@ -1,5 +1,5 @@
 import "./community-list-page.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TopBar from "@components/_common/TopBar/index";
 import PostList from "@components/CommunityListPage/PostList";
 import WritePostBtn from "@components/CommunityListPage/WritePostBtn";
@@ -13,10 +13,17 @@ const CommunityListPage = () => {
   const handleMenuClick = async (menu: MenuType) => {
     const menuType =
       menu === "itinerary-feedback" ? "itinerary" : "talkingboard";
-    const res = await onGetPostList(menuType, 2, 10);
+    const res = await onGetPostList(menuType, 0, 10);
     setPostList(res);
-    console.log(res);
   };
+
+  useEffect(() => {
+    const getFirstPostList = async () => {
+      const res = await onGetPostList("itinerary", 0, 10);
+      setPostList(res);
+    };
+    getFirstPostList();
+  }, []);
 
   return (
     <div className="community-list-container">

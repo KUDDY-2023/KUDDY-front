@@ -9,20 +9,20 @@ const PostItem = ({ post }: any) => {
   return (
     <div
       className="post-item-container"
-      onClick={() => nav(`/community/${type}/${post.postId}`)}
+      onClick={() => nav(`/community/${type}/${post.id}`)}
     >
       {type === "talking-board" && (
         <div className="item-top-container">
-          {post.filter === "joinus" ? (
+          {post.postType === "joinus" ? (
             <div className="post-filter is-join-us">Join us</div>
           ) : (
             <div className="post-filter">{post.subject}</div>
           )}
-          {post.filter === "joinus" && (
+          {post.postType === "joinus" && (
             <div className="join-us-container">
-              <div className="join-us-text bold-text">{post.joinDistrict}</div>
+              <div className="join-us-text bold-text">{post.district}</div>
               <div className="join-us-text">
-                · {post.joinPeople} · {post.joinDate}
+                · {post.people} · {post.date}
               </div>
             </div>
           )}
@@ -31,19 +31,19 @@ const PostItem = ({ post }: any) => {
       <div className="item-bottom-container">
         <div
           className={
-            type === "talking-board" && post.photoList
+            type === "talking-board" && post.fileUrls
               ? "post-detail-container has-photo"
               : "post-detail-container"
           }
         >
           <div className="post-title">{post.title}</div>
           <div className="post-content-preview">{post.content}</div>
-          {post.spotList && (
+          {post.spots && (
             <div className="post-spots">
-              {post.spotList.map((spot: SpotType) => (
-                <div key={spot.spotId} className="post-spot-container">
-                  <div className="post-spot-id">{spot.spotId}</div>
-                  <div className="post-spot-name">{spot.spotName}</div>
+              {post.spots.map((spot: any, index: number) => (
+                <div key={spot.id} className="post-spot-container">
+                  <div className="post-spot-id">{index + 1}</div>
+                  <div className="post-spot-name">{spot.name}</div>
                 </div>
               ))}
             </div>
@@ -56,11 +56,12 @@ const PostItem = ({ post }: any) => {
             </div>
           </div>
         </div>
-        {post.photoList && (
+        {post?.fileUrls && (
           <img
             className="post-photo"
             alt="post-photo"
-            src={post.photoList[0]}
+            referrerPolicy="no-referrer"
+            src={post?.fileUrls[0]}
           />
         )}
       </div>

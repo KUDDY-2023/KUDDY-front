@@ -11,6 +11,7 @@ interface SpotType {
 
 interface PostType {
   postId: number;
+  type: string;
   title: string;
   content: string;
   writerId: number;

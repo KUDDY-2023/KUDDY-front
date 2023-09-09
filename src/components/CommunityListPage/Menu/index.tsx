@@ -11,7 +11,7 @@ const Menu = ({ handleMenuClick }: Props) => {
   const [menu, setMenu] = useState<MenuType>("itinerary-feedback");
 
   useEffect(() => {
-    nav(`?category=${menu}`);
+    nav(`?type=${menu}`);
   }, [menu]);
 
   return (
