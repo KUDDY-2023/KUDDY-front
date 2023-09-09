@@ -25,18 +25,13 @@ export default function MessageInput({
   const [inputHeight, setInputHeight] = useState<number>(0);
   const [radius, setRadius] = useState<string>("radius-first");
 
-  useEffect(() => {
-    // 38 55 72 89
-    if (inputHeight >= 38) setRadius("radius");
-  }, [inputHeight]);
-
   const token = window.localStorage.getItem("accessToken") as string;
 
   let testMsg: ISingleMessage = {
     id: null,
     roomId: "3",
     contentType: "TEXT",
-    content: "이건 일반 메세ㅣ지",
+    content: "?",
     senderName: "maru",
     spotContentId: null,
     appointmentTime: null,
@@ -44,9 +39,9 @@ export default function MessageInput({
     spotName: null,
     senderId: 15,
     meetStatus: null,
-    sendTime: 16823942839,
+    sendTime: new Date().getTime(),
     senderEmail: "dy6578ekdbs@naver.com",
-    readCount: 1,
+    readCount: 0,
     isUpdated: 0,
   };
 
@@ -93,7 +88,7 @@ export default function MessageInput({
     if (client.current) {
       try {
         // 먼저 저장하고, 답변으로 온걸 소켓으로 보내기
-        const savedMsg = await onSave(testMeetup);
+        const savedMsg = await onSave(testMsg);
         console.log(">>>>???", savedMsg);
 
         // ✅ 채팅 보내는 send (publish)
