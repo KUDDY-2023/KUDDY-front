@@ -8,15 +8,17 @@ import { ReactComponent as NewChatIcon } from "@assets/topbar/chat_new.svg";
 import { ReactComponent as NotificationIcon } from "@assets/topbar/notification_default.svg";
 import { ReactComponent as NewNotificationIcon } from "@assets/topbar/notification_new.svg";
 
+import { profileGetProfile } from "@services/api/profile";
+import { useSetLoginState } from "@services/hooks/auth";
+
 type TopBarProps = {
   isCommunity?: boolean;
 };
 
 const TopBar = ({ isCommunity }: TopBarProps) => {
   const nav = useNavigate();
+  useSetLoginState();
   const [isLogin, setIsLogin] = useState<boolean>(true);
-  const [newNotification, isNewNotification] = useState<boolean>(true);
-  const [newChat, isNewChat] = useState<boolean>(true);
 
   // 네비게이션 바 스크롤 감지에 따른 상태
   const [position, setPosition] = useState(window.pageYOffset);
@@ -34,10 +36,20 @@ const TopBar = ({ isCommunity }: TopBarProps) => {
     };
   }, [position]);
 
+  const [profileSrc, setProfileSrc] = useState<string>(defaultprofile);
+  const [newNotification, isNewNotification] = useState<boolean>(true);
+  const [newChat, isNewChat] = useState<boolean>(true);
+
   useEffect(() => {
     setPosition(0);
     setVisible(undefined);
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+
+    profileGetProfile()
+      .then(res => {
+        setProfileSrc(res.data.data.profileImage);
+      })
+      .catch();
   }, []);
 
   const Content = () => {
@@ -45,7 +57,7 @@ const TopBar = ({ isCommunity }: TopBarProps) => {
       <>
         <div className="left">
           <div className="topbar-profile-circle" onClick={() => nav("/my")}>
-            <img src={defaultprofile} alt="profile" />
+            <img src={profileSrc} alt="profile" />
           </div>
           <div className="topbar-title">KUDDY</div>
         </div>
