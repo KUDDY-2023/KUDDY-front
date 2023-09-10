@@ -22,7 +22,6 @@ import {
   StompSubscription,
 } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import { useChatGetOutRoom } from "@services/hooks/chat";
 import { profileGetSocialProfile } from "@services/api/profile";
 
 export default function ChatPage() {
@@ -96,8 +95,6 @@ export default function ChatPage() {
   function onError() {
     console.log("onError 연결 실패 ");
   }
-
-  const onGetOut = useChatGetOutRoom();
 
   const getEmail = async () => {
     const res = await profileGetSocialProfile();
@@ -215,9 +212,7 @@ export default function ChatPage() {
         <RequestMessage info={tempInfo2} />
         <TodayBar />
         <button onClick={updateMessage}>상태 변화 테스트</button>
-        <button onClick={() => onGetOut(roomId as string, myEmail)}>
-          접속 끊기 테스트 버튼
-        </button>
+
         <SystemMessage type="feedback" />
 
         {mockMessage.map((m, idx) => {
