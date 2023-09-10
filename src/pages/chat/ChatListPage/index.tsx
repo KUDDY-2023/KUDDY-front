@@ -25,7 +25,7 @@ export default function ChatListPage() {
       <div className="chat-list-container">
         {data?.map((room: IChatRoom) => {
           let chatStyle = room.unReadCount ? "unread" : "read";
-          let sendAt = room.latestMessage.sendAt;
+          let sendAt = room.latestMessage?.sendAt;
 
           const unixTimestamp = sendAt * 1000;
           // 현재 시간을 얻기
@@ -33,9 +33,13 @@ export default function ChatListPage() {
           // 두 시간 간의 차이 계산 (밀리초 단위)
           const timeDifference = currentTime - unixTimestamp;
           // 밀리초를 분으로 변환하고 절대값으로 처리
-          const minutesDifference = Math.abs(
+          let minutesDifference = Math.abs(
             Math.floor(timeDifference / (60 * 1000)),
           );
+
+          if (!minutesDifference) {
+            minutesDifference = 0;
+          }
 
           return (
             <div
@@ -45,13 +49,13 @@ export default function ChatListPage() {
             >
               <div className="profile">
                 <img src={room.participant.profile} alt="profile-img" />
-                <p>{room.unReadCount}</p>
+                <p>안읽은거 개수 : {room.unReadCount}</p>
                 {!!room.unReadCount && <span></span>}
               </div>
               <div className="info">
                 <div id="name">{room.participant.nickname}</div>
                 <div className="flex">
-                  <p className={chatStyle}>{room.latestMessage.context}</p>
+                  <p className={chatStyle}>{room.latestMessage?.context}</p>
                   <p id="time">{minutesDifference} minute ago</p>
                 </div>
               </div>
