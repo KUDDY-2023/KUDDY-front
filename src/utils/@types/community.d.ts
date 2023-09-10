@@ -10,25 +10,25 @@ interface SpotType {
 }
 
 interface PostType {
-  postId: number;
-  type: string;
+  postType: string;
   title: string;
   content: string;
-  writerId: number;
-  createdDate: string;
 }
 
-interface ItineraryFeedbackPost extends PostType {
-  spotList: SpotType[];
+interface ItineraryPostType extends PostType {
+  spots: number[];
 }
 
-interface TalkingBoardPost extends PostType {
-  filter: string;
-  photoList?: string[];
-  joinPeople?: number;
-  joinDate?: string;
-  joinDistrict?: string;
-  subject?: string;
+interface JoinUsPostType extends PostType {
+  people: number;
+  date: string;
+  district: string;
+  images: string[];
+}
+
+interface OthersPostType extends PostType {
+  subject: string;
+  images: string[];
 }
 
 interface userInfoType {
