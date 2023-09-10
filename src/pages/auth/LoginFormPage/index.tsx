@@ -16,6 +16,8 @@ import { useSetDefaultProfile } from "@services/hooks/profile";
 import { useCreateProfile } from "@services/hooks/profile";
 import { useIsFirstLogin } from "@services/hooks/auth";
 
+import Loading from "@components/_common/Loading";
+
 export default function LoginFormPage() {
   // 프로필 유무 확인
   useIsFirstLogin("FORM");
@@ -39,16 +41,20 @@ export default function LoginFormPage() {
     setCompleted(10 * (num + 1));
   }, [num]);
 
+  const { onCreateProfile, isLoading } = useCreateProfile();
+
   // next 버튼 함수
   const onClickNextBtn = () => {
     if (canNext && num !== 7) setNum(num + 1);
-    else if (num === 7) onCreateProfile(); // 프로필 생성
+    else if (num === 7) {
+      onCreateProfile(); // 프로필 생성 요청 API
+    }
   };
 
   // next 버튼 활성화 용
   const [canNext, setCanNext] = useState(true);
 
-  const onCanNextNow = useCanNext();
+  const onCanNextNow = useCanNext(); // 넘어갈 수 있는지 판단하는 hook
 
   useEffect(() => {
     setCanNext(true);
@@ -64,10 +70,10 @@ export default function LoginFormPage() {
     setCanNext(can);
   });
 
-  const { onCreateProfile } = useCreateProfile();
-
   return (
     <div className="login-form-page">
+      {isLoading && <Loading />}
+
       <BackNavBar middleTitle="Join" isShare={false} />
       <LoginProgressBar completed={completed} />
 

@@ -1,24 +1,8 @@
 .login-done-page {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
 
-  .gif {
-    margin-top: 217px;
-    width: 160px;
-    height: 160px;
-    border-radius: 50%;
-    background-color: var(--color-grey);
-  }
-
-  p {
-    margin-top: 49px;
-    color: var(--color-black);
-    text-align: center;
-    font: {
-      family: var(--font-text);
-      size: 16px;
-      weight: 500;
-    }
-  }
+  width: 100%;
+  height: 100%;
 }

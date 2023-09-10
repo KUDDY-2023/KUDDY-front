@@ -48,5 +48,9 @@
   .custom-event-btn-style {
     position: absolute;
     bottom: 50px;
+
+    @include isPc() {
+      width: 500px;
+    }
   }
 }

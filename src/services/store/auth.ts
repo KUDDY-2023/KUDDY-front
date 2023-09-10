@@ -27,7 +27,7 @@ export const profileState = atom<IUserProfile>({
     decisionMaking: "JUDGING",
     job: "",
     nationality: "",
-    availableLanguages: [],
+    availableLanguages: [{ languageType: "English", languageLevel: "Level" }],
     districts: [],
   },
 });

@@ -19,8 +19,6 @@ import { useAuthReLogin } from "./auth";
 
 // ✅ 프로필 최초 생성
 export const useCreateProfile = () => {
-  const update = useUpdateProfile();
-
   // 전역에서 프로필 정보 가져오기
   const [profile, _] = useRecoilState(profileState);
   const [interestsArr, _i] = useRecoilState(interestsArrState);
@@ -29,13 +27,28 @@ export const useCreateProfile = () => {
 
   const newProfile = JSON.parse(JSON.stringify(profile));
 
-  // profile 가공 필요
-  // 1. 사용 가능 언어 level number 타입으로 바꾸기
-  let newL = newProfile.availableLanguages.map((l: any) => {
-    return { ...l, languageLevel: Number(l.languageLevel) };
-  });
+  // profile 가공 단계
+  type itemType = { languageType: string; languageLevel: number };
+  type accType = itemType[];
 
-  newProfile.availableLanguages = newL;
+  // 1. 중복 선택한 언어는 걸러내기 + level number 타입으로 바꾸기
+  const filteredLangArr = newProfile.availableLanguages.reduce(
+    (accumulator: accType, currentItem: itemType) => {
+      const isDuplicate = accumulator.some(
+        (item: itemType) => item.languageType === currentItem.languageType,
+      );
+      if (!isDuplicate) {
+        accumulator.push({
+          ...currentItem,
+          languageLevel: Number(currentItem.languageLevel),
+        });
+      }
+      return accumulator;
+    },
+    [],
+  );
+
+  newProfile.availableLanguages = filteredLangArr;
 
   // 2. 흥미 선택한거 가져와서, profile에 넣기
   let interests: Record<string, string[]> = {};
@@ -65,20 +78,23 @@ export const useCreateProfile = () => {
   // 3. nation이 비어있다면 korea로 넣기
   if (!newProfile.nationality) newProfile.nationality = "KOREA";
 
-  const { mutate: createProfile } = useMutation(profileCreateTheFirstProfile, {
-    onSuccess: res => {
-      navigate("/");
+  const { mutate: createProfile, isLoading } = useMutation(
+    profileCreateTheFirstProfile,
+    {
+      onSuccess: res => {
+        navigate("/auth/done");
+      },
+      onError: err => {
+        console.log("실패", err);
+      },
     },
-    onError: err => {
-      console.log("실패", err);
-    },
-  });
+  );
 
   const onCreateProfile = () => {
     createProfile(newProfile);
   };
 
-  return { onCreateProfile };
+  return { onCreateProfile, isLoading };
 };
 
 // ✅ default 프로필 이미지 + 닉네임 세팅하는 hook
@@ -144,7 +160,13 @@ export const useCanNext = () => {
     } else if (type === "nationality") {
       canNext = profile.nationality !== "";
     } else if (type === "language") {
-      canNext = !!profile.availableLanguages.length;
+      console.log(profile.availableLanguages);
+      let tempArr = profile.availableLanguages.filter(
+        lang =>
+          lang.languageLevel === "Level" || lang.languageType === "Language",
+      );
+      console.log(tempArr);
+      canNext = !tempArr.length; // 하나도 없어야 넘어가기 가능
     } else {
       canNext = true;
     }

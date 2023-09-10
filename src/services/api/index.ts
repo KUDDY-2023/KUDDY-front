@@ -22,8 +22,7 @@ apiClient.interceptors.response.use(
         console.log("토큰 재발급 요청 결과 >> ", res);
 
         if (newAccessToken) {
-          const ReLogin = useAuthReLogin();
-          ReLogin(newAccessToken);
+          localStorage.setItem("accessToken", newAccessToken); // 새 토큰 저장
           originalRequest.headers["Authorization"] = "Bearer " + newAccessToken;
         }
 
@@ -31,7 +30,8 @@ apiClient.interceptors.response.use(
       } catch (err) {
         console.log("토큰 재발급 실패 ", err);
         alert("다시 로그인해주세요!");
-        // window.location.href = `${process.env.REACT_APP_REACT_URL}/auth/register`;
+        localStorage.removeItem("accessToken");
+        window.location.href = `${process.env.REACT_APP_REACT_URL}/auth/register`;
       }
     }
     return Promise.reject(error);

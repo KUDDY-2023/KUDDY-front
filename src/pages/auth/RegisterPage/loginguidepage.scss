@@ -11,7 +11,7 @@
 
     padding: 18px 22px;
 
-    img {
+    svg {
       width: 18px;
       height: 18px;
     }
@@ -23,11 +23,7 @@
     flex-direction: column;
     align-items: center;
 
-    .icon {
-      width: 120px;
-      height: 120px;
-      border-radius: 50%;
-      background-color: #ddd;
+    svg {
       margin-bottom: 15px;
     }
 
@@ -51,5 +47,10 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    #privacy {
+      @include font-style(--font-text, 14px, var(--color-grey-text), 400);
+      text-decoration: underline;
+    }
   }
 }

@@ -1,50 +1,33 @@
-interface ChatResponse {
-  memberNo: number;
-  chatList: Chat[];
-}
-
-interface Chat {
-  id: string;
-  contentType: 'text' | 'picture' | 'coords';
-  chatRoomNo: number;
-  senderNo: number;
+interface ISingleMessage {
+  id: string | null;
+  roomId: string;
+  contentType: string;
+  content: string;
   senderName: string;
-  type: number | null;
-  content: string;
-  sendDate?: number;
-  sendTime?: number;
-  dateString?: string;
-  timeString?: string;
+  spotContentId: number | null;
+  appointmentTime: string | null;
+  price: number | null;
+  spotName: string | null;
+  senderId: number;
+  sendTime: number;
+  meetStatus: string | null;
+  senderEmail: string;
   readCount: number;
-  mine: boolean;
+  isUpdated: number;
 }
 
-interface FlightChat {
-  type: number | null;
-  content: string;
-}
-
-interface ChatParticipant {
-  username: string;
-  profile: string;
-}
-
-interface ChatLatestMessage {
-  context: string;
-  sendAt: number;
-}
-
-interface ChatList {
-  chatNo: number;
-  createMember: number;
-  joinMember: number;
-  saleNo: number;
+interface IChatRoom {
+  chatRoomId: number;
+  createMember: string;
+  joinMember: string;
   regDate: number;
-  participant: ChatParticipant;
-  latestMessage: ChatLatestMessage;
-  unReadCount: number;
-}
-
-interface ChatOnMy extends ChatList {
-  saleTitle: string;
+  participant: {
+    nickname: string;
+    profile: string;
+  };
+  latestMessage: {
+    context: string;
+    sendAt: number;
+  };
+  unReadCount: 0;
 }

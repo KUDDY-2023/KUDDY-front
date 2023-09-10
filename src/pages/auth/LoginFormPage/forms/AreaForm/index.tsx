@@ -5,15 +5,11 @@ import { profileState } from "@services/store/auth";
 import { useUpdateProfile } from "@services/hooks/profile";
 import { citiesData } from "./citiesData";
 
+type cityDataType = { id: number; city: string; selected: boolean };
+
 export default function AreaForm() {
   const [profile, setProfile] = useRecoilState(profileState); // 전역상태
-  let tempArr = profile.districts.map(p => p.areaName);
-  let newArr = citiesData.map(c => {
-    return { ...c, selected: tempArr.includes(c.city) };
-  });
-
-  const [citys, setCitys] = useState(newArr); // 연결
-
+  const [citys, setCitys] = useState<cityDataType[]>([]); // 연결
   const [count, setCount] = useState(0);
 
   const onUpdateProfile = useUpdateProfile();
@@ -34,6 +30,15 @@ export default function AreaForm() {
   };
 
   useEffect(() => {
+    // 처음 한번만
+    let tempArr = profile.districts.map(p => p.areaName);
+    let newArr = citiesData.map(c => {
+      return { ...c, selected: tempArr.includes(c.city) };
+    });
+    setCitys(newArr);
+  }, []);
+
+  useEffect(() => {
     setCount(citys.filter(city => city.selected).length);
   }, [citys]);
 
@@ -50,6 +55,7 @@ export default function AreaForm() {
               className="city-btn"
               id={city.selected ? "active" : ""}
               onClick={() => _handleClickCityBtn(city.id)}
+              key={city.id}
             >
               {city.city}
             </div>

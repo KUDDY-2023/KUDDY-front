@@ -5,7 +5,7 @@ export default function ChatRoutes() {
   return (
     <Routes>
       <Route path="/list" element={<ChatListPage />} />
-      <Route path="/:id" element={<ChatPage />} />
+      <Route path="/:roomId" element={<ChatPage />} />
     </Routes>
   );
 }

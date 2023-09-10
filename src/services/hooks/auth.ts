@@ -105,6 +105,8 @@ export const useAuthReLogin = () => {
     setAccessToken(newAccessToken); // accessToken atom 변경
     setIsLogin(true); // 로그인 상태
     localStorage.setItem("accessToken", newAccessToken); // 새 토큰 저장
+
+    console.log("ReLogin 후 전역 accessToken", accessToken);
   };
 
   return ReLogin;
