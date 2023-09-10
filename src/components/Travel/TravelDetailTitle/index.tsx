@@ -6,7 +6,7 @@ import { ReactComponent as BookmarkIcon } from "@assets/icon/bookmark.svg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay } from "swiper";
 import "swiper/swiper.scss";
-import ImageView from "@components/CommunityDetailPage/ImageView";
+import ImageView from "@components/_common/ImageView";
 
 type ImageViewType = {
   isOpen: boolean;
@@ -110,9 +110,7 @@ const TravelDetailTitle = ({
       </div>
       {imageView.isOpen && (
         <ImageView
-          photoInfo={imageList.map((item, idx) => {
-            return { photoId: idx, src: item };
-          })}
+          photoInfo={imageList}
           clickedIndex={imageView.index}
           onClose={() => setImageView({ ...imageView, isOpen: false })}
         />

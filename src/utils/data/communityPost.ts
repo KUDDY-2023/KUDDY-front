@@ -1,4 +1,4 @@
-export const ItineraryFeedbackPostData: ItineraryFeedbackPost[] = [
+export const ItineraryFeedbackPostData = [
   {
     postId: 1,
     title: "Who knows Seongsu-dong well?",
@@ -64,7 +64,7 @@ export const ItineraryFeedbackPostData: ItineraryFeedbackPost[] = [
   },
 ];
 
-export const TalkingBoardPostData: TalkingBoardPost[] = [
+export const TalkingBoardPostData = [
   {
     postId: 1,
     title: "Please choose a good restaurant in Sinchon",

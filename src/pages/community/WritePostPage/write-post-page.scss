@@ -1,0 +1,103 @@
+@import "../../../style/mixins";
+
+.write-post-page-container {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.write-post-header {
+  display: inline-flex;
+  width: calc(100% - 46px);
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 6px;
+  gap: 24px;
+
+  .post-header-title {
+    margin-right: 8px;
+    @include font-style(--font-text, 12px, color(black), 500);
+  }
+
+  .post-type-container {
+    display: flex;
+    height: 35px;
+    align-items: center;
+
+    .post-type-btn {
+      display: inline-flex;
+      padding: 9px 16px;
+      align-items: center;
+      justify-content: center;
+      margin-left: 8px;
+
+      @include font-style(--font-text, 14px, color(black), 500);
+      border-radius: 59px;
+      border: 1px solid color(grey-line);
+      background: #fff;
+      cursor: pointer;
+
+      &.selected {
+        border: none;
+        background: color(main-yellow);
+      }
+    }
+  }
+
+  .post-subject-container {
+    display: flex;
+    height: 36px;
+    align-items: center;
+    gap: 30px;
+  }
+}
+
+.write-post-footer {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  height: 98px;
+  bottom: 0;
+
+  background: #fff;
+  border-top: solid 1px #efefef;
+
+  @media (min-width: 600px) {
+    width: 600px;
+  }
+
+  .post-btn-container {
+    width: calc(100% - 48px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 17px;
+
+    .post-btn {
+      display: inline-flex;
+      padding: 12px 20px;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+
+      @include font-style(--font-text, 16px, color(black), 600);
+      border-radius: 130px;
+      border: 1px solid color(grey-line);
+      background: color(main-yellow);
+      cursor: pointer;
+    }
+
+    .photo-btn {
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+
+      &.invisible {
+        visibility: hidden;
+      }
+    }
+  }
+}
