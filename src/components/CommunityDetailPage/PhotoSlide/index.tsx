@@ -2,7 +2,7 @@ import "./photo-slide.scss";
 import "swiper/swiper.scss";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import ImageView from "@components/CommunityDetailPage/ImageView";
+import ImageView from "@components/_common/ImageView";
 
 const PhotoSlide = () => {
   const [imageViewOpen, setImageViewOpen] = useState<boolean>(false); // 사진 뷰 띄움 여부
