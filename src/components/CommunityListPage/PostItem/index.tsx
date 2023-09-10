@@ -60,7 +60,6 @@ const PostItem = ({ post }: any) => {
           <img
             className="post-photo"
             alt="post-photo"
-            referrerPolicy="no-referrer"
             src={post?.fileUrls[0]}
           />
         )}
