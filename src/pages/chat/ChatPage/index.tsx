@@ -124,7 +124,11 @@ export default function ChatPage() {
     getEmail(); // 이메일 가져오고, 로컬스토리지에 저장
 
     // 나갈 때 요청 끊기
-    function disconnectStomp() {
+    function disconnectStomp(event: BeforeUnloadEvent) {
+      event.preventDefault();
+      event.returnValue = "";
+
+      alert("???");
       console.log("실행됨, 현재 이메일은", myEmail);
       const email = localStorage.getItem("email");
       fetch(
@@ -147,13 +151,59 @@ export default function ChatPage() {
     }
 
     // beforeunload 이벤트가 발생할 때 (브라우저를 닫거나 페이지를 떠날 때) 호출되도록 등록
+
+    const test1 = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
+      alert("1");
+    };
+    const test2 = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
+      alert("2");
+    };
+    const test3 = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
+      alert("3");
+    };
+
     window.addEventListener("beforeunload", disconnectStomp);
+
+    // document.addEventListener("visibilitychange", disconnectStomp);
+
+    window.addEventListener("popstate", disconnectStomp);
 
     return () => {
       // 페이지를 나갈 때 이벤트 리스너 제거
       window.removeEventListener("beforeunload", disconnectStomp);
+      //document.removeEventListener("visibilitychange", disconnectStomp);
+      window.removeEventListener("popstate", disconnectStomp);
+
+      if (client.current) {
+        client.current.disconnect();
+        client.current.deactivate();
+        client.current.unsubscribe(`/topic/group/${roomId}`);
+        client.current.unsubscribe(`/topic/updates/${roomId}`);
+      }
+
+      // if (subscribe.current) {
+      //   subscribe.current.unsubscribe(); // 구독 끊기
+      // }
     };
   }, []);
+
+  // useEffect(() => {
+  //   const preventGoBack = () => {
+  //     //window.history.go(1);
+  //     console.log("prevent go back!");
+  //   };
+
+  //   // window.history.pushState(null, "", window.location.href);
+  //   window.addEventListener("popstate", preventGoBack);
+
+  //   return () => window.removeEventListener("popstate", preventGoBack);
+  // }, []);
 
   let updateMsg = {
     id: "64fb179e4a4e36075eb150ab",

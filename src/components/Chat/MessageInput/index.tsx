@@ -122,7 +122,6 @@ export default function MessageInput({
         <TextareaAutosize
           onHeightChange={(height: number) => {
             setInputHeight(height);
-            console.log(height);
           }}
           maxRows={5}
           placeholder="Find your own buddy!"
