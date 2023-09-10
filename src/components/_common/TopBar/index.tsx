@@ -13,9 +13,10 @@ import { useSetLoginState } from "@services/hooks/auth";
 
 type TopBarProps = {
   isCommunity?: boolean;
+  handleMenuClick?: (menu: MenuType) => void;
 };
 
-const TopBar = ({ isCommunity }: TopBarProps) => {
+const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
   const nav = useNavigate();
   useSetLoginState();
   const [isLogin, setIsLogin] = useState<boolean>(true);
@@ -90,7 +91,7 @@ const TopBar = ({ isCommunity }: TopBarProps) => {
           }
         >
           <div className="inner">{Content()}</div>
-          <Menu />
+          {handleMenuClick && <Menu handleMenuClick={handleMenuClick} />}
         </div>
       ) : (
         <div

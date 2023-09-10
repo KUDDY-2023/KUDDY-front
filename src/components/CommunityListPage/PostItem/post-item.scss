@@ -44,7 +44,7 @@
 .post-photo {
   width: 92px;
   height: 92px;
-  flex-shrink: 0;
+  object-fit: cover;
   border-radius: 10px;
 }
 
