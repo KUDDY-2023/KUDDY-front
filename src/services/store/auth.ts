@@ -14,6 +14,17 @@ export const isLoginState = atom<boolean>({
   default: !!localStorage.getItem("accessToken"),
 });
 
+// ⭐ 유저 기본 정보
+export const userInfoState = atom<IUserSimpleInfo>({
+  key: "userInfoState",
+  default: {
+    email: "",
+    nickname: "",
+    profileImageUrl: "",
+    memberId: 0,
+  },
+});
+
 // ⭐ 프로필 생성 Atom
 export const profileState = atom<IUserProfile>({
   key: "profileState",
