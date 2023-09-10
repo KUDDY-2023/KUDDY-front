@@ -10,7 +10,10 @@ import MakeMeetUpModal from "@components/MeetUp/MakeMeetUpModal";
 import { url, mockMessage } from "./_mock";
 
 import { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+
+import { useParams, useNavigate } from "react-router-dom";
+
+import { apiClient } from "@services/api";
 
 import {
   CompatClient,
@@ -19,8 +22,11 @@ import {
   StompSubscription,
 } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
+import { profileGetSocialProfile } from "@services/api/profile";
 
 export default function ChatPage() {
+  const [myEmail, setMyEmail] = useState<string>("");
+
   let tempInfo = {
     partnerName: "jane",
     place: "Gyeongbokgung Palace",
@@ -59,7 +65,7 @@ export default function ChatPage() {
       console.log("onConnect 연결 성공");
 
       // 구독 - 특정 채팅방의 메세지 내용 받아오기
-      subscribe.current = client.current.subscribe(
+      client.current.subscribe(
         `/topic/group/${roomId}`,
         (msg: IMessage) => {
           console.log("구독 후 받아온 거 ::", msg);
@@ -72,7 +78,7 @@ export default function ChatPage() {
       );
 
       // 구독 - 메세지 업데이트 사항 받아오기
-      subscribe.current = client.current.subscribe(
+      client.current.subscribe(
         `/topic/updates/${roomId}`,
         (msg: IMessage) => {
           console.log("메세지 업데이트 발생 ! >>>", msg);
@@ -89,6 +95,12 @@ export default function ChatPage() {
   function onError() {
     console.log("onError 연결 실패 ");
   }
+
+  const getEmail = async () => {
+    const res = await profileGetSocialProfile();
+    setMyEmail(res.data.data.email);
+    localStorage.setItem("email", res.data.data.email);
+  };
 
   useEffect(() => {
     // Stomp.over()로 client.current 객체 초기화
@@ -109,15 +121,37 @@ export default function ChatPage() {
       onError,
     );
 
-    return () => {
-      console.log("disconnected");
+    getEmail(); // 이메일 가져오고, 로컬스토리지에 저장
 
-      // 구독 취소 추가하기
-
+    // 나갈 때 요청 끊기
+    function disconnectStomp() {
+      console.log("실행됨, 현재 이메일은", myEmail);
+      const email = localStorage.getItem("email");
+      fetch(
+        `${process.env.REACT_APP_API_HOST}/chat/v1/chatrooms/${roomId}?email=${email}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          keepalive: true,
+        },
+      );
       if (client.current) {
-        // disconnect() 메서드를 사용하여 클라이언트와 서버의 웹 소켓 연결을 해제
         client.current.disconnect();
+        client.current.deactivate();
       }
+      // if (subscribe.current) {
+      //   subscribe.current.unsubscribe(); // 구독 끊기
+      // }
+    }
+
+    // beforeunload 이벤트가 발생할 때 (브라우저를 닫거나 페이지를 떠날 때) 호출되도록 등록
+    window.addEventListener("beforeunload", disconnectStomp);
+
+    return () => {
+      // 페이지를 나갈 때 이벤트 리스너 제거
+      window.removeEventListener("beforeunload", disconnectStomp);
     };
   }, []);
 
