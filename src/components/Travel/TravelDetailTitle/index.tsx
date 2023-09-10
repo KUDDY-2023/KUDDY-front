@@ -6,7 +6,7 @@ import { ReactComponent as BookmarkIcon } from "@assets/icon/bookmark.svg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay } from "swiper";
 import "swiper/swiper.scss";
-import ImageView from "@components/CommunityDetailPage/ImageView";
+import ImageView from "@components/_common/ImageView";
 
 type ImageViewType = {
   isOpen: boolean;
