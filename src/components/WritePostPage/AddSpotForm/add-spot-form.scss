@@ -1,0 +1,35 @@
+@import "../../../style/mixins";
+
+.spot-modal-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.spot-modal-title {
+  align-self: flex-start;
+  margin-left: 31px;
+  @include font-style(--font-text, 24px, color(black), 600);
+}
+
+#map.spot-modal-map {
+  width: calc(100% - 44px);
+  height: 180px;
+  border-radius: 10px;
+}
+
+.add-itinerary-btn {
+  display: flex;
+  width: calc(100% - 50px);
+  height: 52px;
+  padding: 14px 5px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 36px;
+  cursor: pointer;
+
+  border-radius: 10px;
+  background-color: color(main-yellow);
+  @include font-style(--font-text, 18px, color(black), 600);
+}
