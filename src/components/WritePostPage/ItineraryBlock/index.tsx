@@ -39,12 +39,13 @@ const ItineraryBlock = () => {
     setIsModalOpen(true);
   };
   const handleCloseModal = () => {
+    // 장소 저장 추가 필요
     setIsModalOpen(false);
   };
 
   useEffect(() => {
     window.kakao.maps.load(() => {
-      const container = document.getElementById("map");
+      const container = document.getElementById("map-spot");
       const options = {
         center: new kakao.maps.LatLng(33.450701, 126.570667),
         level: 7,
@@ -99,16 +100,16 @@ const ItineraryBlock = () => {
         </div>
       </div>
 
-      <div id="map" className="spot-list-map"></div>
-
       <BottomUpModal
         isModalOpen={isModalOpen}
         onClose={handleCloseModal}
         navbarHeight={56}
         isWhiteBackground={false}
       >
-        <AddSpotForm />
+        <AddSpotForm onClose={handleCloseModal} />
       </BottomUpModal>
+
+      <div id="map-spot"></div>
     </div>
   );
 };
