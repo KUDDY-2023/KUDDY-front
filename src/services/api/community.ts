@@ -16,3 +16,9 @@ export const communityGetPostList = async (
   const url = `/api/v1/posts?type=${type}&page=${page}&size=${size}`;
   return apiClient.get(url);
 };
+
+// ✅ 게시물 작성
+export const communityPostPost = async (type: string, post: any) => {
+  const url = `/api/v1/posts?type=${type}`;
+  return apiClient.post(url, post);
+};
