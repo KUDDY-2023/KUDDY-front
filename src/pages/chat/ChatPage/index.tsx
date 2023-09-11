@@ -24,8 +24,46 @@ import {
 import SockJS from "sockjs-client";
 import { profileGetSocialProfile } from "@services/api/profile";
 
+import { useQuery } from "react-query";
+import { chatGetAllMessage } from "@services/api/chat";
+
 export default function ChatPage() {
+  const { roomId } = useParams();
+
+  const [MessageArr, setMessageArr] = useState([]);
+
+  const { data, error, isLoading } = useQuery(
+    "messages",
+    () => chatGetAllMessage(roomId || ""),
+    {
+      select: data => data?.data.data.chatList,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false, // 너엿구나 ㅅㅂ
+    },
+  );
+
+  useEffect(() => {
+    if (data) {
+      setMessageArr(data);
+    }
+  }, [data]);
+
+  // 얼라리 이메일도 오네
+
+  useEffect(() => {
+    console.log("채팅 리스트", data);
+  }, [data]);
+
   const [myEmail, setMyEmail] = useState<string>("");
+  const [myNickname, setMyNickname] = useState<string>("");
+  const [isOpenBottomModal, setIsOpenBottomModal] = useState(false);
+
+  const getProfile = async () => {
+    const res = await profileGetSocialProfile();
+    setMyEmail(res.data.data.email);
+    setMyNickname(res.data.data.nickname);
+    localStorage.setItem("email", res.data.data.email);
+  };
 
   let tempInfo = {
     partnerName: "jane",
@@ -44,8 +82,6 @@ export default function ChatPage() {
     pay: 18,
   };
 
-  const [isOpenBottomModal, setIsOpenBottomModal] = useState(false);
-
   const _handleCloseModal = () => {
     setIsOpenBottomModal(false);
   };
@@ -56,7 +92,6 @@ export default function ChatPage() {
 
   const client = useRef<CompatClient>();
   const subscribe = useRef<StompSubscription>();
-  const { roomId } = useParams();
 
   const token = window.localStorage.getItem("accessToken") as string;
 
@@ -96,12 +131,6 @@ export default function ChatPage() {
     console.log("onError 연결 실패 ");
   }
 
-  const getEmail = async () => {
-    const res = await profileGetSocialProfile();
-    setMyEmail(res.data.data.email);
-    localStorage.setItem("email", res.data.data.email);
-  };
-
   useEffect(() => {
     // Stomp.over()로 client.current 객체 초기화
     // SocketJS로 웹소켓 연결 구현
@@ -121,7 +150,7 @@ export default function ChatPage() {
       onError,
     );
 
-    getEmail(); // 이메일 가져오고, 로컬스토리지에 저장
+    getProfile(); // 이메일과 내 닉네임 가져오기
 
     // 나갈 때 요청 끊기
     function disconnectStomp(event: BeforeUnloadEvent) {
@@ -130,7 +159,7 @@ export default function ChatPage() {
 
       alert("???");
       console.log("실행됨, 현재 이메일은", myEmail);
-      const email = localStorage.getItem("email");
+      const email = localStorage.getItem("email"); // 아 이거 별론디..
       fetch(
         `${process.env.REACT_APP_API_HOST}/chat/v1/chatrooms/${roomId}?email=${email}`,
         {
@@ -151,22 +180,6 @@ export default function ChatPage() {
     }
 
     // beforeunload 이벤트가 발생할 때 (브라우저를 닫거나 페이지를 떠날 때) 호출되도록 등록
-
-    const test1 = (event: BeforeUnloadEvent) => {
-      event.preventDefault();
-      event.returnValue = "";
-      alert("1");
-    };
-    const test2 = (event: BeforeUnloadEvent) => {
-      event.preventDefault();
-      event.returnValue = "";
-      alert("2");
-    };
-    const test3 = (event: BeforeUnloadEvent) => {
-      event.preventDefault();
-      event.returnValue = "";
-      alert("3");
-    };
 
     window.addEventListener("beforeunload", disconnectStomp);
 
@@ -250,27 +263,19 @@ export default function ChatPage() {
       <PartnerHead userName="User name" profileImgUrl={url} />
 
       <div className="message-container">
-        {mockMessage.map((m, idx) => {
-          let type = "my";
-          if (idx % 2 === 0) {
-            type = "partner";
-          }
-          return <Message message={m} messageType={type} />;
-        })}
-        <ConfirmedRequestMessage info={tempInfo} />
-
+        {/* <ConfirmedRequestMessage info={tempInfo} />
         <RequestMessage info={tempInfo2} />
         <TodayBar />
         <button onClick={updateMessage}>상태 변화 테스트</button>
+        <SystemMessage type="feedback" /> */}
 
-        <SystemMessage type="feedback" />
-
-        {mockMessage.map((m, idx) => {
-          let type = "my";
-          if (idx % 2 === 0) {
-            type = "partner";
-          }
-          return <Message message={m} messageType={type} />;
+        {MessageArr?.map((msg: IGetMessage) => {
+          if (msg.contentType === "TEXT" && msg.mine)
+            return <Message message={msg} messageType={"my"} />;
+          if (msg.contentType === "TEXT" && !msg.mine)
+            return <Message message={msg} messageType={"partner"} />;
+          if (msg.contentType === "MEETUP")
+            return <RequestMessage info={tempInfo2} />;
         })}
       </div>
 
@@ -278,6 +283,9 @@ export default function ChatPage() {
         client={client}
         meetupBtnVisible={true}
         onMakeMeetUp={_handleOpenBottomModal}
+        roomId={roomId || ""}
+        myEmail={myEmail}
+        myNickname={myNickname}
       />
     </div>
   );
