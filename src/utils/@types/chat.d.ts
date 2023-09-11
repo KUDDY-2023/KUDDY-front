@@ -1,9 +1,9 @@
 interface ISingleMessage {
   id: string | null;
   roomId: string;
+  senderName: string;
   contentType: string;
   content: string;
-  senderName: string;
   spotContentId: number | null;
   appointmentTime: string | null;
   price: number | null;
@@ -14,6 +14,30 @@ interface ISingleMessage {
   senderEmail: string;
   readCount: number;
   isUpdated: number;
+}
+
+interface IGetMessage {
+  id: string;
+  roomId: number;
+  senderName: string;
+  contentType: "TEXT" | "MEETUP" | "NOTI";
+  content: string;
+  sendDate: number;
+  readCount: 0 | 1;
+  mine: boolean;
+  // 이 밑으론 동행 메세지만
+  appointmentTime: string | null; // 2021-11-05 13:47:13.248 이런 형식
+  price: null | string;
+  meetStatus:
+    | null
+    | "TRAVELER_CANCEL"
+    | "KUDDY_CANCEL"
+    | "PAYED"
+    | "COMPLETED"
+    | "UNKNOWN";
+
+  spotContentId: number | null;
+  spotName: string | null;
 }
 
 interface IChatRoom {
