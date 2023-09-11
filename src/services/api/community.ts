@@ -13,7 +13,7 @@ export const communityGetPostList = async (
   page: number,
   size: number,
 ) => {
-  const url = `/api/v1/posts?type=${type}&page=${page}&size=${size}`;
+  const url = `/api/v1/posts/list?type=${type}&page=${page}&size=${size}`;
   return apiClient.get(url);
 };
 
