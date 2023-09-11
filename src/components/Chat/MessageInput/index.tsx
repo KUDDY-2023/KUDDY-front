@@ -27,21 +27,22 @@ export default function MessageInput({
 
   const token = window.localStorage.getItem("accessToken") as string;
 
+  // 운영자가 보내는 메세지
   let testMsg: ISingleMessage = {
     id: null,
-    roomId: "3",
+    roomId: "5",
     contentType: "TEXT",
-    content: "?",
-    senderName: "maru",
+    content: newMessage,
+    senderName: "kuku",
     spotContentId: null,
     appointmentTime: null,
     price: null,
     spotName: null,
-    senderId: 15,
+    senderId: 1,
     meetStatus: null,
     sendTime: new Date().getTime(),
-    senderEmail: "dy6578ekdbs@naver.com",
-    readCount: 0,
+    senderEmail: "ziyun1612@ewhain.net",
+    readCount: 1,
     isUpdated: 0,
   };
 
