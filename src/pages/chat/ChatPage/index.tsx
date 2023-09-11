@@ -27,10 +27,29 @@ import { profileGetSocialProfile } from "@services/api/profile";
 import { useQuery } from "react-query";
 import { chatGetAllMessage } from "@services/api/chat";
 
+import { useRecoilState } from "recoil";
+import { userInfoState } from "@services/store/auth";
 export default function ChatPage() {
+  const [profile, setProfile] = useRecoilState(userInfoState);
+
+  const getProfile = async () => {
+    const res = await profileGetSocialProfile();
+
+    console.log("요청 좀 해봐 시🔥🔥🔥🔥", res);
+    setMyEmail(res.data.data.email);
+    setMyNickname(res.data.data.nickname);
+
+    // 전역
+    setProfile(res.data.data);
+    // setProfile({ ...profile, nickname: res.data.data.nickname });
+
+    localStorage.setItem("email", res.data.data.email);
+  };
+
   const { roomId } = useParams();
 
-  const [MessageArr, setMessageArr] = useState([]);
+  const [MessageArr, setMessageArr] = useState<IGetMessage[]>([]);
+  const [FlightMessageArr, setFlightMessageArr] = useState<IGetMessage[]>([]);
 
   const { data, error, isLoading } = useQuery(
     "messages",
@@ -38,32 +57,28 @@ export default function ChatPage() {
     {
       select: data => data?.data.data.chatList,
       refetchOnMount: false,
-      refetchOnWindowFocus: false, // 너엿구나 ㅅㅂ
+      refetchOnWindowFocus: false, // 너엿구나 하..
     },
   );
 
+  useEffect(() => {
+    console.log("ㅍ로필이 왜 자꾸 바뀌는걸까 ", profile);
+  }, [profile]);
+
+  useEffect(() => {
+    console.log("채팅 리스트 저장", MessageArr);
+  }, [MessageArr]);
+
+  // 기존 메세지 내역 가져오기
   useEffect(() => {
     if (data) {
       setMessageArr(data);
     }
   }, [data]);
 
-  // 얼라리 이메일도 오네
-
-  useEffect(() => {
-    console.log("채팅 리스트", data);
-  }, [data]);
-
   const [myEmail, setMyEmail] = useState<string>("");
   const [myNickname, setMyNickname] = useState<string>("");
   const [isOpenBottomModal, setIsOpenBottomModal] = useState(false);
-
-  const getProfile = async () => {
-    const res = await profileGetSocialProfile();
-    setMyEmail(res.data.data.email);
-    setMyNickname(res.data.data.nickname);
-    localStorage.setItem("email", res.data.data.email);
-  };
 
   let tempInfo = {
     partnerName: "jane",
@@ -95,18 +110,30 @@ export default function ChatPage() {
 
   const token = window.localStorage.getItem("accessToken") as string;
 
+  // 구독 이벤트로 발생한 메세지 추가
+  const handleMessage = (newmsg: IMessage) => {
+    let body = JSON.parse(newmsg.body);
+    console.log("구독 후 받아온 거 >>", body);
+    console.log("senderEmail : ", body.senderEmail, "내 이메일", profile);
+    body = {
+      ...body,
+      mine: body.senderEmail === profile.email,
+    };
+    setFlightMessageArr(prevMessageArr => [...prevMessageArr, body]);
+  };
+
+  useEffect(() => {
+    console.log("✅", FlightMessageArr);
+  }, [FlightMessageArr]);
+
   function onConnect() {
     if (client.current) {
       console.log("onConnect 연결 성공");
 
       // 구독 - 특정 채팅방의 메세지 내용 받아오기
-      client.current.subscribe(
+      subscribe.current = client.current.subscribe(
         `/topic/group/${roomId}`,
-        (msg: IMessage) => {
-          console.log("구독 후 받아온 거 ::", msg);
-          const body = JSON.parse(msg.body);
-          console.log(body);
-        }, // 받아온 메세지를 처리하는 콜백함수
+        msg => handleMessage(msg),
         {
           Authorization: `Bearer ${token}`,
         },
@@ -115,10 +142,13 @@ export default function ChatPage() {
       // 구독 - 메세지 업데이트 사항 받아오기
       client.current.subscribe(
         `/topic/updates/${roomId}`,
-        (msg: IMessage) => {
-          console.log("메세지 업데이트 발생 ! >>>", msg);
-          const body = JSON.parse(msg.body);
-          console.log(body);
+        msg => {
+          console.log("업데이트 발생");
+          // const body = JSON.parse(msg.body);
+          // console.log("메세지 업데이트 발생 ! >>>", body);
+
+          // let newMessageArr = [...MessageArr, body];
+          // setMessageArr(newMessageArr);
         }, // 받아온 메세지를 처리하는 콜백함수
         {
           Authorization: `Bearer ${token}`,
@@ -132,6 +162,8 @@ export default function ChatPage() {
   }
 
   useEffect(() => {
+    getProfile(); // 이메일과 내 닉네임 가져오기
+
     // Stomp.over()로 client.current 객체 초기화
     // SocketJS로 웹소켓 연결 구현
     client.current = Stomp.over(() => {
@@ -149,8 +181,6 @@ export default function ChatPage() {
       onConnect,
       onError,
     );
-
-    getProfile(); // 이메일과 내 닉네임 가져오기
 
     // 나갈 때 요청 끊기
     function disconnectStomp(event: BeforeUnloadEvent) {
@@ -270,6 +300,16 @@ export default function ChatPage() {
         <SystemMessage type="feedback" /> */}
 
         {MessageArr?.map((msg: IGetMessage) => {
+          if (msg.contentType === "TEXT" && msg.mine)
+            return <Message message={msg} messageType={"my"} />;
+          if (msg.contentType === "TEXT" && !msg.mine)
+            return <Message message={msg} messageType={"partner"} />;
+          if (msg.contentType === "MEETUP")
+            return <RequestMessage info={tempInfo2} />;
+        })}
+
+        <hr />
+        {FlightMessageArr?.map((msg: IGetMessage) => {
           if (msg.contentType === "TEXT" && msg.mine)
             return <Message message={msg} messageType={"my"} />;
           if (msg.contentType === "TEXT" && !msg.mine)

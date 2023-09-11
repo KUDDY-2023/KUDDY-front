@@ -61,16 +61,18 @@ export default function MessageInput({
   const onClickSend = async () => {
     if (client.current) {
       try {
+        let newText = { ...testMsg }; // 복사
+        setNewMessage(""); // input 창 비우기
+
         // 먼저 저장하고, 답변으로 온걸 소켓으로 보내기
-        const savedMsg = await onSave(testMsg);
-        console.log(">>>>???", savedMsg);
+        const savedMsg = await onSave(newText);
+        console.log("저장한거 >>> ", savedMsg);
         // ✅ 채팅 보내는 send (publish)
         client.current.send(
           "/app/message",
           { Authorization: `Bearer ${token}` },
           JSON.stringify(savedMsg),
         );
-        setNewMessage(""); // input 창 비우기
       } catch (e) {
         alert(e);
       } finally {
