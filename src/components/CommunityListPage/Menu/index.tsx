@@ -2,16 +2,16 @@ import "./menu.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-const Menu = () => {
-  const nav = useNavigate();
-  const [menu, setMenu] = useState<MenuType>("itinerary-feedback"); // 선택한 메뉴 ("feedback" | "talking")
+type Props = {
+  handleMenuClick: (menu: MenuType) => void;
+};
 
-  const handleMenuClick = (clickedMenu: MenuType) => {
-    menu !== clickedMenu && setMenu(clickedMenu);
-  };
+const Menu = ({ handleMenuClick }: Props) => {
+  const nav = useNavigate();
+  const [menu, setMenu] = useState<MenuType>("itinerary-feedback");
 
   useEffect(() => {
-    nav(`?category=${menu}`);
+    nav(`?type=${menu}`);
   }, [menu]);
 
   return (
@@ -21,7 +21,10 @@ const Menu = () => {
           className={
             menu === "itinerary-feedback" ? "select-btn active" : "select-btn"
           }
-          onClick={() => handleMenuClick("itinerary-feedback")}
+          onClick={() => {
+            setMenu("itinerary-feedback");
+            handleMenuClick("itinerary-feedback");
+          }}
         >
           Itinerary Feedback
         </div>
@@ -29,7 +32,10 @@ const Menu = () => {
           className={
             menu === "talking-board" ? "select-btn active" : "select-btn"
           }
-          onClick={() => handleMenuClick("talking-board")}
+          onClick={() => {
+            setMenu("talking-board");
+            handleMenuClick("talking-board");
+          }}
         >
           Talking Board
         </div>

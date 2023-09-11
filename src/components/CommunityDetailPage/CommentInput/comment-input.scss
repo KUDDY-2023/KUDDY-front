@@ -10,6 +10,10 @@
 
   background-color: color(white);
   border-top: 1px solid #efefef;
+
+  @media (min-width: 600px) {
+    width: 600px;
+  }
 }
 
 .comment-input-box {

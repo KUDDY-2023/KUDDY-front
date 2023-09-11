@@ -9,7 +9,7 @@ export default function CommunityRoutes() {
     <Routes>
       <Route path="/list" element={<CommunityListPage />} />
       <Route path="/:category/:id" element={<CommunityDetailPage />} />
-      <Route path="/write-post" element={<WritePostPage />} />
+      <Route path="/write" element={<WritePostPage />} />
     </Routes>
   );
 }

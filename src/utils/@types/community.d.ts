@@ -1,39 +1,34 @@
 type MenuType = "itinerary-feedback" | "talking-board";
 
 interface SpotType {
-  id: number;
-  place: string;
+  spotId: number;
+  spotName: string;
+  contentId: number;
   district: string;
-  latitude: number;
-  longitude: number;
-}
-
-interface PhotoType {
-  photoId: number;
-  src: string;
+  category: string;
+  imageUrl: string;
 }
 
 interface PostType {
-  postId: number;
+  postType: string;
   title: string;
   content: string;
-  writerName: string;
-  writerProfile: string;
-  writeDate: string;
-  writeTime: string;
-  commentCnt: number;
 }
 
-interface ItineraryFeedbackPost extends PostType {
-  spotList: SpotType[];
+interface ItineraryPostType extends PostType {
+  spots: number[];
 }
 
-interface TalkingBoardPost extends PostType {
-  filter: string;
-  photoList?: PhotoType[];
-  joinPeople?: number;
-  joinDate?: string;
-  joinDistrict?: string;
+interface JoinUsPostType extends PostType {
+  people: number;
+  date: string;
+  district: string;
+  images: string[];
+}
+
+interface OthersPostType extends PostType {
+  subject: string;
+  images: string[];
 }
 
 interface userInfoType {
