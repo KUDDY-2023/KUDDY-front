@@ -1,28 +1,39 @@
 import "./write-post-page.scss";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import BackNavBar from "@components/_common/BackNavBar";
 import DropDown from "@components/_common/DropDown";
 import ItineraryBlock from "@components/WritePostPage/ItineraryBlock";
 import TalkingBlock from "@components/WritePostPage/TalkingBlock";
 import photoBtn from "@assets/community/photo_btn.svg";
-import { joinUsPostState, othersPostState } from "@services/store/community";
+import {
+  itineraryPostState,
+  joinUsPostState,
+  othersPostState,
+} from "@services/store/community";
 import { useGetPresignedUrl, usePostImage } from "@services/hooks/image";
+import { usePostPost } from "@services/hooks/community";
 import { subjectData } from "./subjectData";
 
 const WritePostPage = () => {
+  const nav = useNavigate();
+  const [itineraryPost, setItineraryPost] = useRecoilState(itineraryPostState);
   const [joinUsPost, setJoinUsPost] = useRecoilState(joinUsPostState);
   const [othersPost, setOthersPost] = useRecoilState(othersPostState);
   const [postType, setPostType] = useState("itinerary");
   const [subject, setSubject] = useState("Choose the subject");
 
-  const onGetUrl = useGetPresignedUrl();
-  const onPostImage = usePostImage();
+  const onGetUrl = useGetPresignedUrl(); // 이미지 url 발급
+  const onPostImage = usePostImage(); // 이미지 업로드
+  const onPostPost = usePostPost(); // 게시물 작성
 
+  // subject 변경 시 (talking board 게시물)
   const handleSelectSubject = (id: number, type: string, selected: string) => {
     setSubject(selected);
   };
 
+  // 이미지 선택 시 (talking board 게시물)
   const onChangeImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
 
@@ -46,11 +57,13 @@ const WritePostPage = () => {
         }
 
         if (subject === "join us") {
+          console.log(images);
           setJoinUsPost({
             ...joinUsPost,
             images: [...images],
           });
         } else {
+          console.log(images);
           setOthersPost({
             ...othersPost,
             images: [...images],
@@ -61,6 +74,33 @@ const WritePostPage = () => {
       }
     }
   };
+
+  const handleClickPostBtn = async () => {
+    if (postType === "itinerary") {
+      // 코스 피드백 게시물
+      const res = await onPostPost("itinerary", itineraryPost);
+    } else if (postType === "talking" && subject === "join us") {
+      // talking board - join us 게시물
+      const res = await onPostPost("talkingboard", joinUsPost);
+    } else {
+      // 그 외의 talking board 게시물
+      const res = await onPostPost("talkingboard", othersPost);
+    }
+    nav("/community/list");
+  };
+
+  useEffect(() => {
+    setSubject("Choose the subject");
+  }, [postType]);
+
+  useEffect(() => {
+    if (postType === "talking" && subject !== "join us") {
+      setOthersPost({
+        ...othersPost,
+        subject: subject,
+      });
+    }
+  }, [subject]);
 
   return (
     <div className="write-post-page-container">
@@ -129,7 +169,9 @@ const WritePostPage = () => {
             hidden
             onChange={onChangeImage}
           />
-          <div className="post-btn">Post</div>
+          <div className="post-btn" onClick={handleClickPostBtn}>
+            Post
+          </div>
         </div>
       </div>
     </div>
