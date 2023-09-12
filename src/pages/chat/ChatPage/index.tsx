@@ -35,6 +35,7 @@ export default function ChatPage() {
 
   const [myEmail, setMyEmail] = useState<string>("");
   const [myNickname, setMyNickname] = useState<string>("");
+  const [myRole, setMyRole] = useState<string>("KBUDDY");
 
   const [isOpenBottomModal, setIsOpenBottomModal] = useState(false);
 
@@ -115,6 +116,7 @@ export default function ChatPage() {
   useEffect(() => {
     if (data) {
       setMessageArr(data);
+      console.log("채팅내역", data);
     }
   }, [data]);
 
@@ -310,32 +312,49 @@ export default function ChatPage() {
         <button onClick={updateMessage}>상태 변화 테스트</button>
         <SystemMessage type="feedback" /> */}
 
+        {/* 기존 메세지 렌더링 */}
         {MessageArr?.map((msg: IGetMessage) => {
-          if (msg.contentType === "TEXT" && msg.mine)
-            return <Message message={msg} messageType={"my"} />;
-          if (msg.contentType === "TEXT" && !msg.mine)
-            return <Message message={msg} messageType={"partner"} />;
-          if (msg.contentType === "MEETUP") {
-            /*
-            🔥여기 경우에 따른 스타일로 렌더링하기!🔥 
-            <RequestMessage info={msg} statusType={} />
-             if "NOT_ACCEPT" + 여행자  => "TRAVELER_NOT_ACCEPT"
-             if "NOT_ACCEPT" + 커디  => "KUDDY_NOT_ACCEPT"
-
-             if 
-              "PAYED"
-              "TRAVELER_CANCEL"
-              "COMPLETED" 
-              "KUDDY_CANCEL"
-               <ConfirmedRequestMessage info={msg} statusType={""} />
-               */
+          if (msg.contentType === "TEXT") {
             return (
-              <ConfirmedRequestMessage info={msg} statusType={"KUDDY_CANCEL"} />
+              <Message
+                message={msg}
+                messageType={msg.mine ? "my" : "partner"}
+              />
             );
           }
+          if (msg.contentType === "MEETUP") {
+            if (msg.meetStatus === "NOT_ACCEPT") {
+              if (myRole === "KBUDDY") {
+                return (
+                  <RequestMessage info={msg} statusType={"KUDDY_NOT_ACCEPT"} />
+                );
+              } else if (myRole === "TRAVELER") {
+                return (
+                  <RequestMessage
+                    info={msg}
+                    statusType={"TRAVELER_NOT_ACCEPT"}
+                  />
+                );
+              }
+            } else if (
+              msg.meetStatus === "PAYED" ||
+              msg.meetStatus === "COMPLETED" ||
+              msg.meetStatus === "KUDDY_CANCEL"
+            ) {
+              return (
+                <ConfirmedRequestMessage
+                  info={msg}
+                  statusType={msg.meetStatus}
+                />
+              );
+            }
+          }
+          return null;
         })}
 
         <hr />
+
+        {/* 접속 후 받아온 새로운 메세지 */}
         {/* {FlightMessageArr?.map((msg: IGetMessage) => {
           if (msg.contentType === "TEXT" && msg.mine)
             return <Message message={msg} messageType={"my"} />;

@@ -2,6 +2,8 @@ import "./request-message.scss";
 import { ReactComponent as RightIcon } from "@assets/icon/arrow_right.svg";
 import { ReactComponent as Paypal } from "@assets/pay/paypal.svg";
 import { ReactComponent as YellowMeetUp } from "@assets/chat/yellow_meetup.svg";
+import { ReactComponent as Cancle } from "@assets/chat/bt_delete.svg";
+
 import { useState } from "react";
 interface Props {
   info: IGetMessage;
@@ -42,7 +44,7 @@ export default function RequestMessage({ info, statusType }: Props) {
             </div>
             <div className="grid-right">
               <div onClick={() => _handlePlaceDetail(info.spotContentId || 1)}>
-                <p>{info.spotName}</p>
+                <p id="korean">{info.spotName}</p>
                 <RightIcon id="right-icon" />
               </div>
               <div>
@@ -59,7 +61,7 @@ export default function RequestMessage({ info, statusType }: Props) {
         {/* 커디 유저가 기다리고 있음 */}
         {statusType === "KUDDY_NOT_ACCEPT" && (
           <div className={`not-confirmed-btn-container`}>
-            <div>Not Confirmed</div>
+            <div>Waiting for a response</div>
           </div>
         )}
 
@@ -75,6 +77,13 @@ export default function RequestMessage({ info, statusType }: Props) {
           </div>
         )}
       </div>
+
+      {statusType === "KUDDY_NOT_ACCEPT" && (
+        <div className="cancel-transfer">
+          <Cancle />
+          Cancel Transfer
+        </div>
+      )}
     </div>
   );
 }
