@@ -18,6 +18,7 @@ interface Props {
   roomId: string;
   myEmail: string;
   myNickname: string;
+  handleMyMessage: (msg: any) => void;
 }
 
 export default function MessageInput({
@@ -27,6 +28,7 @@ export default function MessageInput({
   roomId,
   myEmail,
   myNickname,
+  handleMyMessage,
 }: Props) {
   const [newMessage, setNewMessage] = useState("");
   const [inputHeight, setInputHeight] = useState<number>(0);
@@ -58,21 +60,27 @@ export default function MessageInput({
   // 메세지 저장
   const onSave = useSaveMessage();
 
+  // 내가 보낸 메세지는 바로 적용 못하나?
   const onClickSend = async () => {
     if (client.current) {
       try {
         let newText = { ...testMsg }; // 복사
-        setNewMessage(""); // input 창 비우기
 
-        // 먼저 저장하고, 답변으로 온걸 소켓으로 보내기
-        const savedMsg = await onSave(newText);
-        console.log("저장한거 >>> ", savedMsg);
+        // ✅ 내 메세지는 바로 반영하기
+        handleMyMessage(newText);
+
         // ✅ 채팅 보내는 send (publish)
         client.current.send(
           "/app/message",
           { Authorization: `Bearer ${token}` },
-          JSON.stringify(savedMsg),
+          JSON.stringify(newText),
         );
+
+        setNewMessage(""); // input 창 비우기
+
+        // DB에 메세지 반영하기
+        const savedMsg = await onSave(newText);
+        console.log("저장한거 >>> ", savedMsg);
       } catch (e) {
         alert(e);
       } finally {

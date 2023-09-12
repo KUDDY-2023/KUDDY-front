@@ -30,8 +30,14 @@ import { chatGetAllMessage } from "@services/api/chat";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "@services/store/auth";
 export default function ChatPage() {
-  const [profile, setProfile] = useRecoilState(userInfoState);
+  const [profile, setProfile] = useRecoilState(userInfoState); // 전역
 
+  const [myEmail, setMyEmail] = useState<string>("");
+  const [myNickname, setMyNickname] = useState<string>("");
+
+  const [isOpenBottomModal, setIsOpenBottomModal] = useState(false);
+
+  // 유저 정보 가져오기
   const getProfile = async () => {
     const res = await profileGetSocialProfile();
 
@@ -40,7 +46,7 @@ export default function ChatPage() {
     setMyNickname(res.data.data.nickname);
 
     // 전역
-    setProfile(res.data.data);
+    // setProfile(res.data.data);
     // setProfile({ ...profile, nickname: res.data.data.nickname });
 
     localStorage.setItem("email", res.data.data.email);
@@ -48,9 +54,27 @@ export default function ChatPage() {
 
   const { roomId } = useParams();
 
+  // 메세지 목록
   const [MessageArr, setMessageArr] = useState<IGetMessage[]>([]);
   const [FlightMessageArr, setFlightMessageArr] = useState<IGetMessage[]>([]);
 
+  // 스크롤 관련
+  const messageEndRef = useRef<HTMLDivElement | null>(null);
+  const initialRenderRef = useRef(true);
+  useEffect(() => {
+    if (initialRenderRef.current && messageEndRef.current) {
+      initialRenderRef.current = false;
+      messageEndRef.current.scrollIntoView({
+        behavior: "instant" as ScrollBehavior,
+      });
+      return;
+    }
+
+    if (messageEndRef.current)
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [FlightMessageArr]);
+
+  // 채팅 내역 가져오는 쿼리
   const { data, error, isLoading } = useQuery(
     "messages",
     () => chatGetAllMessage(roomId || ""),
@@ -75,10 +99,6 @@ export default function ChatPage() {
       setMessageArr(data);
     }
   }, [data]);
-
-  const [myEmail, setMyEmail] = useState<string>("");
-  const [myNickname, setMyNickname] = useState<string>("");
-  const [isOpenBottomModal, setIsOpenBottomModal] = useState(false);
 
   let tempInfo = {
     partnerName: "jane",
@@ -114,12 +134,26 @@ export default function ChatPage() {
   const handleMessage = (newmsg: IMessage) => {
     let body = JSON.parse(newmsg.body);
     console.log("구독 후 받아온 거 >>", body);
-    console.log("senderEmail : ", body.senderEmail, "내 이메일", profile);
     body = {
       ...body,
-      mine: body.senderEmail === profile.email,
+      mine: body.senderEmail === myEmail,
     };
-    setFlightMessageArr(prevMessageArr => [...prevMessageArr, body]);
+
+    // 상대방한테서 온 이벤트면 저장
+    if (body.senderEmail !== myEmail) {
+      console.log(body.senderEmail, "??", myEmail);
+      setFlightMessageArr(prevMessageArr => [...prevMessageArr, body]);
+    }
+  };
+
+  // 내 메세지 바로 화면에 반영하기
+  const handleMyMessage = (newmsg: any) => {
+    newmsg = {
+      ...newmsg,
+      mine: newmsg.senderEmail === myEmail,
+    };
+
+    setFlightMessageArr(prevMessageArr => [...prevMessageArr, newmsg]);
   };
 
   useEffect(() => {
@@ -161,6 +195,7 @@ export default function ChatPage() {
     console.log("onError 연결 실패 ");
   }
 
+  // 소켓 연결과 프로필 가져오기
   useEffect(() => {
     getProfile(); // 이메일과 내 닉네임 가져오기
 
@@ -319,6 +354,8 @@ export default function ChatPage() {
         })}
       </div>
 
+      <div ref={messageEndRef}></div>
+
       <MessageInput
         client={client}
         meetupBtnVisible={true}
@@ -326,6 +363,7 @@ export default function ChatPage() {
         roomId={roomId || ""}
         myEmail={myEmail}
         myNickname={myNickname}
+        handleMyMessage={handleMyMessage}
       />
     </div>
   );
