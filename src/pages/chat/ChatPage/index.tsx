@@ -27,44 +27,31 @@ import { profileGetSocialProfile } from "@services/api/profile";
 import { useQuery } from "react-query";
 import { chatGetAllMessage } from "@services/api/chat";
 
+import { useRecoilState } from "recoil";
+import { userInfoState } from "@services/store/auth";
 export default function ChatPage() {
-  const { roomId } = useParams();
-
-  const [MessageArr, setMessageArr] = useState([]);
-
-  const { data, error, isLoading } = useQuery(
-    "messages",
-    () => chatGetAllMessage(roomId || ""),
-    {
-      select: data => data?.data.data.chatList,
-      refetchOnMount: false,
-      refetchOnWindowFocus: false, // 너엿구나 ㅅㅂ
-    },
-  );
-
-  useEffect(() => {
-    if (data) {
-      setMessageArr(data);
-    }
-  }, [data]);
-
-  // 얼라리 이메일도 오네
-
-  useEffect(() => {
-    console.log("채팅 리스트", data);
-  }, [data]);
+  const [profile, setProfile] = useRecoilState(userInfoState); // 전역 프로필 recoil
+  const token = window.localStorage.getItem("accessToken") as string; // 토큰
 
   const [myEmail, setMyEmail] = useState<string>("");
   const [myNickname, setMyNickname] = useState<string>("");
+
   const [isOpenBottomModal, setIsOpenBottomModal] = useState(false);
 
-  const getProfile = async () => {
-    const res = await profileGetSocialProfile();
-    setMyEmail(res.data.data.email);
-    setMyNickname(res.data.data.nickname);
-    localStorage.setItem("email", res.data.data.email);
-  };
+  const client = useRef<CompatClient>();
+  const subscribe = useRef<StompSubscription>();
 
+  const { roomId } = useParams();
+
+  // 메세지 목록
+  const [MessageArr, setMessageArr] = useState<IGetMessage[]>([]);
+  const [FlightMessageArr, setFlightMessageArr] = useState<IGetMessage[]>([]);
+
+  // 스크롤 관련
+  const messageEndRef = useRef<HTMLDivElement | null>(null);
+  const initialRenderRef = useRef(true);
+
+  // 임시 데이터
   let tempInfo = {
     partnerName: "jane",
     place: "Gyeongbokgung Palace",
@@ -73,7 +60,6 @@ export default function ChatPage() {
     pay: 18,
     meetStatus: 3,
   };
-
   let tempInfo2 = {
     partnerName: "jane",
     place: "Gyeongbokgung Palace",
@@ -81,6 +67,70 @@ export default function ChatPage() {
     date: "2023.06.19  11:00am",
     pay: 18,
   };
+  let updateMsg = {
+    id: "64fb179e4a4e36075eb150ab",
+    roomId: "3",
+    contentType: "MEETUP",
+    content: "동행",
+    senderName: "maru",
+    spotContentId: 1,
+    appointmentTime: "2021-11-05 13:47:13.248",
+    price: 10,
+    spotName: "롯데타워",
+    senderId: 15,
+    sendTime: 16823942839,
+    meetStatus: "TRAVELER_CANCEL",
+    senderEmail: "dy6578ekdbs@naver.com",
+    readCount: 1,
+    isUpdated: 1,
+  };
+
+  // 유저 정보 가져오기
+  const getProfile = async () => {
+    const res = await profileGetSocialProfile();
+
+    console.log("요청 좀 해봐 시🔥🔥🔥🔥", res);
+    setMyEmail(res.data.data.email);
+    setMyNickname(res.data.data.nickname);
+
+    // 전역
+    // setProfile(res.data.data);
+    // setProfile({ ...profile, nickname: res.data.data.nickname });
+
+    localStorage.setItem("email", res.data.data.email);
+  };
+
+  // 채팅 내역 가져오는 쿼리
+  const { data, error, isLoading } = useQuery(
+    "messages",
+    () => chatGetAllMessage(roomId || ""),
+    {
+      select: data => data?.data.data.chatList,
+      refetchOnMount: false,
+      refetchOnWindowFocus: false, // 너엿구나 하..
+    },
+  );
+
+  // 기존 메세지 내역 가져오기
+  useEffect(() => {
+    if (data) {
+      setMessageArr(data);
+    }
+  }, [data]);
+
+  // 스크롤
+  useEffect(() => {
+    // if (initialRenderRef.current && messageEndRef.current) {
+    //   initialRenderRef.current = false;
+    //   messageEndRef.current.scrollIntoView({
+    //     behavior: "instant" as ScrollBehavior,
+    //   });
+    //   return;
+    // }
+
+    if (messageEndRef.current)
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [FlightMessageArr]);
 
   const _handleCloseModal = () => {
     setIsOpenBottomModal(false);
@@ -90,23 +140,40 @@ export default function ChatPage() {
     console.log("열기");
   };
 
-  const client = useRef<CompatClient>();
-  const subscribe = useRef<StompSubscription>();
+  // 구독 이벤트로 발생한 메세지 추가
+  const handleMessage = (newmsg: IMessage) => {
+    let body = JSON.parse(newmsg.body);
+    console.log("구독 후 받아온 거 >>", body);
+    body = {
+      ...body,
+      mine: body.senderEmail === myEmail,
+    };
 
-  const token = window.localStorage.getItem("accessToken") as string;
+    // 상대방한테서 온 이벤트면 저장
+    if (body.senderEmail !== myEmail) {
+      console.log(body.senderEmail, "??", myEmail);
+      setFlightMessageArr(prevMessageArr => [...prevMessageArr, body]);
+    }
+  };
+
+  // 내 메세지 바로 화면에 반영하기
+  const handleMyMessage = (newmsg: any) => {
+    newmsg = {
+      ...newmsg,
+      mine: newmsg.senderEmail === myEmail,
+    };
+
+    setFlightMessageArr(prevMessageArr => [...prevMessageArr, newmsg]);
+  };
 
   function onConnect() {
     if (client.current) {
       console.log("onConnect 연결 성공");
 
       // 구독 - 특정 채팅방의 메세지 내용 받아오기
-      client.current.subscribe(
+      subscribe.current = client.current.subscribe(
         `/topic/group/${roomId}`,
-        (msg: IMessage) => {
-          console.log("구독 후 받아온 거 ::", msg);
-          const body = JSON.parse(msg.body);
-          console.log(body);
-        }, // 받아온 메세지를 처리하는 콜백함수
+        msg => handleMessage(msg),
         {
           Authorization: `Bearer ${token}`,
         },
@@ -115,10 +182,13 @@ export default function ChatPage() {
       // 구독 - 메세지 업데이트 사항 받아오기
       client.current.subscribe(
         `/topic/updates/${roomId}`,
-        (msg: IMessage) => {
-          console.log("메세지 업데이트 발생 ! >>>", msg);
-          const body = JSON.parse(msg.body);
-          console.log(body);
+        msg => {
+          console.log("업데이트 발생");
+          // const body = JSON.parse(msg.body);
+          // console.log("메세지 업데이트 발생 ! >>>", body);
+
+          // let newMessageArr = [...MessageArr, body];
+          // setMessageArr(newMessageArr);
         }, // 받아온 메세지를 처리하는 콜백함수
         {
           Authorization: `Bearer ${token}`,
@@ -131,7 +201,10 @@ export default function ChatPage() {
     console.log("onError 연결 실패 ");
   }
 
+  // 소켓 연결과 프로필 가져오기
   useEffect(() => {
+    getProfile(); // 이메일과 내 닉네임 가져오기
+
     // Stomp.over()로 client.current 객체 초기화
     // SocketJS로 웹소켓 연결 구현
     client.current = Stomp.over(() => {
@@ -149,8 +222,6 @@ export default function ChatPage() {
       onConnect,
       onError,
     );
-
-    getProfile(); // 이메일과 내 닉네임 가져오기
 
     // 나갈 때 요청 끊기
     function disconnectStomp(event: BeforeUnloadEvent) {
@@ -206,36 +277,6 @@ export default function ChatPage() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   const preventGoBack = () => {
-  //     //window.history.go(1);
-  //     console.log("prevent go back!");
-  //   };
-
-  //   // window.history.pushState(null, "", window.location.href);
-  //   window.addEventListener("popstate", preventGoBack);
-
-  //   return () => window.removeEventListener("popstate", preventGoBack);
-  // }, []);
-
-  let updateMsg = {
-    id: "64fb179e4a4e36075eb150ab",
-    roomId: "3",
-    contentType: "MEETUP",
-    content: "동행",
-    senderName: "maru",
-    spotContentId: 1,
-    appointmentTime: "2021-11-05 13:47:13.248",
-    price: 10,
-    spotName: "롯데타워",
-    senderId: 15,
-    sendTime: 16823942839,
-    meetStatus: "TRAVELER_CANCEL",
-    senderEmail: "dy6578ekdbs@naver.com",
-    readCount: 1,
-    isUpdated: 1,
-  };
-
   const updateMessage = () => {
     if (client.current) {
       console.log("업데이트");
@@ -274,10 +315,38 @@ export default function ChatPage() {
             return <Message message={msg} messageType={"my"} />;
           if (msg.contentType === "TEXT" && !msg.mine)
             return <Message message={msg} messageType={"partner"} />;
-          if (msg.contentType === "MEETUP")
-            return <RequestMessage info={tempInfo2} />;
+          if (msg.contentType === "MEETUP") {
+            /*
+            🔥여기 경우에 따른 스타일로 렌더링하기!🔥 
+            <RequestMessage info={msg} statusType={} />
+             if "NOT_ACCEPT" + 여행자  => "TRAVELER_NOT_ACCEPT"
+             if "NOT_ACCEPT" + 커디  => "KUDDY_NOT_ACCEPT"
+
+             if 
+              "PAYED"
+              "TRAVELER_CANCEL"
+              "COMPLETED" 
+              "KUDDY_CANCEL"
+               <ConfirmedRequestMessage info={msg} statusType={""} />
+               */
+            return (
+              <ConfirmedRequestMessage info={msg} statusType={"KUDDY_CANCEL"} />
+            );
+          }
         })}
+
+        <hr />
+        {/* {FlightMessageArr?.map((msg: IGetMessage) => {
+          if (msg.contentType === "TEXT" && msg.mine)
+            return <Message message={msg} messageType={"my"} />;
+          if (msg.contentType === "TEXT" && !msg.mine)
+            return <Message message={msg} messageType={"partner"} />;
+          if (msg.contentType === "MEETUP")
+            return <RequestMessage info={msg} statusType={"KUDDY_NOT_ACCEPT"} />;
+        })} */}
       </div>
+
+      <div ref={messageEndRef}></div>
 
       <MessageInput
         client={client}
@@ -286,6 +355,7 @@ export default function ChatPage() {
         roomId={roomId || ""}
         myEmail={myEmail}
         myNickname={myNickname}
+        handleMyMessage={handleMyMessage}
       />
     </div>
   );

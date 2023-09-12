@@ -23,6 +23,7 @@ interface IGetMessage {
   contentType: "TEXT" | "MEETUP" | "NOTI";
   content: string;
   sendDate: number;
+  sendTime: number;
   readCount: 0 | 1;
   mine: boolean;
   // 이 밑으론 동행 메세지만
@@ -36,6 +37,30 @@ interface IGetMessage {
     | "COMPLETED"
     | "UNKNOWN";
 
+  spotContentId: number | null;
+  spotName: string | null;
+}
+
+interface ISubNewMessage {
+  id: string;
+  roomId: number;
+  senderName: string;
+  contentType: "TEXT" | "MEETUP" | "NOTI";
+  content: string;
+  readCount: 0 | 1;
+  isUpdated: number;
+  sendTime: number;
+  senderEmail: string;
+  // 이 밑으론 동행 메세지만
+  appointmentTime: string | null; // 2021-11-05 13:47:13.248 이런 형식
+  price: null | string;
+  meetStatus:
+    | null
+    | "TRAVELER_CANCEL"
+    | "KUDDY_CANCEL"
+    | "PAYED"
+    | "COMPLETED"
+    | "UNKNOWN";
   spotContentId: number | null;
   spotName: string | null;
 }
