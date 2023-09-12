@@ -22,7 +22,7 @@ const PostItem = ({ post }: any) => {
             <div className="join-us-container">
               <div className="join-us-text bold-text">{post.district}</div>
               <div className="join-us-text">
-                · {post.people} · {post.date}
+                · {post.people} · {post.createdDate}
               </div>
             </div>
           )}
@@ -31,7 +31,7 @@ const PostItem = ({ post }: any) => {
       <div className="item-bottom-container">
         <div
           className={
-            type === "talking-board" && post.fileUrls
+            type === "talking-board" && post?.fileUrls?.length > 0
               ? "post-detail-container has-photo"
               : "post-detail-container"
           }
@@ -52,11 +52,11 @@ const PostItem = ({ post }: any) => {
             <div className="post-date">{post.createdDate}</div>
             <div className="post-comment">
               <img src={commentIcon} alt="comment" />
-              99
+              {post.commentNo}
             </div>
           </div>
         </div>
-        {post?.fileUrls && (
+        {post?.fileUrls?.length > 0 && (
           <img
             className="post-photo"
             alt="post-photo"
