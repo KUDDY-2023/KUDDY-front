@@ -30,12 +30,60 @@ import { chatGetAllMessage } from "@services/api/chat";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "@services/store/auth";
 export default function ChatPage() {
-  const [profile, setProfile] = useRecoilState(userInfoState); // 전역
+  const [profile, setProfile] = useRecoilState(userInfoState); // 전역 프로필 recoil
+  const token = window.localStorage.getItem("accessToken") as string; // 토큰
 
   const [myEmail, setMyEmail] = useState<string>("");
   const [myNickname, setMyNickname] = useState<string>("");
 
   const [isOpenBottomModal, setIsOpenBottomModal] = useState(false);
+
+  const client = useRef<CompatClient>();
+  const subscribe = useRef<StompSubscription>();
+
+  const { roomId } = useParams();
+
+  // 메세지 목록
+  const [MessageArr, setMessageArr] = useState<IGetMessage[]>([]);
+  const [FlightMessageArr, setFlightMessageArr] = useState<IGetMessage[]>([]);
+
+  // 스크롤 관련
+  const messageEndRef = useRef<HTMLDivElement | null>(null);
+  const initialRenderRef = useRef(true);
+
+  // 임시 데이터
+  let tempInfo = {
+    partnerName: "jane",
+    place: "Gyeongbokgung Palace",
+    placeId: 1,
+    date: "2023.06.19  11:00am",
+    pay: 18,
+    meetStatus: 3,
+  };
+  let tempInfo2 = {
+    partnerName: "jane",
+    place: "Gyeongbokgung Palace",
+    placeId: 1,
+    date: "2023.06.19  11:00am",
+    pay: 18,
+  };
+  let updateMsg = {
+    id: "64fb179e4a4e36075eb150ab",
+    roomId: "3",
+    contentType: "MEETUP",
+    content: "동행",
+    senderName: "maru",
+    spotContentId: 1,
+    appointmentTime: "2021-11-05 13:47:13.248",
+    price: 10,
+    spotName: "롯데타워",
+    senderId: 15,
+    sendTime: 16823942839,
+    meetStatus: "TRAVELER_CANCEL",
+    senderEmail: "dy6578ekdbs@naver.com",
+    readCount: 1,
+    isUpdated: 1,
+  };
 
   // 유저 정보 가져오기
   const getProfile = async () => {
@@ -52,28 +100,6 @@ export default function ChatPage() {
     localStorage.setItem("email", res.data.data.email);
   };
 
-  const { roomId } = useParams();
-
-  // 메세지 목록
-  const [MessageArr, setMessageArr] = useState<IGetMessage[]>([]);
-  const [FlightMessageArr, setFlightMessageArr] = useState<IGetMessage[]>([]);
-
-  // 스크롤 관련
-  const messageEndRef = useRef<HTMLDivElement | null>(null);
-  const initialRenderRef = useRef(true);
-  useEffect(() => {
-    if (initialRenderRef.current && messageEndRef.current) {
-      initialRenderRef.current = false;
-      messageEndRef.current.scrollIntoView({
-        behavior: "instant" as ScrollBehavior,
-      });
-      return;
-    }
-
-    if (messageEndRef.current)
-      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
-  }, [FlightMessageArr]);
-
   // 채팅 내역 가져오는 쿼리
   const { data, error, isLoading } = useQuery(
     "messages",
@@ -85,14 +111,6 @@ export default function ChatPage() {
     },
   );
 
-  useEffect(() => {
-    console.log("ㅍ로필이 왜 자꾸 바뀌는걸까 ", profile);
-  }, [profile]);
-
-  useEffect(() => {
-    console.log("채팅 리스트 저장", MessageArr);
-  }, [MessageArr]);
-
   // 기존 메세지 내역 가져오기
   useEffect(() => {
     if (data) {
@@ -100,22 +118,19 @@ export default function ChatPage() {
     }
   }, [data]);
 
-  let tempInfo = {
-    partnerName: "jane",
-    place: "Gyeongbokgung Palace",
-    placeId: 1,
-    date: "2023.06.19  11:00am",
-    pay: 18,
-    meetStatus: 3,
-  };
+  // 스크롤
+  useEffect(() => {
+    // if (initialRenderRef.current && messageEndRef.current) {
+    //   initialRenderRef.current = false;
+    //   messageEndRef.current.scrollIntoView({
+    //     behavior: "instant" as ScrollBehavior,
+    //   });
+    //   return;
+    // }
 
-  let tempInfo2 = {
-    partnerName: "jane",
-    place: "Gyeongbokgung Palace",
-    placeId: 1,
-    date: "2023.06.19  11:00am",
-    pay: 18,
-  };
+    if (messageEndRef.current)
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+  }, [FlightMessageArr]);
 
   const _handleCloseModal = () => {
     setIsOpenBottomModal(false);
@@ -124,11 +139,6 @@ export default function ChatPage() {
     setIsOpenBottomModal(true);
     console.log("열기");
   };
-
-  const client = useRef<CompatClient>();
-  const subscribe = useRef<StompSubscription>();
-
-  const token = window.localStorage.getItem("accessToken") as string;
 
   // 구독 이벤트로 발생한 메세지 추가
   const handleMessage = (newmsg: IMessage) => {
@@ -155,10 +165,6 @@ export default function ChatPage() {
 
     setFlightMessageArr(prevMessageArr => [...prevMessageArr, newmsg]);
   };
-
-  useEffect(() => {
-    console.log("✅", FlightMessageArr);
-  }, [FlightMessageArr]);
 
   function onConnect() {
     if (client.current) {
@@ -271,36 +277,6 @@ export default function ChatPage() {
     };
   }, []);
 
-  // useEffect(() => {
-  //   const preventGoBack = () => {
-  //     //window.history.go(1);
-  //     console.log("prevent go back!");
-  //   };
-
-  //   // window.history.pushState(null, "", window.location.href);
-  //   window.addEventListener("popstate", preventGoBack);
-
-  //   return () => window.removeEventListener("popstate", preventGoBack);
-  // }, []);
-
-  let updateMsg = {
-    id: "64fb179e4a4e36075eb150ab",
-    roomId: "3",
-    contentType: "MEETUP",
-    content: "동행",
-    senderName: "maru",
-    spotContentId: 1,
-    appointmentTime: "2021-11-05 13:47:13.248",
-    price: 10,
-    spotName: "롯데타워",
-    senderId: 15,
-    sendTime: 16823942839,
-    meetStatus: "TRAVELER_CANCEL",
-    senderEmail: "dy6578ekdbs@naver.com",
-    readCount: 1,
-    isUpdated: 1,
-  };
-
   const updateMessage = () => {
     if (client.current) {
       console.log("업데이트");
@@ -339,19 +315,35 @@ export default function ChatPage() {
             return <Message message={msg} messageType={"my"} />;
           if (msg.contentType === "TEXT" && !msg.mine)
             return <Message message={msg} messageType={"partner"} />;
-          if (msg.contentType === "MEETUP")
-            return <RequestMessage info={tempInfo2} />;
+          if (msg.contentType === "MEETUP") {
+            /*
+            🔥여기 경우에 따른 스타일로 렌더링하기!🔥 
+            <RequestMessage info={msg} statusType={} />
+             if "NOT_ACCEPT" + 여행자  => "TRAVELER_NOT_ACCEPT"
+             if "NOT_ACCEPT" + 커디  => "KUDDY_NOT_ACCEPT"
+
+             if 
+              "PAYED"
+              "TRAVELER_CANCEL"
+              "COMPLETED" 
+              "KUDDY_CANCEL"
+               <ConfirmedRequestMessage info={msg} statusType={""} />
+               */
+            return (
+              <ConfirmedRequestMessage info={msg} statusType={"KUDDY_CANCEL"} />
+            );
+          }
         })}
 
         <hr />
-        {FlightMessageArr?.map((msg: IGetMessage) => {
+        {/* {FlightMessageArr?.map((msg: IGetMessage) => {
           if (msg.contentType === "TEXT" && msg.mine)
             return <Message message={msg} messageType={"my"} />;
           if (msg.contentType === "TEXT" && !msg.mine)
             return <Message message={msg} messageType={"partner"} />;
           if (msg.contentType === "MEETUP")
-            return <RequestMessage info={tempInfo2} />;
-        })}
+            return <RequestMessage info={msg} statusType={"KUDDY_NOT_ACCEPT"} />;
+        })} */}
       </div>
 
       <div ref={messageEndRef}></div>
