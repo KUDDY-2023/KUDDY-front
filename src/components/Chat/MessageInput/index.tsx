@@ -38,8 +38,9 @@ export default function MessageInput({
   }, [inputHeight]);
   const token = window.localStorage.getItem("accessToken") as string;
 
-  // 일반 메세지 껍데기
-  let testMsg: ISingleMessage = {
+  // ✅ 일반 메세지 보내기
+  const onSave = useSaveMessage();
+  let normalMsg: ISingleMessage = {
     id: null,
     roomId: roomId as string,
     contentType: "TEXT",
@@ -49,7 +50,7 @@ export default function MessageInput({
     appointmentTime: null,
     price: null,
     spotName: null,
-    senderId: 1,
+    senderId: 1, // 수정 필요
     meetStatus: null,
     sendTime: new Date().getTime(),
     senderEmail: myEmail,
@@ -57,14 +58,10 @@ export default function MessageInput({
     isUpdated: 0,
   };
 
-  // 메세지 저장
-  const onSave = useSaveMessage();
-
-  // 내가 보낸 메세지는 바로 적용 못하나?
-  const onClickSend = async () => {
+  const onSendMessage = async () => {
     if (client.current) {
       try {
-        let newText = { ...testMsg }; // 복사
+        let newText = { ...normalMsg }; // 복사
 
         // ✅ 내 메세지는 바로 반영하기
         handleMyMessage(newText);
@@ -78,7 +75,7 @@ export default function MessageInput({
 
         setNewMessage(""); // input 창 비우기
 
-        // DB에 메세지 반영하기
+        // ✅ DB에 메세지 반영하기
         const savedMsg = await onSave(newText);
         console.log("저장한거 >>> ", savedMsg);
       } catch (e) {
@@ -102,13 +99,12 @@ export default function MessageInput({
           onHeightChange={(height: number) => {
             setInputHeight(height);
           }}
-          onSubmit={onClickSend}
           maxRows={5}
           placeholder="Find your own buddy!"
           value={newMessage}
           onChange={e => setNewMessage(e.target.value)}
         />
-        <div className="send-icon-container" onClick={onClickSend}>
+        <div className="send-icon-container" onClick={onSendMessage}>
           <SendIcon />
         </div>
       </div>
