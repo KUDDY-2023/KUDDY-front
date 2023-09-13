@@ -6,6 +6,7 @@ import { ReactComponent as RedwMeetUp } from "@assets/chat/red_meetup.svg";
 import { ReactComponent as BlueMeetUp } from "@assets/chat/blue_meetup.svg";
 import SystemMessage from "../SystemMessage";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   info: IGetMessage;
@@ -13,6 +14,8 @@ interface Props {
 }
 
 export default function ConfirmedRequestMessage({ info, statusType }: Props) {
+  const navigate = useNavigate();
+
   const statusTypeMap = {
     PAYED: 1,
     TRAVELER_CANCEL: 2,
@@ -41,8 +44,8 @@ export default function ConfirmedRequestMessage({ info, statusType }: Props) {
 
   const btnTextStyle = ["black-text", "red-text", "blue-text", "red-text"];
 
-  const _handlePlaceDetail = (placeId: number) => {
-    console.log("장소 상세 페이지로 이동", placeId);
+  const onPlaceDetail = (placeId: number) => {
+    navigate(`travel/${placeId}`);
   };
 
   return (
@@ -61,7 +64,7 @@ export default function ConfirmedRequestMessage({ info, statusType }: Props) {
               <p>Pay</p>
             </div>
             <div className="grid-right">
-              <div onClick={() => _handlePlaceDetail(info.spotContentId || 0)}>
+              <div onClick={() => onPlaceDetail(info.spotContentId || 0)}>
                 <p>{info.spotName}</p>
                 <RightIcon id="right-icon" />
               </div>

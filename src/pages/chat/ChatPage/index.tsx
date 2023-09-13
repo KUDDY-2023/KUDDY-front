@@ -33,9 +33,9 @@ export default function ChatPage() {
   const [profile, setProfile] = useRecoilState(userInfoState); // 전역 프로필 recoil
   const token = window.localStorage.getItem("accessToken") as string; // 토큰
 
-  const [myEmail, setMyEmail] = useState<string>("");
-  const [myNickname, setMyNickname] = useState<string>("");
-
+  const [myEmail, setMyEmail] = useState<string>(""); // 현재 유저의 이메일
+  const [myNickname, setMyNickname] = useState<string>(""); // 현재 유저의 닉네임
+  const [myRole, setMyRole] = useState<"KBUDDY" | "TRAVELER">("TRAVELER"); // 현재 유저의 Role
   const [isOpenBottomModal, setIsOpenBottomModal] = useState(false);
 
   const client = useRef<CompatClient>();
@@ -115,29 +115,37 @@ export default function ChatPage() {
   useEffect(() => {
     if (data) {
       setMessageArr(data);
+      console.log("채팅내역", data);
     }
   }, [data]);
 
   // 스크롤
   useEffect(() => {
-    // if (initialRenderRef.current && messageEndRef.current) {
-    //   initialRenderRef.current = false;
-    //   messageEndRef.current.scrollIntoView({
-    //     behavior: "instant" as ScrollBehavior,
-    //   });
-    //   return;
-    // }
+    // 최초 접속 시 로딩 속도가 느려서 못내려가는 건가 싶어서 넣어봄
+    setTimeout(() => {
+      if (initialRenderRef.current && messageEndRef.current) {
+        initialRenderRef.current = false;
+        messageEndRef.current.scrollIntoView({
+          behavior: "smooth",
+        });
+        return;
+      }
+    }, 500);
 
-    if (messageEndRef.current)
+    if (messageEndRef.current) {
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
   }, [FlightMessageArr]);
 
+  // 동행 만드는 모달 닫는 버튼
   const _handleCloseModal = () => {
     setIsOpenBottomModal(false);
   };
+
+  // 동행 만드는 모달 열기 버튼
   const _handleOpenBottomModal = () => {
     setIsOpenBottomModal(true);
-    console.log("열기");
   };
 
   // 구독 이벤트로 발생한 메세지 추가
@@ -300,6 +308,11 @@ export default function ChatPage() {
       <MakeMeetUpModal
         isModalOpen={isOpenBottomModal}
         onClose={_handleCloseModal}
+        client={client}
+        roomId={roomId || ""}
+        myEmail={myEmail}
+        myNickname={myNickname}
+        handleMyMessage={handleMyMessage}
       />
       <PartnerHead userName="User name" profileImgUrl={url} />
 
@@ -310,40 +323,59 @@ export default function ChatPage() {
         <button onClick={updateMessage}>상태 변화 테스트</button>
         <SystemMessage type="feedback" /> */}
 
+        {/* 기존 메세지 렌더링 */}
         {MessageArr?.map((msg: IGetMessage) => {
-          if (msg.contentType === "TEXT" && msg.mine)
-            return <Message message={msg} messageType={"my"} />;
-          if (msg.contentType === "TEXT" && !msg.mine)
-            return <Message message={msg} messageType={"partner"} />;
-          if (msg.contentType === "MEETUP") {
-            /*
-            🔥여기 경우에 따른 스타일로 렌더링하기!🔥 
-            <RequestMessage info={msg} statusType={} />
-             if "NOT_ACCEPT" + 여행자  => "TRAVELER_NOT_ACCEPT"
-             if "NOT_ACCEPT" + 커디  => "KUDDY_NOT_ACCEPT"
-
-             if 
-              "PAYED"
-              "TRAVELER_CANCEL"
-              "COMPLETED" 
-              "KUDDY_CANCEL"
-               <ConfirmedRequestMessage info={msg} statusType={""} />
-               */
+          if (msg.contentType === "TEXT") {
             return (
-              <ConfirmedRequestMessage info={msg} statusType={"KUDDY_CANCEL"} />
+              <Message
+                message={msg}
+                messageType={msg.mine ? "my" : "partner"}
+              />
             );
           }
+          if (msg.contentType === "MEETUP") {
+            if (msg.meetStatus === "NOT_ACCEPT") {
+              if (myRole === "KBUDDY") {
+                return (
+                  <RequestMessage info={msg} statusType={"KUDDY_NOT_ACCEPT"} />
+                );
+              } else if (myRole === "TRAVELER") {
+                return (
+                  <RequestMessage
+                    info={msg}
+                    statusType={"TRAVELER_NOT_ACCEPT"}
+                  />
+                );
+              }
+            } else if (
+              msg.meetStatus === "PAYED" ||
+              msg.meetStatus === "COMPLETED" ||
+              msg.meetStatus === "KUDDY_CANCEL"
+            ) {
+              return (
+                <ConfirmedRequestMessage
+                  info={msg}
+                  statusType={msg.meetStatus}
+                />
+              );
+            }
+          }
+          return null;
         })}
 
         <hr />
-        {/* {FlightMessageArr?.map((msg: IGetMessage) => {
+
+        {/* 접속 후 받아온 새로운 메세지 */}
+        {FlightMessageArr?.map((msg: IGetMessage) => {
           if (msg.contentType === "TEXT" && msg.mine)
             return <Message message={msg} messageType={"my"} />;
           if (msg.contentType === "TEXT" && !msg.mine)
             return <Message message={msg} messageType={"partner"} />;
           if (msg.contentType === "MEETUP")
-            return <RequestMessage info={msg} statusType={"KUDDY_NOT_ACCEPT"} />;
-        })} */}
+            return (
+              <RequestMessage info={msg} statusType={"KUDDY_NOT_ACCEPT"} />
+            );
+        })}
       </div>
 
       <div ref={messageEndRef}></div>

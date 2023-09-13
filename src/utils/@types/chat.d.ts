@@ -31,6 +31,7 @@ interface IGetMessage {
   price: null | string;
   meetStatus:
     | null
+    | "NOT_ACCEPT"
     | "TRAVELER_CANCEL"
     | "KUDDY_CANCEL"
     | "PAYED"

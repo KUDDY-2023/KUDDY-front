@@ -2,26 +2,32 @@ import "./request-message.scss";
 import { ReactComponent as RightIcon } from "@assets/icon/arrow_right.svg";
 import { ReactComponent as Paypal } from "@assets/pay/paypal.svg";
 import { ReactComponent as YellowMeetUp } from "@assets/chat/yellow_meetup.svg";
+import { ReactComponent as Cancle } from "@assets/chat/bt_delete.svg";
+
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 interface Props {
   info: IGetMessage;
   statusType: "KUDDY_NOT_ACCEPT" | "TRAVELER_NOT_ACCEPT";
 }
 
 export default function RequestMessage({ info, statusType }: Props) {
-  // 내가 커디면 false로, 여행자면 true로 하기
-  //const [currentUser, setCurrentUser] = useState(false); // 여행자 vs 커디
+  const navigate = useNavigate();
 
-  const _handlePlaceDetail = (placeId: number) => {
-    console.log("장소 상세 페이지로 이동", placeId);
+  const onPlaceDetail = (placeId: number) => {
+    navigate(`travel/${placeId}`);
   };
 
-  const _handleRequestPayPal = () => {
+  const onPayPal = () => {
     console.log("페이팔 요청");
   };
 
-  const _handleRefuseMessage = () => {
-    console.log("거절");
+  const onRefuse = () => {
+    console.log("여행객이 거부함");
+  };
+
+  const onCancel = () => {
+    console.log("커디가 취소함");
   };
 
   return (
@@ -41,8 +47,8 @@ export default function RequestMessage({ info, statusType }: Props) {
               <p>Pay</p>
             </div>
             <div className="grid-right">
-              <div onClick={() => _handlePlaceDetail(info.spotContentId || 1)}>
-                <p>{info.spotName}</p>
+              <div onClick={() => onPlaceDetail(info.spotContentId || 0)}>
+                <p id="korean">{info.spotName}</p>
                 <RightIcon id="right-icon" />
               </div>
               <div>
@@ -59,22 +65,29 @@ export default function RequestMessage({ info, statusType }: Props) {
         {/* 커디 유저가 기다리고 있음 */}
         {statusType === "KUDDY_NOT_ACCEPT" && (
           <div className={`not-confirmed-btn-container`}>
-            <div>Not Confirmed</div>
+            <div>Waiting for a response</div>
           </div>
         )}
 
         {/* 여행자 유저가 기다림 */}
         {statusType === "TRAVELER_NOT_ACCEPT" && (
           <div className={`request-btn-container`}>
-            <div id="refuse-btn" onClick={_handleRefuseMessage}>
+            <div id="refuse-btn" onClick={onRefuse}>
               Refuse
             </div>
-            <div id="accept-btn" onClick={_handleRequestPayPal}>
+            <div id="accept-btn" onClick={onPayPal}>
               Accept and Pay
             </div>
           </div>
         )}
       </div>
+
+      {statusType === "KUDDY_NOT_ACCEPT" && (
+        <div className="cancel-transfer" onClick={onCancel}>
+          <Cancle />
+          Cancel Transfer
+        </div>
+      )}
     </div>
   );
 }

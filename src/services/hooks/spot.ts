@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useQuery, useMutation } from "react-query";
 import { useRecoilState } from "recoil";
-import { spotGetNearLocation } from "@services/api/spot";
+import { spotGetNearLocation, spotGetOnlyKeyWord } from "@services/api/spot";
 // useQuery : get
 // useMutation : post, delete, patch, put
 
@@ -17,6 +17,7 @@ export const useNearLocation = (page: number, x: number, y: number) => {
   useEffect(() => {
     GetLocation();
   }, []);
+
   const GetLocation = async () => {
     try {
       const { data } = await spotGetNearLocation(page, x, y);
@@ -25,4 +26,18 @@ export const useNearLocation = (page: number, x: number, y: number) => {
       console.log(error);
     }
   };
+};
+
+// 키워드 하나로 검색해서 장소 결과 받아오기
+export const useGetSpotKeyWord = () => {
+  const onSearchSpot = async (keyword: string) => {
+    try {
+      const res = await spotGetOnlyKeyWord(keyword);
+      return res.data.data;
+    } catch (err) {
+      console.log("검색 실패", err);
+    }
+  };
+
+  return onSearchSpot;
 };
