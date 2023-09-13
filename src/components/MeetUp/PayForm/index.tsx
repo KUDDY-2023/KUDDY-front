@@ -2,7 +2,7 @@ import "./pay-form.scss";
 import { useState, useEffect } from "react";
 import { ReactComponent as CheckedBox } from "@assets/icon/check_on.svg";
 import { ReactComponent as UnCheckedBox } from "@assets/icon/check_on.svg";
-import { ReactComponent as ArrowDown } from "@assets/icon/arrow_down.svg";
+import { ReactComponent as Help } from "@assets/chat/bt_help.svg";
 
 import { useMakeMeetUpInfo } from "@services/hooks/chat";
 
@@ -75,7 +75,7 @@ export default function PayForm() {
         <div className="policy-container">
           <CheckedBox id="checkbox" />
           <p>agree with the refund policy</p>
-          <ArrowDown id="arrow" />
+          <Help id="help" />
         </div>
       )}
     </div>
