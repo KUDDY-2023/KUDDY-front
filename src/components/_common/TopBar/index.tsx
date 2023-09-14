@@ -48,7 +48,7 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
 
     profileGetProfile()
       .then(res => {
-        setProfileSrc(res.data.data.profileImage);
+        setProfileSrc(res.data.data.memberInfo.profileImageUrl);
       })
       .catch();
   }, []);

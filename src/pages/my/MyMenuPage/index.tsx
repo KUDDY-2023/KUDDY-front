@@ -24,14 +24,12 @@ const iconSrc = [
 const MyMenuPage = () => {
   const nav = useNavigate();
   const [userInfo, setUserInfo] = useState<UserInfo>();
-  // UserInfo type role 대문자 -> 소문자 변경 필요
 
   const { data, isLoading, error } = useGetProfile();
   const onLogout = useAuthLogout();
 
   useEffect(() => {
     if (data) setUserInfo(data.data.data);
-    console.log(userInfo);
   }, [isLoading]);
 
   return (
@@ -42,10 +40,10 @@ const MyMenuPage = () => {
       {userInfo && (
         <>
           <div className="profile-circle">
-            <img src={userInfo.profileImage} />
+            <img src={userInfo.memberInfo.profileImageUrl} />
           </div>
-          <div className="name">{userInfo.nickname}</div>
-          <div className="email">{`abc@gmail.com`}</div>
+          <div className="name">{userInfo.memberInfo.nickname}</div>
+          <div className="email">{userInfo.memberInfo.email}</div>
           <div className="section-container">
             {iconSrc.map(
               (item, idx) =>
