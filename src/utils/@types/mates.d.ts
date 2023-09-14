@@ -6,3 +6,11 @@ interface MatesType {
   profileImageUrl: string;
   interests: string[];
 }
+
+interface MatesFilterType {
+  gender: "MR" | "MS" | "N";
+  languageId: number;
+  districtId: number;
+  firstInterest: string;
+  secondInterest: string;
+}
