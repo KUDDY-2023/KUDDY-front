@@ -8,14 +8,36 @@ import { useQuery } from "react-query";
 import { useGetChatRooms } from "@services/hooks/chat";
 import { chatRooms } from "@services/api/chat";
 import calculateTimeDifference from "./calculateTimeDifference";
+import { profileGetSocialProfile } from "@services/api/profile";
+import { userInfoState } from "@services/store/auth";
 
+import { useUpdateDefaultProfile } from "@services/hooks/profile";
+import { useRecoilState } from "recoil";
 export default function ChatListPage() {
   const navigate = useNavigate();
 
+  const [_, setDefaultInfo] = useRecoilState(userInfoState);
+
+  // 채팅방 내역 가져오기
   const { data, error, isLoading } = useQuery("chatRooms", chatRooms, {
+    refetchOnWindowFocus: false,
     select: data =>
       data?.data.data.sort((a: any, b: any) => b.regDate - a.regDate), // 최신순으로 정렬
   });
+
+  // 프로필 기본 정보 저장하기
+  const profileData = useQuery("profile", profileGetSocialProfile, {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
+
+  const onSave = useUpdateDefaultProfile();
+
+  useEffect(() => {
+    if (profileData.isSuccess) {
+      onSave(profileData.data?.data.data);
+    }
+  }, [profileData.isSuccess]);
 
   const onEnterChatRoom = (roomId: number) => {
     navigate(`/chat/${roomId}`);

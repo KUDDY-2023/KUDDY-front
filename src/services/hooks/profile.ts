@@ -5,6 +5,7 @@ import {
   profileState,
   uniqueNameState,
   interestsArrState,
+  userInfoState,
 } from "@services/store/auth";
 import {
   profileCheckNickname,
@@ -134,6 +135,19 @@ export const useUpdateProfile = () => {
 
   const onUpdateProfile = (updates: any) =>
     setProfile(profile => ({
+      ...profile,
+      ...updates,
+    }));
+
+  return onUpdateProfile;
+};
+
+// ✅ 기본 프로필 업데이트 훅
+export const useUpdateDefaultProfile = () => {
+  const [_, setDefaultInfo] = useRecoilState(userInfoState);
+
+  const onUpdateProfile = (updates: any) =>
+    setDefaultInfo(profile => ({
       ...profile,
       ...updates,
     }));
