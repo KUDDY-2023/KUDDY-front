@@ -14,6 +14,7 @@ export type TicketInfoType = {
   ticketId: number;
   ticketImageUrl: string;
   ticketStatus:
+    | ""
     | "NOT_SUBMITTED"
     | "UNDER_REVIEW"
     | "INVALID_PHOTO"
@@ -25,7 +26,7 @@ const TicketVerificationPage = () => {
   const [ticketInfo, setTicketInfo] = useState<TicketInfoType>({
     ticketId: 0,
     ticketImageUrl: "",
-    ticketStatus: "NOT_SUBMITTED",
+    ticketStatus: "",
   });
 
   useEffect(() => {
@@ -47,6 +48,8 @@ const TicketVerificationPage = () => {
           <CompletedMenu />
         ) : ticketInfo.ticketStatus === "UNDER_REVIEW" ? (
           <InProgressMenu {...ticketInfo} />
+        ) : ticketInfo.ticketStatus === "" ? (
+          <div />
         ) : (
           <UploadMenu {...ticketInfo} />
         )}

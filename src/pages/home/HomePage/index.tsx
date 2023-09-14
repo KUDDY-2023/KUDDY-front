@@ -34,7 +34,7 @@ const HomePage = () => {
   // 약속 n시간 후 ~ n일까지 리뷰 작성하러 가기 위한 모달 상태
   // 가장 최근 지난 약속부터 며칠까지 띄울건지, 프론트에서 받아와서 계산?
   // default false로 변경 필요함
-  const [reviewModal, setReviewModal] = useState<boolean>(false);
+  const [reviewModal, setReviewModal] = useState<boolean>(true);
 
   return (
     <>
