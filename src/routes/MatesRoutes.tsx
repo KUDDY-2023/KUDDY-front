@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import MatesPage from "@pages/mates/MatesPage";
-import MatesSearchPage from "@pages/mates/MateSearchPage";
+import MatesSearchPage from "@pages/mates/MatesSearchPage";
 
 export default function TravelRoutes() {
   return (
