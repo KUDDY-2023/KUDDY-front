@@ -8,3 +8,13 @@ export const currentPosition = atom<Position>({
     x: 126.570667,
   },
 });
+
+export const pickedTravel = atom<TravelPreviewType[]>({
+  key: "pickedTravel",
+  default: [],
+});
+
+export const pickedMates = atom<any[]>({
+  key: "pickedMates",
+  default: [],
+});

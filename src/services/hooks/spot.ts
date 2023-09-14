@@ -1,4 +1,3 @@
-import { error } from "console";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useInfiniteQuery } from "react-query";

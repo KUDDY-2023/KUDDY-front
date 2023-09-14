@@ -59,7 +59,9 @@
     }
 
     .mates-container {
+      height: 35px;
       display: flex;
+      align-items: center;
 
       .notyet {
         color: color(grey-text);
@@ -92,7 +94,8 @@
     }
 
     .number {
-      margin-left: 10px;
+      margin-left: 12px;
+      padding-right: 10px;
       color: color(black);
       font: {
         family: var(--font-text);

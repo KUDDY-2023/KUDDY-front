@@ -32,15 +32,11 @@ interface TravelDetailType {
 }
 
 interface PickedMatesType {
-  id: number;
-  roleType: string;
-  username: string;
+  memberId: number;
   nickname: string;
   profileImageUrl: string;
-  createdDate: string;
-  modifiedDate: string | null;
   email: string;
-  providerType: string;
+  introduce?: string;
 }
 
 interface TravelPageInfo {

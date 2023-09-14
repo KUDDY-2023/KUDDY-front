@@ -2,7 +2,6 @@ import BackNavBar from "@components/_common/BackNavBar";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import TravelDetailTitle from "@components/Travel/TravelDetailTitle";
-import { matesArrayK, matesArrayT } from "@pages/travel/TravelDetailPage/_mock";
 import TravelDetailSection from "@components/Travel/TravelDetailSection";
 
 import { spotGetDetailInfo, spotGetNearLocation } from "@services/api/spot";
@@ -30,7 +29,6 @@ const TravelDetailPage = () => {
 
   const [sectionType, setSectionType] = useState<any[]>([]);
   useEffect(() => {
-    console.log(currentTravel);
     if (currentTravel) {
       spotGetNearLocation(0, currentTravel?.mapX, currentTravel?.mapY)
         .then(res => setNearbyPlace(res.data.data.spots.slice(0, 5)))
