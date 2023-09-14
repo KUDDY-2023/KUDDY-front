@@ -41,6 +41,10 @@
   }
 
   .result-section {
+    &::-webkit-scrollbar {
+      display: none; /* Chrome, Safari, Opera*/
+    }
+
     position: relative;
     height: 100%;
 

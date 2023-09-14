@@ -34,6 +34,14 @@ interface IUserProfile {
   nationality: string;
 }
 
+// 기본 프로필
+interface IUserSimpleInfo {
+  email: string;
+  nickname: string;
+  profileImageUrl: string;
+  memberId: number;
+}
+
 interface UserInfo extends InterestType {
   memberId: number;
   role: UserType;

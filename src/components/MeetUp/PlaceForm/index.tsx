@@ -1,24 +1,29 @@
 import "./place-form.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import PlaceSearch from "../PlaceSearch";
 import useInput from "@utils/hooks/useInput";
 import Modal from "@mui/material/Modal";
 
+import { useMakeMeetUpInfo } from "@services/hooks/chat";
+
 export default function PlaceForm() {
-  const [search, setSearch] = useState(false);
+  const onMakeMeetUpInfo = useMakeMeetUpInfo(); // meetup 전역 업데이트 훅
+
+  const [search, setSearch] = useState(false); // place 모달 열기
 
   const placeInput = useInput("");
 
-  const _onSelectPlace = (placeName: string) => {
+  const _onSelectPlace = (spotName: string, spotContentId: number) => {
     setSearch(false); // 끄기
-    placeInput.setValue(placeName);
-    // 선택된 장소 input에 넣기
+    placeInput.setValue(spotName);
+    onMakeMeetUpInfo({ spotName: spotName, spotContentId: spotContentId });
   };
 
   const _onCloseSearchForm = () => {
     setSearch(false); // 끄기
   };
+
   return (
     <div className="place-form-style">
       <Modal
@@ -39,7 +44,7 @@ export default function PlaceForm() {
           className="form"
           onClick={() => setSearch(true)}
           type="text"
-          {...placeInput}
+          value={placeInput.value}
         />
       </div>
     </div>

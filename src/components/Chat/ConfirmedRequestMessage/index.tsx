@@ -6,21 +6,46 @@ import { ReactComponent as RedwMeetUp } from "@assets/chat/red_meetup.svg";
 import { ReactComponent as BlueMeetUp } from "@assets/chat/blue_meetup.svg";
 import SystemMessage from "../SystemMessage";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
-  info: ConfirmedMeetUpInfoType;
+  info: IGetMessage;
+  statusType: "PAYED" | "TRAVELER_CANCEL" | "COMPLETED" | "KUDDY_CANCEL";
 }
 
-export default function ConfirmedRequestMessage({ info }: Props) {
-  const meetStatus = ["Accepted", "Refused", "Done"];
-  const MeetUpIcon = [YellowMeetUp, RedwMeetUp, BlueMeetUp][
-    info.meetStatus - 1
-  ];
-  const statusStyle = ["active-meetup", "inactive-meetup", "inactive-meetup"];
-  const btnTextStyle = ["black-text", "red-text", "blue-text"];
+export default function ConfirmedRequestMessage({ info, statusType }: Props) {
+  const navigate = useNavigate();
 
-  const _handlePlaceDetail = (placeId: number) => {
-    console.log("장소 상세 페이지로 이동", placeId);
+  const statusTypeMap = {
+    PAYED: 1,
+    TRAVELER_CANCEL: 2,
+    COMPLETED: 3,
+    KUDDY_CANCEL: 4,
+  };
+
+  const typeNum = statusTypeMap[statusType] - 1;
+
+  const meetStatus = ["Accepted", "Refused", "Done", "Cancelled"];
+
+  // KUDDY_CANCEL  버전 하나 추가해야함
+  const MeetUpIcon = [YellowMeetUp, RedwMeetUp, BlueMeetUp, RedwMeetUp][
+    typeNum
+  ];
+  // KUDDY_CANCEL  버전 하나 추가해야함
+
+  const statusStyle = [
+    "active-meetup",
+    "inactive-meetup",
+    "inactive-meetup",
+    "inactive-meetup",
+  ];
+
+  // KUDDY_CANCEL  버전 하나 추가해야함
+
+  const btnTextStyle = ["black-text", "red-text", "blue-text", "red-text"];
+
+  const onPlaceDetail = (placeId: number) => {
+    navigate(`travel/${placeId}`);
   };
 
   return (
@@ -28,12 +53,8 @@ export default function ConfirmedRequestMessage({ info }: Props) {
       <div className="confirmed-request-message">
         <MeetUpIcon id="meetup-icon" />
 
-        <div
-          className={`request-partner-section ${
-            statusStyle[info.meetStatus - 1]
-          }`}
-        >
-          <p>Meet up with {info.partnerName}!</p>
+        <div className={`request-partner-section ${statusStyle[typeNum]}`}>
+          <p>Meet up with {info.senderName}!</p>
         </div>
         <div className="request-info-section">
           <div className="info-grid">
@@ -43,25 +64,26 @@ export default function ConfirmedRequestMessage({ info }: Props) {
               <p>Pay</p>
             </div>
             <div className="grid-right">
-              <div onClick={() => _handlePlaceDetail(info.placeId)}>
-                <p>{info.place}</p>
+              <div onClick={() => onPlaceDetail(info.spotContentId || 0)}>
+                <p>{info.spotName}</p>
                 <RightIcon id="right-icon" />
               </div>
               <div>
-                <p>{info.date}</p>
+                <p>{info.appointmentTime}</p>
               </div>
               <div>
-                <p>{info.pay}$</p>
+                <p>{info.price}$</p>
                 <Paypal />
               </div>
             </div>
           </div>
-          <div className={`request-btn ${btnTextStyle[info.meetStatus - 1]}`}>
-            {meetStatus[info.meetStatus - 1]}
+          <div className={`request-btn ${btnTextStyle[typeNum]}`}>
+            {meetStatus[typeNum]}
           </div>
         </div>
       </div>
-      <SystemMessage type="accept" />
+
+      <SystemMessage type={typeNum} />
     </div>
   );
 }

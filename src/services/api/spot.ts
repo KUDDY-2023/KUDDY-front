@@ -39,4 +39,11 @@ export const spotGetAll = async (page: number, size: number) => {
   return apiClient.get(url);
 };
 
-// keyword
+// only keyword
+export const spotGetOnlyKeyWord = async (keyword: string) => {
+  // page: number, size: number
+  let page = 1;
+  let size = 20;
+  const url = `/api/v1/spots/search?page=${page}&size=${size}`;
+  return apiClient.post(url, { keyword: keyword, category: "", district: [] });
+};

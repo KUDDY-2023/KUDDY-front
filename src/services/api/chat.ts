@@ -12,3 +12,15 @@ export const chatSaveMessage = async (message: ISingleMessage) => {
   const url = "https://api.kuddy.co.kr/chat/v1/chatrooms/callback";
   return axios.post(url, message);
 };
+
+// ✅ 채팅방 나가기
+export const chatGetOutRoom = async (roomId: string, email: string) => {
+  const url = `/chat/v1/chatrooms/${roomId}?email=${email}`;
+  return apiClient.delete(url);
+};
+
+// ✅ 채팅방 메세지 내용 모두 가져오기
+export const chatGetAllMessage = async (roomId: string) => {
+  const url = `/chat/v1/chatrooms/${roomId}`;
+  return apiClient.get(url);
+};
