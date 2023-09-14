@@ -124,92 +124,48 @@ export const matesArrayT: PickedMatesType[] = [
   },
 ];
 
-export type AttractionInfoType = {};
-export type CultureInfoType = {};
-export type ShoppingInfoType = {};
-export type RestaurantInfoType = {
-  [key: string]: string;
-  treatmenu: string;
-  infocenterfood: string;
-  reservationfood: string;
-  parkingfood: string;
-  opendatefood: string;
-  lcnsno: string;
-  seat: string;
-  scalefood: string;
-  firstmenu: string;
-  smoking: string;
-  opentimefood: string;
-  restdatefood: string;
-};
-export type LeisureInfoType = {};
-export type FestivalInfoType = {};
-
-export const AdditionalInformationArray = [
+export const AdditionalInformationTypeArray = [
   {
     category: "Attraction",
     contents: [
-      { key: "agelimit", text: "" },
-      { key: "bookingplace", text: "" },
-      { key: "discountinfofestival", text: "" },
-      { key: "eventstartdate", text: "" },
-      { key: "eventenddate", text: "" },
-      { key: "eventhomepage", text: "" },
-      { key: "eventplace", text: "" },
-      { key: "placeinfo", text: "" },
-      { key: "playtime", text: "" },
-      { key: "program", text: "" },
-      { key: "subevent", text: "" },
-      { key: "spendtimefestival", text: "" },
-      { key: "usetimefestival", text: "" },
-      { key: "sponsor1", text: "" },
-      { key: "sponsor1tel", text: "" },
-      { key: "sponsor2", text: "" },
-      { key: "sponsor2tel", text: "" },
+      { key: "accomcount", text: "Accommodation count" },
+      { key: "infocenter", text: "Information center" },
+      { key: "parking", text: "Parking" },
+      { key: "expagerange", text: "Experience age range" },
+      { key: "expguide", text: "Experience guide" },
+      { key: "opendate", text: "Open date" },
+      { key: "restdate", text: "Rest date" },
+      { key: "usetime", text: "Use time" },
+      { key: "useseason", text: "Use season" },
     ],
   },
   {
     category: "Culture",
     contents: [
-      { key: "agelimit", text: "" },
-      { key: "bookingplace", text: "" },
-      { key: "discountinfofestival", text: "" },
-      { key: "eventstartdate", text: "" },
-      { key: "eventenddate", text: "" },
-      { key: "eventhomepage", text: "" },
-      { key: "eventplace", text: "" },
-      { key: "placeinfo", text: "" },
-      { key: "playtime", text: "" },
-      { key: "program", text: "" },
-      { key: "subevent", text: "" },
-      { key: "spendtimefestival", text: "" },
-      { key: "usetimefestival", text: "" },
-      { key: "sponsor1", text: "" },
-      { key: "sponsor1tel", text: "" },
-      { key: "sponsor2", text: "" },
-      { key: "sponsor2tel", text: "" },
+      { key: "accomcountculture", text: "Accommodation count" },
+      { key: "infocenterculture", text: "Information center" },
+      { key: "parkingculture", text: "Parking" },
+      { key: "parkingfee", text: "Parking fee" },
+      { key: "restdateculture", text: "Rest date" },
+      { key: "scale", text: "Scale" },
+      { key: "usefee", text: "Use fee" },
+      { key: "spendtime", text: "Spend time" },
+      { key: "usetimeculture", text: "Use time" },
     ],
   },
   {
     category: "Shopping",
     contents: [
-      { key: "agelimit", text: "" },
-      { key: "bookingplace", text: "" },
-      { key: "discountinfofestival", text: "" },
-      { key: "eventstartdate", text: "" },
-      { key: "eventenddate", text: "" },
-      { key: "eventhomepage", text: "" },
-      { key: "eventplace", text: "" },
-      { key: "placeinfo", text: "" },
-      { key: "playtime", text: "" },
-      { key: "program", text: "" },
-      { key: "subevent", text: "" },
-      { key: "spendtimefestival", text: "" },
-      { key: "usetimefestival", text: "" },
-      { key: "sponsor1", text: "" },
-      { key: "sponsor1tel", text: "" },
-      { key: "sponsor2", text: "" },
-      { key: "sponsor2tel", text: "" },
+      { key: "fairday", text: "Fair day" },
+      { key: "infocentershopping", text: "Information center" },
+      { key: "opendateshopping", text: "Open date" },
+      { key: "opentime", text: "Open time" },
+      { key: "parkingshopping", text: "Parking" },
+      { key: "restdateshopping", text: "Rest date" },
+      { key: "restroom", text: "Restroom" },
+      { key: "saleitem", text: "Sale item" },
+      { key: "scaleshopping", text: "Scale" },
+      { key: "shopguide", text: "Shop guide" },
     ],
   },
   {
@@ -232,18 +188,17 @@ export const AdditionalInformationArray = [
   {
     category: "Leisure",
     contents: [
-      { key: "treatmenu", text: "" },
-      { key: "infocenterfood", text: "" },
-      { key: "reservationfood", text: "" },
-      { key: "parkingfood", text: "" },
-      { key: "opendatefood", text: "" },
-      { key: "lcnsno", text: "" },
-      { key: "seat", text: "" },
-      { key: "scalefood", text: "" },
-      { key: "firstmenu", text: "" },
-      { key: "smoking", text: "" },
-      { key: "opentimefood", text: "" },
-      { key: "restdatefood", text: "" },
+      { key: "accomcountleports", text: "Accommodation count" },
+      { key: "infocenterleports", text: "Information center" },
+      { key: "parkingleports", text: "Parking" },
+      { key: "parkingfeeleports", text: "Parking Fee" },
+      { key: "expagerangeleports", text: "Experience age range" },
+      { key: "scaleleports", text: "Scale" },
+      { key: "reservation", text: "Reservation" },
+      { key: "openperiod", text: "Open period" },
+      { key: "restdateleports", text: "Rest date" },
+      { key: "usetimeleports", text: "Use time" },
+      { key: "usefeeleports", text: "Use fee" },
     ],
   },
   {

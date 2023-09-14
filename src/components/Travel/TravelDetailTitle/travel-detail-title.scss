@@ -60,6 +60,16 @@
 
     .mates-container {
       display: flex;
+
+      .notyet {
+        color: color(grey-text);
+        font: {
+          family: var(--font-text);
+          size: 13px;
+          weight: 400;
+          style: italic;
+        }
+      }
     }
 
     .profile-circle-container {

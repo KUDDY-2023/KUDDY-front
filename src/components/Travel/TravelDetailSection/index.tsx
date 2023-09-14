@@ -1,80 +1,40 @@
 import "./travel-detail-section.scss";
 import TravelBlock from "@components/Travel/TravelBlock";
-import {
-  AdditionalInformationArray,
-  AttractionInfoType,
-  CultureInfoType,
-  ShoppingInfoType,
-  RestaurantInfoType,
-  LeisureInfoType,
-  FestivalInfoType,
-} from "@pages/travel/TravelDetailPage/_mock";
+import TravelDetailAddInfo from "@components/Travel/TravelDetailAddInfo";
 import { ReactComponent as ArrowIcon } from "@assets/icon/arrow_down.svg";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 type TravelDetailSectionProps = {
-  isOpen?: boolean | undefined;
+  isToggle?: boolean | undefined;
   isTop?: boolean | undefined;
   title: string;
-  content:
-    | string
-    | AttractionInfoType
-    | CultureInfoType
-    | ShoppingInfoType
-    | RestaurantInfoType
-    | LeisureInfoType
-    | FestivalInfoType;
+  content: string | any;
   post?: string;
+  name?: string;
+  mapXY?: string;
   nearbyArray?: TravelNearbyType[];
   category?: string;
 };
 
 // location kakaomap navigate
 const TravelDetailSection = ({
-  isOpen,
+  isToggle,
   isTop,
   title,
   content,
   post,
+  name,
+  mapXY,
   nearbyArray,
   category,
 }: TravelDetailSectionProps) => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
-
-  const addInfoSubRef1 = useRef<HTMLDivElement>(null);
-  const addInfoSubRef2 = useRef<HTMLDivElement>(null);
-  const [closedAddInfoHeight, setClosedAddInfoHeight] = useState<number>(0);
-
-  useEffect(() => {
-    console.log(addInfoSubRef1, closedAddInfoHeight);
-    if (addInfoSubRef1.current && addInfoSubRef2.current) {
-      setClosedAddInfoHeight(
-        addInfoSubRef1.current!.offsetHeight +
-          addInfoSubRef2.current!.offsetHeight +
-          17,
-      );
-    }
-  }, [addInfoSubRef1, addInfoSubRef2]);
-
-  const useSplitBr = (content: string) => {
-    if (content.includes("<br>"))
-      content.split("<br>").map((line, idx) => {
-        return (
-          <span key={idx}>
-            {line}
-            <br />
-          </span>
-        );
-      });
-    else return <span>{content}</span>;
-  };
-
   return (
     <div className="travel-detail-section-wrapper">
       {!isTop && <div className="section-border" />}
       <div className="flex-container" onClick={() => setIsOpened(!isOpened)}>
         <div className="title">{title}</div>
-        {isOpen && (
+        {isToggle && (
           <ArrowIcon
             style={{ transform: isOpened ? "rotate(180deg)" : "rotate(0deg)" }}
           />
@@ -89,12 +49,30 @@ const TravelDetailSection = ({
         </div>
       )}
       {title === "Phone number" && typeof content === "string" && (
-        <div className="content phonenumber">{content}</div>
+        <div className="content phonenumber">
+          {content.includes("<br>") ? (
+            content.split("<br>").map((line, idx) => (
+              <span key={idx}>
+                {line}
+                <br />
+              </span>
+            ))
+          ) : content === "" ? (
+            <span>-</span>
+          ) : (
+            <span>{content}</span>
+          )}
+        </div>
       )}
       {title === "Homepage" &&
         typeof content === "string" &&
         (content === "" ? (
           <div className="content">-</div>
+        ) : content.startsWith("<a") ? (
+          <div
+            className="content atag"
+            dangerouslySetInnerHTML={{ __html: content }}
+          />
         ) : (
           <a
             className="content homepage"
@@ -106,53 +84,28 @@ const TravelDetailSection = ({
         ))}
       {title === "Location" && typeof content === "string" && (
         <div className="content location">
-          <a href="">{content}</a>
+          <a
+            href={`https://map.kakao.com/link/to/${name},${mapXY}`}
+            target="_blank"
+          >
+            {content}
+          </a>
           <div className="post">{`Post: ${post}`}</div>
         </div>
+      )}
+      {title === "Additional Information" && (
+        <TravelDetailAddInfo
+          content={content}
+          category={category}
+          isOpened={isOpened}
+          setIsOpened={setIsOpened}
+        />
       )}
       {title === "Nearby place" && nearbyArray && (
         <div className="content nearby">
           {nearbyArray.map((item: TravelNearbyType) => (
             <TravelBlock {...item} isNearby={true} key={item.contentId} />
           ))}
-        </div>
-      )}
-      {title === "Additional Information" && typeof content !== "string" && (
-        <div
-          className="content addinfo"
-          style={{
-            overflow: isOpened ? "auto" : "hidden",
-            height:
-              typeof closedAddInfoHeight === "number" && isOpened
-                ? "auto"
-                : `${closedAddInfoHeight}px`,
-          }}
-          onClick={isOpened ? undefined : () => setIsOpened(true)}
-        >
-          {AdditionalInformationArray.map(
-            item =>
-              item.category === category &&
-              item.contents.map((el: any, idx) => {
-                if (content[el.key as keyof typeof content] !== "")
-                  return (
-                    <div
-                      ref={
-                        idx === 0
-                          ? addInfoSubRef1
-                          : idx === 1
-                          ? addInfoSubRef2
-                          : null
-                      }
-                      key={el.key}
-                    >
-                      <div className="sub-title">{`[${el.text}]`}</div>
-                      <div className="sub-content">
-                        {content[el.key as keyof typeof content]}
-                      </div>
-                    </div>
-                  );
-              }),
-          )}
         </div>
       )}
     </div>

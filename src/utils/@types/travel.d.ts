@@ -27,6 +27,8 @@ interface TravelDetailType {
   kuddyList: PickedMatesType[];
   travelerList: PickedMatesType[];
   additionalInfo: any;
+  mapX: number;
+  mapY: number;
 }
 
 interface PickedMatesType {

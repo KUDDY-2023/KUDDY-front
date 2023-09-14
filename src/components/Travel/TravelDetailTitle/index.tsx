@@ -86,21 +86,25 @@ const TravelDetailTitle = ({
           className="mates-container"
           onClick={() => nav(`/travel/${contentId}/mates`)}
         >
-          <div
-            className="profile-circle-container"
-            style={{ width: `${20 * matesPreview.length + 10}px` }}
-          >
-            {matesPreview.map((item, idx) => (
-              <div
-                className="profile-circle"
-                style={{ zIndex: idx, left: idx * 20 }}
-                key={item}
-              >
-                <img src={item} />
-              </div>
-            ))}
-          </div>
-          <div className="number">{heart}</div>
+          {matesPreview.length === 0 ? (
+            <div className="notyet">Be first mate picked here!</div>
+          ) : (
+            <div
+              className="profile-circle-container"
+              style={{ width: `${20 * matesPreview.length + 10}px` }}
+            >
+              {matesPreview.map((item, idx) => (
+                <div
+                  className="profile-circle"
+                  style={{ zIndex: idx, left: idx * 20 }}
+                  key={item}
+                >
+                  <img src={item} />
+                </div>
+              ))}
+            </div>
+          )}
+          {matesPreview.length !== 0 && <div className="number">{heart}</div>}
         </div>
         <BookmarkIcon
           onClick={isLogin ? toggle : () => alert("Login to pick")}
