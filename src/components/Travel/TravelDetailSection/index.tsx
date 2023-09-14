@@ -46,16 +46,28 @@ const TravelDetailSection = ({
   const [closedAddInfoHeight, setClosedAddInfoHeight] = useState<number>(0);
 
   useEffect(() => {
-    if (
-      addInfoSubRef1.current?.offsetHeight &&
-      addInfoSubRef2.current?.offsetHeight
-    )
+    console.log(addInfoSubRef1, closedAddInfoHeight);
+    if (addInfoSubRef1.current && addInfoSubRef2.current) {
       setClosedAddInfoHeight(
-        addInfoSubRef1.current?.offsetHeight +
-          addInfoSubRef2.current?.offsetHeight +
+        addInfoSubRef1.current!.offsetHeight +
+          addInfoSubRef2.current!.offsetHeight +
           17,
       );
+    }
   }, [addInfoSubRef1, addInfoSubRef2]);
+
+  const useSplitBr = (content: string) => {
+    if (content.includes("<br>"))
+      content.split("<br>").map((line, idx) => {
+        return (
+          <span key={idx}>
+            {line}
+            <br />
+          </span>
+        );
+      });
+    else return <span>{content}</span>;
+  };
 
   return (
     <div className="travel-detail-section-wrapper">
@@ -79,15 +91,19 @@ const TravelDetailSection = ({
       {title === "Phone number" && typeof content === "string" && (
         <div className="content phonenumber">{content}</div>
       )}
-      {title === "Homepage" && typeof content === "string" && (
-        <a
-          className="content homepage"
-          href={content.startsWith("http") ? content : `http://${content}`}
-          target="_blank"
-        >
-          {content}
-        </a>
-      )}
+      {title === "Homepage" &&
+        typeof content === "string" &&
+        (content === "" ? (
+          <div className="content">-</div>
+        ) : (
+          <a
+            className="content homepage"
+            href={content.startsWith("http") ? content : `http://${content}`}
+            target="_blank"
+          >
+            {content}
+          </a>
+        ))}
       {title === "Location" && typeof content === "string" && (
         <div className="content location">
           <a href="">{content}</a>
