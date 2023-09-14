@@ -1,13 +1,22 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// api Like, UnLike
+import { pickPostPick, pickDeletePick } from "@services/api/pick";
+import { useGetPick } from "@services/hooks/pick";
+import { useRecoilValue } from "recoil";
+import { isLoginState } from "@services/store/auth";
 
 const useBookmark = (isBookmarked: boolean, currentTravelId: number) => {
   const nav = useNavigate();
+  const isLogin = useRecoilValue<boolean>(isLoginState);
   const [state, setState] = useState<boolean>(isBookmarked);
   const [id, setId] = useState<number>(0);
   const [trigger, setTrigger] = useState<number>(0);
   const toggle = () => setTrigger(trigger + 1);
+  const getPick = useGetPick();
+
+  useEffect(() => {
+    getPick();
+  }, []);
 
   useEffect(() => {
     setState(isBookmarked);
@@ -16,28 +25,25 @@ const useBookmark = (isBookmarked: boolean, currentTravelId: number) => {
 
   useEffect(() => {
     if (trigger !== 0) {
-      if (state === true) {
-        setState(false);
-        //   UnLike(id)
-        //     .then(res => setState(false))
-        //     .catch(err => {
-        //       // console.log(err);
-        //       if (err.response.status === 401) {
-        //         alert("로그인 후 북마크 기능을 사용하실 수 있습니다.");
-        //         nav("/auth/login");
-        //       }
-        //     });
+      if (isLogin) {
+        if (state === true) {
+          pickDeletePick(id)
+            .then(res => {
+              getPick();
+              setState(false);
+            })
+            .catch();
+        } else {
+          pickPostPick(id)
+            .then(res => {
+              getPick();
+              setState(true);
+            })
+            .catch();
+        }
       } else {
-        setState(true);
-        //   Like(id)
-        //     .then(res => setState(true))
-        //     .catch(err => {
-        //       // console.log(err);
-        //       if (err.response.status === 401) {
-        //         alert("로그인 후 북마크 기능을 사용하실 수 있습니다.");
-        //         nav("/auth/login");
-        //       }
-        //     });
+        alert(`Login to use 'Pick'`);
+        nav("/auth/register");
       }
     }
   }, [trigger]);

@@ -57,8 +57,15 @@
       }
     }
 
-    &.homepage {
-      /* text-decoration: none; */
+    &.atag {
+      a {
+        color: color(black);
+        font: {
+          family: var(--font-text);
+          size: 14px;
+          weight: 500;
+        }
+      }
     }
 
     &.location {
@@ -91,7 +98,7 @@
       scrollbar-width: none;
 
       .travelblock-wrapper {
-        width: 32%;
+        width: 35%;
         @media (min-width: 600px) {
           width: 174px;
         }
