@@ -40,3 +40,15 @@ interface PickedMatesType {
   email: string;
   providerType: string;
 }
+
+interface TravelPageInfo {
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+}
+
+interface Position {
+  x: number;
+  y: number;
+}
