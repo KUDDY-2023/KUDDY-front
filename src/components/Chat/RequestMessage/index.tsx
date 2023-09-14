@@ -15,7 +15,7 @@ export default function RequestMessage({ info, statusType }: Props) {
   const navigate = useNavigate();
 
   const onPlaceDetail = (placeId: number) => {
-    navigate(`travel/${placeId}`);
+    navigate(`/travel/${placeId}`);
   };
 
   const onPayPal = () => {
