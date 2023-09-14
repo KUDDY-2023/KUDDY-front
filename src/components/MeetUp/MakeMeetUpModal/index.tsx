@@ -9,8 +9,10 @@ import BottomUpModal from "@components/_common/BottomUpModal";
 // 채팅
 import { MutableRefObject } from "react";
 import { CompatClient } from "@stomp/stompjs";
-
 import { useSaveMessage } from "@services/hooks/chat";
+
+import { useRecoilState } from "recoil";
+import { meetUpInfoState } from "@services/store/chat";
 
 interface Props {
   isModalOpen: boolean;
@@ -19,6 +21,7 @@ interface Props {
   roomId: string;
   myEmail: string;
   myNickname: string;
+  memberId: number;
   handleMyMessage: (msg: any) => void;
 }
 export default function MakeMeetUpModal({
@@ -27,9 +30,12 @@ export default function MakeMeetUpModal({
   client,
   roomId,
   myEmail,
+  memberId,
   myNickname,
   handleMyMessage,
 }: Props) {
+  const [meetInfo, setMeetInfo] = useRecoilState(meetUpInfoState); // 전역 상태
+
   const onSave = useSaveMessage();
 
   const token = window.localStorage.getItem("accessToken") as string;
@@ -60,13 +66,13 @@ export default function MakeMeetUpModal({
     contentType: "MEETUP",
     content: "동행",
     senderName: myNickname, // 내 닉네임
-    senderEmail: myEmail,
-    senderId: 7, // 보내는 사람의 id
+    senderEmail: myEmail, // 내 이메일
+    senderId: memberId, // 보내는 사람의 id
     sendTime: new Date().getTime(),
-    spotContentId: 2, // 장소 id
-    spotName: "test place", // 장소 이름
-    appointmentTime: "2021-11-05 13:47:13.248", // 시간 2021-11-05 13:47:13.248
-    price: 40, // 가격 정수로 $
+    spotContentId: meetInfo.spotContentId, // 장소 id
+    spotName: meetInfo.spotName, // 장소 이름
+    appointmentTime: `${meetInfo.appointmentTimeD} ${meetInfo.appointmentTimeT}`, //"2021-11-05 13:47:13.248"
+    price: meetInfo.price, // 가격 정수로 $
     meetStatus: "NOT_ACCEPT",
     readCount: 1,
     isUpdated: 0,
@@ -88,6 +94,8 @@ export default function MakeMeetUpModal({
         );
 
         onClose(); // 창 닫기
+
+        console.log("저장 시도", newText);
 
         // ✅ DB에 메세지 반영하기
         const savedMsg = await onSave(newText);

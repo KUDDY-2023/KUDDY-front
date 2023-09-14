@@ -301,8 +301,9 @@ export default function ChatPage() {
         onClose={_handleCloseModal}
         client={client}
         roomId={roomId || ""}
-        myEmail={myEmail}
-        myNickname={myNickname}
+        myEmail={profile.email}
+        myNickname={profile.nickname}
+        memberId={profile.memberId}
         handleMyMessage={handleMyMessage}
       />
       <PartnerHead userName="User name" profileImgUrl={url} />
