@@ -1,3 +1,4 @@
+@import "../../../style/mixins";
 .partner-head-style {
   z-index: 5000;
   position: fixed;
@@ -10,6 +11,12 @@
   min-height: 56px !important;
   width: 100%;
   background-color: white;
+
+  @include isPc() {
+    width: 600px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
   .left-items-container {
     position: absolute;
