@@ -53,6 +53,7 @@ export default function MakeMeetUpModal({
     isUpdated: 0,
   };
 
+  // 임시
   let test: ISingleMessage = {
     id: null,
     roomId: roomId as string,

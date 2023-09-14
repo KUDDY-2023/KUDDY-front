@@ -51,22 +51,10 @@ export default function ChatPage() {
   const messageEndRef = useRef<HTMLDivElement | null>(null);
   const initialRenderRef = useRef(true);
 
-  // 임시 데이터
-  let tempInfo = {
-    partnerName: "jane",
-    place: "Gyeongbokgung Palace",
-    placeId: 1,
-    date: "2023.06.19  11:00am",
-    pay: 18,
-    meetStatus: 3,
-  };
-  let tempInfo2 = {
-    partnerName: "jane",
-    place: "Gyeongbokgung Palace",
-    placeId: 1,
-    date: "2023.06.19  11:00am",
-    pay: 18,
-  };
+  useEffect(() => {
+    console.log("전역 상태!", profile);
+  }, []);
+
   let updateMsg = {
     id: "64fb179e4a4e36075eb150ab",
     roomId: "3",
@@ -152,14 +140,16 @@ export default function ChatPage() {
   const handleMessage = (newmsg: IMessage) => {
     let body = JSON.parse(newmsg.body);
     console.log("구독 후 받아온 거 >>", body);
+
     body = {
       ...body,
-      mine: body.senderEmail === myEmail,
+      mine: body.senderEmail === profile.email,
     };
+    console.log(">>>>⭐", body);
 
-    // 상대방한테서 온 이벤트면 저장
-    if (body.senderEmail !== myEmail) {
-      console.log(body.senderEmail, "??", myEmail);
+    // 상대방한테서 온 메세지
+    if (body.senderEmail !== profile.email) {
+      console.log(body.senderEmail, "??", profile.email); // 🔥 여기서 자꾸 myEmail이 사라져..
       setFlightMessageArr(prevMessageArr => [...prevMessageArr, body]);
     }
   };
@@ -168,7 +158,7 @@ export default function ChatPage() {
   const handleMyMessage = (newmsg: any) => {
     newmsg = {
       ...newmsg,
-      mine: newmsg.senderEmail === myEmail,
+      mine: newmsg.senderEmail === profile.email,
     };
 
     setFlightMessageArr(prevMessageArr => [...prevMessageArr, newmsg]);
@@ -209,10 +199,39 @@ export default function ChatPage() {
     console.log("onError 연결 실패 ");
   }
 
+  // 나갈 때 요청 끊기
+  function disconnectStomp(event: BeforeUnloadEvent) {
+    event.preventDefault();
+    event.returnValue = "";
+
+    alert("???");
+    console.log("실행됨, 현재 이메일은", myEmail);
+    const email = localStorage.getItem("email"); // 아 이거 별론디..
+    fetch(
+      `${process.env.REACT_APP_API_HOST}/chat/v1/chatrooms/${roomId}?email=${email}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        keepalive: true,
+      },
+    );
+    if (client.current) {
+      client.current.disconnect();
+      client.current.deactivate();
+    }
+    // if (subscribe.current) {
+    //   subscribe.current.unsubscribe(); // 구독 끊기
+    // }
+  }
+
+  // useEffect(() => {
+  //   getProfile(); // 이메일과 내 닉네임 가져오기
+  // }, []);
+
   // 소켓 연결과 프로필 가져오기
   useEffect(() => {
-    getProfile(); // 이메일과 내 닉네임 가져오기
-
     // Stomp.over()로 client.current 객체 초기화
     // SocketJS로 웹소켓 연결 구현
     client.current = Stomp.over(() => {
@@ -231,39 +250,11 @@ export default function ChatPage() {
       onError,
     );
 
-    // 나갈 때 요청 끊기
-    function disconnectStomp(event: BeforeUnloadEvent) {
-      event.preventDefault();
-      event.returnValue = "";
-
-      alert("???");
-      console.log("실행됨, 현재 이메일은", myEmail);
-      const email = localStorage.getItem("email"); // 아 이거 별론디..
-      fetch(
-        `${process.env.REACT_APP_API_HOST}/chat/v1/chatrooms/${roomId}?email=${email}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          keepalive: true,
-        },
-      );
-      if (client.current) {
-        client.current.disconnect();
-        client.current.deactivate();
-      }
-      // if (subscribe.current) {
-      //   subscribe.current.unsubscribe(); // 구독 끊기
-      // }
-    }
+    //getProfile();
 
     // beforeunload 이벤트가 발생할 때 (브라우저를 닫거나 페이지를 떠날 때) 호출되도록 등록
-
     window.addEventListener("beforeunload", disconnectStomp);
-
     // document.addEventListener("visibilitychange", disconnectStomp);
-
     window.addEventListener("popstate", disconnectStomp);
 
     return () => {
@@ -385,8 +376,8 @@ export default function ChatPage() {
         meetupBtnVisible={true}
         onMakeMeetUp={_handleOpenBottomModal}
         roomId={roomId || ""}
-        myEmail={myEmail}
-        myNickname={myNickname}
+        myEmail={profile.email}
+        myNickname={profile.nickname}
         handleMyMessage={handleMyMessage}
       />
     </div>
