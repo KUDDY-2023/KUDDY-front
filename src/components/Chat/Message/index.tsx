@@ -4,7 +4,7 @@ import { useState } from "react";
 import Translate from "../Translate";
 interface Props {
   messageType: string;
-  message: string;
+  message: IGetMessage;
 }
 
 export default function Message({ message, messageType }: Props) {
@@ -13,12 +13,12 @@ export default function Message({ message, messageType }: Props) {
   return (
     <div className="message-section">
       <div className={`message-style ${messageType}`}>
-        <p>{message}</p>
+        <p>{message.content}</p>
 
         {messageType === "partner" && (
           <Translate
             isTranslated={reqTrans}
-            message={message}
+            message={message.content}
             onClick={() => setReqTrans(!reqTrans)}
           />
         )}

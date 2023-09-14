@@ -27,16 +27,26 @@ interface TravelDetailType {
   kuddyList: PickedMatesType[];
   travelerList: PickedMatesType[];
   additionalInfo: any;
+  mapX: number;
+  mapY: number;
 }
 
 interface PickedMatesType {
-  id: number;
-  roleType: string;
-  username: string;
+  memberId: number;
   nickname: string;
   profileImageUrl: string;
-  createdDate: string;
-  modifiedDate: string | null;
   email: string;
-  providerType: string;
+  introduce?: string;
+}
+
+interface TravelPageInfo {
+  page: number;
+  size: number;
+  totalElements: number;
+  totalPages: number;
+}
+
+interface Position {
+  x: number;
+  y: number;
 }

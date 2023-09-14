@@ -7,12 +7,37 @@ import { chatListData } from "./chatListData";
 import { useQuery } from "react-query";
 import { useGetChatRooms } from "@services/hooks/chat";
 import { chatRooms } from "@services/api/chat";
+import calculateTimeDifference from "./calculateTimeDifference";
+import { profileGetSocialProfile } from "@services/api/profile";
+import { userInfoState } from "@services/store/auth";
+
+import { useUpdateDefaultProfile } from "@services/hooks/profile";
+import { useRecoilState } from "recoil";
 export default function ChatListPage() {
   const navigate = useNavigate();
 
+  const [_, setDefaultInfo] = useRecoilState(userInfoState);
+
+  // 채팅방 내역 가져오기
   const { data, error, isLoading } = useQuery("chatRooms", chatRooms, {
-    select: data => data?.data.data, // 필요한 부분만 추출하여 사용
+    refetchOnWindowFocus: false,
+    select: data =>
+      data?.data.data.sort((a: any, b: any) => b.regDate - a.regDate), // 최신순으로 정렬
   });
+
+  // 프로필 기본 정보 저장하기
+  const profileData = useQuery("profile", profileGetSocialProfile, {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
+
+  const onSave = useUpdateDefaultProfile();
+
+  useEffect(() => {
+    if (profileData.isSuccess) {
+      onSave(profileData.data?.data.data);
+    }
+  }, [profileData.isSuccess]);
 
   const onEnterChatRoom = (roomId: number) => {
     navigate(`/chat/${roomId}`);
@@ -27,19 +52,7 @@ export default function ChatListPage() {
           let chatStyle = room.unReadCount ? "unread" : "read";
           let sendAt = room.latestMessage?.sendAt;
 
-          const unixTimestamp = sendAt * 1000;
-          // 현재 시간을 얻기
-          const currentTime = new Date().getTime();
-          // 두 시간 간의 차이 계산 (밀리초 단위)
-          const timeDifference = currentTime - unixTimestamp;
-          // 밀리초를 분으로 변환하고 절대값으로 처리
-          let minutesDifference = Math.abs(
-            Math.floor(timeDifference / (60 * 1000)),
-          );
-
-          if (!minutesDifference) {
-            minutesDifference = 0;
-          }
+          const { beforeTime, dateUnit } = calculateTimeDifference(sendAt);
 
           return (
             <div
@@ -49,14 +62,16 @@ export default function ChatListPage() {
             >
               <div className="profile">
                 <img src={room.participant.profile} alt="profile-img" />
-                <p>안읽은거 개수 : {room.unReadCount}</p>
+
                 {!!room.unReadCount && <span></span>}
               </div>
               <div className="info">
                 <div id="name">{room.participant.nickname}</div>
                 <div className="flex">
                   <p className={chatStyle}>{room.latestMessage?.context}</p>
-                  <p id="time">{minutesDifference} minute ago</p>
+                  <p id="time">
+                    {beforeTime} {dateUnit} ago
+                  </p>
                 </div>
               </div>
             </div>

@@ -1,12 +1,5 @@
 import { apiClient } from ".";
 
-/**
- * 장소와 관련된 api
- * api 함수 이름 규칙 : spot + 동사(method) + 목적어
- * 단순히 res.data만을 리턴
- * 그 외 복잡한 로직은 hooks에서 처리
- */
-
 // trending now
 export const spotGetTrendingNow = async () => {
   const url = `/api/v1/spots/trend`;
@@ -39,4 +32,11 @@ export const spotGetAll = async (page: number, size: number) => {
   return apiClient.get(url);
 };
 
-// keyword
+// only keyword
+export const spotGetOnlyKeyWord = async (keyword: string) => {
+  // page: number, size: number
+  let page = 1;
+  let size = 20;
+  const url = `/api/v1/spots/search?page=${page}&size=${size}`;
+  return apiClient.post(url, { keyword: keyword, category: "", district: [] });
+};

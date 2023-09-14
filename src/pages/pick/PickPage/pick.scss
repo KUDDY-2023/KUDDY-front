@@ -1,10 +1,32 @@
-.pickmenu-wrapper {
+.pick-wrapper {
   width: 100%;
+  min-height: calc(100svh - 180px);
   display: flex;
-  justify-content: center;
-  padding: {
-    top: 80px;
-    bottom: 110px;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 80px;
+
+  .empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: color(grey-text);
+    font: {
+      family: var(--font-text);
+      size: 14px;
+      weight: 400;
+      style: italic;
+    }
+
+    span {
+      display: flex;
+    }
+
+    .link {
+      text-decoration: underline;
+    }
   }
 
   .inner-container {

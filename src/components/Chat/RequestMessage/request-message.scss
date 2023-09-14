@@ -1,7 +1,8 @@
-@mixin font-style($color, $font-weight) {
+@import "../../../style/_mixins.scss";
+
+@mixin font-style-custom($color, $font-weight) {
   color: $color;
   font-weight: $font-weight;
-
   text-align: center;
   font-family: var(--font-text);
   font-size: 14px;
@@ -10,11 +11,11 @@
 }
 
 @mixin gray-font {
-  @include font-style(#b1b1b1, 400);
+  @include font-style-custom(#b1b1b1, 400);
 }
 
 @mixin black-font {
-  @include font-style(#000, 500);
+  @include font-style-custom(#000, 500);
 }
 
 .confirmed-request-message-section {
@@ -24,6 +25,19 @@
   width: 100%;
   height: auto;
   margin: 36px 0 16px 0;
+
+  .cancel-transfer {
+    @include font-style(--font-text, 14px, var(--color-grey-text), 500);
+    width: 336px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 7px;
+
+    svg {
+      margin-right: 6px;
+    }
+  }
 }
 
 .confirmed-request-message {
@@ -52,7 +66,7 @@
       font-weight: 600;
     }
 
-    width: 336px;
+    width: 100%;
     height: 72px;
     border-radius: 15px 15px 0px 0px;
   }
@@ -95,6 +109,9 @@
           #right-icon {
             margin-right: 47px !important;
           }
+        }
+        p {
+          @include black-font;
         }
         p {
           @include black-font;
@@ -157,7 +174,7 @@
       border: 1px solid var(--grey-line, #ddd);
       background: #fff;
 
-      @include font-style(#b1b1b1, 500);
+      @include font-style-custom(#b1b1b1, 500);
     }
   }
 }

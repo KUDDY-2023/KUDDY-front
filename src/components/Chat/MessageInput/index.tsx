@@ -1,5 +1,6 @@
 import "./messageinput.scss";
 import { useState, useRef, useCallback, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { ReactComponent as SendIcon } from "@assets/chat/chat_send.svg";
 import { ReactComponent as MakeMeetupBtn } from "@assets/chat/bt_meetup.svg";
 import TextareaAutosize from "react-textarea-autosize";
@@ -14,98 +15,73 @@ interface Props {
   client: MutableRefObject<CompatClient | undefined>;
   meetupBtnVisible: boolean;
   onMakeMeetUp: () => void;
+  roomId: string;
+  myEmail: string;
+  myNickname: string;
+  handleMyMessage: (msg: any) => void;
 }
 
 export default function MessageInput({
   client,
   meetupBtnVisible,
   onMakeMeetUp,
+  roomId,
+  myEmail,
+  myNickname,
+  handleMyMessage,
 }: Props) {
   const [newMessage, setNewMessage] = useState("");
   const [inputHeight, setInputHeight] = useState<number>(0);
   const [radius, setRadius] = useState<string>("radius-first");
-
+  useEffect(() => {
+    if (inputHeight >= 38) setRadius("radius");
+  }, [inputHeight]);
   const token = window.localStorage.getItem("accessToken") as string;
 
-  // 운영자가 보내는 메세지
-  let testMsg: ISingleMessage = {
+  // ✅ 일반 메세지 보내기
+  const onSave = useSaveMessage();
+  let normalMsg: ISingleMessage = {
     id: null,
-    roomId: "5",
+    roomId: roomId as string,
     contentType: "TEXT",
     content: newMessage,
-    senderName: "kuku",
+    senderName: myNickname, // 내 닉네임...
     spotContentId: null,
     appointmentTime: null,
     price: null,
     spotName: null,
-    senderId: 1,
+    senderId: 1, // 수정 필요
     meetStatus: null,
     sendTime: new Date().getTime(),
-    senderEmail: "ziyun1612@ewhain.net",
+    senderEmail: myEmail,
     readCount: 1,
     isUpdated: 0,
   };
 
-  let testMeetup: ISingleMessage = {
-    id: "64fb179e4a4e36075eb150ab",
-    roomId: "3",
-    contentType: "MEETUP",
-    content: "동행",
-    senderName: "maru",
-    spotContentId: 1,
-    appointmentTime: "2021-11-05 13:47:13.248",
-    price: 10,
-    spotName: "롯데타워",
-    senderId: 15,
-    sendTime: 16823942839,
-    meetStatus: "PAYED",
-    senderEmail: "dy6578ekdbs@naver.com",
-    readCount: 1,
-    isUpdated: 0, // 1로 보내면 업데이트 이벤트 발생, 0으로 보내면 new 메세지 이벤트 발생
-  };
-
-  let testUpdateMeetup: ISingleMessage = {
-    id: "64fb179e4a4e36075eb150ab",
-    roomId: "3",
-    contentType: "MEETUP",
-    content: "동행",
-    senderName: "maru",
-    spotContentId: 1,
-    appointmentTime: "2021-11-05 13:47:13.248",
-    price: 10,
-    spotName: "롯데타워",
-    senderId: 15,
-    sendTime: 16823942839,
-    meetStatus: "TRAVELER_CANCEL",
-    senderEmail: "dy6578ekdbs@naver.com",
-    readCount: 1,
-    isUpdated: 1,
-  };
-
-  // 메세지 저장
-  const onSave = useSaveMessage();
-
-  const onClickSend = async () => {
+  const onSendMessage = async () => {
     if (client.current) {
       try {
-        // 먼저 저장하고, 답변으로 온걸 소켓으로 보내기
-        const savedMsg = await onSave(testMsg);
-        console.log(">>>>???", savedMsg);
+        let newText = { ...normalMsg }; // 복사
+
+        // ✅ 내 메세지는 바로 반영하기
+        handleMyMessage(newText);
 
         // ✅ 채팅 보내는 send (publish)
         client.current.send(
           "/app/message",
           { Authorization: `Bearer ${token}` },
-          JSON.stringify(savedMsg),
+          JSON.stringify(newText),
         );
+
+        setNewMessage(""); // input 창 비우기
+
+        // ✅ DB에 메세지 반영하기
+        const savedMsg = await onSave(newText);
+        console.log("저장한거 >>> ", savedMsg);
       } catch (e) {
         alert(e);
-        //router.push(router.asPath);
       } finally {
         // setIsMapOpen(false);
-        // setIsMenuOpen(false);
-        // inputRef.current!.value = '';
-        // type.current = 'text';
       }
     }
   };
@@ -122,14 +98,13 @@ export default function MessageInput({
         <TextareaAutosize
           onHeightChange={(height: number) => {
             setInputHeight(height);
-            console.log(height);
           }}
           maxRows={5}
           placeholder="Find your own buddy!"
           value={newMessage}
           onChange={e => setNewMessage(e.target.value)}
         />
-        <div className="send-icon-container" onClick={onClickSend}>
+        <div className="send-icon-container" onClick={onSendMessage}>
           <SendIcon />
         </div>
       </div>

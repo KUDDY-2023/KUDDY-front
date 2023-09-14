@@ -15,7 +15,7 @@
   }
 
   .logo {
-    margin-top: 15%;
+    margin-top: 60px;
     margin-bottom: 30px;
   }
 
@@ -24,12 +24,18 @@
       size: 22px;
       weight: 700;
     }
+    @media (max-width: 360px) {
+      font-size: 6vw;
+    }
     margin-bottom: 5px;
   }
   .sub-text {
     font: {
       size: 14px;
       weight: 500;
+    }
+    @media (max-width: 360px) {
+      font-size: 4vw;
     }
   }
 
@@ -47,6 +53,9 @@
       font: {
         size: 18px;
         weight: 600;
+      }
+      @media (max-width: 360px) {
+        font-size: 4.8vw;
       }
       margin-right: 16px;
     }

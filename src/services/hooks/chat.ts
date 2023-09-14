@@ -4,8 +4,9 @@ import { useRecoilState } from "recoil";
 import { updateAuthHeader } from "@services/api"; // axios 토큰 업데이트
 
 import { chatSaveMessage, chatRooms } from "@services/api/chat";
+import { meetUpInfoState } from "@services/store/chat";
 
-// // ✅ 채팅방 리스트 가져오기
+// ✅ 채팅방 리스트 가져오기
 export const useGetChatRooms = async () => {
   try {
     const res = await chatRooms();
@@ -27,4 +28,17 @@ export const useSaveMessage = () => {
   };
 
   return onSave;
+};
+
+// ✅ 동행 요청 메세지 생성 - 업데이트 훅
+export const useMakeMeetUpInfo = () => {
+  const [info, setInfo] = useRecoilState(meetUpInfoState);
+
+  const onMakeMeetUpInfo = (updates: any) =>
+    setInfo(info => ({
+      ...info,
+      ...updates,
+    }));
+
+  return onMakeMeetUpInfo;
 };
