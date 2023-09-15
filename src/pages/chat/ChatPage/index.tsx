@@ -362,7 +362,8 @@ export default function ChatPage() {
             } else if (
               msg.meetStatus === "PAYED" ||
               msg.meetStatus === "COMPLETED" ||
-              msg.meetStatus === "KUDDY_CANCEL"
+              msg.meetStatus === "KUDDY_CANCEL" ||
+              msg.meetStatus === "TRAVELER_CANCEL"
             ) {
               return (
                 <ConfirmedRequestMessage
