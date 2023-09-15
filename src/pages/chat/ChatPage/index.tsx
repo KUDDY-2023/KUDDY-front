@@ -35,7 +35,6 @@ export default function ChatPage() {
 
   const [myEmail, setMyEmail] = useState<string>(""); // 현재 유저의 이메일
   const [myNickname, setMyNickname] = useState<string>(""); // 현재 유저의 닉네임
-  const [myRole, setMyRole] = useState<"KBUDDY" | "TRAVELER">("TRAVELER"); // 현재 유저의 Role
   const [isOpenBottomModal, setIsOpenBottomModal] = useState(false);
 
   const client = useRef<CompatClient>();
@@ -136,7 +135,7 @@ export default function ChatPage() {
     setIsOpenBottomModal(true);
   };
 
-  // 구독 이벤트로 발생한 메세지 추가
+  // ✅ 구독) new message 이벤트로 발생한 메세지 반영
   const handleMessage = (newmsg: IMessage) => {
     let body = JSON.parse(newmsg.body);
     console.log("구독 후 받아온 거 >>", body);
@@ -154,7 +153,7 @@ export default function ChatPage() {
     }
   };
 
-  // 내 메세지 바로 화면에 반영하기
+  // new Flight 메세지 바로 화면에 반영하기
   const handleMyMessage = (newmsg: any) => {
     newmsg = {
       ...newmsg,
@@ -163,6 +162,46 @@ export default function ChatPage() {
 
     setFlightMessageArr(prevMessageArr => [...prevMessageArr, newmsg]);
   };
+
+  // ✅ 구독) update 이벤트로 발생한 메세지 반영하기
+  const handleUpdatedMessage = (updatedMsg: IMessage) => {
+    let newMsg = JSON.parse(updatedMsg.body);
+    console.log("업데이트  발생 >", newMsg);
+
+    let flag = false;
+    setMessageArr(prevMessageArr => {
+      const updatedArr = prevMessageArr.map(msg => {
+        if (msg.id === newMsg.id) {
+          flag = true;
+          console.log("1");
+          return newMsg;
+        } else {
+          console.log("2");
+          return msg;
+        }
+      });
+      return updatedArr;
+    });
+
+    if (!flag) {
+      setFlightMessageArr(prevFlightMessageArr => {
+        const updatedFlightArr = prevFlightMessageArr.map(msg => {
+          if (msg.id === newMsg.id) {
+            console.log("3");
+            return newMsg;
+          } else {
+            console.log("4");
+            return msg;
+          }
+        });
+        return updatedFlightArr;
+      });
+    }
+  };
+
+  useEffect(() => {
+    console.log("📢 ", FlightMessageArr);
+  }, [FlightMessageArr]);
 
   function onConnect() {
     if (client.current) {
@@ -180,14 +219,7 @@ export default function ChatPage() {
       // 구독 - 메세지 업데이트 사항 받아오기
       client.current.subscribe(
         `/topic/updates/${roomId}`,
-        msg => {
-          console.log("업데이트 발생");
-          // const body = JSON.parse(msg.body);
-          // console.log("메세지 업데이트 발생 ! >>>", body);
-
-          // let newMessageArr = [...MessageArr, body];
-          // setMessageArr(newMessageArr);
-        }, // 받아온 메세지를 처리하는 콜백함수
+        msg => handleUpdatedMessage(msg),
         {
           Authorization: `Bearer ${token}`,
         },
@@ -225,10 +257,6 @@ export default function ChatPage() {
     //   subscribe.current.unsubscribe(); // 구독 끊기
     // }
   }
-
-  // useEffect(() => {
-  //   getProfile(); // 이메일과 내 닉네임 가져오기
-  // }, []);
 
   // 소켓 연결과 프로필 가져오기
   useEffect(() => {
@@ -276,24 +304,6 @@ export default function ChatPage() {
     };
   }, []);
 
-  const updateMessage = () => {
-    if (client.current) {
-      console.log("업데이트");
-      try {
-        // ✅ 메세지 상태 업데이트하기
-        client.current.send(
-          "/app/updateMessage",
-          { Authorization: `Bearer ${token}` },
-          JSON.stringify(updateMsg),
-        );
-      } catch (e) {
-        alert(e);
-      } finally {
-        // setIsMapOpen(false);
-      }
-    }
-  };
-
   return (
     <div className="chat-page-style">
       <MakeMeetUpModal
@@ -327,14 +337,23 @@ export default function ChatPage() {
           }
           if (msg.contentType === "MEETUP") {
             if (msg.meetStatus === "NOT_ACCEPT") {
-              if (myRole === "KBUDDY") {
-                return (
-                  <RequestMessage info={msg} statusType={"KUDDY_NOT_ACCEPT"} />
-                );
-              } else if (myRole === "TRAVELER") {
+              if (profile.role === "KUDDY") {
+                console.log(profile.role);
                 return (
                   <RequestMessage
+                    client={client}
                     info={msg}
+                    myEmail={profile.email}
+                    statusType={"KUDDY_NOT_ACCEPT"}
+                  />
+                );
+              } else if (profile.role === "TRAVELER") {
+                console.log(profile.role);
+                return (
+                  <RequestMessage
+                    client={client}
+                    info={msg}
+                    myEmail={profile.email}
                     statusType={"TRAVELER_NOT_ACCEPT"}
                   />
                 );
@@ -357,16 +376,52 @@ export default function ChatPage() {
 
         <hr />
 
-        {/* 접속 후 받아온 새로운 메세지 */}
         {FlightMessageArr?.map((msg: IGetMessage) => {
-          if (msg.contentType === "TEXT" && msg.mine)
-            return <Message message={msg} messageType={"my"} />;
-          if (msg.contentType === "TEXT" && !msg.mine)
-            return <Message message={msg} messageType={"partner"} />;
-          if (msg.contentType === "MEETUP")
+          if (msg.contentType === "TEXT") {
             return (
-              <RequestMessage info={msg} statusType={"KUDDY_NOT_ACCEPT"} />
+              <Message
+                message={msg}
+                messageType={msg.mine ? "my" : "partner"}
+              />
             );
+          }
+          if (msg.contentType === "MEETUP") {
+            if (msg.meetStatus === "NOT_ACCEPT") {
+              if (profile.role === "KUDDY") {
+                console.log(profile.role);
+                return (
+                  <RequestMessage
+                    client={client}
+                    info={msg}
+                    myEmail={profile.email}
+                    statusType={"KUDDY_NOT_ACCEPT"}
+                  />
+                );
+              } else if (profile.role === "TRAVELER") {
+                console.log(profile.role);
+                return (
+                  <RequestMessage
+                    client={client}
+                    info={msg}
+                    myEmail={profile.email}
+                    statusType={"TRAVELER_NOT_ACCEPT"}
+                  />
+                );
+              }
+            } else if (
+              msg.meetStatus === "PAYED" ||
+              msg.meetStatus === "COMPLETED" ||
+              msg.meetStatus === "KUDDY_CANCEL"
+            ) {
+              return (
+                <ConfirmedRequestMessage
+                  info={msg}
+                  statusType={msg.meetStatus}
+                />
+              );
+            }
+          }
+          return null;
         })}
       </div>
 
@@ -379,6 +434,7 @@ export default function ChatPage() {
         roomId={roomId || ""}
         myEmail={profile.email}
         myNickname={profile.nickname}
+        myId={profile.memberId}
         handleMyMessage={handleMyMessage}
       />
     </div>
