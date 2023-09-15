@@ -47,25 +47,6 @@ export default function MakeMeetUpModal({
     contentType: "MEETUP",
     content: "동행",
     senderName: myNickname, // 내 닉네임
-    senderEmail: myEmail,
-    senderId: 1, // 보내는 사람의 id
-    sendTime: new Date().getTime(),
-    spotContentId: null, // 장소 id
-    spotName: null, // 장소 이름
-    appointmentTime: null, // 시간 2021-11-05 13:47:13.248
-    price: null, // 가격 정수로 $
-    meetStatus: "NOT_ACCEPT",
-    readCount: 1,
-    isUpdated: 0,
-  };
-
-  // 임시
-  let test: ISingleMessage = {
-    id: null,
-    roomId: roomId as string,
-    contentType: "MEETUP",
-    content: "동행",
-    senderName: myNickname, // 내 닉네임
     senderEmail: myEmail, // 내 이메일
     senderId: memberId, // 보내는 사람의 id
     sendTime: new Date().getTime(),
@@ -81,25 +62,21 @@ export default function MakeMeetUpModal({
   const onSendMeetUpMessage = async () => {
     if (client.current) {
       try {
-        let newText = { ...test }; // 복사
+        // ✅ DB에 메세지 반영하기
+        console.log("저장 시도", meetUpMsg);
+        const savedMsg = await onSave(meetUpMsg);
+        console.log("저장한거 >>> ", savedMsg);
 
         // ✅ 내 메세지는 바로 반영하기
-        handleMyMessage(newText);
+        handleMyMessage(savedMsg);
+        onClose(); // 창 닫기
 
         // ✅ 채팅 보내는 send (publish)
         client.current.send(
           "/app/message",
           { Authorization: `Bearer ${token}` },
-          JSON.stringify(newText),
+          JSON.stringify(savedMsg),
         );
-
-        onClose(); // 창 닫기
-
-        console.log("저장 시도", newText);
-
-        // ✅ DB에 메세지 반영하기
-        const savedMsg = await onSave(newText);
-        console.log("저장한거 >>> ", savedMsg);
       } catch (e) {
         alert(e);
       } finally {
