@@ -54,6 +54,8 @@ export default function RequestMessage({
       // 누가 눌렀냐에 따라 status 다르게 넣으면 됨
 
       // 올 때는 이메일이 빠져서 온다...
+      console.log("info", info);
+
       let updateMsg = {
         ...info,
         meetStatus: newStatus,
@@ -70,8 +72,6 @@ export default function RequestMessage({
           { Authorization: `Bearer ${token}` },
           JSON.stringify(updateMsg),
         );
-        //let saveMessage = {...updateMsg, senderId:}
-        // const savedMsg = await onSave();
       } catch (e) {
         alert(e);
       } finally {
