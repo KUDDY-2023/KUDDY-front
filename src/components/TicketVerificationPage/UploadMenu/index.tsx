@@ -4,12 +4,21 @@ import { ReactComponent as PhotoIcon } from "@assets/ticket/photo.svg";
 import { ReactComponent as ErrorIcon } from "@assets/ticket/error.svg";
 import { useState, useRef } from "react";
 
+import { useGetPresignedUrl, usePostImage } from "@services/hooks/image";
+import {
+  profileCreateTicketInfo,
+  profilePatchTicketImage,
+} from "@services/api/profile";
+
 const UploadMenu = ({ ticketStatus }: TicketInfoType) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [ticketFormData, setTicketFormData] = useState<FormData>();
   const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
+  const [ticketImageUrl, setTicketImageUrl] = useState<string>("");
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onGetUrl = useGetPresignedUrl();
+  const onPostImage = usePostImage();
+
+  const onChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!inputRef.current) return;
     if (inputRef.current.files) {
       const reader = new FileReader();
@@ -19,20 +28,47 @@ const UploadMenu = ({ ticketStatus }: TicketInfoType) => {
       };
     }
 
-    const formData = new FormData();
     if (!e.target.files) return;
-    if (e.target.files[0]) {
-      formData.append("file", e.target.files[0]);
-      setTicketFormData(formData);
+    let fileName = e.target.files[0].name;
+    const presignedUrlList = await onGetUrl([fileName]);
+    if (presignedUrlList) {
+      try {
+        const res = await onPostImage(presignedUrlList[0], e.target.files[0]);
+        console.log("이미지 업로드 성공", res);
+        let newImg = presignedUrlList[0].split("?")[0];
+        setTicketImageUrl(newImg);
+      } catch (err) {
+        alert(err);
+      }
     }
   };
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    if (
+      ticketStatus === "NOT_SUBMITTED" ||
+      ticketStatus === "INVALID_PHOTO" ||
+      ticketStatus === "PHOTO_UNRECOGNIZABLE"
+    )
+      profilePatchTicketImage(ticketImageUrl)
+        .then(res => {
+          console.log("patch", res.data);
+          window.location.reload();
+        })
+        .catch(err => console.log(err));
+    else
+      profileCreateTicketInfo(ticketImageUrl)
+        .then(res => {
+          console.log("post", res.data);
+          window.location.reload();
+        })
+        .catch(err => console.log(err));
+  };
 
   return (
     <>
       <div className="middle-wrapper">
-        {ticketStatus === "CERTIFICATION_FAILED" && (
+        {(ticketStatus === "INVALID_PHOTO" ||
+          ticketStatus === "PHOTO_UNRECOGNIZABLE") && (
           <div className="error-text">
             <ErrorIcon />
             <p>

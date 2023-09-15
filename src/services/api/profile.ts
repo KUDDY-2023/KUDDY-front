@@ -1,4 +1,4 @@
-import { apiClient } from ".";
+import { apiClient, updateAuthHeader } from ".";
 
 // ✅ 닉네임 중복 확인
 export const profileCheckNickname = async (nickname: string) => {
@@ -23,4 +23,32 @@ export const profileGetProfile = async () => {
 export const profileCreateTheFirstProfile = (profile: any) => {
   const url = `/api/v1/members/profile`;
   return apiClient.post(url, profile);
+};
+
+// 티켓 정보 생성
+export const profileCreateTicketInfo = (ticketImageUrl: string) => {
+  const url = `/api/v1/members/ticket`;
+  return apiClient.post(url, { ticketImageUrl: ticketImageUrl });
+};
+
+// 티켓 이미지 수정
+export const profilePatchTicketImage = (ticketImageUrl: string) => {
+  const url = `/api/v1/members/ticket`;
+  return apiClient.patch(url, { ticketImageUrl: ticketImageUrl });
+};
+
+// 티켓 상태 수정
+export const profilePatchTicketStatus = (ticketStatus: string) => {
+  const url = `/api/v1/members/ticket/status`;
+  updateAuthHeader(process.env.REACT_APP_SERVER_ADMIN_TOKEN);
+  return apiClient.patch(url, {
+    ticketStatus: ticketStatus,
+    memberEmail: "kate0529@naver.com",
+  });
+};
+
+// 티켓 정보 조회
+export const profileGetTicketInfo = () => {
+  const url = `/api/v1/members/ticket`;
+  return apiClient.get(url);
 };

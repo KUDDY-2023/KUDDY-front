@@ -5,26 +5,23 @@ import LocationPreviewBlock from "@components/Location/LocationPreviewBlock";
 import pin from "@assets/location/pin.svg";
 import curpin from "@assets/location/pin_current.svg";
 import { ReactComponent as RefreshIcon } from "@assets/location/refresh.svg";
-import { locationArray } from "@pages/home/LocationListPage/_mock";
 import { LocationPreviewBlockProps } from "@components/Location/LocationPreviewBlock";
-import { spotGetNearLocation } from "@services/api/spot";
+import { useRecoilState } from "recoil";
+import { currentPosition } from "@services/store/travel";
+import { useNearLocation } from "@services/hooks/spot";
 
 declare global {
   interface Window {
     kakao: any;
   }
 }
-type pos = {
-  y: number;
-  x: number;
-};
 
 const LocationMapPage = () => {
   const { kakao } = window;
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [locArray, setLocArray] = useState<TravelNearbyType[]>([]);
   const [map, setMap] = useState<any>();
-  const [pos, setPos] = useState<pos>({ y: 33.450701, x: 126.570667 });
+  const [pos, setPos] = useRecoilState(currentPosition);
+  const [spotsArray, setSpotsArray] = useState<TravelNearbyType[]>([]);
   const [clickedId, setClickedId] = useState<number>(0);
   const [blockProps, setBlockProps] = useState<LocationPreviewBlockProps>({
     contentId: 0,
@@ -34,13 +31,17 @@ const LocationMapPage = () => {
     imageUrl: "",
   });
 
+  const { data, isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useNearLocation(pos.y, pos.x);
+  console.log(data);
+
   useEffect(() => {
     setIsLoading(true);
     window.kakao.maps.load(() => {
       const container = document.getElementById("map");
       const options = {
         center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 7,
+        level: 5,
       };
       setMap(new kakao.maps.Map(container, options));
     });
@@ -53,6 +54,7 @@ const LocationMapPage = () => {
           var lat = position.coords.latitude,
             lon = position.coords.longitude;
           setPos({ y: position.coords.latitude, x: position.coords.longitude });
+          //setPos({ y: 126.8502863, x: 37.5615351 });
           var locPosition = new kakao.maps.LatLng(lat, lon);
           map.setCenter(locPosition);
           setIsLoading(false);
@@ -78,6 +80,7 @@ const LocationMapPage = () => {
     var marker = new kakao.maps.Marker({
       map: map,
       position: locPosition,
+      title: title,
       image: isFirst ? clickedImage : normalImage,
     });
     marker.normalImage = normalImage;
@@ -101,21 +104,22 @@ const LocationMapPage = () => {
   }
 
   useEffect(() => {
-    if (locationArray.data) setClickedId(locationArray.data[0].contentId);
-  }, [locationArray.data]);
+    //if (isSuccess === true && data) setSpotsArray(data.pages[0].spots);
+  }, [isSuccess]);
 
   var selectedMarker: any = null;
   useEffect(() => {
-    // spotGetNearLocation(0, pos.y, pos.x);
+    if (!spotsArray) return;
+    //setClickedId(spotsArray[0].contentId);
     if (isLoading === false) {
-      var positions = locationArray.data.map(item => {
+      var positions = spotsArray.map((item: TravelNearbyType) => {
         return {
           id: item.contentId,
           title: item.name,
           latlng: new kakao.maps.LatLng(item.mapY, item.mapX),
         };
       });
-      positions.map((item, idx) =>
+      positions.map((item: any, idx: number) =>
         displayMarker(
           item.latlng,
           item.title,
@@ -124,10 +128,11 @@ const LocationMapPage = () => {
         ),
       );
     }
-  }, [isLoading]);
+  }, [spotsArray]);
 
   useEffect(() => {
-    locationArray.data.map(
+    if (!spotsArray) return;
+    spotsArray.map(
       item =>
         item.contentId === clickedId &&
         setBlockProps({

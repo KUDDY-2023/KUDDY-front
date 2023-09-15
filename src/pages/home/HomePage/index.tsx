@@ -13,9 +13,6 @@ import ReviewModal from "@components/HomePage/ReviewModal";
 
 import { useEffect, useState } from "react";
 import { useIsFirstLogin } from "@services/hooks/auth";
-import { profileGetProfile } from "@services/api/profile";
-
-import { useQuery } from "react-query";
 
 const HomePage = () => {
   useIsFirstLogin("MAIN");
