@@ -95,6 +95,7 @@ export default function ChatPage() {
       select: data => data?.data.data.chatList,
       refetchOnMount: false,
       refetchOnWindowFocus: false, // 너엿구나 하..
+      cacheTime: 0,
     },
   );
 
@@ -188,7 +189,7 @@ export default function ChatPage() {
         const updatedFlightArr = prevFlightMessageArr.map(msg => {
           if (msg.id === newMsg.id) {
             console.log("3");
-            return newMsg;
+            return { ...msg, ...newMsg }; // 되려나?
           } else {
             console.log("4");
             return msg;
