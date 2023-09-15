@@ -6,13 +6,27 @@ import { ReactComponent as Cancle } from "@assets/chat/bt_delete.svg";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+// 채팅
+import { MutableRefObject } from "react";
+import { CompatClient } from "@stomp/stompjs";
+import { useSaveMessage } from "@services/hooks/chat";
+
 interface Props {
+  client: MutableRefObject<CompatClient | undefined>;
   info: IGetMessage;
+  myEmail: string;
   statusType: "KUDDY_NOT_ACCEPT" | "TRAVELER_NOT_ACCEPT";
 }
 
-export default function RequestMessage({ info, statusType }: Props) {
+export default function RequestMessage({
+  client,
+  info,
+  myEmail,
+  statusType,
+}: Props) {
   const navigate = useNavigate();
+  const onSave = useSaveMessage();
 
   const onPlaceDetail = (placeId: number) => {
     navigate(`/travel/${placeId}`);
@@ -20,14 +34,50 @@ export default function RequestMessage({ info, statusType }: Props) {
 
   const onPayPal = () => {
     console.log("페이팔 요청");
+    onUpdateMessage("PAYED");
   };
 
   const onRefuse = () => {
     console.log("여행객이 거부함");
+    onUpdateMessage("TRAVELER_CANCEL");
   };
 
   const onCancel = () => {
     console.log("커디가 취소함");
+    onUpdateMessage("KUDDY_CANCEL");
+  };
+
+  const token = localStorage.getItem("accessToken");
+
+  const onUpdateMessage = async (newStatus: string) => {
+    if (client.current) {
+      // 누가 눌렀냐에 따라 status 다르게 넣으면 됨
+
+      // 올 때는 이메일이 빠져서 온다...
+      let updateMsg = {
+        ...info,
+        meetStatus: newStatus,
+        isUpdated: 1,
+        senderEmail: myEmail,
+      };
+
+      console.log("업데이트 시도 내용", updateMsg);
+
+      try {
+        // ✅ 메세지 상태 업데이트하기
+        client.current.send(
+          "/app/updateMessage",
+          { Authorization: `Bearer ${token}` },
+          JSON.stringify(updateMsg),
+        );
+        //let saveMessage = {...updateMsg, senderId:}
+        // const savedMsg = await onSave();
+      } catch (e) {
+        alert(e);
+      } finally {
+        // setIsMapOpen(false);
+      }
+    }
   };
 
   return (
