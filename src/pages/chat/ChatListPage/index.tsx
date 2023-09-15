@@ -8,7 +8,7 @@ import { useQuery } from "react-query";
 import { useGetChatRooms } from "@services/hooks/chat";
 import { chatRooms } from "@services/api/chat";
 import calculateTimeDifference from "./calculateTimeDifference";
-import { profileGetSocialProfile } from "@services/api/profile";
+import { profileGetProfile } from "@services/api/profile";
 import { userInfoState } from "@services/store/auth";
 
 import { useUpdateDefaultProfile } from "@services/hooks/profile";
@@ -26,7 +26,7 @@ export default function ChatListPage() {
   });
 
   // 프로필 기본 정보 저장하기
-  const profileData = useQuery("profile", profileGetSocialProfile, {
+  const profileData = useQuery("profile", profileGetProfile, {
     refetchOnWindowFocus: false,
     retry: false,
   });
@@ -35,7 +35,22 @@ export default function ChatListPage() {
 
   useEffect(() => {
     if (profileData.isSuccess) {
-      onSave(profileData.data?.data.data);
+      console.log(">>", profileData.data?.data.data);
+      const res = profileData.data?.data.data;
+
+      let email = res.memberInfo.email;
+      let nickname = res.memberInfo.nickname;
+      let profileImageUrl = res.memberInfo.profileImageUrl;
+      let memberId = res.memberInfo.memberId;
+      let role = res.role;
+
+      onSave({
+        email: email,
+        nickname: nickname,
+        profileImageUrl: profileImageUrl,
+        memberId: memberId,
+        role: role,
+      });
     }
   }, [profileData.isSuccess]);
 
