@@ -20,9 +20,10 @@ export default function ChatListPage() {
 
   // 채팅방 내역 가져오기
   const { data, error, isLoading } = useQuery("chatRooms", chatRooms, {
-    refetchOnWindowFocus: false,
+    refetchOnWindowFocus: true,
     select: data =>
       data?.data.data.sort((a: any, b: any) => b.regDate - a.regDate), // 최신순으로 정렬
+    cacheTime: 0,
   });
 
   // 프로필 기본 정보 저장하기
