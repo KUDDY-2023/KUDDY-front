@@ -146,24 +146,29 @@ export default function ChatPage() {
     }
   }, [profileData.isSuccess]);
 
-  // 스크롤
+  // 새 메세지 왔을 때의 스크롤
   useEffect(() => {
-    // 최초 접속 시 로딩 속도가 느려서 못내려가는 건가 싶어서 넣어봄
+    if (messageEndRef.current) {
+      console.log("❤️❤️ 새로운 메세지 ");
+
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+  }, [FlightMessageArr]);
+
+  // 최초 접속 시의 스크롤
+  useEffect(() => {
     setTimeout(() => {
       if (initialRenderRef.current && messageEndRef.current) {
+        console.log("❤️❤️ 처음 실행");
         initialRenderRef.current = false;
         messageEndRef.current.scrollIntoView({
           behavior: "smooth",
         });
         return;
       }
-    }, 500);
-
-    if (messageEndRef.current) {
-      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
-      return;
-    }
-  }, [FlightMessageArr]);
+    }, 1000);
+  }, [MessageArr]);
 
   // 동행 만드는 모달 닫는 버튼
   const _handleCloseModal = () => {
@@ -203,16 +208,19 @@ export default function ChatPage() {
     setFlightMessageArr(prevMessageArr => [...prevMessageArr, newmsg]);
   };
 
+  const flagRef = useRef(true); // flag를 useRef로 관리
+
   // ✅ 구독) update 이벤트로 발생한 메세지 반영하기
   const handleUpdatedMessage = (updatedMsg: IMessage) => {
     let newMsg = JSON.parse(updatedMsg.body);
     console.log("업데이트  발생 >", newMsg);
 
-    let flag = false;
+    let flag = true;
     setMessageArr(prevMessageArr => {
       const updatedArr = prevMessageArr.map(msg => {
         if (msg.id === newMsg.id) {
-          flag = true;
+          flag = false;
+          flagRef.current = false;
           console.log("1");
           return newMsg;
         } else {
@@ -223,7 +231,10 @@ export default function ChatPage() {
       return updatedArr;
     });
 
-    if (!flag) {
+    console.log("❤️flag", flagRef.current);
+
+    if (flagRef.current) {
+      console.log(" ❤️ flight message 변화 발생");
       setFlightMessageArr(prevFlightMessageArr => {
         const updatedFlightArr = prevFlightMessageArr.map(msg => {
           if (msg.id === newMsg.id) {
@@ -237,6 +248,8 @@ export default function ChatPage() {
         return updatedFlightArr;
       });
     }
+
+    flagRef.current = true;
   };
 
   useEffect(() => {
@@ -341,6 +354,25 @@ export default function ChatPage() {
       // if (subscribe.current) {
       //   subscribe.current.unsubscribe(); // 구독 끊기
       // }
+    };
+  }, []);
+
+  /* 연결 끊겼을 때 다시 연결하기 위함 */
+  const handleVisibilityChange = () => {
+    if (!document.hidden) {
+      console.log("다시 돌아옴");
+    }
+    // 대충..가져온 코드
+    if (document.visibilityState === "visible") {
+      // 웹 앱이 포그라운드로 돌아왔을 때 소켓 재연결 요청
+      //connectClient(roomId, onNewMessage);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
   }, []);
 
