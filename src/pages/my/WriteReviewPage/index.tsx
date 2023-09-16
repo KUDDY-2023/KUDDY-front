@@ -1,53 +1,24 @@
 import "./writereviewpage.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BackNavBar from "@components/_common/BackNavBar";
 import pinIcon from "@assets/icon/pin_default.svg";
-
-type AppointmentType = {
-  id: number;
-  type: "scheduled" | "completed" | "canceled";
-  meeting: {
-    date: string;
-    place: string;
-  };
-  mate: {
-    profile: string;
-    nickname: string;
-  };
-  acceptedDate: string;
-  hasReview: boolean;
-};
+import { useGetMeetUps, usePostReview } from "@services/hooks/user";
 
 const WriteReviewPage = () => {
   const appointmentId = useParams().id;
+  const [meetUp, setMeetUp] = useState<any>();
   const [aboutBuddy, setAboutBuddy] = useState("");
   const [satisfaction, setSatisfaction] = useState([
-    { type: "Perfect", isSelected: false },
-    { type: "Good", isSelected: false },
-    { type: "Disappoint", isSelected: false },
+    { grade: "Perfect", isSelected: false },
+    { grade: "Good", isSelected: false },
+    { grade: "Disappoint", isSelected: false },
   ]);
 
-  // 동행 조회 필요
-  const [appointment, setAppointment] = useState<AppointmentType>({
-    id: 1,
-    type: "scheduled",
-    meeting: {
-      date: "2023.06.19  11am",
-      place: "Gyeongbokgung Palace",
-    },
-    mate: {
-      profile:
-        "https://s3-alpha-sig.figma.com/img/f408/2883/2744c00e820f277563889c3bca4f7fd4?Expires=1693785600&Signature=NW7GU2ur3j9YwthaW4SX5bT1gE7AS7qHLUs5sduOuNmgwPVorgWkqEhqTl2Z8XLFE4nkXrAVDgih3i3xp40tFIhkWtswSY43pb4pvZtRj46trdGdAuR2lsbiLUUZqNFSFHAJiv-7afUX0x7cgYAO0IPAxyIaPdJhjpxOC9odP3-kgazfqDl9UlaF1ALav4o1ZgD8ciEYXZbZzu5HjEGlfzenwd5Th7vR71MVGHnzxul7JjW3iIKOY3kLs2blDiPuySnWlwwYrpWEJabh7Z2OUD9Fmw5MWSnsxrBYpWFWDyYmHYas7RXi0WlNFJb-NBt5y4CCAjnH3cCLwAzF0ilKZQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-      nickname: "Harper",
-    },
-    acceptedDate: "2023.05.05  13:50",
-    hasReview: false,
-  });
-
-  const handleSatisfactionClick = (type: string) => {
+  // 만족도 버튼 클릭
+  const handleSatisfactionClick = (grade: string) => {
     const newSatisfaction = satisfaction.map(item =>
-      item.type === type
+      item.grade === grade
         ? { ...item, isSelected: !item.isSelected }
         : { ...item, isSelected: false },
     );
@@ -55,9 +26,34 @@ const WriteReviewPage = () => {
     setSatisfaction(newSatisfaction);
   };
 
-  const handleCompleteClick = () => {
+  const onGetMeetUps = useGetMeetUps();
+  const onPostReview = usePostReview();
+
+  // complete 버튼 클릭
+  const handleCompleteClick = async () => {
+    const selectedSatisfaction = satisfaction.filter(item => item.isSelected);
+    console.log("만족도" + selectedSatisfaction[0].grade.toLowerCase());
     console.log("리뷰 작성 폼 제출");
+    const res = await onPostReview({
+      meetId: Number(appointmentId),
+      content: aboutBuddy,
+      grade: selectedSatisfaction[0].grade.toLowerCase(),
+    });
   };
+
+  // 같은 id의 동행 정보 저장
+  useEffect(() => {
+    const getMeetUps = async () => {
+      let res = await onGetMeetUps();
+      res = res?.meetupList?.filter(
+        (item: any) => item.meetupId === Number(appointmentId),
+      );
+      console.log("동행" + res);
+      setMeetUp(res);
+    };
+
+    getMeetUps();
+  }, []);
 
   return (
     <>
@@ -66,15 +62,17 @@ const WriteReviewPage = () => {
       <div className="write-review-container">
         <div className="appointment-container">
           <div className="appointment-top-section">
-            <div className="appointment-date">{appointment.meeting.date}</div>
+            <div className="appointment-date">{meetUp?.appointmentTime}</div>
             <div className="mate-section">
-              <img src={appointment.mate.profile} />
-              <div className="mate-nickname">{appointment.mate.nickname}</div>
+              <img src={meetUp?.targetMemberInfo?.profileImageUrl} />
+              <div className="mate-nickname">
+                {meetUp?.targetMemberInfo?.targetNickname}
+              </div>
             </div>
           </div>
           <div className="appointment-bottom-section">
             <img src={pinIcon} />
-            <div className="appointment-spot">{appointment.meeting.place}</div>
+            <div className="appointment-spot">{meetUp?.spotName}</div>
           </div>
         </div>
 
@@ -91,9 +89,9 @@ const WriteReviewPage = () => {
                         ? "satisfaction-btn selected"
                         : "satisfaction-btn"
                     }
-                    onClick={() => handleSatisfactionClick(item.type)}
+                    onClick={() => handleSatisfactionClick(item.grade)}
                   >
-                    {item.type}
+                    {item.grade}
                   </div>
                 );
               })}

@@ -188,3 +188,10 @@
   height: 256px;
   border-radius: 10px;
 }
+
+#spot-num-custom {
+  width: 18px;
+  height: 17px;
+  text-align: center;
+  @include font-style(--font-text, 11px, color(black), 600);
+}

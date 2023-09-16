@@ -1,5 +1,5 @@
 import "./appointmentpage.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BackNavBar from "@components/_common/BackNavBar";
 import arrowIcon from "@assets/icon/arrow_right.svg";
@@ -7,86 +7,22 @@ import pinIcon from "@assets/icon/pin_default.svg";
 import scheduledIcon from "@assets/my/clock.svg";
 import completedIcon from "@assets/my/complete.svg";
 import canceledIcon from "@assets/icon/red_x.svg";
-
-type AppointmentType = {
-  id: number;
-  type: "scheduled" | "completed" | "canceled";
-  meeting: {
-    date: string;
-    place: string;
-  };
-  mate: {
-    profile: string;
-    nickname: string;
-  };
-  acceptedDate: string;
-  hasReview: boolean;
-};
+import { useGetMeetUps } from "@services/hooks/user";
 
 const AppointmentPage = () => {
   const nav = useNavigate();
-  const [appointments, setAppointments] = useState<AppointmentType[]>([
-    {
-      id: 1,
-      type: "scheduled",
-      meeting: {
-        date: "2023.06.19  11am",
-        place: "Gyeongbokgung Palace",
-      },
-      mate: {
-        profile:
-          "https://s3-alpha-sig.figma.com/img/f408/2883/2744c00e820f277563889c3bca4f7fd4?Expires=1693785600&Signature=NW7GU2ur3j9YwthaW4SX5bT1gE7AS7qHLUs5sduOuNmgwPVorgWkqEhqTl2Z8XLFE4nkXrAVDgih3i3xp40tFIhkWtswSY43pb4pvZtRj46trdGdAuR2lsbiLUUZqNFSFHAJiv-7afUX0x7cgYAO0IPAxyIaPdJhjpxOC9odP3-kgazfqDl9UlaF1ALav4o1ZgD8ciEYXZbZzu5HjEGlfzenwd5Th7vR71MVGHnzxul7JjW3iIKOY3kLs2blDiPuySnWlwwYrpWEJabh7Z2OUD9Fmw5MWSnsxrBYpWFWDyYmHYas7RXi0WlNFJb-NBt5y4CCAjnH3cCLwAzF0ilKZQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-        nickname: "Harper",
-      },
-      acceptedDate: "2023.05.05  13:50",
-      hasReview: false,
-    },
-    {
-      id: 2,
-      type: "completed",
-      meeting: {
-        date: "2023.04.19  11am",
-        place: "Gyeongbokgung Palace",
-      },
-      mate: {
-        profile:
-          "https://s3-alpha-sig.figma.com/img/f408/2883/2744c00e820f277563889c3bca4f7fd4?Expires=1693785600&Signature=NW7GU2ur3j9YwthaW4SX5bT1gE7AS7qHLUs5sduOuNmgwPVorgWkqEhqTl2Z8XLFE4nkXrAVDgih3i3xp40tFIhkWtswSY43pb4pvZtRj46trdGdAuR2lsbiLUUZqNFSFHAJiv-7afUX0x7cgYAO0IPAxyIaPdJhjpxOC9odP3-kgazfqDl9UlaF1ALav4o1ZgD8ciEYXZbZzu5HjEGlfzenwd5Th7vR71MVGHnzxul7JjW3iIKOY3kLs2blDiPuySnWlwwYrpWEJabh7Z2OUD9Fmw5MWSnsxrBYpWFWDyYmHYas7RXi0WlNFJb-NBt5y4CCAjnH3cCLwAzF0ilKZQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-        nickname: "Harper",
-      },
-      acceptedDate: "2023.05.05  13:50",
-      hasReview: false,
-    },
-    {
-      id: 3,
-      type: "completed",
-      meeting: {
-        date: "2023.04.19  11am",
-        place: "Gyeongbokgung Palace",
-      },
-      mate: {
-        profile:
-          "https://s3-alpha-sig.figma.com/img/f408/2883/2744c00e820f277563889c3bca4f7fd4?Expires=1693785600&Signature=NW7GU2ur3j9YwthaW4SX5bT1gE7AS7qHLUs5sduOuNmgwPVorgWkqEhqTl2Z8XLFE4nkXrAVDgih3i3xp40tFIhkWtswSY43pb4pvZtRj46trdGdAuR2lsbiLUUZqNFSFHAJiv-7afUX0x7cgYAO0IPAxyIaPdJhjpxOC9odP3-kgazfqDl9UlaF1ALav4o1ZgD8ciEYXZbZzu5HjEGlfzenwd5Th7vR71MVGHnzxul7JjW3iIKOY3kLs2blDiPuySnWlwwYrpWEJabh7Z2OUD9Fmw5MWSnsxrBYpWFWDyYmHYas7RXi0WlNFJb-NBt5y4CCAjnH3cCLwAzF0ilKZQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-        nickname: "Harper",
-      },
-      acceptedDate: "2023.05.05  13:50",
-      hasReview: true,
-    },
-    {
-      id: 4,
-      type: "canceled",
-      meeting: {
-        date: "2023.05.19  11am",
-        place: "Gyeongbokgung Palace",
-      },
-      mate: {
-        profile:
-          "https://s3-alpha-sig.figma.com/img/f408/2883/2744c00e820f277563889c3bca4f7fd4?Expires=1693785600&Signature=NW7GU2ur3j9YwthaW4SX5bT1gE7AS7qHLUs5sduOuNmgwPVorgWkqEhqTl2Z8XLFE4nkXrAVDgih3i3xp40tFIhkWtswSY43pb4pvZtRj46trdGdAuR2lsbiLUUZqNFSFHAJiv-7afUX0x7cgYAO0IPAxyIaPdJhjpxOC9odP3-kgazfqDl9UlaF1ALav4o1ZgD8ciEYXZbZzu5HjEGlfzenwd5Th7vR71MVGHnzxul7JjW3iIKOY3kLs2blDiPuySnWlwwYrpWEJabh7Z2OUD9Fmw5MWSnsxrBYpWFWDyYmHYas7RXi0WlNFJb-NBt5y4CCAjnH3cCLwAzF0ilKZQ__&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4",
-        nickname: "Harper",
-      },
-      acceptedDate: "2023.05.05  13:50",
-      hasReview: false,
-    },
-  ]);
+  const [meetUps, setMeetUps] = useState<any>();
+  const onGetMeetUps = useGetMeetUps();
+
+  useEffect(() => {
+    const getMeetUps = async () => {
+      const res = await onGetMeetUps();
+      console.log("동행" + res);
+      setMeetUps(res);
+    };
+
+    getMeetUps();
+  }, []);
 
   let iconType: string, itemStyle: string;
 
@@ -106,8 +42,8 @@ const AppointmentPage = () => {
     }
   };
 
-  const handleSpotDetailClick = () => {
-    console.log("장소 디테일 페이지로 이동");
+  const handleSpotDetailClick = (id: number) => {
+    nav(`/travel/${id}`);
   };
 
   const handleCancelClick = () => {
@@ -125,43 +61,45 @@ const AppointmentPage = () => {
   return (
     <>
       <BackNavBar middleTitle="My appointment" isShare={false} />
-      {appointments && (
+      {meetUps && (
         <div className="appointments-container">
-          {appointments.map(item => {
-            handleType(item.type, item.hasReview);
+          {meetUps?.meetupList?.map((item: any) => {
+            handleType(item?.meetupStatus, item?.reviewed);
 
             return (
               <div
-                key={item.id}
+                key={item?.meetupId}
                 className={`appointment-item-container ${itemStyle}`}
               >
                 <div className="appointment-item-header">
-                  <div className="appointment-date">{item.meeting.date}</div>
-                  <div className={`appointment-type ${item.type}`}>
+                  <div className="appointment-date">
+                    {item?.appointmentTime}
+                  </div>
+                  <div className={`appointment-type ${item?.meetupStatus}`}>
                     <img src={iconType} />
-                    {item.type}
+                    {item?.meetupStatus}
                   </div>
                 </div>
 
                 <div className="appointment-item-body">
                   <div className="appointment-place-container">
                     <img id="pin-icon" src={pinIcon} />
-                    <div className="appointment-place">
-                      {item.meeting.place}
-                    </div>
+                    <div className="appointment-place">{item?.spotName}</div>
                     <img
                       id="arrow-icon"
                       src={arrowIcon}
-                      onClick={handleSpotDetailClick}
+                      onClick={() => handleSpotDetailClick(item?.spotId)}
                     />
                   </div>
 
                   <div className="meeting-detail-container">
                     <div className="mate-profile-container">
-                      <img src={item.mate.profile} />
-                      <div className="mate-nickname">{item.mate.nickname}</div>
+                      <img src={item?.targetMemberInfo?.profileImageUrl} />
+                      <div className="mate-nickname">
+                        {item?.targetMemberInfo?.targetNickname}
+                      </div>
                     </div>
-                    <div className="accepted-date">{item.acceptedDate}</div>
+                    <div className="accepted-date">{item?.createdDate}</div>
                   </div>
                 </div>
 
@@ -181,11 +119,11 @@ const AppointmentPage = () => {
                     </div>
                   </div>
                 )}
-                {item.type === "completed" && !item.hasReview && (
+                {item?.meetupStatus === "completed" && !item?.reviewed && (
                   <div className="appointment-item-footer">
                     <div
                       className="appointment-btn write-review"
-                      onClick={() => handleWriteReviewClick(item.id)}
+                      onClick={() => handleWriteReviewClick(item?.meetupId)}
                     >
                       Write Review
                     </div>

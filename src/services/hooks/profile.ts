@@ -12,6 +12,7 @@ import {
   profileGetSocialProfile,
   profileCreateTheFirstProfile,
   profileGetProfile,
+  profileGetProfileByName,
 } from "@services/api/profile";
 import { useRecoilState } from "recoil";
 import useCheckNickname from "@utils/hooks/useCheckNickname";
@@ -231,4 +232,18 @@ export const CheckNicknameString = (newName: string) => {
   }
 
   return [alertText, textColor];
+};
+
+// 닉네임으로 프로필 조회
+export const useGetProfileByName = () => {
+  const onGetProfileByName = async (nickname: string) => {
+    try {
+      const res = await profileGetProfileByName(nickname);
+      return res.data.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return onGetProfileByName;
 };

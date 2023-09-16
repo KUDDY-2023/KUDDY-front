@@ -1,30 +1,32 @@
 import "./profile-detail-page.scss";
-import { KuddyUserData, TravelerUserData } from "@utils/data/userProfile";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import NavBar from "@components/ProfileDetailPage/NavBar";
 import IntroSection from "@components/ProfileDetailPage/IntroSection";
 import AboutBuddySection from "@components/ProfileDetailPage/AboutBuddySection";
 import ReviewSection from "@components/ProfileDetailPage/ReviewSection";
+import { useGetProfileByName } from "@services/hooks/profile";
 
 const ProfileDetailPage = () => {
   const nickname = useParams().nickname;
+  const [profile, setProfile] = useState();
+  const onGetProfileByName = useGetProfileByName();
 
-  // 임의
-  let Props;
-  switch (nickname) {
-    case "ian":
-      Props = KuddyUserData;
-      break;
-    case "harper":
-      Props = TravelerUserData;
-  }
+  useEffect(() => {
+    const getProfileByName = async () => {
+      const res = await onGetProfileByName(nickname || "");
+      setProfile(res);
+    };
+
+    getProfileByName();
+  }, []);
 
   return (
     <div className="profile-detail-container">
       <NavBar />
-      <IntroSection {...Props} />
-      <AboutBuddySection {...Props} />
-      <ReviewSection {...Props} />
+      <IntroSection profile={profile} />
+      <AboutBuddySection profile={profile} />
+      <ReviewSection profile={profile} />
     </div>
   );
 };
