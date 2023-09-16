@@ -11,7 +11,7 @@ import { MutableRefObject } from "react";
 import { CompatClient } from "@stomp/stompjs";
 import { useSaveMessage } from "@services/hooks/chat";
 
-import { useRecoilState } from "recoil";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import { meetUpInfoState } from "@services/store/chat";
 
 interface Props {
@@ -34,7 +34,10 @@ export default function MakeMeetUpModal({
   myNickname,
   handleMyMessage,
 }: Props) {
-  const [meetInfo, setMeetInfo] = useRecoilState(meetUpInfoState); // 전역 상태
+  const meetInfo = useRecoilValue(meetUpInfoState); // 전역 상태
+  const resetMeetInfo = useResetRecoilState(meetUpInfoState); // 전역 상태 초기화
+
+  const [isActive, setIsActive] = useState(false);
 
   const onSave = useSaveMessage();
 
@@ -59,6 +62,20 @@ export default function MakeMeetUpModal({
     isUpdated: 0,
   };
 
+  useEffect(() => {
+    if (
+      meetInfo.spotContentId !== null &&
+      meetInfo.spotName !== null &&
+      meetInfo.appointmentTimeD !== null &&
+      meetInfo.appointmentTimeT !== null &&
+      meetInfo.price !== null
+    ) {
+      setIsActive(true);
+    } else {
+      setIsActive(false);
+    }
+  }, [meetInfo]);
+
   const onSendMeetUpMessage = async () => {
     if (client.current) {
       try {
@@ -77,6 +94,9 @@ export default function MakeMeetUpModal({
           { Authorization: `Bearer ${token}` },
           JSON.stringify(savedMsg),
         );
+
+        // ✅ 전역 상태 비우기
+        resetMeetInfo();
       } catch (e) {
         alert(e);
       } finally {
@@ -103,7 +123,7 @@ export default function MakeMeetUpModal({
 
         <EventBtn
           btnName="Send invitaion"
-          isActive={true}
+          isActive={isActive}
           onClick={onSendMeetUpMessage}
         />
       </div>
