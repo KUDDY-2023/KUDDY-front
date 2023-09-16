@@ -12,3 +12,9 @@ export const userGetMeetUps = () => {
   const url = `/api/v1/meetups`;
   return apiClient.get(url);
 };
+
+// 리뷰 작성
+export const userPostReview = (review: any) => {
+  const url = `/api/v1/reviews`;
+  return apiClient.post(url, review);
+};
