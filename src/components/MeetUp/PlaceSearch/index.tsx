@@ -50,7 +50,7 @@ export default function PlaceSearch({
   return (
     <div className="place-search-style" ref={wrapperRef}>
       <div className="search-section" id={short ? "short-version" : ""}>
-        <input type="text" {...searchPlaceInput} />
+        <input type="text" {...searchPlaceInput} autoFocus />
         <SearchIcon onClick={_handleReqPlaceSearch} />
       </div>
       <div className="result-section">
