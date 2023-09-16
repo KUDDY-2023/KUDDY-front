@@ -3,6 +3,8 @@ import { useQuery } from "react-query";
 import {
   communityGetPostList,
   communityPostPost,
+  communityGetKuddyReviews,
+  communityGetTravelerReviews,
 } from "@services/api/community";
 import {
   itineraryPostState,
@@ -36,4 +38,32 @@ export const usePostPost = () => {
   };
 
   return onPostPost;
+};
+
+// ✅ kuddy가 받은 리뷰 조회
+export const useGetKuddyReviews = () => {
+  const onGetKuddyReviews = async (id: number) => {
+    try {
+      const res = await communityGetKuddyReviews(id);
+      return res.data.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return onGetKuddyReviews;
+};
+
+// ✅ traveler가 받은 리뷰 조회
+export const useGetTravelerReviews = () => {
+  const onGetTravelerReviews = async (id: number) => {
+    try {
+      const res = await communityGetTravelerReviews(id);
+      return res.data.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return onGetTravelerReviews;
 };
