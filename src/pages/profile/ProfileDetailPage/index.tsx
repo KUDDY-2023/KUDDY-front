@@ -15,7 +15,6 @@ const ProfileDetailPage = () => {
   useEffect(() => {
     const getProfileByName = async () => {
       const res = await onGetProfileByName(nickname || "");
-      console.log(res);
       setProfile(res);
     };
 
