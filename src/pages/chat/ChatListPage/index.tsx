@@ -62,38 +62,41 @@ export default function ChatListPage() {
   return (
     <div className="chat-list-page">
       <BackNavBar middleTitle="Chat" isShare={false} />
-      {isLoading ? <p>로딩</p> : <p>완료</p>}
-      <div className="chat-list-container">
-        {data?.map((room: IChatRoom) => {
-          let chatStyle = room.unReadCount ? "unread" : "read";
-          let sendAt = room.latestMessage?.sendAt;
+      {isLoading ? (
+        <p>로딩...</p>
+      ) : (
+        <div className="chat-list-container">
+          {data?.map((room: IChatRoom) => {
+            let chatStyle = room.unReadCount ? "unread" : "read";
+            let sendAt = room.latestMessage?.sendAt;
 
-          const { beforeTime, dateUnit } = calculateTimeDifference(sendAt);
+            const { beforeTime, dateUnit } = calculateTimeDifference(sendAt);
 
-          return (
-            <div
-              className="chat-list"
-              key={room.chatRoomId}
-              onClick={() => onEnterChatRoom(room.chatRoomId)}
-            >
-              <div className="profile">
-                <img src={room.participant.profile} alt="profile-img" />
+            return (
+              <div
+                className="chat-list"
+                key={room.chatRoomId}
+                onClick={() => onEnterChatRoom(room.chatRoomId)}
+              >
+                <div className="profile">
+                  <img src={room.participant.profile} alt="profile-img" />
 
-                {!!room.unReadCount && <span></span>}
-              </div>
-              <div className="info">
-                <div id="name">{room.participant.nickname}</div>
-                <div className="flex">
-                  <p className={chatStyle}>{room.latestMessage?.context}</p>
-                  <p id="time">
-                    {beforeTime} {dateUnit} ago
-                  </p>
+                  {!!room.unReadCount && <span></span>}
+                </div>
+                <div className="info">
+                  <div id="name">{room.participant.nickname}</div>
+                  <div className="flex">
+                    <p className={chatStyle}>{room.latestMessage?.context}</p>
+                    <p id="time">
+                      {beforeTime} {dateUnit} ago
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }
