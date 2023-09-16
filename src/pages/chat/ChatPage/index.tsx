@@ -208,19 +208,20 @@ export default function ChatPage() {
     setFlightMessageArr(prevMessageArr => [...prevMessageArr, newmsg]);
   };
 
-  const flagRef = useRef(true); // flag를 useRef로 관리
-
   // ✅ 구독) update 이벤트로 발생한 메세지 반영하기
   const handleUpdatedMessage = (updatedMsg: IMessage) => {
     let newMsg = JSON.parse(updatedMsg.body);
     console.log("업데이트  발생 >", newMsg);
 
     let flag = true;
+    // 이미 찾았다면
+    MessageArr.forEach(msg => {
+      if (msg.id === newMsg.id) flag = false;
+    });
+
     setMessageArr(prevMessageArr => {
       const updatedArr = prevMessageArr.map(msg => {
         if (msg.id === newMsg.id) {
-          flag = false;
-          flagRef.current = false;
           console.log("1");
           return newMsg;
         } else {
@@ -231,15 +232,14 @@ export default function ChatPage() {
       return updatedArr;
     });
 
-    console.log("❤️flag", flagRef.current);
-
-    if (flagRef.current) {
+    if (flag) {
+      // 위에서 이미 찾았다면 실행하지 않음
       console.log(" ❤️ flight message 변화 발생");
       setFlightMessageArr(prevFlightMessageArr => {
         const updatedFlightArr = prevFlightMessageArr.map(msg => {
           if (msg.id === newMsg.id) {
             console.log("3");
-            return newMsg; // 되려나?
+            return newMsg;
           } else {
             console.log("4");
             return msg;
@@ -248,8 +248,6 @@ export default function ChatPage() {
         return updatedFlightArr;
       });
     }
-
-    flagRef.current = true;
   };
 
   useEffect(() => {
