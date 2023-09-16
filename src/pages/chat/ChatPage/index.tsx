@@ -37,6 +37,11 @@ export default function ChatPage() {
   const [myNickname, setMyNickname] = useState<string>(""); // 현재 유저의 닉네임
   const [isOpenBottomModal, setIsOpenBottomModal] = useState(false);
 
+  const [partnerInfo, setPartnerInfo] = useState({
+    nickname: "",
+    profileImageUrl: "",
+  });
+
   const client = useRef<CompatClient>();
   const subscribe = useRef<StompSubscription>();
 
@@ -92,7 +97,7 @@ export default function ChatPage() {
     "messages",
     () => chatGetAllMessage(roomId || ""),
     {
-      select: data => data?.data.data.chatList,
+      select: data => data?.data.data,
       refetchOnMount: false,
       refetchOnWindowFocus: false, // 너엿구나 하..
       cacheTime: 0,
@@ -102,7 +107,9 @@ export default function ChatPage() {
   // 기존 메세지 내역 가져오기
   useEffect(() => {
     if (data) {
-      setMessageArr(data);
+      setMessageArr(data.chatList);
+      setPartnerInfo(data.receiverInfo);
+
       console.log("채팅내역", data);
     }
   }, [data]);
@@ -317,7 +324,10 @@ export default function ChatPage() {
         memberId={profile.memberId}
         handleMyMessage={handleMyMessage}
       />
-      <PartnerHead userName="User name" profileImgUrl={url} />
+      <PartnerHead
+        userName={partnerInfo.nickname}
+        profileImgUrl={partnerInfo.profileImageUrl}
+      />
 
       <div className="message-container">
         {/* <ConfirmedRequestMessage info={tempInfo} />
@@ -431,7 +441,7 @@ export default function ChatPage() {
 
       <MessageInput
         client={client}
-        meetupBtnVisible={true}
+        meetupBtnVisible={profile.role === "KUDDY"}
         onMakeMeetUp={_handleOpenBottomModal}
         roomId={roomId || ""}
         myEmail={profile.email}
