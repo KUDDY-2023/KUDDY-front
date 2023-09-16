@@ -6,3 +6,9 @@ export const authReportUser = (report: IReport) => {
   const url = `/api/v1/reports`;
   return apiClient.post(url, report);
 };
+
+// 내 동행 리스트 조회
+export const userGetMeetUps = () => {
+  const url = `/api/v1/meetups`;
+  return apiClient.get(url);
+};
