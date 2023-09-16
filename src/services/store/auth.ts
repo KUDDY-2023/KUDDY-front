@@ -22,6 +22,7 @@ export const userInfoState = atom<IUserSimpleInfo>({
     nickname: "",
     profileImageUrl: "",
     memberId: 0,
+    role: "",
   },
 });
 
