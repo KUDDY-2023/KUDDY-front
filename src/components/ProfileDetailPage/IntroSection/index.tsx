@@ -1,5 +1,6 @@
 import "./intro-section.scss";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import guideGrade from "@assets/profile/guid_grade.svg";
 import verified from "@assets/profile/verified.svg";
 import notVerified from "@assets/profile/not_verified.svg";
@@ -25,6 +26,7 @@ const IntroSection = ({ profile }: Props) => {
     "sports",
   ];
   const [interestText, setInterestText] = useState<string[]>([]);
+  const nav = useNavigate();
   let isMine = profile?.mine;
   let badgeText, badgeIcon;
 
@@ -46,7 +48,6 @@ const IntroSection = ({ profile }: Props) => {
   // interest 관련
   useEffect(() => {
     let newValues: string[] = [];
-    let newInterestText = "";
 
     for (let i = 0; i < interestKey.length; i++) {
       const temp = profile?.interests?.[interestKey[i]].map((v: any) => {
@@ -64,6 +65,14 @@ const IntroSection = ({ profile }: Props) => {
 
     setInterestText(newValues);
   }, [profile]);
+
+  const handleBtnClick = () => {
+    if (isMine) {
+      nav("/profile/modify");
+    } else {
+      // 채팅 페이지로 이동
+    }
+  };
 
   return (
     <div className="intro-section-container">
