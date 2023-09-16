@@ -8,6 +8,8 @@ import SystemMessage from "../SystemMessage";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { useFormatDate } from "@utils/hooks/useformatDate";
+
 interface Props {
   info: IGetMessage;
   statusType: "PAYED" | "TRAVELER_CANCEL" | "COMPLETED" | "KUDDY_CANCEL";
@@ -45,8 +47,12 @@ export default function ConfirmedRequestMessage({ info, statusType }: Props) {
   const btnTextStyle = ["black-text", "red-text", "blue-text", "red-text"];
 
   const onPlaceDetail = (placeId: number) => {
-    navigate(`travel/${placeId}`);
+    navigate(`/travel/${placeId}`);
   };
+
+  let formatedAppointmentTime = useFormatDate(info.appointmentTime || "");
+  let spotName = info.spotName || "";
+  spotName = spotName.length > 22 ? spotName.slice(0, 22) + "..." : spotName;
 
   return (
     <div className="confirmed-request-message-section">
@@ -65,11 +71,11 @@ export default function ConfirmedRequestMessage({ info, statusType }: Props) {
             </div>
             <div className="grid-right">
               <div onClick={() => onPlaceDetail(info.spotContentId || 0)}>
-                <p>{info.spotName}</p>
+                <p id="place-text">{spotName}</p>
                 <RightIcon id="right-icon" />
               </div>
               <div>
-                <p>{info.appointmentTime}</p>
+                <p>{formatedAppointmentTime}</p>
               </div>
               <div>
                 <p>{info.price}$</p>

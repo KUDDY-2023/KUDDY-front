@@ -12,6 +12,8 @@ import { MutableRefObject } from "react";
 import { CompatClient } from "@stomp/stompjs";
 import { useSaveMessage } from "@services/hooks/chat";
 
+import { useFormatDate } from "@utils/hooks/useformatDate";
+
 interface Props {
   client: MutableRefObject<CompatClient | undefined>;
   info: IGetMessage;
@@ -48,6 +50,10 @@ export default function RequestMessage({
   };
 
   const token = localStorage.getItem("accessToken");
+
+  let formatedAppointmentTime = useFormatDate(info.appointmentTime || "");
+  let spotName = info.spotName || "";
+  spotName = spotName.length > 22 ? spotName.slice(0, 22) + "..." : spotName;
 
   const onUpdateMessage = async (newStatus: string) => {
     if (client.current) {
@@ -95,11 +101,11 @@ export default function RequestMessage({
             </div>
             <div className="grid-right">
               <div onClick={() => onPlaceDetail(info.spotContentId || 0)}>
-                <p id="korean">{info.spotName}</p>
+                <p id="korean">{spotName}</p>
                 <RightIcon id="right-icon" />
               </div>
               <div>
-                <p>{info.appointmentTime}</p>
+                <p>{formatedAppointmentTime}</p>
               </div>
               <div>
                 <p>{info.price}$</p>
