@@ -29,6 +29,10 @@ import { chatGetAllMessage } from "@services/api/chat";
 
 import { useRecoilState } from "recoil";
 import { userInfoState } from "@services/store/auth";
+
+import { profileGetProfile } from "@services/api/profile";
+import { useUpdateDefaultProfile } from "@services/hooks/profile";
+
 export default function ChatPage() {
   const [profile, setProfile] = useRecoilState(userInfoState); // 전역 프로필 recoil
   const token = window.localStorage.getItem("accessToken") as string; // 토큰
@@ -56,8 +60,8 @@ export default function ChatPage() {
   const initialRenderRef = useRef(true);
 
   useEffect(() => {
-    console.log("전역 상태!", profile);
-  }, []);
+    console.log("⭐⭐⭐ 전역 상태 >>>>>>>> ", profile);
+  }, [profile]);
 
   let updateMsg = {
     id: "64fb179e4a4e36075eb150ab",
@@ -92,7 +96,7 @@ export default function ChatPage() {
     localStorage.setItem("email", res.data.data.email);
   };
 
-  // 채팅 내역 가져오는 쿼리
+  // ⭐ 채팅 내역 가져오는 쿼리
   const { data, error, isLoading } = useQuery(
     "messages",
     () => chatGetAllMessage(roomId || ""),
@@ -104,7 +108,7 @@ export default function ChatPage() {
     },
   );
 
-  // 기존 메세지 내역 가져오기
+  // 받아온 메세지 내역 저장
   useEffect(() => {
     if (data) {
       setMessageArr(data.chatList);
@@ -113,6 +117,34 @@ export default function ChatPage() {
       console.log("채팅내역", data);
     }
   }, [data]);
+
+  // ⭐ 내 프로필 정보 가져오는 쿼리
+  const profileData = useQuery("profile", profileGetProfile, {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
+  const onSave = useUpdateDefaultProfile();
+  // 전역 상태 - 내 프로필 정보 저장
+  useEffect(() => {
+    if (profileData.isSuccess) {
+      console.log(">>", profileData.data?.data.data);
+      const res = profileData.data?.data.data;
+
+      let email = res.memberInfo.email;
+      let nickname = res.memberInfo.nickname;
+      let profileImageUrl = res.memberInfo.profileImageUrl;
+      let memberId = res.memberInfo.memberId;
+      let role = res.role;
+
+      onSave({
+        email: email,
+        nickname: nickname,
+        profileImageUrl: profileImageUrl,
+        memberId: memberId,
+        role: role,
+      });
+    }
+  }, [profileData.isSuccess]);
 
   // 스크롤
   useEffect(() => {
@@ -196,7 +228,7 @@ export default function ChatPage() {
         const updatedFlightArr = prevFlightMessageArr.map(msg => {
           if (msg.id === newMsg.id) {
             console.log("3");
-            return { ...msg, ...newMsg }; // 되려나?
+            return newMsg; // 되려나?
           } else {
             console.log("4");
             return msg;

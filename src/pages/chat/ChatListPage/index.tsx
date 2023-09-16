@@ -16,8 +16,6 @@ import { useRecoilState } from "recoil";
 export default function ChatListPage() {
   const navigate = useNavigate();
 
-  const [_, setDefaultInfo] = useRecoilState(userInfoState);
-
   // 채팅방 내역 가져오기
   const { data, error, isLoading } = useQuery("chatRooms", chatRooms, {
     refetchOnWindowFocus: true,
@@ -25,35 +23,6 @@ export default function ChatListPage() {
       data?.data.data.sort((a: any, b: any) => b.regDate - a.regDate), // 최신순으로 정렬
     cacheTime: 0,
   });
-
-  // 프로필 기본 정보 저장하기
-  const profileData = useQuery("profile", profileGetProfile, {
-    refetchOnWindowFocus: false,
-    retry: false,
-  });
-
-  const onSave = useUpdateDefaultProfile();
-
-  useEffect(() => {
-    if (profileData.isSuccess) {
-      console.log(">>", profileData.data?.data.data);
-      const res = profileData.data?.data.data;
-
-      let email = res.memberInfo.email;
-      let nickname = res.memberInfo.nickname;
-      let profileImageUrl = res.memberInfo.profileImageUrl;
-      let memberId = res.memberInfo.memberId;
-      let role = res.role;
-
-      onSave({
-        email: email,
-        nickname: nickname,
-        profileImageUrl: profileImageUrl,
-        memberId: memberId,
-        role: role,
-      });
-    }
-  }, [profileData.isSuccess]);
 
   const onEnterChatRoom = (roomId: number) => {
     navigate(`/chat/${roomId}`);
