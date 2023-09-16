@@ -2,6 +2,7 @@ import "./travel-detail-title.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useBookmark from "@utils/hooks/useBookmark";
+import defaultthumbnail from "@assets/location/default_thumbnail.jpeg";
 import { ReactComponent as BookmarkIcon } from "@assets/icon/bookmark.svg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay } from "swiper";
@@ -62,22 +63,26 @@ const TravelDetailTitle = ({
   return (
     <div className="travel-detail-title-wrapper">
       <div className="img-rect">
-        <Swiper
-          centeredSlides={true}
-          loop={true}
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
-        >
-          {imageList.map((src, idx) => (
-            <SwiperSlide
-              key={src}
-              onClick={() =>
-                setImageView({ isOpen: true, index: idx, imgUrl: src })
-              }
-            >
-              <img alt={src} src={src} />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        {imageList.length === 0 ? (
+          <img src={defaultthumbnail} />
+        ) : (
+          <Swiper
+            centeredSlides={true}
+            loop={true}
+            autoplay={{ delay: 3000, disableOnInteraction: false }}
+          >
+            {imageList.map((src, idx) => (
+              <SwiperSlide
+                key={src}
+                onClick={() =>
+                  setImageView({ isOpen: true, index: idx, imgUrl: src })
+                }
+              >
+                <img alt={src} src={src} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </div>
       <div className="title">{name}</div>
       <div className="sub-title">{`${district} · ${category}`}</div>
