@@ -18,3 +18,9 @@ export const userPostReview = (review: any) => {
   const url = `/api/v1/reviews`;
   return apiClient.post(url, review);
 };
+
+// 리뷰 작성하러 가기 모달 여부 조회
+export const userGetReviewModal = () => {
+  const url = `/api/v1/meetups/review`;
+  return apiClient.get(url);
+};

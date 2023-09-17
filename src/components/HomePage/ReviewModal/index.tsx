@@ -3,9 +3,10 @@ import image from "@assets/home/review_modal_image.svg";
 import { ReactComponent as ArrowIcon } from "@assets/icon/home_text_arrow.svg";
 import { useNavigate } from "react-router-dom";
 
-const ReviewModal = () => {
+type ReviewModalProps = { meetupId: number };
+
+const ReviewModal = ({ meetupId }: ReviewModalProps) => {
   const nav = useNavigate();
-  const id = 1;
   return (
     <div className="review-modal-wrapper">
       <img className="logo" src={image} />
@@ -13,7 +14,7 @@ const ReviewModal = () => {
       <div className="sub-text">Your review will help other mates!</div>
       <div
         className="bottom-rect"
-        onClick={() => nav(`/my/write-review/${id}`)}
+        onClick={() => nav(`/my/write-review/${meetupId}`)}
       >
         <div className="text">Writing a review</div>
         <ArrowIcon />
