@@ -107,13 +107,15 @@ const LocationMapPage = () => {
   useEffect(() => {
     if (isFetching !== true && data)
       setSpotsArray(data.pages[0].data.data.spots);
-    console.log(spotsArray);
   }, [isFetching]);
 
   var selectedMarker: any = null;
   useEffect(() => {
     if (!spotsArray[0]) return;
     setClickedId(spotsArray[0].contentId);
+  }, [spotsArray]);
+
+  useEffect(() => {
     if (isLoading === false) {
       var positions = spotsArray.map((item: TravelNearbyType) => {
         return {
@@ -131,7 +133,7 @@ const LocationMapPage = () => {
         ),
       );
     }
-  }, [spotsArray]);
+  }, [isLoading, spotsArray]);
 
   useEffect(() => {
     if (!spotsArray) return;

@@ -9,15 +9,13 @@ import { currentPosition } from "@services/store/travel";
 const LocationListPage = () => {
   const [pos, setPos] = useRecoilState(currentPosition);
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log(pos);
+  const { pageLastItemRef, hasNextPage, data } = useNearLocation(pos);
   useEffect(() => {
     setPos({
       x: Number(searchParams.get("x")),
       y: Number(searchParams.get("y")),
     });
   }, [searchParams]);
-  const { pageLastItemRef, hasNextPage, data } = useNearLocation(pos);
-
   return (
     <>
       <BackNavBar middleTitle="Near my location" isShare={false} />
