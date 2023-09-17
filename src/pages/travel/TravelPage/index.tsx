@@ -130,13 +130,13 @@ const TravelPage = () => {
       )}
       <div className="block-container">
         {data &&
-          (data.pages.length === 0 ? (
-            <div className="empty">
-              <div className="no-result">No result</div>
-              <p>Try searching differently</p>
-            </div>
-          ) : (
-            data.pages.map(page =>
+          data.pages.map(page =>
+            page.data.data.spots.length === 0 ? (
+              <div className="empty">
+                <div className="no-result">No result</div>
+                <p>Try searching differently</p>
+              </div>
+            ) : (
               page.data.data.spots.map(
                 (item: TravelPreviewType, idx: number) =>
                   page.data.data.pageInfo.size === idx + 1 ? (
@@ -150,11 +150,13 @@ const TravelPage = () => {
                   ) : (
                     <TravelBlock {...item} key={item.contentId} />
                   ),
-              ),
-            )
-          ))}
+              )
+            ),
+          )}
       </div>
-      {data && !hasNextPage && <div>end</div>}
+      {data && !hasNextPage && data.pages[0].data.data.spots.length !== 0 && (
+        <div>end of list</div>
+      )}
     </div>
   );
 };
