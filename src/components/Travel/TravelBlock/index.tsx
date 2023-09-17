@@ -1,5 +1,6 @@
 import "./travel-block.scss";
 import { ReactComponent as BookmarkIcon } from "@assets/icon/bookmark.svg";
+import defaultthumbnail from "@assets/location/default_thumbnail.jpeg";
 import { useNavigate } from "react-router-dom";
 
 type TravelBlockProps = {
@@ -29,7 +30,7 @@ const TravelBlock = ({
     <div className="travelblock-wrapper">
       <div className="block" onClick={() => nav(`/travel/${contentId}`)}>
         <div className="img-rect">
-          <img src={imageUrl} alt={name} />
+          <img src={imageUrl === "" ? defaultthumbnail : imageUrl} alt={name} />
         </div>
         <div className="name">{name}</div>
         <div className="district">

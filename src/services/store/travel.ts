@@ -1,4 +1,4 @@
-import { atom, selector } from "recoil";
+import { atom } from "recoil";
 
 // 현재 위치 좌표 저장
 export const currentPosition = atom<Position>({
@@ -9,12 +9,18 @@ export const currentPosition = atom<Position>({
   },
 });
 
+// 사용자가 pick한 travel 배열 저장
 export const pickedTravel = atom<TravelPreviewType[]>({
   key: "pickedTravel",
   default: [],
 });
 
-export const pickedMates = atom<any[]>({
-  key: "pickedMates",
-  default: [],
+// 장소 검색 필터 조건 저장
+export const travelFilter = atom<SpotGetByFilterType>({
+  key: "travelFilter",
+  default: {
+    keyword: "",
+    category: "",
+    district: [],
+  },
 });

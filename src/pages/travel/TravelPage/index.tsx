@@ -1,43 +1,47 @@
 import "./travel-page.scss";
 import TravelBlock from "@components/Travel/TravelBlock";
-import { categoryArray, travelArray } from "@pages/travel/TravelPage/_mock";
+import { categoryArray } from "@pages/travel/TravelPage/_mock";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ReactComponent as BackIcon } from "@assets/icon/back.svg";
 import { ReactComponent as SearchIcon } from "@assets/icon/search.svg";
 import { ReactComponent as XIcon } from "@assets/icon/xbtn.svg";
 
-// 필터 적용된 상태에서 다시 /search로 이동하면 이전 필터 기록 저장 안됨
-// 필터 중복 적용 안됨 (프론트 로직 상에서)
+import { useRecoilState } from "recoil";
+import { travelFilter } from "@services/store/travel";
+import { useAllSpot } from "@services/hooks/spot";
+
 const TravelPage = () => {
   const nav = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [filter, setFilter] = useRecoilState<SpotGetByFilterType>(travelFilter);
+  const { pageLastItemRef, hasNextPage, data } = useAllSpot(filter);
 
-  const [currentCategory, setCurrentCategory] = useState<string | null>(
-    searchParams.get("category"),
-  );
-  const categoryBarRef = useRef<HTMLDivElement>(null);
-  const selectedCategory = useRef<HTMLDivElement>(null);
-  const [currentDistrict, setCurrentDistrict] = useState<string | null>(
-    searchParams.get("district"),
-  );
-  const [currentKeyword, setCurrentKeyword] = useState<string | null>(
-    searchParams.get("keyword"),
-  );
   useEffect(() => {
-    setCurrentCategory(searchParams.get("category"));
-    setCurrentDistrict(searchParams.get("district"));
-    setCurrentKeyword(searchParams.get("keyword"));
+    console.log("filter", filter);
+  }, [filter]);
+
+  // searchParams로 filter 업데이트
+  const [searchParams, setSearchParams] = useSearchParams();
+  useEffect(() => {
+    if (!searchParams) return;
+    setFilter({
+      ...filter,
+      keyword: searchParams.get("keyword") ? searchParams.get("keyword")! : "",
+      category: searchParams.get("category")
+        ? searchParams.get("category")!
+        : "",
+      district: searchParams.get("district")
+        ? searchParams.get("district")!.split(" ")
+        : [],
+    });
   }, [searchParams]);
 
+  // onClick에 바인딩하는 searchParams 업데이트 함수
   const handleCategory = (item: any) => {
-    if (item.params === "") {
-      searchParams.delete("category");
-      setSearchParams(searchParams);
-    } else {
-      searchParams.set("category", item.params);
-      setSearchParams(searchParams);
-    }
+    item.params
+      ? searchParams.set("category", item.params)
+      : searchParams.delete("category");
+    setSearchParams(searchParams);
   };
   const deleteDistrict = (params: string) => {
     const filteredArray = searchParams
@@ -49,54 +53,23 @@ const TravelPage = () => {
     setSearchParams(searchParams);
   };
 
-  const [searchedList, setSearchedList] =
-    useState<TravelPreviewType[]>(travelArray);
-  useEffect(() => {
-    if (currentCategory === null) {
-      setSearchedList(travelArray);
-    } else {
-      setSearchedList(
-        travelArray.filter(item => item.category === currentCategory),
-      );
-    }
-  }, [currentCategory]);
-  useEffect(() => {
-    if (currentDistrict === null) {
-      setSearchedList(travelArray);
-    } else {
-      setSearchedList(
-        travelArray.filter(item => {
-          return currentDistrict
-            .split(" ")
-            .includes(
-              item.district.replace(/^[A-Z]/, char => char.toLowerCase()),
-            );
-        }),
-      );
-    }
-  }, [currentDistrict]);
-  useEffect(() => {
-    if (currentKeyword === null) {
-      setSearchedList(travelArray);
-    } else {
-      setSearchedList(
-        travelArray.filter(item => item.name.includes(currentKeyword)),
-      );
-    }
-  }, [currentKeyword]);
-
+  // 카테고리 바 스크롤 관리
+  const categoryBarRef = useRef<HTMLDivElement>(null);
+  const selectedCategoryRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     window.scrollTo(0, 0);
+    console.log(filter.category);
     categoryArray.map(
       item =>
-        item.params === currentCategory &&
-        item.id > 3 &&
-        categoryBarRef.current!.scrollTo(
-          selectedCategory.current!.offsetLeft,
-          0,
-        ),
+        item.params === filter.category &&
+        (item.id > 3
+          ? categoryBarRef.current!.scrollTo(
+              selectedCategoryRef.current!.offsetLeft,
+              0,
+            )
+          : categoryBarRef.current!.scrollTo(0, 0)),
     );
-  }, []);
+  }, [filter.category]);
 
   return (
     <div className="travelmenu-wrapper">
@@ -109,7 +82,7 @@ const TravelPage = () => {
           <form>
             <input
               readOnly
-              value={currentKeyword !== null ? currentKeyword : undefined}
+              value={filter.keyword ? filter.keyword : undefined}
               placeholder={`Everything for your travel`}
             />
             <button type="submit">
@@ -122,13 +95,13 @@ const TravelPage = () => {
         {categoryArray.map((item, idx) => (
           <div
             className={
-              currentCategory === null && item.params === ""
+              filter.category === "" && item.params === ""
                 ? "rect selected"
-                : currentCategory === item.params
+                : filter.category === item.params
                 ? "rect selected"
                 : "rect"
             }
-            ref={currentCategory === item.params ? selectedCategory : null}
+            ref={filter.category === item.params ? selectedCategoryRef : null}
             key={item.id}
             onClick={() => handleCategory(item)}
             style={{
@@ -141,9 +114,9 @@ const TravelPage = () => {
           </div>
         ))}
       </div>
-      {currentDistrict !== null && (
+      {filter.district.length !== 0 && (
         <div className="district-bar">
-          {currentDistrict.split(" ").map(item => (
+          {filter.district.map(item => (
             <div
               className="travelsearch-filter-rect"
               onClick={() => deleteDistrict(item)}
@@ -156,20 +129,34 @@ const TravelPage = () => {
         </div>
       )}
       <div className="block-container">
-        {searchedList &&
-          (searchedList.length === 0 ? (
-            <div className="empty">
-              <div className="no-result">No result</div>
-              <p>Try searching differently</p>
-            </div>
-          ) : (
-            <>
-              {searchedList.map(item => (
-                <TravelBlock {...item} key={item.contentId} />
-              ))}
-            </>
-          ))}
+        {data &&
+          data.pages.map(page =>
+            page.data.data.spots.length === 0 ? (
+              <div className="empty">
+                <div className="no-result">No result</div>
+                <p>Try searching differently</p>
+              </div>
+            ) : (
+              page.data.data.spots.map(
+                (item: TravelPreviewType, idx: number) =>
+                  page.data.data.pageInfo.size === idx + 1 ? (
+                    <div
+                      key={item.contentId}
+                      ref={pageLastItemRef}
+                      className="page-last-item-ref-rect"
+                    >
+                      <TravelBlock {...item} />
+                    </div>
+                  ) : (
+                    <TravelBlock {...item} key={item.contentId} />
+                  ),
+              )
+            ),
+          )}
       </div>
+      {data && !hasNextPage && data.pages[0].data.data.spots.length !== 0 && (
+        <div>end of list</div>
+      )}
     </div>
   );
 };

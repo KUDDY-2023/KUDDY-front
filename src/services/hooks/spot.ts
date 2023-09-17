@@ -1,57 +1,42 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 import { useInfiniteQuery } from "react-query";
-import { useRecoilState } from "recoil";
+import useInfiniteScroll from "@utils/hooks/useInfiniteScroll";
 import {
+  spotGetByFilter,
   spotGetNearLocation,
-  spotGetDetailInfo,
   spotGetOnlyKeyWord,
 } from "@services/api/spot";
-// useQuery : get
-// useMutation : post, delete, patch, put
 
-/*
-react-query 또는 recoil 관련 등 api 호출 후의 로직 포함  
-함수 이름은 use로 시작 
-*/
-
-// near my location
-export const useNearLocation = (x: number, y: number) => {
-  const GetLocation = async (page: number) => {
-    try {
-      const res = await spotGetNearLocation(page, x, y);
-      return res.data.data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const { data, isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useInfiniteQuery(
-      "nearLocation",
-      ({ pageParam = 0 }) => GetLocation(pageParam),
-      {
-        getNextPageParam: (lastPage, allPages) => {
-          const nextPage = allPages.length + 1;
-          // return lastPage.items.length !== 0 ? nextPage : undefined;
-        },
+// multi filter
+export const useAllSpot = (filter: SpotGetByFilterType) => {
+  const { pageLastItemRef, data, isFetching, hasNextPage, fetchNextPage } =
+    useInfiniteScroll({
+      queryKey: ["allSpot", filter],
+      initialPage: 1,
+      fetch: spotGetByFilter,
+      fetchParams: { size: 20, filter: filter },
+      onIntersect: async (entry, observer) => {
+        observer.unobserve(entry.target);
+        if (hasNextPage && !isFetching) fetchNextPage();
       },
-    );
-
-  return { data, isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage };
+    });
+  return { pageLastItemRef, hasNextPage, data };
 };
 
-// spot detail info
-export const useDetailInfo = (contentId: number) => {
-  const GetDetailInfo = async () => {
-    try {
-      const res = await spotGetDetailInfo(contentId);
-      return res.data.data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  return GetDetailInfo;
+// near my location
+export const useNearLocation = (pos: Position) => {
+  const { pageLastItemRef, data, isFetching, hasNextPage, fetchNextPage } =
+    useInfiniteScroll({
+      queryKey: ["allSpot", pos],
+      initialPage: 1,
+      fetch: spotGetNearLocation,
+      fetchParams: { pos: pos },
+      onIntersect: async (entry, observer) => {
+        observer.unobserve(entry.target);
+        if (hasNextPage && !isFetching) fetchNextPage();
+      },
+    });
+  return { pageLastItemRef, hasNextPage, data, isFetching };
 };
 
 // 키워드 하나로 검색해서 장소 결과 받아오기

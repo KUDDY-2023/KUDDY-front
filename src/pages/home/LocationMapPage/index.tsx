@@ -31,9 +31,8 @@ const LocationMapPage = () => {
     imageUrl: "",
   });
 
-  const { data, isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useNearLocation(pos.y, pos.x);
-  console.log(data);
+  const { pageLastItemRef, hasNextPage, data, isFetching } =
+    useNearLocation(pos);
 
   useEffect(() => {
     setIsLoading(true);
@@ -53,16 +52,18 @@ const LocationMapPage = () => {
         navigator.geolocation.getCurrentPosition(function (position) {
           var lat = position.coords.latitude,
             lon = position.coords.longitude;
-          setPos({ y: position.coords.latitude, x: position.coords.longitude });
-          //setPos({ y: 126.8502863, x: 37.5615351 });
-          var locPosition = new kakao.maps.LatLng(lat, lon);
+          // setPos({ y: position.coords.latitude, x: position.coords.longitude });
+          setPos({ y: 37.5615351, x: 126.9572863 });
+          var locPosition = new kakao.maps.LatLng(pos.y, pos.x);
           map.setCenter(locPosition);
           setIsLoading(false);
         });
       } else {
         var locPosition = new kakao.maps.LatLng(33.450701, 126.570667);
         map.setCenter(locPosition);
-        // Cannot find current location. Please allow permission collecting your location information.
+        alert(
+          "Cannot find current location.\nPlease allow permission collecting your location information.",
+        );
         setIsLoading(false);
       }
     }
@@ -104,13 +105,17 @@ const LocationMapPage = () => {
   }
 
   useEffect(() => {
-    //if (isSuccess === true && data) setSpotsArray(data.pages[0].spots);
-  }, [isSuccess]);
+    if (isFetching !== true && data)
+      setSpotsArray(data.pages[0].data.data.spots);
+  }, [isFetching]);
 
   var selectedMarker: any = null;
   useEffect(() => {
-    if (!spotsArray) return;
-    //setClickedId(spotsArray[0].contentId);
+    if (!spotsArray[0]) return;
+    setClickedId(spotsArray[0].contentId);
+  }, [spotsArray]);
+
+  useEffect(() => {
     if (isLoading === false) {
       var positions = spotsArray.map((item: TravelNearbyType) => {
         return {
@@ -128,7 +133,7 @@ const LocationMapPage = () => {
         ),
       );
     }
-  }, [spotsArray]);
+  }, [isLoading, spotsArray]);
 
   useEffect(() => {
     if (!spotsArray) return;

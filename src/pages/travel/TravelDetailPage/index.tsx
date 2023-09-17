@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import TravelDetailTitle from "@components/Travel/TravelDetailTitle";
 import TravelDetailSection from "@components/Travel/TravelDetailSection";
 
-import { spotGetDetailInfo, spotGetNearLocation } from "@services/api/spot";
+import { spotGetDetailInfo, spotGetDetailNearby } from "@services/api/spot";
 
 const TravelDetailPage = () => {
   const { id } = useParams();
@@ -22,16 +22,16 @@ const TravelDetailPage = () => {
       })
       .catch(err => setIsNotFound(true));
     if (currentTravel)
-      spotGetNearLocation(0, currentTravel?.mapX, currentTravel?.mapY)
-        .then(res => setNearbyPlace(res.data.data.spots.slice(0, 5)))
+      spotGetDetailNearby(Number(id), currentTravel?.mapX, currentTravel?.mapY)
+        .then(res => setNearbyPlace(res.data.data))
         .catch();
   }, [id]);
 
   const [sectionType, setSectionType] = useState<any[]>([]);
   useEffect(() => {
     if (currentTravel) {
-      spotGetNearLocation(0, currentTravel?.mapX, currentTravel?.mapY)
-        .then(res => setNearbyPlace(res.data.data.spots.slice(0, 5)))
+      spotGetDetailNearby(Number(id), currentTravel?.mapX, currentTravel?.mapY)
+        .then(res => setNearbyPlace(res.data.data))
         .catch();
       setSectionType([
         {

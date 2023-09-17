@@ -1,49 +1,45 @@
 import BackNavBar from "@components/_common/BackNavBar";
 import LocationListBlock from "@components/Location/LocationListBlock";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useRecoilValue } from "recoil";
-import { currentPosition } from "@services/store/travel";
+import { useSearchParams } from "react-router-dom";
 import { useNearLocation } from "@services/hooks/spot";
+import { useRecoilState } from "recoil";
+import { currentPosition } from "@services/store/travel";
 
 const LocationListPage = () => {
-  const pos = useRecoilValue<Position>(currentPosition);
-  const { data, isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useNearLocation(pos.y, pos.x);
-  const observerRef = useRef<HTMLDivElement>(null);
-
-  const handleObserver = useCallback(
-    (entries: any) => {
-      const [target] = entries;
-      if (target.isIntersecting && hasNextPage) {
-        fetchNextPage();
-      }
-    },
-    [fetchNextPage, hasNextPage],
-  );
-
+  const [pos, setPos] = useRecoilState(currentPosition);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { pageLastItemRef, hasNextPage, data } = useNearLocation(pos);
   useEffect(() => {
-    const element = observerRef.current;
-    if (!element) return;
-
-    const option = { threshold: 0 };
-    const observer = new IntersectionObserver(handleObserver, option);
-    observer.observe(element);
-    return () => observer.unobserve(element);
-  }, [fetchNextPage, hasNextPage, handleObserver]);
-
+    setPos({
+      x: Number(searchParams.get("x")),
+      y: Number(searchParams.get("y")),
+    });
+  }, [searchParams]);
   return (
     <>
       <BackNavBar middleTitle="Near my location" isShare={false} />
-      {isSuccess &&
-        data!.pages.map(page =>
-          page.spots.map((item: TravelNearbyType) => (
-            <LocationListBlock {...item} key={item.contentId} />
-          )),
+      {data &&
+        data.pages.map(page =>
+          page.data.data.spots.length === 0 ? (
+            <div className="empty">
+              <div className="no-result">No result</div>
+            </div>
+          ) : (
+            page.data.data.spots.map((item: TravelNearbyType, idx: number) =>
+              page.data.data.pageInfo.size === idx + 1 ? (
+                <div key={item.contentId} ref={pageLastItemRef}>
+                  <LocationListBlock {...item} />
+                </div>
+              ) : (
+                <LocationListBlock {...item} key={item.contentId} />
+              ),
+            )
+          ),
         )}
-      <div style={{ height: "40px" }} />
-      <div className="loader" ref={observerRef}>
-        {isFetchingNextPage && hasNextPage ? "Loading..." : "No search left"}
-      </div>
+      {data && !hasNextPage && data.pages[0].data.data.spots.length !== 0 && (
+        <div>end of list</div>
+      )}
     </>
   );
 };
