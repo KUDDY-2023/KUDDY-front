@@ -13,10 +13,6 @@ const TalkingBlock = ({ subject }: Props) => {
   // subject가 join us이면 joinUsPost 작성
   const [joinUsPost, setJoinUsPost] = useRecoilState(joinUsPostState);
   const [othersPost, setOthersPost] = useRecoilState(othersPostState);
-  const [title, setTitle] = useState("Title");
-  const [content, setContent] = useState(
-    "Write down what you're curious about.",
-  );
   const [imageViewOpen, setImageViewOpen] = useState(false); // 사진 뷰 띄움 여부
 
   // textarea 자동 높이 조절
@@ -25,22 +21,18 @@ const TalkingBlock = ({ subject }: Props) => {
   }, []);
 
   const handleChangeTitle = (event: any) => {
-    setTitle(event.target.value);
     if (subject === "join us") {
-      setJoinUsPost({ ...joinUsPost, title: title });
-      console.log(joinUsPost);
+      setJoinUsPost({ ...joinUsPost, title: event.target.value });
     } else {
-      setOthersPost({ ...othersPost, title: title });
-      console.log(othersPost);
+      setOthersPost({ ...othersPost, title: event.target.value });
     }
   };
 
   const handleChangeContent = (event: any) => {
-    setContent(event.target.value);
     if (subject === "join us") {
-      setJoinUsPost({ ...joinUsPost, content: content });
+      setJoinUsPost({ ...joinUsPost, content: event.target.value });
     } else {
-      setOthersPost({ ...othersPost, content: content });
+      setOthersPost({ ...othersPost, content: event.target.value });
     }
   };
 
@@ -55,15 +47,12 @@ const TalkingBlock = ({ subject }: Props) => {
 
   const handleChangeDistrict = (event: any) => {
     setJoinUsPost({ ...joinUsPost, district: event.target.value });
-    console.log(joinUsPost);
   };
 
   const resetJoinUsPost = useResetRecoilState(joinUsPostState); // join us 게시물 초기화
   const resetOthersPost = useResetRecoilState(othersPostState); // others 게시물 초기화
 
   useEffect(() => {
-    setTitle("");
-    setContent("");
     resetJoinUsPost();
     resetOthersPost();
   }, [subject]);
@@ -78,16 +67,10 @@ const TalkingBlock = ({ subject }: Props) => {
   return (
     <div className="talking-block-container">
       <div className="content-block-container">
-        <input
-          type="text"
-          placeholder="Title"
-          value={title || ""}
-          onChange={handleChangeTitle}
-        />
+        <input type="text" placeholder="Title" onChange={handleChangeTitle} />
         <div className="boundary-line"></div>
         <textarea
           ref={contentRef}
-          value={content || ""}
           placeholder="Write down what you're curious about."
           onInput={handleResizeHeight}
           onChange={handleChangeContent}

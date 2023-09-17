@@ -6,7 +6,9 @@ export const meetUpInfoState = atom({
   default: {
     spotContentId: null, // 장소 id
     spotName: null, // 장소 이름
-    appointmentTime: null, // 시간 2021-11-05 13:47:13.248
+    // 시간 2021-11-05 13:47:13.248
+    appointmentTimeD: null, // 2021-11-05
+    appointmentTimeT: null, // 13:47:13.248
     price: null, // 가격 정수로 $
   },
 });

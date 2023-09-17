@@ -1,38 +1,62 @@
 import "./review-section.scss";
-import { KuddyReviewData, TravelerReviewData } from "@utils/data/userProfile";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import {
+  useGetKuddyReviews,
+  useGetTravelerReviews,
+} from "@services/hooks/community";
 import ReviewBox from "@components/ProfileDetailPage/ReviewBox";
 
-const ReviewSection = ({ ...props }) => {
-  let isMine = false; // 임의
-  let data = props.role === "kuddy" ? KuddyReviewData : TravelerReviewData; // 임의
+type Props = {
+  profile: any;
+};
 
-  const isKuddy = () => {
-    return !isMine && props.role === "kuddy";
-  };
+const ReviewSection = ({ profile }: Props) => {
+  const [reviews, setReviews] = useState<any>();
+  const onGetKuddyReviews = useGetKuddyReviews();
+  const onGetTravelerReviews = useGetTravelerReviews();
+
+  useEffect(() => {
+    const getReviews = async () => {
+      let res;
+      if (profile?.role === "KUDDY") {
+        res = await onGetKuddyReviews(profile?.memberInfo?.memberId);
+      } else if (profile?.role === "TRAVELER") {
+        res = await onGetTravelerReviews(profile?.memberInfo?.memberId);
+      }
+
+      console.log("리뷰" + res);
+      setReviews(res);
+    };
+
+    getReviews();
+  }, [profile]);
 
   return (
     <div className="review-section-container">
       <div className="review-count-container">
-        <div className={isKuddy() ? "review-title kuddy" : "review-title"}>
-          {isKuddy() ? "Review" : "Written Review"}
+        <div
+          className={
+            profile?.role === "KUDDY" ? "review-title kuddy" : "review-title"
+          }
+        >
+          {profile?.role === "KUDDY" ? "Review" : "Written Review"}
         </div>
         <div
           className={
-            props.role === "kuddy"
+            profile?.role === "kuddy"
               ? "review-count-text kuddy"
               : "review-count-text"
           }
         >
-          {data.reviewCount}
+          {reviews?.reviewCount}
         </div>
         <div className="meet-title">meet</div>
-        <div className="meet-count-text">{data.meetCount}</div>
+        <div className="meet-count-text">{reviews?.meetupCount}</div>
       </div>
 
-      {data.reviews.map(review => {
-        return (
-          <ReviewBox key={review.reviewId} isKuddy={isKuddy()} {...review} />
-        );
+      {reviews?.reviewResDto?.map((review: any) => {
+        return <ReviewBox key={review?.id} {...review} />;
       })}
     </div>
   );

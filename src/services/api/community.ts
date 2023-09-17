@@ -13,6 +13,24 @@ export const communityGetPostList = async (
   page: number,
   size: number,
 ) => {
-  const url = `/api/v1/posts?type=${type}&page=${page}&size=${size}`;
+  const url = `/api/v1/posts/list?type=${type}&page=${page}&size=${size}`;
+  return apiClient.get(url);
+};
+
+// ✅ 게시물 작성
+export const communityPostPost = async (type: string, post: any) => {
+  const url = `/api/v1/posts?type=${type}`;
+  return apiClient.post(url, post);
+};
+
+// ✅ kuddy가 받은 리뷰 조회
+export const communityGetKuddyReviews = async (id: number) => {
+  const url = `/api/v1/reviews/kuddy/${id}`;
+  return apiClient.get(url);
+};
+
+// ✅ traveler가 받은 리뷰 조회
+export const communityGetTravelerReviews = async (id: number) => {
+  const url = `/api/v1/reviews/traveler/${id}`;
   return apiClient.get(url);
 };

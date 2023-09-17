@@ -18,6 +18,7 @@ interface Props {
   roomId: string;
   myEmail: string;
   myNickname: string;
+  myId: number;
   handleMyMessage: (msg: any) => void;
 }
 
@@ -28,6 +29,7 @@ export default function MessageInput({
   roomId,
   myEmail,
   myNickname,
+  myId,
   handleMyMessage,
 }: Props) {
   const [newMessage, setNewMessage] = useState("");
@@ -45,12 +47,12 @@ export default function MessageInput({
     roomId: roomId as string,
     contentType: "TEXT",
     content: newMessage,
-    senderName: myNickname, // 내 닉네임...
+    senderName: myNickname,
     spotContentId: null,
     appointmentTime: null,
     price: null,
     spotName: null,
-    senderId: 1, // 수정 필요
+    senderId: myId,
     meetStatus: null,
     sendTime: new Date().getTime(),
     senderEmail: myEmail,

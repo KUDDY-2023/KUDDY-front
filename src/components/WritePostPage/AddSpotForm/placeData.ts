@@ -1,0 +1,42 @@
+export const placeData = [
+  {
+    id: 1,
+    name: "Gyeongbokgung",
+    image: "https://www.royalpalace.go.kr/images/sub/gbg.jpg",
+    district: "Jogno",
+    mapX: 126.97722,
+    mapY: 37.57861,
+  },
+  {
+    id: 2,
+    name: "Gyeonghuigung",
+    image: "https://www.royalpalace.go.kr/images/sub/gbg.jpg",
+    district: "Jogno",
+    mapX: 126.969698,
+    mapY: 37.569482,
+  },
+  {
+    id: 3,
+    name: "Gyeongdong Market",
+    image: "https://www.royalpalace.go.kr/images/sub/gbg.jpg",
+    district: "Dongdaemun",
+    mapX: 127.040189,
+    mapY: 37.58509,
+  },
+  {
+    id: 4,
+    name: "Gyeonglidan-gil",
+    image: "https://www.royalpalace.go.kr/images/sub/gbg.jpg",
+    district: "Yongsan",
+    mapX: 126.992284,
+    mapY: 37.540118,
+  },
+  {
+    id: 5,
+    name: "Gyeonglidan-gil",
+    image: "https://www.royalpalace.go.kr/images/sub/gbg.jpg",
+    district: "Yongsan",
+    mapX: 126.992284,
+    mapY: 37.540118,
+  },
+];

@@ -40,6 +40,7 @@ interface IUserSimpleInfo {
   nickname: string;
   profileImageUrl: string;
   memberId: number;
+  role: string;
 }
 
 interface UserInfo extends InterestType {

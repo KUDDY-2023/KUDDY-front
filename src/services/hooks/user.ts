@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { authGetRefreshToken } from "@services/api/auth";
-import { authReportUser } from "@services/api/user";
+import {
+  authReportUser,
+  userGetMeetUps,
+  userPostReview,
+} from "@services/api/user";
 import { useQuery, useMutation } from "react-query";
 
 // 🔥 유저 신고 hook
@@ -42,4 +46,35 @@ export const useAuthReportUser = (report: IReport) => {
   };
 
   return { onReport };
+};
+
+// 내 동행 리스트 조회
+export const useGetMeetUps = () => {
+  const onGetMeetUps = async () => {
+    try {
+      const res = await userGetMeetUps();
+      return res.data.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return onGetMeetUps;
+};
+
+// 리뷰 작성
+export const usePostReview = () => {
+  const nav = useNavigate();
+  const onPostReview = async (review: any) => {
+    try {
+      const res = await userPostReview(review);
+      nav("/my/appointment");
+      console.log(res);
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return onPostReview;
 };

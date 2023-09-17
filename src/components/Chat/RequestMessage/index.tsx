@@ -6,28 +6,81 @@ import { ReactComponent as Cancle } from "@assets/chat/bt_delete.svg";
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+// 채팅
+import { MutableRefObject } from "react";
+import { CompatClient } from "@stomp/stompjs";
+import { useSaveMessage } from "@services/hooks/chat";
+
+import { useFormatDate } from "@utils/hooks/useformatDate";
+
 interface Props {
+  client: MutableRefObject<CompatClient | undefined>;
   info: IGetMessage;
+  myEmail: string;
   statusType: "KUDDY_NOT_ACCEPT" | "TRAVELER_NOT_ACCEPT";
 }
 
-export default function RequestMessage({ info, statusType }: Props) {
+export default function RequestMessage({
+  client,
+  info,
+  myEmail,
+  statusType,
+}: Props) {
   const navigate = useNavigate();
+  const onSave = useSaveMessage();
 
   const onPlaceDetail = (placeId: number) => {
-    navigate(`travel/${placeId}`);
+    navigate(`/travel/${placeId}`);
   };
 
   const onPayPal = () => {
     console.log("페이팔 요청");
+    onUpdateMessage("PAYED");
   };
 
   const onRefuse = () => {
     console.log("여행객이 거부함");
+    onUpdateMessage("TRAVELER_CANCEL");
   };
 
   const onCancel = () => {
     console.log("커디가 취소함");
+    onUpdateMessage("KUDDY_CANCEL");
+  };
+
+  const token = localStorage.getItem("accessToken");
+
+  let formatedAppointmentTime = useFormatDate(info.appointmentTime || "");
+  let spotName = info.spotName || "";
+  spotName = spotName.length > 22 ? spotName.slice(0, 22) + "..." : spotName;
+
+  const onUpdateMessage = async (newStatus: string) => {
+    if (client.current) {
+      console.log("info", info);
+
+      let updateMsg = {
+        ...info,
+        meetStatus: newStatus,
+        isUpdated: 1,
+        senderEmail: myEmail,
+      };
+
+      console.log("업데이트 시도 내용", updateMsg);
+
+      try {
+        // ✅ 메세지 상태 업데이트하기
+        client.current.send(
+          "/app/updateMessage",
+          { Authorization: `Bearer ${token}` },
+          JSON.stringify(updateMsg),
+        );
+      } catch (e) {
+        alert(e);
+      } finally {
+        // setIsMapOpen(false);
+      }
+    }
   };
 
   return (
@@ -48,11 +101,11 @@ export default function RequestMessage({ info, statusType }: Props) {
             </div>
             <div className="grid-right">
               <div onClick={() => onPlaceDetail(info.spotContentId || 0)}>
-                <p id="korean">{info.spotName}</p>
+                <p id="korean">{spotName}</p>
                 <RightIcon id="right-icon" />
               </div>
               <div>
-                <p>{info.appointmentTime}</p>
+                <p>{formatedAppointmentTime}</p>
               </div>
               <div>
                 <p>{info.price}$</p>

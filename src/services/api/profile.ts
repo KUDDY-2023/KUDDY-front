@@ -52,3 +52,9 @@ export const profileGetTicketInfo = () => {
   const url = `/api/v1/members/ticket`;
   return apiClient.get(url);
 };
+
+// 닉네임로 프로필 조회
+export const profileGetProfileByName = (nickname: string) => {
+  const url = `/api/v1/profiles?nickname=${nickname}`;
+  return apiClient.get(url);
+};

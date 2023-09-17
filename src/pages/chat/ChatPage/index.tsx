@@ -29,14 +29,22 @@ import { chatGetAllMessage } from "@services/api/chat";
 
 import { useRecoilState } from "recoil";
 import { userInfoState } from "@services/store/auth";
+
+import { profileGetProfile } from "@services/api/profile";
+import { useUpdateDefaultProfile } from "@services/hooks/profile";
+
 export default function ChatPage() {
   const [profile, setProfile] = useRecoilState(userInfoState); // 전역 프로필 recoil
   const token = window.localStorage.getItem("accessToken") as string; // 토큰
 
   const [myEmail, setMyEmail] = useState<string>(""); // 현재 유저의 이메일
   const [myNickname, setMyNickname] = useState<string>(""); // 현재 유저의 닉네임
-  const [myRole, setMyRole] = useState<"KBUDDY" | "TRAVELER">("TRAVELER"); // 현재 유저의 Role
   const [isOpenBottomModal, setIsOpenBottomModal] = useState(false);
+
+  const [partnerInfo, setPartnerInfo] = useState({
+    nickname: "",
+    profileImageUrl: "",
+  });
 
   const client = useRef<CompatClient>();
   const subscribe = useRef<StompSubscription>();
@@ -51,22 +59,10 @@ export default function ChatPage() {
   const messageEndRef = useRef<HTMLDivElement | null>(null);
   const initialRenderRef = useRef(true);
 
-  // 임시 데이터
-  let tempInfo = {
-    partnerName: "jane",
-    place: "Gyeongbokgung Palace",
-    placeId: 1,
-    date: "2023.06.19  11:00am",
-    pay: 18,
-    meetStatus: 3,
-  };
-  let tempInfo2 = {
-    partnerName: "jane",
-    place: "Gyeongbokgung Palace",
-    placeId: 1,
-    date: "2023.06.19  11:00am",
-    pay: 18,
-  };
+  useEffect(() => {
+    console.log("⭐⭐⭐ 전역 상태 >>>>>>>> ", profile);
+  }, [profile]);
+
   let updateMsg = {
     id: "64fb179e4a4e36075eb150ab",
     roomId: "3",
@@ -100,43 +96,79 @@ export default function ChatPage() {
     localStorage.setItem("email", res.data.data.email);
   };
 
-  // 채팅 내역 가져오는 쿼리
+  // ⭐ 채팅 내역 가져오는 쿼리
   const { data, error, isLoading } = useQuery(
     "messages",
     () => chatGetAllMessage(roomId || ""),
     {
-      select: data => data?.data.data.chatList,
+      select: data => data?.data.data,
       refetchOnMount: false,
       refetchOnWindowFocus: false, // 너엿구나 하..
+      cacheTime: 0,
     },
   );
 
-  // 기존 메세지 내역 가져오기
+  // 받아온 메세지 내역 저장
   useEffect(() => {
     if (data) {
-      setMessageArr(data);
+      setMessageArr(data.chatList);
+      setPartnerInfo(data.receiverInfo);
+
       console.log("채팅내역", data);
     }
   }, [data]);
 
-  // 스크롤
+  // ⭐ 내 프로필 정보 가져오는 쿼리
+  const profileData = useQuery("profile", profileGetProfile, {
+    refetchOnWindowFocus: false,
+    retry: false,
+  });
+  const onSave = useUpdateDefaultProfile();
+  // 전역 상태 - 내 프로필 정보 저장
   useEffect(() => {
-    // 최초 접속 시 로딩 속도가 느려서 못내려가는 건가 싶어서 넣어봄
+    if (profileData.isSuccess) {
+      console.log(">>", profileData.data?.data.data);
+      const res = profileData.data?.data.data;
+
+      let email = res.memberInfo.email;
+      let nickname = res.memberInfo.nickname;
+      let profileImageUrl = res.memberInfo.profileImageUrl;
+      let memberId = res.memberInfo.memberId;
+      let role = res.role;
+
+      onSave({
+        email: email,
+        nickname: nickname,
+        profileImageUrl: profileImageUrl,
+        memberId: memberId,
+        role: role,
+      });
+    }
+  }, [profileData.isSuccess]);
+
+  // 새 메세지 왔을 때의 스크롤
+  useEffect(() => {
+    if (messageEndRef.current) {
+      console.log("❤️❤️ 새로운 메세지 ");
+
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+      return;
+    }
+  }, [FlightMessageArr]);
+
+  // 최초 접속 시의 스크롤
+  useEffect(() => {
     setTimeout(() => {
       if (initialRenderRef.current && messageEndRef.current) {
+        console.log("❤️❤️ 처음 실행");
         initialRenderRef.current = false;
         messageEndRef.current.scrollIntoView({
           behavior: "smooth",
         });
         return;
       }
-    }, 500);
-
-    if (messageEndRef.current) {
-      messageEndRef.current.scrollIntoView({ behavior: "smooth" });
-      return;
-    }
-  }, [FlightMessageArr]);
+    }, 1000);
+  }, [MessageArr]);
 
   // 동행 만드는 모달 닫는 버튼
   const _handleCloseModal = () => {
@@ -148,31 +180,79 @@ export default function ChatPage() {
     setIsOpenBottomModal(true);
   };
 
-  // 구독 이벤트로 발생한 메세지 추가
+  // ✅ 구독) new message 이벤트로 발생한 메세지 반영
   const handleMessage = (newmsg: IMessage) => {
     let body = JSON.parse(newmsg.body);
     console.log("구독 후 받아온 거 >>", body);
+
     body = {
       ...body,
-      mine: body.senderEmail === myEmail,
+      mine: body.senderEmail === profile.email,
     };
+    console.log(">>>>⭐", body);
 
-    // 상대방한테서 온 이벤트면 저장
-    if (body.senderEmail !== myEmail) {
-      console.log(body.senderEmail, "??", myEmail);
+    // 상대방한테서 온 메세지
+    if (body.senderEmail !== profile.email) {
+      console.log(body.senderEmail, "??", profile.email); // 🔥 여기서 자꾸 myEmail이 사라져..
       setFlightMessageArr(prevMessageArr => [...prevMessageArr, body]);
     }
   };
 
-  // 내 메세지 바로 화면에 반영하기
+  // new Flight 메세지 바로 화면에 반영하기
   const handleMyMessage = (newmsg: any) => {
     newmsg = {
       ...newmsg,
-      mine: newmsg.senderEmail === myEmail,
+      mine: newmsg.senderEmail === profile.email,
     };
 
     setFlightMessageArr(prevMessageArr => [...prevMessageArr, newmsg]);
   };
+
+  // ✅ 구독) update 이벤트로 발생한 메세지 반영하기
+  const handleUpdatedMessage = (updatedMsg: IMessage) => {
+    let newMsg = JSON.parse(updatedMsg.body);
+    console.log("업데이트  발생 >", newMsg);
+
+    let flag = true;
+    // 이미 찾았다면
+    MessageArr.forEach(msg => {
+      if (msg.id === newMsg.id) flag = false;
+    });
+
+    setMessageArr(prevMessageArr => {
+      const updatedArr = prevMessageArr.map(msg => {
+        if (msg.id === newMsg.id) {
+          console.log("1");
+          return newMsg;
+        } else {
+          console.log("2");
+          return msg;
+        }
+      });
+      return updatedArr;
+    });
+
+    if (flag) {
+      // 위에서 이미 찾았다면 실행하지 않음
+      console.log(" ❤️ flight message 변화 발생");
+      setFlightMessageArr(prevFlightMessageArr => {
+        const updatedFlightArr = prevFlightMessageArr.map(msg => {
+          if (msg.id === newMsg.id) {
+            console.log("3");
+            return newMsg;
+          } else {
+            console.log("4");
+            return msg;
+          }
+        });
+        return updatedFlightArr;
+      });
+    }
+  };
+
+  useEffect(() => {
+    console.log("📢 ", FlightMessageArr);
+  }, [FlightMessageArr]);
 
   function onConnect() {
     if (client.current) {
@@ -190,14 +270,7 @@ export default function ChatPage() {
       // 구독 - 메세지 업데이트 사항 받아오기
       client.current.subscribe(
         `/topic/updates/${roomId}`,
-        msg => {
-          console.log("업데이트 발생");
-          // const body = JSON.parse(msg.body);
-          // console.log("메세지 업데이트 발생 ! >>>", body);
-
-          // let newMessageArr = [...MessageArr, body];
-          // setMessageArr(newMessageArr);
-        }, // 받아온 메세지를 처리하는 콜백함수
+        msg => handleUpdatedMessage(msg),
         {
           Authorization: `Bearer ${token}`,
         },
@@ -209,10 +282,35 @@ export default function ChatPage() {
     console.log("onError 연결 실패 ");
   }
 
+  // 나갈 때 요청 끊기
+  function disconnectStomp(event: BeforeUnloadEvent) {
+    event.preventDefault();
+    event.returnValue = "";
+
+    alert("???");
+    console.log("실행됨, 현재 이메일은", myEmail);
+    const email = localStorage.getItem("email"); // 아 이거 별론디..
+    fetch(
+      `${process.env.REACT_APP_API_HOST}/chat/v1/chatrooms/${roomId}?email=${email}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        keepalive: true,
+      },
+    );
+    if (client.current) {
+      client.current.disconnect();
+      client.current.deactivate();
+    }
+    // if (subscribe.current) {
+    //   subscribe.current.unsubscribe(); // 구독 끊기
+    // }
+  }
+
   // 소켓 연결과 프로필 가져오기
   useEffect(() => {
-    getProfile(); // 이메일과 내 닉네임 가져오기
-
     // Stomp.over()로 client.current 객체 초기화
     // SocketJS로 웹소켓 연결 구현
     client.current = Stomp.over(() => {
@@ -231,39 +329,11 @@ export default function ChatPage() {
       onError,
     );
 
-    // 나갈 때 요청 끊기
-    function disconnectStomp(event: BeforeUnloadEvent) {
-      event.preventDefault();
-      event.returnValue = "";
-
-      alert("???");
-      console.log("실행됨, 현재 이메일은", myEmail);
-      const email = localStorage.getItem("email"); // 아 이거 별론디..
-      fetch(
-        `${process.env.REACT_APP_API_HOST}/chat/v1/chatrooms/${roomId}?email=${email}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          keepalive: true,
-        },
-      );
-      if (client.current) {
-        client.current.disconnect();
-        client.current.deactivate();
-      }
-      // if (subscribe.current) {
-      //   subscribe.current.unsubscribe(); // 구독 끊기
-      // }
-    }
+    //getProfile();
 
     // beforeunload 이벤트가 발생할 때 (브라우저를 닫거나 페이지를 떠날 때) 호출되도록 등록
-
     window.addEventListener("beforeunload", disconnectStomp);
-
     // document.addEventListener("visibilitychange", disconnectStomp);
-
     window.addEventListener("popstate", disconnectStomp);
 
     return () => {
@@ -285,23 +355,24 @@ export default function ChatPage() {
     };
   }, []);
 
-  const updateMessage = () => {
-    if (client.current) {
-      console.log("업데이트");
-      try {
-        // ✅ 메세지 상태 업데이트하기
-        client.current.send(
-          "/app/updateMessage",
-          { Authorization: `Bearer ${token}` },
-          JSON.stringify(updateMsg),
-        );
-      } catch (e) {
-        alert(e);
-      } finally {
-        // setIsMapOpen(false);
-      }
+  /* 연결 끊겼을 때 다시 연결하기 위함 */
+  const handleVisibilityChange = () => {
+    if (!document.hidden) {
+      console.log("다시 돌아옴");
+    }
+    // 대충..가져온 코드
+    if (document.visibilityState === "visible") {
+      // 웹 앱이 포그라운드로 돌아왔을 때 소켓 재연결 요청
+      //connectClient(roomId, onNewMessage);
     }
   };
+  useEffect(() => {
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
 
   return (
     <div className="chat-page-style">
@@ -310,11 +381,15 @@ export default function ChatPage() {
         onClose={_handleCloseModal}
         client={client}
         roomId={roomId || ""}
-        myEmail={myEmail}
-        myNickname={myNickname}
+        myEmail={profile.email}
+        myNickname={profile.nickname}
+        memberId={profile.memberId}
         handleMyMessage={handleMyMessage}
       />
-      <PartnerHead userName="User name" profileImgUrl={url} />
+      <PartnerHead
+        userName={partnerInfo.nickname}
+        profileImgUrl={partnerInfo.profileImageUrl}
+      />
 
       <div className="message-container">
         {/* <ConfirmedRequestMessage info={tempInfo} />
@@ -335,14 +410,74 @@ export default function ChatPage() {
           }
           if (msg.contentType === "MEETUP") {
             if (msg.meetStatus === "NOT_ACCEPT") {
-              if (myRole === "KBUDDY") {
-                return (
-                  <RequestMessage info={msg} statusType={"KUDDY_NOT_ACCEPT"} />
-                );
-              } else if (myRole === "TRAVELER") {
+              if (profile.role === "KUDDY") {
+                console.log(profile.role);
                 return (
                   <RequestMessage
+                    client={client}
                     info={msg}
+                    myEmail={profile.email}
+                    statusType={"KUDDY_NOT_ACCEPT"}
+                  />
+                );
+              } else if (profile.role === "TRAVELER") {
+                console.log(profile.role);
+                return (
+                  <RequestMessage
+                    client={client}
+                    info={msg}
+                    myEmail={profile.email}
+                    statusType={"TRAVELER_NOT_ACCEPT"}
+                  />
+                );
+              }
+            } else if (
+              msg.meetStatus === "PAYED" ||
+              msg.meetStatus === "COMPLETED" ||
+              msg.meetStatus === "KUDDY_CANCEL" ||
+              msg.meetStatus === "TRAVELER_CANCEL"
+            ) {
+              return (
+                <ConfirmedRequestMessage
+                  info={msg}
+                  statusType={msg.meetStatus}
+                />
+              );
+            }
+          }
+          return null;
+        })}
+
+        <hr />
+
+        {FlightMessageArr?.map((msg: IGetMessage) => {
+          if (msg.contentType === "TEXT") {
+            return (
+              <Message
+                message={msg}
+                messageType={msg.mine ? "my" : "partner"}
+              />
+            );
+          }
+          if (msg.contentType === "MEETUP") {
+            if (msg.meetStatus === "NOT_ACCEPT") {
+              if (profile.role === "KUDDY") {
+                console.log(profile.role);
+                return (
+                  <RequestMessage
+                    client={client}
+                    info={msg}
+                    myEmail={profile.email}
+                    statusType={"KUDDY_NOT_ACCEPT"}
+                  />
+                );
+              } else if (profile.role === "TRAVELER") {
+                console.log(profile.role);
+                return (
+                  <RequestMessage
+                    client={client}
+                    info={msg}
+                    myEmail={profile.email}
                     statusType={"TRAVELER_NOT_ACCEPT"}
                   />
                 );
@@ -362,31 +497,18 @@ export default function ChatPage() {
           }
           return null;
         })}
-
-        <hr />
-
-        {/* 접속 후 받아온 새로운 메세지 */}
-        {FlightMessageArr?.map((msg: IGetMessage) => {
-          if (msg.contentType === "TEXT" && msg.mine)
-            return <Message message={msg} messageType={"my"} />;
-          if (msg.contentType === "TEXT" && !msg.mine)
-            return <Message message={msg} messageType={"partner"} />;
-          if (msg.contentType === "MEETUP")
-            return (
-              <RequestMessage info={msg} statusType={"KUDDY_NOT_ACCEPT"} />
-            );
-        })}
       </div>
 
       <div ref={messageEndRef}></div>
 
       <MessageInput
         client={client}
-        meetupBtnVisible={true}
+        meetupBtnVisible={profile.role === "KUDDY"}
         onMakeMeetUp={_handleOpenBottomModal}
         roomId={roomId || ""}
-        myEmail={myEmail}
-        myNickname={myNickname}
+        myEmail={profile.email}
+        myNickname={profile.nickname}
+        myId={profile.memberId}
         handleMyMessage={handleMyMessage}
       />
     </div>

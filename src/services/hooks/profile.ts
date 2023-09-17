@@ -5,12 +5,14 @@ import {
   profileState,
   uniqueNameState,
   interestsArrState,
+  userInfoState,
 } from "@services/store/auth";
 import {
   profileCheckNickname,
   profileGetSocialProfile,
   profileCreateTheFirstProfile,
   profileGetProfile,
+  profileGetProfileByName,
 } from "@services/api/profile";
 import { useRecoilState } from "recoil";
 import useCheckNickname from "@utils/hooks/useCheckNickname";
@@ -141,6 +143,19 @@ export const useUpdateProfile = () => {
   return onUpdateProfile;
 };
 
+// ✅ 기본 프로필 업데이트 훅
+export const useUpdateDefaultProfile = () => {
+  const [_, setDefaultInfo] = useRecoilState(userInfoState);
+
+  const onUpdateProfile = (updates: any) =>
+    setDefaultInfo(profile => ({
+      ...profile,
+      ...updates,
+    }));
+
+  return onUpdateProfile;
+};
+
 // ✅ Next 버튼 활성화 검사 hook
 export const useCanNext = () => {
   const [profile, setProfile] = useRecoilState(profileState);
@@ -217,4 +232,18 @@ export const CheckNicknameString = (newName: string) => {
   }
 
   return [alertText, textColor];
+};
+
+// 닉네임으로 프로필 조회
+export const useGetProfileByName = () => {
+  const onGetProfileByName = async (nickname: string) => {
+    try {
+      const res = await profileGetProfileByName(nickname);
+      return res.data.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return onGetProfileByName;
 };
