@@ -15,10 +15,11 @@ type useInfiniteScrollProps = {
   initialPage?: number;
 
   // api 폴더 내 파일에서 정의한 api 호출 함수
-  // 인자로 반드시 객체를 전달받도록 정의해야 함 (page 단일 파라미터만 필요한 경우에도)
+  // page를 제외하고 추가로 전달해줄 파라미터가 있다면 반드시 객체로 묶고,
+  // page 단일 파라미터만 필요한 경우 number 타입의 파라미터를 전달 받도록 정의
   fetch: any;
 
-  // page 외의 전달해줄 파라미터가 있다면 객체 형식으로 전달
+  // page 외의 전달해줄 파라미터가 있다면 객체 형식으로 전달 (page는 생략)
   fetchParams?: object;
 
   // async (entry, observer) => { observer.unobserve(entry.target); if (hasNextPage && !isFetching) fetchNextPage(); }
@@ -45,7 +46,7 @@ const useInfiniteScroll = ({
     ({ pageParam = initialPage ? initialPage : 0 }) =>
       fetchParams
         ? fetch({ page: pageParam, ...fetchParams })
-        : fetch({ page: pageParam }),
+        : fetch(pageParam),
     {
       keepPreviousData: true,
       getNextPageParam: data => {
