@@ -1,6 +1,7 @@
 import "./location-list-block.scss";
 import { useNavigate } from "react-router-dom";
-import { LocationPreviewBlockProps } from "../LocationPreviewBlock";
+import { LocationPreviewBlockProps } from "@components/Location/LocationPreviewBlock";
+import defaultthumbnail from "@assets/location/default_thumbnail.jpeg";
 
 const LocationListBlock = ({
   contentId,
@@ -14,7 +15,7 @@ const LocationListBlock = ({
     <div className="location-list-block-wrapper">
       <div className="rect" onClick={() => nav(`/travel/${contentId}`)}>
         <div className="img-rect">
-          <img src={imageUrl} />
+          <img src={imageUrl ? imageUrl : defaultthumbnail} />
         </div>
         <div className="text-container">
           <div className="category">
