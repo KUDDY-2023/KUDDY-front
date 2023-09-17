@@ -40,13 +40,16 @@ const TravelDetailTitle = ({
   );
 
   useEffect(() => {
-    getPick();
-    setTrigger(Date.now());
     setIsBookmarked(
       isLogin === false
         ? false
         : myPickList.map(row => row.contentId).includes(contentId),
     );
+  }, [myPickList, contentId]);
+
+  useEffect(() => {
+    getPick();
+    setTrigger(Date.now());
   }, [contentId]);
 
   useEffect(() => {
