@@ -23,7 +23,7 @@
   display: flex;
   align-items: center;
   position: relative;
-  background-color: color(light-grey);
+  background-color: color(white);
   margin: {
     left: 16px;
     right: 20px;
@@ -53,14 +53,17 @@
     }
 
     button {
+      display: flex;
+      align-items: center;
       background-color: transparent;
       border: 0;
       outline: 0;
-      width: 28px;
       margin-right: 16px;
 
       svg {
         margin-left: 0;
+        width: 18px;
+        height: 18px;
       }
     }
   }
