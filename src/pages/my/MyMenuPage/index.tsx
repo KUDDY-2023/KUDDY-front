@@ -39,11 +39,16 @@ const MyMenuPage = () => {
       </div>
       {userInfo && (
         <>
-          <div className="profile-circle">
-            <img src={userInfo.memberInfo.profileImageUrl} />
+          <div
+            className="to-profile-click-area"
+            onClick={() => nav(`/profile/${userInfo.memberInfo.nickname}`)}
+          >
+            <div className="profile-circle">
+              <img src={userInfo.memberInfo.profileImageUrl} />
+            </div>
+            <div className="name">{userInfo.memberInfo.nickname}</div>
+            <div className="email">{userInfo.memberInfo.email}</div>
           </div>
-          <div className="name">{userInfo.memberInfo.nickname}</div>
-          <div className="email">{userInfo.memberInfo.email}</div>
           <div className="section-container">
             {iconSrc.map(
               (item, idx) =>

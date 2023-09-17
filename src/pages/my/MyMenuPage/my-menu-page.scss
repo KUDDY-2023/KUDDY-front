@@ -15,6 +15,12 @@
     margin-top: 48px;
   }
 
+  .to-profile-click-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
   .profile-circle {
     width: 120px;
     height: 120px;
