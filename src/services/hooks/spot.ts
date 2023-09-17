@@ -1,19 +1,34 @@
-import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 import { useInfiniteQuery } from "react-query";
-import { useRecoilState } from "recoil";
+import useInfiniteScroll from "@utils/hooks/useInfiniteScroll";
 import {
+  spotGetByFilter,
   spotGetNearLocation,
-  spotGetDetailInfo,
   spotGetOnlyKeyWord,
 } from "@services/api/spot";
-// useQuery : get
-// useMutation : post, delete, patch, put
 
-/*
-react-query 또는 recoil 관련 등 api 호출 후의 로직 포함  
-함수 이름은 use로 시작 
-*/
+// multi filter
+export const useAllSpot = (filter: SpotGetByFilterType) => {
+  const {
+    pageLastItemRef,
+    data,
+    isLoading,
+    isFetching,
+    hasNextPage,
+    fetchNextPage,
+  } = useInfiniteScroll({
+    queryName: "allSpot",
+    fetch: spotGetByFilter,
+    filter: filter,
+    onIntersect: async (entry, observer) => {
+      observer.unobserve(entry.target);
+      if (hasNextPage && !isFetching) {
+        fetchNextPage();
+      }
+    },
+  });
+  return { pageLastItemRef, hasNextPage, data };
+};
 
 // near my location
 export const useNearLocation = (x: number, y: number) => {
@@ -39,19 +54,6 @@ export const useNearLocation = (x: number, y: number) => {
     );
 
   return { data, isSuccess, hasNextPage, fetchNextPage, isFetchingNextPage };
-};
-
-// spot detail info
-export const useDetailInfo = (contentId: number) => {
-  const GetDetailInfo = async () => {
-    try {
-      const res = await spotGetDetailInfo(contentId);
-      return res.data.data;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  return GetDetailInfo;
 };
 
 // 키워드 하나로 검색해서 장소 결과 받아오기

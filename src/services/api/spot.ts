@@ -6,10 +6,6 @@ export const spotGetTrendingNow = async () => {
   return apiClient.get(url);
 };
 
-// category
-
-// district
-
 // near my location
 export const spotGetNearLocation = async (
   page: number,
@@ -26,10 +22,24 @@ export const spotGetDetailInfo = async (contentId: number) => {
   return apiClient.get(url);
 };
 
-// all
-export const spotGetAll = async (page: number, size: number) => {
-  const url = `/api/v1/spots/all?page=${page}&size=${size}`;
+// spot detail nearby
+export const spotGetDetailNearby = async (
+  contentId: number,
+  x: number,
+  y: number,
+) => {
+  const url = `/api/v1/spots/recommendation/${contentId}?x=${x}&y=${y}`;
   return apiClient.get(url);
+};
+
+// multi filter
+export const spotGetByFilter = async (
+  page: number,
+  size: number,
+  filter: SpotGetByFilterType,
+) => {
+  const url = `/api/v1/spots/search?page=${page}&size=${size}`;
+  return apiClient.post(url, filter);
 };
 
 // only keyword

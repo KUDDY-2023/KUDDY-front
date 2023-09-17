@@ -39,6 +39,12 @@ interface PickedMatesType {
   introduce?: string;
 }
 
+interface SpotGetByFilterType {
+  keyword: string;
+  category: string;
+  district: string[];
+}
+
 interface TravelPageInfo {
   page: number;
   size: number;
