@@ -23,7 +23,8 @@ apiClient.interceptors.response.use(
 
         if (newAccessToken) {
           localStorage.setItem("accessToken", newAccessToken); // 새 토큰 저장
-          originalRequest.headers["Authorization"] = "Bearer " + newAccessToken;
+          originalRequest.headers["Authorization"] = "Bearer " + newAccessToken; // 새 요청의 헤더
+          updateAuthHeader(newAccessToken); // 기존 axios 객체의 헤더
         }
 
         return axios(originalRequest);
