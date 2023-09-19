@@ -24,21 +24,24 @@ const AppointmentPage = () => {
     getMeetUps();
   }, []);
 
-  let iconType: string, itemStyle: string;
+  let iconType: string, itemStyle: string, itemText: string;
 
   const handleType = (type: string, hasReview: boolean) => {
     switch (type) {
-      case "scheduled":
+      case "PAYED":
         iconType = scheduledIcon;
         itemStyle = "scheduled";
+        itemText = "scheduled";
         break;
-      case "completed":
+      case "COMPLETED":
         iconType = completedIcon;
         itemStyle = hasReview ? "disabled" : "completed"; // completed && 리뷰 있으면 비활성화
+        itemText = "completed";
         break;
-      case "canceled":
+      case "TRAVELER_CANCEL" || "KUDDY_CANCEL":
         iconType = canceledIcon;
         itemStyle = "disabled"; // canceled이면 비활성화
+        itemText = "canceled";
     }
   };
 
@@ -75,9 +78,9 @@ const AppointmentPage = () => {
                   <div className="appointment-date">
                     {item?.appointmentTime}
                   </div>
-                  <div className={`appointment-type ${item?.meetupStatus}`}>
+                  <div className={`appointment-type ${itemText}`}>
                     <img src={iconType} />
-                    {item?.meetupStatus}
+                    {itemText}
                   </div>
                 </div>
 
@@ -103,7 +106,7 @@ const AppointmentPage = () => {
                   </div>
                 </div>
 
-                {item.type === "scheduled" && (
+                {itemText === "scheduled" && (
                   <div className="appointment-item-footer">
                     <div
                       className="appointment-btn"
@@ -119,7 +122,7 @@ const AppointmentPage = () => {
                     </div>
                   </div>
                 )}
-                {item?.meetupStatus === "completed" && !item?.reviewed && (
+                {itemText === "completed" && !item?.reviewed && (
                   <div className="appointment-item-footer">
                     <div
                       className="appointment-btn write-review"

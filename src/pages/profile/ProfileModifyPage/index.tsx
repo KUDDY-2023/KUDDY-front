@@ -1,19 +1,35 @@
 import "./profile-modify-page.scss";
-import { useState, useEffect } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import photoBtn from "@assets/profile/photo.svg";
 import DropDown from "@components/_common/DropDown";
 import EditBtn from "@components/ProfileModifyPage/EditBtn";
 import EditModal from "@components/ProfileModifyPage/EditModal";
+import { useGetProfile } from "@services/hooks/profile";
 import { TravelerUserData, KuddyUserData } from "@utils/data/userProfile";
 
-type ItemProps = {
+type EditItemProps = {
   subtitle: string;
   value: string;
   onClick: () => void;
 };
 
+type ModifyItemProps = {
+  text: string;
+  children: ReactNode;
+};
+
+// 일반 형식
+const ModifyItem = ({ text, children }: ModifyItemProps) => {
+  return (
+    <div className="detail-modify-inner-container">
+      <div className="profile-subtitle">{text}</div>
+      {children}
+    </div>
+  );
+};
+
 // edit 버튼 있는(region, language, interest) 형식
-const EditItem = ({ subtitle, value, onClick }: ItemProps) => {
+const EditItem = ({ subtitle, value, onClick }: EditItemProps) => {
   return (
     <div className="detail-modify-inner-container">
       <div className="profile-subtitle">{subtitle}</div>
@@ -46,10 +62,23 @@ const ProfileModifyPage = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [form, setForm] = useState("");
 
+  /*
+  const getMyProfile = () => {
+    const res = useGetProfile();
+    console.log(res);
+  };
+
+  useEffect(() => {
+    getMyProfile();
+  }, []);
+  */
+
+  // 프로필 이미지 관련
   const handlePhotoBtnClick = () => {
     console.log("프로필 이미지 편집");
   };
 
+  // gender 관련
   const handleSelectGender = (id: number, type: string, selected: string) => {
     let newGender: GenderType = profile.gender;
     switch (selected) {
@@ -66,6 +95,7 @@ const ProfileModifyPage = () => {
     console.log(profile);
   };
 
+  // nation 관련
   const handleSelectNation = (id: number, type: string, selected: string) => {
     setProfile({ ...profile, nationality: selected });
   };
@@ -105,7 +135,7 @@ const ProfileModifyPage = () => {
     setInterestText(newInterestText.substring(0, newInterestText.length - 2));
   }, [profile]);
 
-  // 모달 관련
+  // edit 모달 관련
   const handleCloseModal = () => {
     setIsOpenModal(false);
   };
@@ -137,8 +167,7 @@ const ProfileModifyPage = () => {
       </div>
 
       <div className="detail-modify-container">
-        <div className="detail-modify-inner-container">
-          <div className="profile-subtitle">name</div>
+        <ModifyItem text="name">
           <input
             type="text"
             className="profile-content"
@@ -148,9 +177,9 @@ const ProfileModifyPage = () => {
               setProfile(p => ({ ...p, nickname: e.target.value }))
             }
           />
-        </div>
-        <div className="detail-modify-inner-container">
-          <div className="profile-subtitle">introduce</div>
+        </ModifyItem>
+
+        <ModifyItem text="introduce">
           <textarea
             className="profile-content"
             placeholder={profile.introduction}
@@ -159,11 +188,10 @@ const ProfileModifyPage = () => {
               setProfile(p => ({ ...p, introduction: e.target.value }))
             }
           />
-        </div>
+        </ModifyItem>
         <div className="profile-line"></div>
 
-        <div className="detail-modify-inner-container">
-          <div className="profile-subtitle">gender</div>
+        <ModifyItem text="gender">
           <DropDown
             items={genders}
             type="Gender"
@@ -172,9 +200,8 @@ const ProfileModifyPage = () => {
             state={profile.gender}
             onSelect={handleSelectGender}
           />
-        </div>
-        <div className="detail-modify-inner-container">
-          <div className="profile-subtitle">age</div>
+        </ModifyItem>
+        <ModifyItem text="age">
           <input
             type="text"
             className="profile-content"
@@ -187,9 +214,8 @@ const ProfileModifyPage = () => {
               }))
             }
           />
-        </div>
-        <div className="detail-modify-inner-container">
-          <div className="profile-subtitle">job</div>
+        </ModifyItem>
+        <ModifyItem text="job">
           <input
             type="text"
             className="profile-content"
@@ -197,11 +223,12 @@ const ProfileModifyPage = () => {
             value={profile.job}
             onChange={e => setProfile(p => ({ ...p, job: e.target.value }))}
           />
-        </div>
+        </ModifyItem>
         <div className="detail-modify-inner-container">
           <div className="profile-subtitle">personality</div>
           <div className="vertical-container"></div>
         </div>
+
         {data.role === "KUDDY" ? (
           <EditItem
             subtitle="region"
