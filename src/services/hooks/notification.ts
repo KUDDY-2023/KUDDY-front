@@ -65,9 +65,9 @@ export const useReadAllNoti = () => {
   const onReadAll = async () => {
     try {
       console.log("모두 읽음 처리 (요청은 안보냄)");
-      //   const res = await nofiReadAll();
-      //   console.log(res);
-      //   return res;
+      const res = await nofiReadAll();
+      console.log(res);
+      return res;
     } catch (err) {
       console.log(err);
     }
@@ -81,9 +81,9 @@ export const useReadNoti = () => {
   const onRead = async (nofiNum: number) => {
     try {
       console.log("단일 읽음 처리 (요청은 안보냄)");
-      //   const res = await nofiRead(nofiNum);
-      //   console.log(res);
-      //   return res;
+      const res = await nofiRead(nofiNum);
+      console.log(res);
+      return res;
     } catch (err) {
       console.log(err);
     }
@@ -99,7 +99,7 @@ export const useGotoPost = () => {
 
   const onGotoPost = (postId: number, nofiNum: number) => {
     // 읽음 처리 요청도 보내야함
-    // onRead(nofiNum);
+    onRead(nofiNum);
     // 상세 페이지로 라우팅
     navigate(`/community/category/${postId}`);
   };
