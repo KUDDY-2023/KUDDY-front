@@ -8,6 +8,7 @@ import scheduledIcon from "@assets/my/clock.svg";
 import completedIcon from "@assets/my/complete.svg";
 import canceledIcon from "@assets/icon/red_x.svg";
 import { useGetMeetUps } from "@services/hooks/user";
+import { useGetRoomStatus } from "@services/hooks/chat";
 
 const AppointmentPage = () => {
   const nav = useNavigate();
@@ -17,28 +18,30 @@ const AppointmentPage = () => {
   useEffect(() => {
     const getMeetUps = async () => {
       const res = await onGetMeetUps();
-      console.log("동행" + res);
       setMeetUps(res);
     };
 
     getMeetUps();
   }, []);
 
-  let iconType: string, itemStyle: string;
+  let iconType: string, itemStyle: string, itemText: string;
 
   const handleType = (type: string, hasReview: boolean) => {
     switch (type) {
-      case "scheduled":
+      case "PAYED":
         iconType = scheduledIcon;
         itemStyle = "scheduled";
+        itemText = "scheduled";
         break;
-      case "completed":
+      case "COMPLETED":
         iconType = completedIcon;
         itemStyle = hasReview ? "disabled" : "completed"; // completed && 리뷰 있으면 비활성화
+        itemText = "completed";
         break;
-      case "canceled":
+      case "TRAVELER_CANCEL" || "KUDDY_CANCEL":
         iconType = canceledIcon;
         itemStyle = "disabled"; // canceled이면 비활성화
+        itemText = "canceled";
     }
   };
 
@@ -75,21 +78,20 @@ const AppointmentPage = () => {
                   <div className="appointment-date">
                     {item?.appointmentTime}
                   </div>
-                  <div className={`appointment-type ${item?.meetupStatus}`}>
+                  <div className={`appointment-type ${itemText}`}>
                     <img src={iconType} />
-                    {item?.meetupStatus}
+                    {itemText}
                   </div>
                 </div>
 
                 <div className="appointment-item-body">
-                  <div className="appointment-place-container">
+                  <div
+                    className="appointment-place-container"
+                    onClick={() => handleSpotDetailClick(item?.spotId)}
+                  >
                     <img id="pin-icon" src={pinIcon} />
                     <div className="appointment-place">{item?.spotName}</div>
-                    <img
-                      id="arrow-icon"
-                      src={arrowIcon}
-                      onClick={() => handleSpotDetailClick(item?.spotId)}
-                    />
+                    <img id="arrow-icon" src={arrowIcon} />
                   </div>
 
                   <div className="meeting-detail-container">
@@ -103,7 +105,7 @@ const AppointmentPage = () => {
                   </div>
                 </div>
 
-                {item.type === "scheduled" && (
+                {itemText === "scheduled" && (
                   <div className="appointment-item-footer">
                     <div
                       className="appointment-btn"
@@ -119,7 +121,7 @@ const AppointmentPage = () => {
                     </div>
                   </div>
                 )}
-                {item?.meetupStatus === "completed" && !item?.reviewed && (
+                {itemText === "completed" && !item?.reviewed && (
                   <div className="appointment-item-footer">
                     <div
                       className="appointment-btn write-review"

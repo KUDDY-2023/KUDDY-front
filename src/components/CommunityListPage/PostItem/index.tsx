@@ -9,7 +9,7 @@ const PostItem = ({ post }: any) => {
   return (
     <div
       className="post-item-container"
-      onClick={() => nav(`/community/${type}/${post.id}`)}
+      onClick={() => nav(`/community/${post.id}`)}
     >
       {type === "talking-board" && (
         <div className="item-top-container">

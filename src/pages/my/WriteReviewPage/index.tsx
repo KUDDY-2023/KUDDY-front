@@ -39,16 +39,19 @@ const WriteReviewPage = () => {
       content: aboutBuddy,
       grade: selectedSatisfaction[0].grade.toLowerCase(),
     });
+    console.log(res);
   };
 
   // 같은 id의 동행 정보 저장
   useEffect(() => {
     const getMeetUps = async () => {
       let res = await onGetMeetUps();
-      res = res?.meetupList?.filter(
-        (item: any) => item.meetupId === Number(appointmentId),
-      );
-      console.log("동행" + res);
+
+      for (let i = 0; i < res?.meetupList?.length; i++) {
+        if (res.meetupList[i].meetupId === Number(appointmentId)) {
+          res = res.meetupList[i];
+        }
+      }
       setMeetUp(res);
     };
 

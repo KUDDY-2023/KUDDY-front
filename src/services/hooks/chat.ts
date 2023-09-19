@@ -3,7 +3,11 @@ import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { updateAuthHeader } from "@services/api"; // axios 토큰 업데이트
 
-import { chatSaveMessage, chatRooms } from "@services/api/chat";
+import {
+  chatSaveMessage,
+  chatRooms,
+  chatGetRoomStatus,
+} from "@services/api/chat";
 import { meetUpInfoState } from "@services/store/chat";
 
 // ✅ 채팅방 리스트 가져오기
@@ -41,4 +45,18 @@ export const useMakeMeetUpInfo = () => {
     }));
 
   return onMakeMeetUpInfo;
+};
+
+// ✅ 채팅방 여부 조회
+export const useGetRoomStatus = async () => {
+  const onGetRoomStatus = async (email: string) => {
+    try {
+      const res = await chatGetRoomStatus(email);
+      return res.data.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return onGetRoomStatus;
 };
