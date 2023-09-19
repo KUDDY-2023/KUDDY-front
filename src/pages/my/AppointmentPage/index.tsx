@@ -8,6 +8,7 @@ import scheduledIcon from "@assets/my/clock.svg";
 import completedIcon from "@assets/my/complete.svg";
 import canceledIcon from "@assets/icon/red_x.svg";
 import { useGetMeetUps } from "@services/hooks/user";
+import { useGetRoomStatus } from "@services/hooks/chat";
 
 const AppointmentPage = () => {
   const nav = useNavigate();
@@ -17,7 +18,6 @@ const AppointmentPage = () => {
   useEffect(() => {
     const getMeetUps = async () => {
       const res = await onGetMeetUps();
-      console.log("동행" + res);
       setMeetUps(res);
     };
 
@@ -85,14 +85,13 @@ const AppointmentPage = () => {
                 </div>
 
                 <div className="appointment-item-body">
-                  <div className="appointment-place-container">
+                  <div
+                    className="appointment-place-container"
+                    onClick={() => handleSpotDetailClick(item?.spotId)}
+                  >
                     <img id="pin-icon" src={pinIcon} />
                     <div className="appointment-place">{item?.spotName}</div>
-                    <img
-                      id="arrow-icon"
-                      src={arrowIcon}
-                      onClick={() => handleSpotDetailClick(item?.spotId)}
-                    />
+                    <img id="arrow-icon" src={arrowIcon} />
                   </div>
 
                   <div className="meeting-detail-container">
