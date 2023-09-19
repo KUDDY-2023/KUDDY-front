@@ -24,3 +24,9 @@ export const chatGetAllMessage = async (roomId: string) => {
   const url = `/chat/v1/chatrooms/${roomId}`;
   return apiClient.get(url);
 };
+
+// ✅ 채팅방 여부 조회
+export const chatGetRoomStatus = async (email: string) => {
+  const url = `/chat/v1/chatrooms/check?email=${email}`;
+  return apiClient.get(url);
+};
