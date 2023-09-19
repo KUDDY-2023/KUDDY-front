@@ -34,3 +34,9 @@ export const communityGetTravelerReviews = async (id: number) => {
   const url = `/api/v1/reviews/traveler/${id}`;
   return apiClient.get(url);
 };
+
+// ✅ 개별 게시물 조회
+export const communityGetEachPost = async (id: number) => {
+  const url = `/api/v1/posts/${id}`;
+  return apiClient.get(url);
+};
