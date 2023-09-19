@@ -97,7 +97,9 @@ const IntroSection = ({ profile }: Props) => {
         </div>
       </div>
 
-      <div className="introduction-content">{profile?.introduce}</div>
+      {profile?.introduce && (
+        <div className="introduction-content">{profile?.introduce}</div>
+      )}
       {profile?.interests && (
         <div className="interest-list">
           {interestText?.map((item, index) => {
