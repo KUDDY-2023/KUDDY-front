@@ -33,10 +33,12 @@ export const useGetAllNoti = () => {
 
 // ✅ 안읽은 알림 개수 가져오기
 export const useGetNotiCount = () => {
+  const isLogin = !!localStorage.getItem("accessToken");
   const { data, error, isLoading } = useQuery(
     "notificationsCount",
     nofiUnReadCount,
     {
+      enabled: isLogin, // 로그인 한 경우에만 요청
       refetchOnWindowFocus: false,
       select: data => {
         let str = data.data.data;

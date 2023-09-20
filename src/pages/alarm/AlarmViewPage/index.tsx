@@ -1,12 +1,9 @@
 import "./alarm-view-page.scss";
 import BackNavBar from "@components/_common/BackNavBar";
 import AlarmItem from "@components/Alarm/AlarmItem";
-import { alarmData } from "./alarmData";
 
 import { useEffect, useState } from "react";
-import { useQuery, useQueries } from "react-query";
 
-import { nofiGetAll, nofiUnReadCount } from "@services/api/notification";
 import {
   useReadAllNoti,
   useGetAllNoti,
