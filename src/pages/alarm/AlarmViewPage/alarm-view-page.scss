@@ -28,6 +28,9 @@
       align-items: center;
       border-radius: 5px;
       background: #ddd;
+      &:hover {
+        cursor: pointer;
+      }
       @include font-style(--font-text, 14px, #fff, 500);
     }
 
