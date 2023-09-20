@@ -1,12 +1,9 @@
 import "./alarm-view-page.scss";
 import BackNavBar from "@components/_common/BackNavBar";
 import AlarmItem from "@components/Alarm/AlarmItem";
-import { alarmData } from "./alarmData";
 
 import { useEffect, useState } from "react";
-import { useQuery, useQueries } from "react-query";
 
-import { nofiGetAll, nofiUnReadCount } from "@services/api/notification";
 import {
   useReadAllNoti,
   useGetAllNoti,
@@ -15,8 +12,9 @@ import {
 } from "@services/hooks/notification";
 
 export default function AlarmViewPage() {
-  const { notiData, notiError, notiLoading } = useGetAllNoti(); // 모든 알림 가져오기
-  const { notiCount, notiCountError, notiCountLoading } = useGetNotiCount(); // 알림개수 가져오기
+  const { notiData, notiError, notiLoading, refetchNotiData } = useGetAllNoti(); // 모든 알림 가져오기
+  const { notiCount, notiCountError, notiCountLoading, refetchNotiCount } =
+    useGetNotiCount(); // 알림개수 가져오기
 
   useEffect(() => {
     console.log("알림 조회 > ", notiData);
@@ -25,6 +23,12 @@ export default function AlarmViewPage() {
 
   const onReadAll = useReadAllNoti(); // 모두 읽기
   const onGotoPost = useGotoPost(); // 포스트 보러 가기
+
+  const onClickMarkBtn = async () => {
+    await onReadAll();
+    refetchNotiData();
+    refetchNotiCount();
+  };
 
   return (
     <div className="alarm-view-page">
@@ -35,7 +39,7 @@ export default function AlarmViewPage() {
         </div>
 
         {notiCount ? (
-          <div className="mark-btn active" onClick={onReadAll}>
+          <div className="mark-btn active" onClick={onClickMarkBtn}>
             Mark all as read
           </div>
         ) : (
