@@ -1,4 +1,4 @@
-import "./appointmentpage.scss";
+import "./appointment-page.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BackNavBar from "@components/_common/BackNavBar";
@@ -9,48 +9,61 @@ import completedIcon from "@assets/my/complete.svg";
 import canceledIcon from "@assets/icon/red_x.svg";
 import { useGetMeetUps } from "@services/hooks/user";
 import { useGetRoomStatus } from "@services/hooks/chat";
+import { usePutMeetUpCancel } from "@services/hooks/user";
 
 const AppointmentPage = () => {
   const nav = useNavigate();
   const [meetUps, setMeetUps] = useState<any>();
-  const onGetMeetUps = useGetMeetUps();
+  const onGetMeetUps = useGetMeetUps(); // 동행 조회
+  const onMeetUpCancel = usePutMeetUpCancel(); // 동행 요청 취소
+  const [iconType, setIconType] = useState<string[]>([]);
+  const [itemStyle, setItemStyle] = useState<string[]>([]);
+  const [itemText, setItemText] = useState<string[]>([]);
 
   useEffect(() => {
     const getMeetUps = async () => {
       const res = await onGetMeetUps();
-      setMeetUps(res);
+      setMeetUps(res.meetupList);
     };
 
     getMeetUps();
   }, []);
 
-  let iconType: string, itemStyle: string, itemText: string;
+  //let iconType: string, itemStyle: string, itemText: string;
 
   const handleType = (type: string, hasReview: boolean) => {
-    switch (type) {
-      case "PAYED":
-        iconType = scheduledIcon;
-        itemStyle = "scheduled";
-        itemText = "scheduled";
-        break;
-      case "COMPLETED":
-        iconType = completedIcon;
-        itemStyle = hasReview ? "disabled" : "completed"; // completed && 리뷰 있으면 비활성화
-        itemText = "completed";
-        break;
-      case "TRAVELER_CANCEL" || "KUDDY_CANCEL":
-        iconType = canceledIcon;
-        itemStyle = "disabled"; // canceled이면 비활성화
-        itemText = "canceled";
+    if (type === "PAYED") {
+      setIconType(iconType => [...iconType, scheduledIcon]);
+      setItemStyle(itemStyle => [...itemStyle, "scheduled"]);
+      setItemText(itemText => [...itemText, "scheduled"]);
+    } else if (type === "COMPLETED") {
+      setIconType(iconType => [...iconType, completedIcon]);
+      hasReview
+        ? setItemStyle(itemStyle => [...itemStyle, "disabled"])
+        : setItemStyle(itemStyle => [...itemStyle, "completed"]); // completed && 리뷰 있으면 비활성화
+      setItemText(itemText => [...itemText, "completed"]);
+    } else {
+      setIconType(iconType => [...iconType, canceledIcon]);
+      setItemStyle(itemStyle => [...itemStyle, "disabled"]); // canceled이면 비활성화
+      setItemText(itemText => [...itemText, "canceled"]);
     }
   };
+
+  useEffect(() => {
+    if (typeof meetUps === "undefined") return;
+
+    for (let i = 0; i < meetUps.length; i++) {
+      handleType(meetUps[i]?.meetupStatus, meetUps[i]?.reviewed);
+    }
+  }, [meetUps]);
 
   const handleSpotDetailClick = (id: number) => {
     nav(`/travel/${id}`);
   };
 
-  const handleCancelClick = () => {
-    console.log("동행 취소");
+  const handleCancelClick = async (id: number) => {
+    const res = await onMeetUpCancel(id);
+    console.log(res);
   };
 
   const handleSendMessageClick = () => {
@@ -66,21 +79,19 @@ const AppointmentPage = () => {
       <BackNavBar middleTitle="My appointment" isShare={false} />
       {meetUps && (
         <div className="appointments-container">
-          {meetUps?.meetupList?.map((item: any) => {
-            handleType(item?.meetupStatus, item?.reviewed);
-
+          {meetUps?.map((item: any, index: number) => {
             return (
               <div
                 key={item?.meetupId}
-                className={`appointment-item-container ${itemStyle}`}
+                className={`appointment-item-container ${itemStyle[index]}`}
               >
                 <div className="appointment-item-header">
                   <div className="appointment-date">
                     {item?.appointmentTime}
                   </div>
-                  <div className={`appointment-type ${itemText}`}>
-                    <img src={iconType} />
-                    {itemText}
+                  <div className={`appointment-type ${itemText[index]}`}>
+                    <img src={iconType[index]} />
+                    {itemText[index]}
                   </div>
                 </div>
 
@@ -105,11 +116,11 @@ const AppointmentPage = () => {
                   </div>
                 </div>
 
-                {itemText === "scheduled" && (
+                {itemText[index] === "scheduled" && (
                   <div className="appointment-item-footer">
                     <div
                       className="appointment-btn"
-                      onClick={handleCancelClick}
+                      onClick={() => handleCancelClick(item?.meetupId)}
                     >
                       Cancel
                     </div>
@@ -121,7 +132,7 @@ const AppointmentPage = () => {
                     </div>
                   </div>
                 )}
-                {itemText === "completed" && !item?.reviewed && (
+                {itemText[index] === "completed" && !item?.reviewed && (
                   <div className="appointment-item-footer">
                     <div
                       className="appointment-btn write-review"
