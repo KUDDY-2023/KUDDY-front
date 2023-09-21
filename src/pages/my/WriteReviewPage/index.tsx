@@ -1,4 +1,4 @@
-import "./writereviewpage.scss";
+import "./write-review-page.scss";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BackNavBar from "@components/_common/BackNavBar";
