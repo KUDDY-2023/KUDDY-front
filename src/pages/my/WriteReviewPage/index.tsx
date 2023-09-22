@@ -35,7 +35,7 @@ const WriteReviewPage = () => {
     console.log("만족도" + selectedSatisfaction[0].grade.toLowerCase());
     console.log("리뷰 작성 폼 제출");
     const res = await onPostReview({
-      meetId: Number(appointmentId),
+      meetupId: Number(appointmentId),
       content: aboutBuddy,
       grade: selectedSatisfaction[0].grade.toLowerCase(),
     });
