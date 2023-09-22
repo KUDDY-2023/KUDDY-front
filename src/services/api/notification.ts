@@ -2,7 +2,7 @@ import { apiClient } from ".";
 
 // ✅ 모든 알림 조회
 export const nofiGetAll = async () => {
-  const url = `/api/v1/notifications?page=0&size=5`;
+  const url = `/api/v1/notifications?page=0&size=10`;
   return apiClient.get(url);
 };
 
