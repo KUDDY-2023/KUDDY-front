@@ -33,7 +33,12 @@ const CommentItem = ({ review, isReply }: Props) => {
 
       <div className="comment-content-container">
         <div className="comment-content-top">
-          <div className="comment-nickname">
+          <div
+            className="comment-nickname"
+            onClick={() => {
+              handleProfileClick(review?.commentWriterInfoDto?.nickname);
+            }}
+          >
             {review?.commentWriterInfoDto?.nickname}
           </div>
           {/* kuddy 뱃지 + creator 뱃지도 가능 */}
