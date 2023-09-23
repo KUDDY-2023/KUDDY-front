@@ -10,6 +10,7 @@ type Props = {
 const PostContent = ({ postData, reviewCnt }: Props) => {
   const category =
     typeof postData?.postType !== "undefined" ? "talking" : "itinerary";
+  const createdDate = new Date(postData?.createdDate).toLocaleString("sv");
 
   // join us 상세
   const joinDetail = [
@@ -25,7 +26,7 @@ const PostContent = ({ postData, reviewCnt }: Props) => {
           <img src={postData?.writerProfile} alt="writer-profile" />
           <div className="writer-right-section">
             <div className="writer-name">{postData?.writerName}</div>
-            <div className="write-date">{postData?.createdDate}</div>
+            <div className="write-date">{createdDate}</div>
           </div>
         </div>
         {category === "talking" && (
