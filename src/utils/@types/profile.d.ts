@@ -24,7 +24,7 @@ interface IUserProfile {
   job: string;
   roleType: UserType;
   nickname: string;
-  age: number; // 음수는 걸러야되는데 ?
+  birthDate: string; // 나이를 생일로 변경
   profileImageUrl: string;
   genderType: GenderType;
   decisionMaking: DicisionMakingType;
