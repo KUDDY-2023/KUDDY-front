@@ -77,15 +77,39 @@ $main-yellow: var(--color-main-yellow);
         @include grey-title();
       }
 
-      input {
-        border: none;
-        border-bottom: 1px solid #ddd;
-        width: 200px;
-        height: 34px;
-        @include font-style(--font-text, 18px, var(--color-black), 500);
+      //⭐
 
-        &:focus {
-          outline: none;
+      .MuiInputBase-root {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        .MuiInputBase-input {
+          @include font-style(--font-text, 18px, #b1b1b1, 500);
+          padding: 0;
+          border: none;
+          border-bottom: 1px solid #ddd;
+          width: 200px;
+          height: 34px;
+        }
+        .MuiOutlinedInput-notchedOutline {
+          border: none;
+        }
+      }
+
+      .active-text {
+        .MuiInputBase-root {
+          .MuiInputBase-input {
+            color: black;
+          }
+        }
+      }
+
+      .MuiFormControl-root:first-child {
+        margin-right: 12px;
+
+        @include narrowMobile {
+          margin-bottom: 12px;
         }
       }
     }
