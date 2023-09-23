@@ -34,7 +34,7 @@ export const profileState = atom<IUserProfile>({
     nickname: "",
     profileImageUrl: "",
     genderType: "MR",
-    age: 0,
+    birthDate: "",
     temperament: "INTROVERT",
     decisionMaking: "JUDGING",
     job: "",
