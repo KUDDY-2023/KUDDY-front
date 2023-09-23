@@ -6,11 +6,14 @@ import IntroSection from "@components/ProfileDetailPage/IntroSection";
 import AboutBuddySection from "@components/ProfileDetailPage/AboutBuddySection";
 import ReviewSection from "@components/ProfileDetailPage/ReviewSection";
 import { useGetProfileByName } from "@services/hooks/profile";
+import { useGetProfile } from "@services/hooks/profile";
 
 const ProfileDetailPage = () => {
   const nickname = useParams().nickname;
-  const [profile, setProfile] = useState();
+  const [profile, setProfile] = useState<any>();
+  const [isMine, setIsMine] = useState(false);
   const onGetProfileByName = useGetProfileByName();
+  const { data, isLoading, error } = useGetProfile();
 
   useEffect(() => {
     const getProfileByName = async () => {
@@ -21,10 +24,19 @@ const ProfileDetailPage = () => {
     getProfileByName();
   }, []);
 
+  useEffect(() => {
+    if (data) {
+      const res = data.data.data;
+      res?.memberInfo?.memberId === profile?.memberInfo?.memberId
+        ? setIsMine(true)
+        : setIsMine(false);
+    }
+  }, [isLoading, profile]);
+
   return (
     <div className="profile-detail-container">
       <NavBar />
-      <IntroSection profile={profile} />
+      <IntroSection profile={profile} isMine={isMine} />
       <AboutBuddySection profile={profile} />
       <ReviewSection profile={profile} />
     </div>

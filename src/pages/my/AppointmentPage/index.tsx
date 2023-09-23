@@ -1,4 +1,4 @@
-import "./appointmentpage.scss";
+import "./appointment-page.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import BackNavBar from "@components/_common/BackNavBar";
@@ -9,52 +9,87 @@ import completedIcon from "@assets/my/complete.svg";
 import canceledIcon from "@assets/icon/red_x.svg";
 import { useGetMeetUps } from "@services/hooks/user";
 import { useGetRoomStatus } from "@services/hooks/chat";
+import { usePutMeetUpCancel } from "@services/hooks/user";
 
 const AppointmentPage = () => {
   const nav = useNavigate();
   const [meetUps, setMeetUps] = useState<any>();
-  const onGetMeetUps = useGetMeetUps();
+  const onGetMeetUps = useGetMeetUps(); // 동행 조회
+  const onMeetUpCancel = usePutMeetUpCancel(); // 동행 요청 취소
+  const onGetRoomStatus = useGetRoomStatus(); // 채팅방 여부 조회 (없으면 채팅방 생성)
+  const [meetUpStyle, setMeetUpStyle] = useState<any>([]);
+
+  // 동행 리스트 받아오기
+  const getMeetUps = async () => {
+    const res = await onGetMeetUps();
+    setMeetUps(res.meetupList);
+  };
 
   useEffect(() => {
-    const getMeetUps = async () => {
-      const res = await onGetMeetUps();
-      setMeetUps(res);
-    };
-
     getMeetUps();
   }, []);
 
-  let iconType: string, itemStyle: string, itemText: string;
-
-  const handleType = (type: string, hasReview: boolean) => {
-    switch (type) {
-      case "PAYED":
-        iconType = scheduledIcon;
-        itemStyle = "scheduled";
-        itemText = "scheduled";
-        break;
-      case "COMPLETED":
-        iconType = completedIcon;
-        itemStyle = hasReview ? "disabled" : "completed"; // completed && 리뷰 있으면 비활성화
-        itemText = "completed";
-        break;
-      case "TRAVELER_CANCEL" || "KUDDY_CANCEL":
-        iconType = canceledIcon;
-        itemStyle = "disabled"; // canceled이면 비활성화
-        itemText = "canceled";
+  // 동행 상태에 따른 스타일 저장
+  const handleType = (id: number, type: string, hasReview: boolean) => {
+    let iconType: string, itemStyle: string, itemText: string;
+    if (type === "PAYED") {
+      iconType = scheduledIcon;
+      itemStyle = "scheduled";
+      itemText = "scheduled";
+    } else if (type === "COMPLETED") {
+      iconType = completedIcon;
+      hasReview ? (itemStyle = "disabled") : (itemStyle = "completed"); // completed && 리뷰 있으면 비활성화
+      itemText = "completed";
+    } else {
+      iconType = canceledIcon;
+      itemStyle = "disabled"; // canceled이면 비활성화
+      itemText = "canceled";
     }
+
+    const newStyle = {
+      meetupId: id,
+      type: iconType,
+      style: itemStyle,
+      text: itemText,
+    };
+
+    setMeetUpStyle((meetUpStyle: any) => [...meetUpStyle, newStyle]);
   };
+
+  useEffect(() => {
+    if (typeof meetUps === "undefined") return;
+
+    for (let i = 0; i < meetUps.length; i++) {
+      handleType(
+        meetUps[i].meetupId,
+        meetUps[i]?.meetupStatus,
+        meetUps[i]?.reviewed,
+      );
+    }
+  }, [meetUps]);
 
   const handleSpotDetailClick = (id: number) => {
     nav(`/travel/${id}`);
   };
 
-  const handleCancelClick = () => {
-    console.log("동행 취소");
+  const handleCancelClick = async (id: number) => {
+    const res = await onMeetUpCancel(id);
+    console.log(res);
+
+    // 취소된 동행 스타일 업데이트
+    const newStyle = meetUpStyle.map((meetUp: any) => {
+      return meetUp.meetupId === id
+        ? { ...meetUp, type: canceledIcon, style: "disabled", text: "canceled" }
+        : meetUp;
+    });
+    setMeetUpStyle(newStyle);
   };
 
-  const handleSendMessageClick = () => {
-    console.log("채팅창 이동");
+  const handleSendMessageClick = async (email: string, nickname: string) => {
+    const res = await onGetRoomStatus(email, nickname);
+    console.log(res);
+    const roomId = Number(res.roomId);
+    nav(`/chat/${roomId}`);
   };
 
   const handleWriteReviewClick = (id: number) => {
@@ -66,21 +101,21 @@ const AppointmentPage = () => {
       <BackNavBar middleTitle="My appointment" isShare={false} />
       {meetUps && (
         <div className="appointments-container">
-          {meetUps?.meetupList?.map((item: any) => {
-            handleType(item?.meetupStatus, item?.reviewed);
-
+          {meetUps?.map((item: any, index: number) => {
             return (
               <div
                 key={item?.meetupId}
-                className={`appointment-item-container ${itemStyle}`}
+                className={`appointment-item-container ${meetUpStyle[index]?.style}`}
               >
                 <div className="appointment-item-header">
                   <div className="appointment-date">
                     {item?.appointmentTime}
                   </div>
-                  <div className={`appointment-type ${itemText}`}>
-                    <img src={iconType} />
-                    {itemText}
+                  <div
+                    className={`appointment-type ${meetUpStyle[index]?.text}`}
+                  >
+                    <img src={meetUpStyle[index]?.type} />
+                    {meetUpStyle[index]?.text}
                   </div>
                 </div>
 
@@ -89,9 +124,14 @@ const AppointmentPage = () => {
                     className="appointment-place-container"
                     onClick={() => handleSpotDetailClick(item?.spotId)}
                   >
-                    <img id="pin-icon" src={pinIcon} />
+                    <img
+                      className={`pin-icon ${meetUpStyle[index]?.text}`}
+                      src={pinIcon}
+                    />
                     <div className="appointment-place">{item?.spotName}</div>
-                    <img id="arrow-icon" src={arrowIcon} />
+                    {meetUpStyle[index]?.text !== "canceled" && (
+                      <img id="arrow-icon" src={arrowIcon} />
+                    )}
                   </div>
 
                   <div className="meeting-detail-container">
@@ -105,32 +145,38 @@ const AppointmentPage = () => {
                   </div>
                 </div>
 
-                {itemText === "scheduled" && (
+                {meetUpStyle[index]?.text === "scheduled" && (
                   <div className="appointment-item-footer">
                     <div
                       className="appointment-btn"
-                      onClick={handleCancelClick}
+                      onClick={() => handleCancelClick(item?.meetupId)}
                     >
                       Cancel
                     </div>
                     <div
                       className="appointment-btn"
-                      onClick={handleSendMessageClick}
+                      onClick={() =>
+                        handleSendMessageClick(
+                          item?.targetMemberInfo?.targetEmail,
+                          item?.targetMemberInfo?.targetNickname,
+                        )
+                      }
                     >
                       Send message
                     </div>
                   </div>
                 )}
-                {itemText === "completed" && !item?.reviewed && (
-                  <div className="appointment-item-footer">
-                    <div
-                      className="appointment-btn write-review"
-                      onClick={() => handleWriteReviewClick(item?.meetupId)}
-                    >
-                      Write Review
+                {meetUpStyle[index]?.text === "completed" &&
+                  !item?.reviewed && (
+                    <div className="appointment-item-footer">
+                      <div
+                        className="appointment-btn write-review"
+                        onClick={() => handleWriteReviewClick(item?.meetupId)}
+                      >
+                        Write Review
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
               </div>
             );
           })}

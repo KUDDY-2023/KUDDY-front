@@ -30,3 +30,9 @@ export const chatGetRoomStatus = async (email: string) => {
   const url = `/chat/v1/chatrooms/check?email=${email}`;
   return apiClient.get(url);
 };
+
+// ✅ 채팅방 생성
+export const chatCreateRoom = async (nickname: any) => {
+  const url = "/chat/v1/chatrooms";
+  return apiClient.post(url, nickname);
+};

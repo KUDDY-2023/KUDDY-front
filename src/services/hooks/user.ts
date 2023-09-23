@@ -6,6 +6,7 @@ import {
   userGetMeetUps,
   userPostReview,
   userGetReviewModal,
+  userPutMeetUpCancel,
 } from "@services/api/user";
 import { useQuery, useMutation } from "react-query";
 
@@ -61,6 +62,22 @@ export const useGetMeetUps = () => {
   };
 
   return onGetMeetUps;
+};
+
+// 동행 취소 요청
+export const usePutMeetUpCancel = () => {
+  const onMeetUpCancel = async (id: number) => {
+    try {
+      const res = await userPutMeetUpCancel(id);
+      return res;
+    } catch (err: any) {
+      if (err.response.data.errorCode === "C100") {
+        alert("작성자가 아니므로 권한이 없습니다.");
+      }
+      console.log(err);
+    }
+  };
+  return onMeetUpCancel;
 };
 
 // 리뷰 작성

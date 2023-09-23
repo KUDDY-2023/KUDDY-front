@@ -13,6 +13,12 @@ export const userGetMeetUps = () => {
   return apiClient.get(url);
 };
 
+// 동행 요청 취소
+export const userPutMeetUpCancel = (id: number) => {
+  const url = `/chat/v1/meetups/${id}`;
+  return apiClient.put(url);
+};
+
 // 리뷰 작성
 export const userPostReview = (review: any) => {
   const url = `/api/v1/reviews`;

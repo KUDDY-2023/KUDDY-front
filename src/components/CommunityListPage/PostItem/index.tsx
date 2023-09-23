@@ -4,7 +4,10 @@ import commentIcon from "@assets/community/comment_icon.svg";
 
 const PostItem = ({ post }: any) => {
   const nav = useNavigate();
-  const type = new URLSearchParams(useLocation().search).get("type");
+  const type =
+    typeof post?.postType !== "undefined" ? "talking-board" : "itinerary";
+
+  const createdDate = new Date(post.createdDate).toLocaleString("sv");
 
   return (
     <div
@@ -49,7 +52,7 @@ const PostItem = ({ post }: any) => {
             </div>
           )}
           <div className="post-info">
-            <div className="post-date">{post.createdDate}</div>
+            <div className="post-date">{createdDate}</div>
             <div className="post-comment">
               <img src={commentIcon} alt="comment" />
               {post.commentNo}
