@@ -9,12 +9,13 @@ import { useGetRoomStatus } from "@services/hooks/chat";
 
 type Props = {
   profile: any;
+  isMine: boolean;
 };
 
 // 공통 : 닉네임, 프로필사진, 소개글, interest
 // kuddy: 가이드 등급
 // traveler: 인증 여부
-const IntroSection = ({ profile }: Props) => {
+const IntroSection = ({ profile, isMine }: Props) => {
   const interestKey = [
     "wellbeing",
     "activitiesInvestmentTech",
@@ -29,7 +30,6 @@ const IntroSection = ({ profile }: Props) => {
   const [interestText, setInterestText] = useState<string[]>([]);
   const nav = useNavigate();
   const onGetRoomStatus = useGetRoomStatus(); // 채팅방 여부 조회 (없으면 채팅방 생성)
-  const isMine = profile?.mine;
   let badgeText, badgeIcon;
 
   switch (profile?.role) {
