@@ -10,9 +10,9 @@ const WriteReviewPage = () => {
   const [meetUp, setMeetUp] = useState<any>();
   const [aboutBuddy, setAboutBuddy] = useState("");
   const [satisfaction, setSatisfaction] = useState([
-    { grade: "Perfect", isSelected: false },
+    { grade: "Excellent", isSelected: false },
     { grade: "Good", isSelected: false },
-    { grade: "Disappoint", isSelected: false },
+    { grade: "Disappointing", isSelected: false },
   ]);
 
   // 만족도 버튼 클릭
@@ -32,8 +32,6 @@ const WriteReviewPage = () => {
   // complete 버튼 클릭
   const handleCompleteClick = async () => {
     const selectedSatisfaction = satisfaction.filter(item => item.isSelected);
-    console.log("만족도" + selectedSatisfaction[0].grade.toLowerCase());
-    console.log("리뷰 작성 폼 제출");
     const res = await onPostReview({
       meetupId: Number(appointmentId),
       content: aboutBuddy,
