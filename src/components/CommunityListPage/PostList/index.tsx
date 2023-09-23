@@ -1,5 +1,4 @@
 import "./post-list.scss";
-import { useState, useEffect } from "react";
 import PostItem from "@components/CommunityListPage/PostItem";
 
 const PostList = ({ postList }: any) => {

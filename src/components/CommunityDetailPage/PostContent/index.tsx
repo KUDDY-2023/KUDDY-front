@@ -1,6 +1,4 @@
 import "./post-content.scss";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
 import commentIcon from "@assets/community/comment_icon.svg";
 import PhotoSlide from "@components/CommunityDetailPage/PhotoSlide";
 

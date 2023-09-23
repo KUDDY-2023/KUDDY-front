@@ -4,7 +4,8 @@ import commentIcon from "@assets/community/comment_icon.svg";
 
 const PostItem = ({ post }: any) => {
   const nav = useNavigate();
-  const type = new URLSearchParams(useLocation().search).get("type");
+  const type =
+    typeof post?.postType !== "undefined" ? "talking-board" : "itinerary";
 
   return (
     <div
