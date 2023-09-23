@@ -1,4 +1,5 @@
 import "./post-content.scss";
+import { useNavigate } from "react-router-dom";
 import commentIcon from "@assets/community/comment_icon.svg";
 import PhotoSlide from "@components/CommunityDetailPage/PhotoSlide";
 
@@ -8,6 +9,7 @@ type Props = {
 };
 
 const PostContent = ({ postData, reviewCnt }: Props) => {
+  const nav = useNavigate();
   const category =
     typeof postData?.postType !== "undefined" ? "talking" : "itinerary";
   const createdDate = new Date(postData?.createdDate).toLocaleString("sv");
@@ -19,10 +21,19 @@ const PostContent = ({ postData, reviewCnt }: Props) => {
     { id: 3, title: "Date", value: `${postData?.date}` },
   ];
 
+  const handleProfileClick = (nickname: string) => {
+    nav(`/profile/${nickname}`);
+  };
+
   return (
     <div className="post-content-container">
       <div className="post-header">
-        <div className="writer-container">
+        <div
+          className="writer-container"
+          onClick={() => {
+            handleProfileClick(postData?.writerName);
+          }}
+        >
           <img src={postData?.writerProfile} alt="writer-profile" />
           <div className="writer-right-section">
             <div className="writer-name">{postData?.writerName}</div>
