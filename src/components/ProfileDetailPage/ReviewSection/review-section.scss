@@ -21,6 +21,7 @@
 .review-count-container {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 50%;
   height: 100%;
   padding: 7px 15px;
@@ -35,7 +36,7 @@
   font-weight: 600;
   line-height: normal;
 
-  .review-title {
+  .meet-title {
     width: 140px;
     font-size: 28px;
     &.kuddy {
@@ -43,7 +44,7 @@
     }
   }
 
-  .review-count-text {
+  .meet-count-text {
     width: 140px;
     font-size: 45px;
     &.kuddy {
@@ -51,14 +52,14 @@
     }
   }
 
-  .meet-title {
+  .review-title {
     width: 140px;
     align-self: flex-end;
     text-align: right;
     font-size: 22px;
   }
 
-  .meet-count-text {
+  .review-count-text {
     width: 140px;
     align-self: flex-end;
     text-align: right;
