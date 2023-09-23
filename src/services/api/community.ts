@@ -40,3 +40,9 @@ export const communityGetEachPost = async (id: number) => {
   const url = `/api/v1/posts/${id}`;
   return apiClient.get(url);
 };
+
+// ✅ 게시물 댓글 조회
+export const communityGetPostReviews = async (postId: number) => {
+  const url = `/api/v1/comments/${postId}`;
+  return apiClient.get(url);
+};
