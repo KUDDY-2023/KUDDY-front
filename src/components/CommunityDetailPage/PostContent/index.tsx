@@ -14,7 +14,7 @@ const PostContent = ({ postData, reviewCnt }: Props) => {
   // join us 상세
   const joinDetail = [
     { id: 1, title: "People", value: `${postData?.people}` },
-    { id: 2, title: "District", value: `${postData?.district}` },
+    { id: 2, title: "Region", value: `${postData?.district}` },
     { id: 3, title: "Date", value: `${postData?.date}` },
   ];
 
