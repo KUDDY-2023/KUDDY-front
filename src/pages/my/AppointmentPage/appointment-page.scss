@@ -107,7 +107,6 @@
     cursor: pointer;
 
     .appointment-place {
-      color: color(black);
       font-family: Inter;
       font-size: 16px;
       font-style: normal;
@@ -115,8 +114,11 @@
       line-height: normal;
     }
 
-    #pin-icon {
-      height: 100%;
+    .pin-icon {
+      width: 17px;
+
+      &.canceled {
+      }
     }
 
     #arrow-icon {
