@@ -7,17 +7,13 @@ import CommentList from "@components/CommunityDetailPage/CommentList";
 import CommentInput from "@components/CommunityDetailPage/CommentInput";
 import { useGetEachPost } from "@services/hooks/community";
 
-import {
-  ItineraryFeedbackPostData,
-  TalkingBoardPostData,
-} from "@utils/data/communityPost";
-
 const CommunityDetailPage = () => {
   const { id } = useParams();
-  let category;
-  const [postData, setPostData] = useState();
+  const [postData, setPostData] = useState<any>();
+  const [title, setTitle] = useState<string>("");
   const onGetEachPost = useGetEachPost();
 
+  // 게시물 상세 조회
   useEffect(() => {
     const getEachPost = async () => {
       const res = await onGetEachPost(Number(id));
@@ -28,9 +24,17 @@ const CommunityDetailPage = () => {
     console.log(postData);
   }, []);
 
+  useEffect(() => {
+    if (typeof postData !== "undefined") {
+      typeof postData?.postType !== "undefined"
+        ? setTitle("Open Forum")
+        : setTitle("Route Feedback");
+    }
+  }, [postData]);
+
   return (
     <div className="community-detail-container">
-      <BackNavBar middleTitle={"Itinerary Feedback"} isShare={true} />
+      <BackNavBar middleTitle={title} isShare={true} />
       <PostContent postData={postData} />
       <CommentList />
       <CommentInput />
