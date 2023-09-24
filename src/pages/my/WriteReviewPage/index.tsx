@@ -79,7 +79,9 @@ const WriteReviewPage = () => {
 
         <div className="review-form-container">
           <div className="review-form">
-            <div className="question-text">How was the meeting?</div>
+            <div className="question-text">
+              How was the tour with {meetUp?.targetMemberInfo?.targetNickname}?
+            </div>
             <div className="satisfaction-btn-container">
               {satisfaction.map((item, index) => {
                 return (
