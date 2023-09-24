@@ -225,10 +225,10 @@ export const CheckNicknameString = (newName: string) => {
     alertText = "Only alphabetic, numeric, and underbar";
     textColor = "red-alert";
   } else if (newName.length > 15) {
-    alertText = "Up to 15 letters";
+    alertText = "Maximum  15 letters";
     textColor = "red-alert";
   } else if (newName.length < 3) {
-    alertText = "At least 3 letters";
+    alertText = "Minimum 3 characters";
     textColor = "red-alert";
   }
 

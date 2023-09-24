@@ -95,7 +95,7 @@ export default function BasicForm() {
               id={gender[2] ? "active" : ""}
               onClick={() => _handleClickGenderBtn("N")}
             >
-              Neutral
+              Prefer not to say
             </div>
           </div>
         </div>
