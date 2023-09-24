@@ -47,8 +47,8 @@ export const communityGetPostReviews = async (postId: number) => {
 };
 
 // 내가 쓴 글 조회
-export const communityGetMyPosts = async (page: number, size: number) => {
-  const url = `/api/v1/posts/my?page=${page}&size=${size}`;
+export const communityGetMyPosts = async () => {
+  const url = `/api/v1/posts/my`;
   return apiClient.get(url);
 };
 

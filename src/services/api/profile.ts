@@ -72,7 +72,7 @@ export const profileGetAllTraveler = (page: number, size: number) => {
 };
 
 // 프로필 검색 필터링
-export const profileGetByFilter = (filter: any) => {
+export const profileGetByFilter = (filter: ProfileGetByFilterType) => {
   const url = `/api/v1/profiles/search`;
   return apiClient.post(url, filter);
 };
