@@ -34,9 +34,26 @@ export const communityGetTravelerReviews = async (id: number) => {
   const url = `/api/v1/reviews/traveler/${id}`;
   return apiClient.get(url);
 };
-
 // ✅ 개별 게시물 조회
 export const communityGetEachPost = async (id: number) => {
   const url = `/api/v1/posts/${id}`;
+  return apiClient.get(url);
+};
+
+// ✅ 게시물 댓글 조회
+export const communityGetPostReviews = async (postId: number) => {
+  const url = `/api/v1/comments/${postId}`;
+  return apiClient.get(url);
+};
+
+// 내가 쓴 글 조회
+export const communityGetMyPosts = async () => {
+  const url = `/api/v1/posts/my`;
+  return apiClient.get(url);
+};
+
+// 내가 댓글 쓴 글 조회
+export const communityGetMyComments = async () => {
+  const url = `/api/v1/comments/my`;
   return apiClient.get(url);
 };

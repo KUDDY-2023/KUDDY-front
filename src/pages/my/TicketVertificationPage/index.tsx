@@ -38,11 +38,11 @@ const TicketVerificationPage = () => {
       .catch();
   }, []);
 
-  // profilePatchTicketStatus("CERTIFICATION_COMPLETE");
+  //profilePatchTicketStatus("NOT_SUBMITTED");
 
   return (
     <>
-      <BackNavBar middleTitle="Ticket verification" isShare={false} />
+      <BackNavBar middleTitle="Traveler verification" isShare={false} />
       <div className="ticket-verification-page-wrapper">
         {ticketInfo.ticketStatus === "CERTIFICATION_COMPLETE" ? (
           <CompletedMenu />

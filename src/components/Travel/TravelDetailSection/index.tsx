@@ -101,7 +101,7 @@ const TravelDetailSection = ({
           setIsOpened={setIsOpened}
         />
       )}
-      {title === "Nearby place" && nearbyArray && (
+      {title === "Nearby places" && nearbyArray && (
         <div className="content nearby">
           {nearbyArray.map((item: TravelNearbyType) => (
             <TravelBlock {...item} isNearby={true} key={item.contentId} />

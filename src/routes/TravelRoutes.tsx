@@ -10,7 +10,7 @@ export default function TravelRoutes() {
       <Route path="/list" element={<TravelPage />} />
       <Route path="/search" element={<TravelSearchPage />} />
       <Route path="/:id" element={<TravelDetailPage />} />
-      <Route path="/:id/mates" element={<TravelMatesPage />} />
+      <Route path="/:id/users" element={<TravelMatesPage />} />
     </Routes>
   );
 }

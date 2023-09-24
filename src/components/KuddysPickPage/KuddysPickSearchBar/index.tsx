@@ -3,32 +3,34 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as BackIcon } from "@assets/icon/back.svg";
 import { ReactComponent as SearchIcon } from "@assets/icon/search.svg";
+import { useRecoilState } from "recoil";
+import { titleKeyword } from "@services/store/kuddyspick";
 
 type SearchBarProps = {
   searchInput: string;
   setSearchInput: (value: any) => void;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  searchedWord: string;
-  setSearchedWord: (value: any) => void;
 };
 
 const KuddysPickSearchBar = ({
   searchInput,
   setSearchInput,
   onChange,
-  searchedWord,
-  setSearchedWord,
 }: SearchBarProps) => {
   const nav = useNavigate();
   const input = useRef<HTMLInputElement>(null);
-  const [isInitial, setIsInitial] = useState<boolean>(true);
+  const [searchedWord, setSearchedWord] = useRecoilState(titleKeyword);
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (input.current) input.current.blur();
-    setIsInitial(false);
     setSearchedWord(searchInput);
   };
+
+  useEffect(() => {
+    if (searchedWord) setSearchInput(searchedWord);
+  }, [searchedWord]);
+
   return (
     <>
       <div className="kuddyspicksearchbar-wrapper">
@@ -47,7 +49,7 @@ const KuddysPickSearchBar = ({
           </form>
         </div>
       </div>
-      {!isInitial && (
+      {searchedWord !== "" && (
         <div className="kuddyspicksearchbar-text">
           searched by '{searchedWord}'
         </div>

@@ -74,7 +74,7 @@ const TravelSearchPage = () => {
           </form>
         </div>
       </div>
-      <div className="filter-title">Categories</div>
+      <div className="filter-title">Category</div>
       <div className="filter-container">
         {categoryArray
           .filter(item => item.id !== 0)
@@ -96,7 +96,7 @@ const TravelSearchPage = () => {
             </div>
           ))}
       </div>
-      <div className="filter-title">District</div>
+      <div className="filter-title">Region</div>
       <div className="filter-container">
         {districtArray
           .filter(item => item.id !== 0)

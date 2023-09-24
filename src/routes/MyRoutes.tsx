@@ -16,7 +16,7 @@ export default function MyRoutes() {
         <Route path="/appointment" element={<AppointmentPage />} />
         <Route path="/post" element={<MyPostListPage />} />
         <Route
-          path="/ticket-verification"
+          path="/traveler-verification"
           element={<TicketVerificationPage />}
         />
         <Route path="/write-review/:id" element={<WriteReviewPage />} />

@@ -72,15 +72,15 @@ const UploadMenu = ({ ticketStatus }: TicketInfoType) => {
           <div className="error-text">
             <ErrorIcon />
             <p>
-              Ticket authentication failed. <br />
-              You can check the detailed reason through <br />
-              the email we sent.
+              Ticket authentication is failed. <br />
+              Please check the detailed information <br />
+              via email we sent you.
             </p>
           </div>
         )}
         <div className="more-text">
           <HelpIcon />
-          <p>more about ticket verification</p>
+          <p>what is ticket verification</p>
         </div>
         {typeof preview === "string" ? (
           <div className="image-rect">
@@ -115,11 +115,11 @@ const UploadMenu = ({ ticketStatus }: TicketInfoType) => {
           </form>
         )}
         <div className="des-text">
-          The manager will check the uploaded flight ticket and approve it.
+          Your flight ticket will be reviewed and confirmed.
         </div>
       </div>
       <div className="button" onClick={onSubmit}>
-        Request certification
+        Request verification
       </div>
     </>
   );

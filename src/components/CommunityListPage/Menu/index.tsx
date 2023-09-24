@@ -10,10 +10,6 @@ const Menu = ({ handleMenuClick }: Props) => {
   const nav = useNavigate();
   const [menu, setMenu] = useState<MenuType>("itinerary-feedback");
 
-  useEffect(() => {
-    nav(`?type=${menu}`);
-  }, [menu]);
-
   return (
     <div className="menu-container">
       <div className="menu-btn-container">
@@ -26,7 +22,7 @@ const Menu = ({ handleMenuClick }: Props) => {
             handleMenuClick("itinerary-feedback");
           }}
         >
-          Itinerary Feedback
+          Route Feedback
         </div>
         <div
           className={
@@ -37,7 +33,7 @@ const Menu = ({ handleMenuClick }: Props) => {
             handleMenuClick("talking-board");
           }}
         >
-          Talking Board
+          Open Forum
         </div>
       </div>
     </div>

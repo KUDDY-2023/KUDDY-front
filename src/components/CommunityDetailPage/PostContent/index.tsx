@@ -1,28 +1,43 @@
 import "./post-content.scss";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import commentIcon from "@assets/community/comment_icon.svg";
 import PhotoSlide from "@components/CommunityDetailPage/PhotoSlide";
 
-const PostContent = ({ postData }: any) => {
+type Props = {
+  postData: any;
+  reviewCnt: number;
+};
+
+const PostContent = ({ postData, reviewCnt }: Props) => {
+  const nav = useNavigate();
   const category =
     typeof postData?.postType !== "undefined" ? "talking" : "itinerary";
+  const createdDate = new Date(postData?.createdDate).toLocaleString("sv");
 
   // join us 상세
   const joinDetail = [
     { id: 1, title: "People", value: `${postData?.people}` },
-    { id: 2, title: "District", value: `${postData?.district}` },
+    { id: 2, title: "Region", value: `${postData?.district}` },
     { id: 3, title: "Date", value: `${postData?.date}` },
   ];
+
+  const handleProfileClick = (nickname: string) => {
+    nav(`/profile/${nickname}`);
+  };
 
   return (
     <div className="post-content-container">
       <div className="post-header">
-        <div className="writer-container">
+        <div
+          className="writer-container"
+          onClick={() => {
+            handleProfileClick(postData?.writerName);
+          }}
+        >
           <img src={postData?.writerProfile} alt="writer-profile" />
           <div className="writer-right-section">
             <div className="writer-name">{postData?.writerName}</div>
-            <div className="write-date">{postData?.createdDate}</div>
+            <div className="write-date">{createdDate}</div>
           </div>
         </div>
         {category === "talking" && (
@@ -52,12 +67,38 @@ const PostContent = ({ postData }: any) => {
         )}
         <div className="post-content">{postData?.content}</div>
         {/* 사진 있으면 사진, 코스 피드백 게시판이면 코스 및 지도 렌더링되도록 코드 추가 예정*/}
+        {category === "itinerary" && (
+          <div className="spot-list-container">
+            {postData?.spots?.map((spot: any, index: number) => {
+              return (
+                <>
+                  {index > 0 && (
+                    <div className="spot-distance-container">
+                      <div className="spot-line"></div>
+                      <div className="spot-distance">distance</div>
+                    </div>
+                  )}
+                  <div className="spot-item-container">
+                    <div className="spot-item">
+                      <div className="spot-num">{index + 1}</div>
+                      <div className="spot-name">{spot?.name}</div>
+                      <div className="spot-district">
+                        {spot?.district.toLowerCase()}
+                      </div>
+                    </div>
+                  </div>
+                </>
+              );
+            })}
+          </div>
+        )}
+
         {postData?.fileUrls && <PhotoSlide />}
       </div>
 
       <div className="post-footer">
         <img src={commentIcon} alt="comment" />
-        <p>{postData?.commentCnt}</p>
+        <p>{reviewCnt}</p>
       </div>
     </div>
   );

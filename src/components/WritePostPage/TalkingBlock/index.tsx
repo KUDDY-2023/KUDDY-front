@@ -89,7 +89,7 @@ const TalkingBlock = ({ subject }: Props) => {
             <input type="date" onChange={handleChangeDate} />
           </div>
           <div className="join-us-item">
-            <div className="join-us-title">District</div>
+            <div className="join-us-title">Region</div>
             <input type="text" onChange={handleChangeDistrict} />
           </div>
         </div>

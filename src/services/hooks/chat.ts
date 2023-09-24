@@ -7,6 +7,7 @@ import {
   chatSaveMessage,
   chatRooms,
   chatGetRoomStatus,
+  chatCreateRoom,
 } from "@services/api/chat";
 import { meetUpInfoState } from "@services/store/chat";
 
@@ -47,13 +48,24 @@ export const useMakeMeetUpInfo = () => {
   return onMakeMeetUpInfo;
 };
 
-// ✅ 채팅방 여부 조회
-export const useGetRoomStatus = async () => {
-  const onGetRoomStatus = async (email: string) => {
+// ✅ 채팅방 여부 조회 (없으면 채팅방 생성)
+export const useGetRoomStatus = () => {
+  const onGetRoomStatus = async (email: string, nickname: string) => {
     try {
-      const res = await chatGetRoomStatus(email);
+      let res = await chatGetRoomStatus(email);
+
+      // 채팅방 없으면 생성
+      if (
+        res.data.data.message ===
+        "해당 유저와 생성한 채팅방이 존재하지 않습니다."
+      ) {
+        const memberNickname = {
+          createMemberNickname: nickname,
+        };
+        res = await chatCreateRoom(memberNickname);
+      }
       return res.data.data;
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
     }
   };
