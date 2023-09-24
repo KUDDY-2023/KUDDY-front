@@ -10,6 +10,8 @@ import { ReactComponent as NewNotificationIcon } from "@assets/topbar/notificati
 
 import { profileGetProfile } from "@services/api/profile";
 import { useSetLoginState } from "@services/hooks/auth";
+import { useRecoilValue } from "recoil";
+import { isLoginState } from "@services/store/auth";
 
 type TopBarProps = {
   isCommunity?: boolean;
@@ -19,7 +21,7 @@ type TopBarProps = {
 const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
   const nav = useNavigate();
   useSetLoginState();
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const isLogin = useRecoilValue(isLoginState);
 
   // 네비게이션 바 스크롤 감지에 따른 상태
   const [position, setPosition] = useState(window.pageYOffset);
@@ -45,12 +47,12 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
     setPosition(0);
     setVisible(undefined);
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-
-    profileGetProfile()
-      .then(res => {
-        setProfileSrc(res.data.data.memberInfo.profileImageUrl);
-      })
-      .catch();
+    if (isLogin)
+      profileGetProfile()
+        .then(res => {
+          setProfileSrc(res.data.data.memberInfo.profileImageUrl);
+        })
+        .catch();
   }, []);
 
   const Content = () => {

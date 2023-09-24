@@ -2,14 +2,20 @@ import "./my-post-list-page.scss";
 import { useEffect, useState } from "react";
 import BackNavBar from "@components/_common/BackNavBar";
 import { useNavigate } from "react-router-dom";
+import {
+  communityGetMyPosts,
+  communityGetMyComments,
+} from "@services/api/community";
 
 const MyPostListPage = () => {
   const nav = useNavigate();
   const [type, setType] = useState<string>("Post");
   const types = ["Post", "Comment"];
-  const [postsArray, setPostsArray] = useState<MyPostType[]>(PostPosts);
+  const [postsArray, setPostsArray] = useState<any[]>(PostPosts);
 
   useEffect(() => {
+    communityGetMyPosts(0, 20).then(res => console.log(res.data.data));
+    communityGetMyComments().then(res => console.log(res.data.data));
     setPostsArray(type === "Post" ? PostPosts : CommentPosts);
   }, [type]);
 

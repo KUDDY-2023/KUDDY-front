@@ -34,3 +34,15 @@ export const communityGetTravelerReviews = async (id: number) => {
   const url = `/api/v1/reviews/traveler/${id}`;
   return apiClient.get(url);
 };
+
+// 내가 쓴 글 조회
+export const communityGetMyPosts = async (page: number, size: number) => {
+  const url = `/api/v1/posts/my?page=${page}&size=${size}`;
+  return apiClient.get(url);
+};
+
+// 내가 댓글 쓴 글 조회
+export const communityGetMyComments = async () => {
+  const url = `/api/v1/comments/my`;
+  return apiClient.get(url);
+};
