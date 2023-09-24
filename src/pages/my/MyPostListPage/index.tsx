@@ -35,29 +35,35 @@ const MyPostListPage = () => {
         ))}
       </div>
       <div className="my-post-list-container">
-        {postsArray.map((item, idx) => (
-          <div
-            className="post-container"
-            key={item.id}
-            onClick={() => nav(`/community/${item.postType}/${item.id}`)}
-          >
-            {idx !== 0 && <div className="border" />}
-            <div className="flex">
-              <div className="category">
-                {item.postType === "itenerary-feedback"
-                  ? "Itenerary Feedback"
-                  : item.postType === "talking-board"
-                  ? "Talking Board"
-                  : ""}
-              </div>
-              {/* item.isJoinus === true && <div>Join us</div> */}
-            </div>
-            <div className="title">
-              {type === "Post" ? item.title : item.postTitle}
-            </div>
-            <div className="date">{item.createdDate}</div>
+        {postsArray.length === 0 ? (
+          <div className="empty">
+            {type === "Post" ? "No post" : "No comment"}
           </div>
-        ))}
+        ) : (
+          postsArray.map((item, idx) => (
+            <div
+              className="post-container"
+              key={item.id}
+              onClick={() => nav(`/community/${item.postType}/${item.id}`)}
+            >
+              {idx !== 0 && <div className="border" />}
+              <div className="flex">
+                <div className="category">
+                  {item.postType === "itenerary-feedback"
+                    ? "Itenerary Feedback"
+                    : item.postType === "talking-board"
+                    ? "Talking Board"
+                    : ""}
+                </div>
+                {/* item.isJoinus === true && <div>Join us</div> */}
+              </div>
+              <div className="title">
+                {type === "Post" ? item.title : item.postTitle}
+              </div>
+              <div className="date">{item.createdDate}</div>
+            </div>
+          ))
+        )}
       </div>
     </>
   );
