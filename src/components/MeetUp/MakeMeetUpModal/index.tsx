@@ -113,7 +113,7 @@ export default function MakeMeetUpModal({
       isWhiteBackground={false}
     >
       <div id="meet-up-container">
-        <h2>Set meet up</h2>
+        <h2>Make an appointment</h2>
 
         <div className="form-container">
           <PlaceForm />

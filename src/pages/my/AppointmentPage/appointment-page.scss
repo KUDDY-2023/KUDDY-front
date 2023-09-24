@@ -104,7 +104,10 @@
     height: 20px;
     align-items: center;
     gap: 8px;
-    cursor: pointer;
+
+    &.active {
+      cursor: pointer;
+    }
 
     .appointment-place {
       font-family: Inter;
@@ -116,9 +119,6 @@
 
     .pin-icon {
       width: 17px;
-
-      &.canceled {
-      }
     }
 
     #arrow-icon {

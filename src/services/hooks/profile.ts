@@ -16,6 +16,7 @@ import {
   profileGetAllKuddy,
   profileGetAllTraveler,
   profileGetByFilter,
+  profilePutModify,
 } from "@services/api/profile";
 import { useRecoilState } from "recoil";
 import useCheckNickname from "@utils/hooks/useCheckNickname";
@@ -38,15 +39,25 @@ export const useCreateProfile = () => {
   type accType = itemType[];
 
   // 1. 중복 선택한 언어는 걸러내기 + level number 타입으로 바꾸기
+  const test = {
+    Beginner: 1,
+    Intermediate: 2,
+    Advanced: 3,
+    "Native Speaker": 4,
+  };
+
   const filteredLangArr = newProfile.availableLanguages.reduce(
     (accumulator: accType, currentItem: itemType) => {
       const isDuplicate = accumulator.some(
         (item: itemType) => item.languageType === currentItem.languageType,
       );
       if (!isDuplicate) {
+        let levelIndex = currentItem.languageLevel.toString();
+        let NumberlanguageLevel = test[levelIndex as keyof typeof test];
+
         accumulator.push({
           ...currentItem,
-          languageLevel: Number(currentItem.languageLevel),
+          languageLevel: NumberlanguageLevel,
         });
       }
       return accumulator;
@@ -229,14 +240,27 @@ export const CheckNicknameString = (newName: string) => {
     alertText = "Only alphabetic, numeric, and underbar";
     textColor = "red-alert";
   } else if (newName.length > 15) {
-    alertText = "Up to 15 letters";
+    alertText = "Maximum  15 letters";
     textColor = "red-alert";
   } else if (newName.length < 3) {
-    alertText = "At least 3 letters";
+    alertText = "Minimum 3 characters";
     textColor = "red-alert";
   }
 
   return [alertText, textColor];
+};
+
+// 프로필 수정
+export const usePutProfileModify = () => {
+  const onProfileModify = async (profile: any) => {
+    try {
+      const res = await profilePutModify(profile);
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  return onProfileModify;
 };
 
 // 닉네임으로 프로필 조회

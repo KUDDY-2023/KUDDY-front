@@ -81,21 +81,21 @@ export default function BasicForm() {
               id={gender[0] ? "active" : ""}
               onClick={() => _handleClickGenderBtn("M")}
             >
-              Mr
+              Male
             </div>
             <div
               className="gender-btn"
               id={gender[1] ? "active" : ""}
               onClick={() => _handleClickGenderBtn("F")}
             >
-              Ms
+              Female
             </div>
             <div
               className="gender-btn"
               id={gender[2] ? "active" : ""}
               onClick={() => _handleClickGenderBtn("N")}
             >
-              Neutral
+              Prefer not to say
             </div>
           </div>
         </div>

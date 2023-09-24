@@ -20,7 +20,7 @@ import Loading from "@components/_common/Loading";
 
 export default function LoginFormPage() {
   // 프로필 유무 확인
-  useIsFirstLogin("FORM");
+  // useIsFirstLogin("FORM");
 
   // 기본 정보 세팅 - 서버에서 닉네임과 프로필 사진만 가져옴
   useSetDefaultProfile();
@@ -91,7 +91,7 @@ export default function LoginFormPage() {
           className={canNext ? "active-next" : "next"}
           onClick={onClickNextBtn}
         >
-          <p>next</p>
+          <p>Next</p>
           {canNext ? (
             <NextIconBlack className="next-icon" />
           ) : (
