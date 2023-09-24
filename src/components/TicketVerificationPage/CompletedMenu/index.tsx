@@ -4,7 +4,7 @@ const CompletedMenu = () => {
   return (
     <div className="completed-menu-wrapper">
       <DoneIcon />
-      <p>Certification completed</p>
+      <p>Already verified</p>
     </div>
   );
 };

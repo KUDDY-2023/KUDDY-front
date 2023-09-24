@@ -3,20 +3,19 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper.scss";
 
 const KuddysPickTravelPreview = ({
-  id,
-  travel,
-  description,
-  image,
+  name,
+  detail,
+  pickImageList,
 }: KuddysPickDetailContentType) => {
   return (
     <>
       <div className="kuddyspicktravelpreview-container">
-        <p className="travel-name">{travel.name}</p>
+        <p className="travel-name">{name}</p>
         <p className="description">
-          {description &&
-            (description.includes("\n") ? (
+          {detail &&
+            (detail.includes("\n") ? (
               <>
-                {description.split("\n").map(line => {
+                {detail.split("\n").map((line: string) => {
                   return (
                     <span>
                       {line}
@@ -27,7 +26,7 @@ const KuddysPickTravelPreview = ({
               </>
             ) : (
               <>
-                <span>{description}</span>
+                <span>{detail}</span>
               </>
             ))}
         </p>
@@ -39,7 +38,7 @@ const KuddysPickTravelPreview = ({
           spaceBetween={8}
           centeredSlides={true}
         >
-          {image.map(item => (
+          {pickImageList.map((item: string) => (
             <SwiperSlide key={item}>
               <div className="swiper-rect">
                 <img src={item} />

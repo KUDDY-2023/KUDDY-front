@@ -3,37 +3,52 @@ import { ReactComponent as BookmarkIcon } from "@assets/icon/bookmark.svg";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useBookmark from "@utils/hooks/useBookmark";
+import { useRecoilValue } from "recoil";
+import { pickedTravel } from "@services/store/travel";
+import { isLoginState } from "@services/store/auth";
 
-const KuddysPickTravelBlock = ({ travel }: KuddysPickDetailContentType) => {
-  const { id, name, district, category, thumbnail } = travel;
+const KuddysPickTravelBlock = ({
+  contentId,
+  name,
+  district,
+  category,
+  imageUrl,
+}: KuddysPickDetailContentType) => {
   const nav = useNavigate();
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const isLogin = useRecoilValue<boolean>(isLoginState);
+  const myPickList = useRecoilValue<TravelPreviewType[]>(pickedTravel);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
+  const { state, toggle } = useBookmark(isBookmarked, contentId);
   useEffect(() => {
-    const likedList = [{ id: 93877 }, { id: 2 }].map(row => row.id);
-    setIsBookmarked(isLogin === false ? false : likedList.includes(id));
-  }, []);
-  const { state, toggle } = useBookmark(isBookmarked, id);
+    setIsBookmarked(
+      isLogin === false
+        ? false
+        : myPickList.map(row => row.contentId).includes(contentId),
+    );
+  }, [myPickList]);
+
   return (
     <div className="kuddyspicktravelblock-wrapper">
       <div
         className="kuddyspickpreview-content-rect"
-        onClick={() => nav(`/travel/${id}`)}
+        onClick={() => nav(`/travel/${contentId}`)}
       >
         <div className="kuddyspickpreview-content-img-rect">
-          <img src={thumbnail} alt={name} />
+          <img src={imageUrl} alt={name} />
         </div>
         <div className="kuddyspickpreview-content-text">
           <div className="name">{name}</div>
           <div className="description">{`${district} · ${category}`}</div>
         </div>
-        <div className="pick-icon-container">
-          <BookmarkIcon
-            onClick={isLogin ? toggle : () => alert("Login to pick")}
-            stroke="var(--color-black)"
-            fill={state ? "var(--color-main-yellow)" : "var(--color-white)"}
-          />
-        </div>
+      </div>
+      <div
+        className="pick-icon-container"
+        onClick={isLogin ? toggle : () => alert("Login to pick")}
+      >
+        <BookmarkIcon
+          stroke="var(--color-black)"
+          fill={state ? "var(--color-main-yellow)" : "var(--color-white)"}
+        />
       </div>
     </div>
   );

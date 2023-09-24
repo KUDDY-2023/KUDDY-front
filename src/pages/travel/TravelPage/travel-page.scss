@@ -8,6 +8,43 @@
   padding: {
     bottom: 30px;
   }
+
+  .top-section {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    background-color: color(white);
+
+    &.fade-in {
+      animation: show 0.8s;
+      @keyframes show {
+        from {
+          opacity: 0;
+          margin-top: -152px;
+        }
+        to {
+          opacity: 1;
+          margin-top: 0px;
+        }
+      }
+    }
+    &.fade-out {
+      margin-top: -152px;
+      animation: disappear 0.5s;
+      @keyframes disappear {
+        from {
+          opacity: 1;
+          margin-top: 0px;
+        }
+        to {
+          opacity: 0;
+          margin-top: -152px;
+        }
+      }
+    }
+  }
+
   .category-bar {
     width: calc(100% - 23px);
     height: 50px;
@@ -52,7 +89,7 @@
 
   .district-bar {
     width: calc(100% - 23px);
-    height: 50px;
+    height: 42px;
     overflow-x: scroll;
     &::-webkit-scrollbar {
       display: none;
@@ -61,7 +98,7 @@
     scrollbar-width: none;
 
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     margin: {
       left: 23px;
     }
@@ -69,6 +106,10 @@
     svg {
       width: 10px;
       margin-left: 10px;
+    }
+
+    .travelsearch-filter-rect {
+      margin-bottom: 0;
     }
   }
 
@@ -78,7 +119,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin-top: 7px;
 
     .empty {
       height: calc(100vh - 200px);
