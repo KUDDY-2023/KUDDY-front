@@ -159,7 +159,10 @@ const TravelPage = () => {
           </div>
         )}
       </div>
-      <div className="block-container">
+      <div
+        className="block-container"
+        style={{ paddingTop: filter.district.length === 0 ? "116px" : "160px" }}
+      >
         {data &&
           data.pages.map(page =>
             page.data.data.spots.length === 0 ? (

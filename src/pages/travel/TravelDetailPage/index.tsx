@@ -66,7 +66,7 @@ const TravelDetailPage = () => {
     <>
       <BackNavBar middleTitle="" isShare={true} />
       {isNotFound ? (
-        <div>Not Found</div>
+        <div style={{ textAlign: "center" }}>Not Found</div>
       ) : (
         currentTravel && (
           <>
