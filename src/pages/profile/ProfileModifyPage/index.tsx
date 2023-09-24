@@ -65,11 +65,6 @@ const ProfileModifyPage = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [form, setForm] = useState("");
 
-  const myProfile = useRecoilValue(profileState);
-  useEffect(() => {
-    console.log(JSON.stringify(myProfile));
-  }, []);
-
   // 내 프로필 정보 가져오기
   const { data, isLoading, error } = useGetProfile();
 
