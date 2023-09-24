@@ -92,7 +92,7 @@ const TravelDetailTitle = ({
       <div className="flex-container">
         <div
           className="mates-container"
-          onClick={() => nav(`/travel/${contentId}/mates`)}
+          onClick={() => nav(`/travel/${contentId}/users`)}
         >
           {matesPreview &&
             (matesPreview.length === 0 ? (

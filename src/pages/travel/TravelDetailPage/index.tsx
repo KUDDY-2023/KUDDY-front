@@ -81,7 +81,7 @@ const TravelDetailPage = () => {
             ))}
             {nearbyPlace && (
               <TravelDetailSection
-                title="Nearby place"
+                title="Nearby places"
                 content=""
                 nearbyArray={nearbyPlace}
               />

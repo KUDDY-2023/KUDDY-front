@@ -31,7 +31,7 @@ const MatesSearchPage = () => {
 
   const [selectedDistrict, setSelectedDistrict] = useState<string | null>(
     searchParams.get("district") === null
-      ? "District"
+      ? "Region"
       : searchParams.get("district"),
   );
 
@@ -82,7 +82,7 @@ const MatesSearchPage = () => {
         "language",
         selectedLanguage!.replace(/^[A-Z]/, char => char.toLowerCase()),
       );
-    if (selectedDistrict !== "District")
+    if (selectedDistrict !== "Region")
       handleItem(
         "district",
         selectedDistrict!.replace(/^[A-Z]/, char => char.toLowerCase()),
@@ -148,13 +148,13 @@ const MatesSearchPage = () => {
           setValue={setSelectedLanguage}
         />
       </div>
-      <div className="filter-title">District</div>
+      <div className="filter-title">Region</div>
       <div className="filter-container">
         <MatesDropDown
           items={districtArray
             .filter(item => item.id !== 0)
             .map(row => row.params)}
-          placeholder="District"
+          placeholder="Region"
           value={selectedDistrict}
           setValue={setSelectedDistrict}
         />
