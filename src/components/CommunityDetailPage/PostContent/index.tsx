@@ -115,9 +115,14 @@ const PostContent = ({ postData, reviewCnt }: Props) => {
             handleProfileClick(postData?.writerName);
           }}
         >
-          <img src={postData?.writerProfile} alt="writer-profile" />
+          <img
+            src={postData?.writerInfoDto?.profileImageUrl}
+            alt="writer-profile"
+          />
           <div className="writer-right-section">
-            <div className="writer-name">{postData?.writerName}</div>
+            <div className="writer-name">
+              {postData?.writerInfoDto?.nickname}
+            </div>
             <div className="write-date">{createdDate}</div>
           </div>
         </div>
