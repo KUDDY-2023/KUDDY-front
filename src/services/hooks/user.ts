@@ -9,6 +9,8 @@ import {
   userPutMeetUpCancel,
 } from "@services/api/user";
 import { useQuery, useMutation } from "react-query";
+import { useRecoilValue } from "recoil";
+import { isLoginState } from "@services/store/auth";
 
 // 🔥 유저 신고 hook
 export const useAuthReportUser = (report: IReport) => {
@@ -101,14 +103,18 @@ export const usePostReview = () => {
 export const useReviewModal = () => {
   const [isModal, setIsModal] = useState<boolean>(false);
   const [meetupId, setMeetupId] = useState<number | undefined>(undefined);
+  const isLogin = useRecoilValue(isLoginState);
 
   useEffect(() => {
-    getReviewModal().then(res => {
-      setIsModal(res?.data.data.totalMeetupCount === 0 ? false : true);
-      if (res?.data.data.meetupList)
-        res?.data.data.meetupList.length !== 0 &&
-          setMeetupId(res?.data.data.meetupList[0].meetupId);
-    });
+    if (isLogin)
+      getReviewModal()
+        .then(res => {
+          setIsModal(res?.data.data.totalMeetupCount === 0 ? false : true);
+          if (res?.data.data.meetupList)
+            res?.data.data.meetupList.length !== 0 &&
+              setMeetupId(res?.data.data.meetupList[0].meetupId);
+        })
+        .catch();
   }, []);
 
   const getReviewModal = async () => {

@@ -1,5 +1,5 @@
 export const reasonsData = [
-  { id: 0, reason: "Impersonation" },
+  { id: 0, reason: "Scam or fraud" },
   { id: 1, reason: "Spam" },
   { id: 2, reason: "Intellectual property violation" },
   { id: 3, reason: "Harassment or privacy violation" },

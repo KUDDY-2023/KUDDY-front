@@ -91,3 +91,12 @@ interface ReviewListInfo {
   meetCount: number;
   reviews: KuddyReviewType[] | TravelerReviewType[];
 }
+
+interface ProfileGetByFilterType {
+  genderType: string;
+  areaName: string;
+  languageType: string;
+  interestGroup: string;
+  interestContent: string;
+  nickname: string;
+}

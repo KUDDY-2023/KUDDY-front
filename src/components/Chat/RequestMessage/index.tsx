@@ -138,7 +138,7 @@ export default function RequestMessage({
       {statusType === "KUDDY_NOT_ACCEPT" && (
         <div className="cancel-transfer" onClick={onCancel}>
           <Cancle />
-          Cancel Transfer
+          Cancel Transaction
         </div>
       )}
     </div>

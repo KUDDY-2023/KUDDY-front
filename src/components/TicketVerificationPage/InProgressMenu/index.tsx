@@ -8,19 +8,19 @@ const InProgressMenu = ({ ticketImageUrl }: TicketInfoType) => {
       <div className="middle-wrapper">
         <div className="more-text">
           <HelpIcon />
-          <p>more about ticket verification</p>
+          <p>what is ticket verification</p>
         </div>
         <div className="image-rect inprogress-preview">
           <img src={ticketImageUrl} />
           <div className="filter" />
           <LoadingIcon stroke="#ffffff" />
-          <p>Application completed</p>
+          <p>Submitted</p>
         </div>
         <div className="des-text">
-          The manager will check the uploaded flight ticket and approve it.
+          Your flight ticket will be reviewed and confirmed.
         </div>
       </div>
-      <div className="button disabled">Screening in progress</div>
+      <div className="button disabled">Review in progress</div>
     </>
   );
 };

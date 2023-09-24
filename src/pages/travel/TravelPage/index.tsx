@@ -71,64 +71,98 @@ const TravelPage = () => {
     );
   }, [filter.category]);
 
+  // 필터 바 스크롤 감지에 따른 상태
+  const [position, setPosition] = useState(window.pageYOffset);
+  const [visible, setVisible] = useState<boolean | undefined>(undefined);
+  useEffect(() => {
+    if (position === 0) setVisible(undefined);
+    const handleScroll = () => {
+      const moving = window.pageYOffset;
+      setVisible(position > moving);
+      setPosition(moving);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [position]);
+
+  useEffect(() => {
+    setPosition(0);
+    setVisible(undefined);
+  }, []);
+
   return (
     <div className="travelmenu-wrapper">
-      <div className="kuddyspicksearchbar-wrapper">
-        <BackIcon onClick={() => nav("/")} />
-        <div
-          className="kuddyspicksearchbar-rect"
-          onClick={() => nav(`/travel/search${window.location.search}`)}
-        >
-          <form>
-            <input
-              readOnly
-              value={filter.keyword ? filter.keyword : undefined}
-              placeholder={`Everything for your travel`}
-            />
-            <button type="submit">
-              <SearchIcon stroke="var(--color-black)" />
-            </button>
-          </form>
-        </div>
-      </div>
-      <div className="category-bar" ref={categoryBarRef}>
-        {categoryArray.map((item, idx) => (
+      <div
+        className={
+          visible === false && position > 150
+            ? "fade-out top-section"
+            : visible === true
+            ? "fade-in top-section"
+            : "top-section"
+        }
+      >
+        <div className="kuddyspicksearchbar-wrapper">
+          <BackIcon onClick={() => nav("/")} />
           <div
-            className={
-              filter.category === "" && item.params === ""
-                ? "rect selected"
-                : filter.category === item.params
-                ? "rect selected"
-                : "rect"
-            }
-            ref={filter.category === item.params ? selectedCategoryRef : null}
-            key={item.id}
-            onClick={() => handleCategory(item)}
-            style={{
-              marginRight: idx === categoryArray.length - 1 ? "25px" : "0",
-            }}
+            className="kuddyspicksearchbar-rect"
+            onClick={() => nav(`/travel/search${window.location.search}`)}
           >
-            {item.params === ""
-              ? "All"
-              : item.params.replace(/^[a-z]/, char => char.toUpperCase())}
+            <form>
+              <input
+                readOnly
+                value={filter.keyword ? filter.keyword : undefined}
+                placeholder={`Everything for your travel`}
+              />
+              <button type="submit">
+                <SearchIcon stroke="var(--color-black)" />
+              </button>
+            </form>
           </div>
-        ))}
-      </div>
-      {filter.district.length !== 0 && (
-        <div className="district-bar">
-          {filter.district.map(item => (
+        </div>
+        <div className="category-bar" ref={categoryBarRef}>
+          {categoryArray.map((item, idx) => (
             <div
-              className="travelsearch-filter-rect"
-              onClick={() => deleteDistrict(item)}
-              key={item}
+              className={
+                filter.category === "" && item.params === ""
+                  ? "rect selected"
+                  : filter.category === item.params
+                  ? "rect selected"
+                  : "rect"
+              }
+              ref={filter.category === item.params ? selectedCategoryRef : null}
+              key={item.id}
+              onClick={() => handleCategory(item)}
+              style={{
+                marginRight: idx === categoryArray.length - 1 ? "25px" : "0",
+              }}
             >
-              {item.replace(/^[a-z]/, char => char.toUpperCase())}
-              <XIcon />
+              {item.params === ""
+                ? "All"
+                : item.params.replace(/^[a-z]/, char => char.toUpperCase())}
             </div>
           ))}
         </div>
-      )}
-      <div className="block-container">
+        {filter.district.length !== 0 && (
+          <div className="district-bar">
+            {filter.district.map(item => (
+              <div
+                className="travelsearch-filter-rect"
+                onClick={() => deleteDistrict(item)}
+                key={item}
+              >
+                {item.replace(/^[a-z]/, char => char.toUpperCase())}
+                <XIcon />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <div
+        className="block-container"
+        style={{ paddingTop: filter.district.length === 0 ? "116px" : "160px" }}
+      >
         {data &&
           data.pages.map(page =>
             page.data.data.spots.length === 0 ? (

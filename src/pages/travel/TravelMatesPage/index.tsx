@@ -29,7 +29,7 @@ const TravelMatesPage = () => {
 
   return (
     <>
-      <BackNavBar middleTitle="Mates who picked this place" isShare={false} />
+      <BackNavBar middleTitle="Users who picked this place" isShare={false} />
       <div className="travel-mates-selectbar-container">
         {mateTypeArray.map(item => (
           <div

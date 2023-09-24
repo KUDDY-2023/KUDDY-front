@@ -53,9 +53,9 @@ export default function PayForm() {
             <p>{cost}$</p>
           </div>
           <p className="description">
-            This is the fee used to prevent no-show. If the traveler
-            unilaterally cancels the appointment he cannot get this fee back and
-            it will be paid to you.
+            This deposit is charged to prevent traveler's no-shows. If the
+            traveler unilaterally cancels the appointment, this deposit will not
+            be refunded and will be yours.
           </p>
           <div>
             <p className="receipt-title">KUDDY Service fee</p>
@@ -65,7 +65,7 @@ export default function PayForm() {
             This helps us run our platform and services.
           </p>
           <div>
-            <p className="receipt-title">Total</p>
+            <p className="receipt-title">Total Fee</p>
             <p id="total">{Number(cost) + Math.floor(Number(cost) * 0.15)}$</p>
           </div>
         </div>

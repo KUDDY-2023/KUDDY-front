@@ -30,7 +30,7 @@ export default function LanguageForm() {
     "Indonesian",
     "Hindi",
   ];
-  const advances = ["1", "2", "3"];
+  const advances = ["Beginner", "Intermediate", "Advanced", "Native Speaker"];
 
   const _handleAddDropdowm = () => {
     let newItem = {
@@ -64,7 +64,7 @@ export default function LanguageForm() {
 
   return (
     <div className="language-form-container">
-      <p className="title">Write your avialable language</p>
+      <p className="title">Choose your language proficiency</p>
 
       <div className="form-container">
         <p className="description">*At least one language must be selected</p>

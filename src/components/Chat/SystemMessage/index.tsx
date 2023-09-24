@@ -8,9 +8,9 @@ interface Props {
 export default function SystemMessage({ type }: Props) {
   const systemMessageType = [
     { text: "Our appointment came true!", color: "yellow" },
-    { text: "Our appointment was broken!", color: "red" },
-    { text: "How was the meeting?", color: "blue" },
-    { text: "Our appointment was broken!", color: "red" },
+    { text: "Our appointment was broken", color: "red" },
+    { text: "how was your journey?", color: "blue" },
+    { text: "Our appointment was broken", color: "red" },
   ];
   const message = systemMessageType[type];
 

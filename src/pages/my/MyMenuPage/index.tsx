@@ -17,7 +17,11 @@ const iconSrc = [
   { text: "My appoitment", src: app, navTo: "/my/appointment" },
   { text: "My post", src: pos, navTo: "/my/post" },
   { text: "Tip for K-Buddy", src: tip, navTo: "/my/tip" },
-  { text: "Ticket verification", src: tic, navTo: "/my/ticket-verification" },
+  {
+    text: "Traveler verification",
+    src: tic,
+    navTo: "/my/traveler-verification",
+  },
   { text: "Delete my account", src: del, navTo: "/my/delete" },
 ];
 

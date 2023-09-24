@@ -10,6 +10,8 @@ import { ReactComponent as NewNotificationIcon } from "@assets/topbar/notificati
 
 import { profileGetProfile } from "@services/api/profile";
 import { useSetLoginState } from "@services/hooks/auth";
+import { useRecoilValue } from "recoil";
+import { isLoginState } from "@services/store/auth";
 
 // 안읽은 알림 개수
 import { useGetNotiCount } from "@services/hooks/notification";
@@ -24,7 +26,7 @@ type TopBarProps = {
 const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
   const nav = useNavigate();
   useSetLoginState();
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const isLogin = useRecoilValue(isLoginState);
 
   // 네비게이션 바 스크롤 감지에 따른 상태
   const [position, setPosition] = useState(window.pageYOffset);
@@ -50,12 +52,12 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
     setPosition(0);
     setVisible(undefined);
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-
-    profileGetProfile()
-      .then(res => {
-        setProfileSrc(res.data.data.memberInfo.profileImageUrl);
-      })
-      .catch();
+    if (isLogin)
+      profileGetProfile()
+        .then(res => {
+          setProfileSrc(res.data.data.memberInfo.profileImageUrl);
+        })
+        .catch();
   }, []);
 
   /**
@@ -147,11 +149,11 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
       {isCommunity ? (
         <div
           className={
-            visible === false
-              ? "fade-out-community topbar-container topbar-community"
+            visible === false && position > 100
+              ? "fade-out-community topbar-community"
               : visible === true
-              ? "fade-in-community topbar-container topbar-community"
-              : "topbar-container topbar-community"
+              ? "fade-in-community topbar-community"
+              : "topbar-community"
           }
         >
           <div className="inner">{Content()}</div>
@@ -160,7 +162,7 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
       ) : (
         <div
           className={
-            visible === false
+            visible === false && position > 60
               ? "fade-out topbar-container"
               : visible === true
               ? "fade-in topbar-container"
