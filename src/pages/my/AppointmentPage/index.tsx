@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import BackNavBar from "@components/_common/BackNavBar";
 import arrowIcon from "@assets/icon/arrow_right.svg";
 import pinIcon from "@assets/icon/pin_default.svg";
+import pinCancel from "@assets/my/cancel_pin.svg";
 import scheduledIcon from "@assets/my/clock.svg";
 import completedIcon from "@assets/my/complete.svg";
 import canceledIcon from "@assets/icon/red_x.svg";
@@ -38,7 +39,7 @@ const AppointmentPage = () => {
       itemText = "scheduled";
     } else if (type === "COMPLETED") {
       iconType = completedIcon;
-      hasReview ? (itemStyle = "disabled") : (itemStyle = "completed"); // completed && 리뷰 있으면 비활성화
+      itemStyle = "completed";
       itemText = "completed";
     } else {
       iconType = canceledIcon;
@@ -68,8 +69,10 @@ const AppointmentPage = () => {
     }
   }, [meetUps]);
 
-  const handleSpotDetailClick = (id: number) => {
-    nav(`/travel/${id}`);
+  const handleSpotDetailClick = (id: number, statusText: string) => {
+    if (statusText !== "canceled") {
+      nav(`/travel/${id}`);
+    }
   };
 
   const handleCancelClick = async (id: number) => {
@@ -121,12 +124,25 @@ const AppointmentPage = () => {
 
                 <div className="appointment-item-body">
                   <div
-                    className="appointment-place-container"
-                    onClick={() => handleSpotDetailClick(item?.spotId)}
+                    className={
+                      meetUpStyle[index]?.text === "canceled"
+                        ? "appointment-place-container"
+                        : "appointment-place-container active"
+                    }
+                    onClick={() =>
+                      handleSpotDetailClick(
+                        item?.spotId,
+                        meetUpStyle[index]?.text,
+                      )
+                    }
                   >
                     <img
-                      className={`pin-icon ${meetUpStyle[index]?.text}`}
-                      src={pinIcon}
+                      className="pin-icon"
+                      src={
+                        meetUpStyle[index]?.text !== "canceled"
+                          ? pinIcon
+                          : pinCancel
+                      }
                     />
                     <div className="appointment-place">{item?.spotName}</div>
                     {meetUpStyle[index]?.text !== "canceled" && (

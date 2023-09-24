@@ -25,7 +25,7 @@ const PostItem = ({ post }: any) => {
             <div className="join-us-container">
               <div className="join-us-text bold-text">{post.district}</div>
               <div className="join-us-text">
-                · {post.people} · {post.createdDate}
+                · {post.people} · {post.date}
               </div>
             </div>
           )}

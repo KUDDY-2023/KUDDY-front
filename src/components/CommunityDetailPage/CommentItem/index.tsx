@@ -10,6 +10,7 @@ type Props = {
 
 const CommentItem = ({ review, isReply }: Props) => {
   const nav = useNavigate();
+  const createdDate = new Date(review?.createdDate).toLocaleString("sv");
 
   const handleProfileClick = (nickname: string) => {
     nav(`/profile/${nickname}`);
@@ -50,7 +51,7 @@ const CommentItem = ({ review, isReply }: Props) => {
         <div className="comment-content-body">{review?.content}</div>
 
         <div className="comment-content-bottom">
-          <div className="comment-date-time">{review?.createdDate}</div>
+          <div className="comment-date-time">{createdDate}</div>
           {!isReply && <div className="comment-reply-btn">Reply</div>}
         </div>
       </div>

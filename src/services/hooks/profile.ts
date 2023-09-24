@@ -13,6 +13,7 @@ import {
   profileCreateTheFirstProfile,
   profileGetProfile,
   profileGetProfileByName,
+  profilePutModify,
 } from "@services/api/profile";
 import { useRecoilState } from "recoil";
 import useCheckNickname from "@utils/hooks/useCheckNickname";
@@ -257,4 +258,18 @@ export const useGetProfileByName = () => {
   };
 
   return onGetProfileByName;
+};
+
+// 프로필 수정
+export const usePutProfileModify = () => {
+  const onProfileModify = async (profile: any) => {
+    try {
+      const res = await profilePutModify(profile);
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return onProfileModify;
 };

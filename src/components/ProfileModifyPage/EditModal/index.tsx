@@ -8,14 +8,15 @@ interface Props {
   isModalOpen: boolean;
   onClose: () => void;
   form: string;
+  profile: any;
 }
 
-const EditModal = ({ isModalOpen, onClose, form }: Props) => {
+const EditModal = ({ isModalOpen, onClose, form, profile }: Props) => {
   let title, EditForm;
   switch (form) {
     case "region":
       title = "Region";
-      EditForm = <RegionForm />;
+      EditForm = <RegionForm profile={profile} />;
       break;
     case "language":
       title = "Language";

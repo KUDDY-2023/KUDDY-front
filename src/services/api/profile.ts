@@ -53,7 +53,7 @@ export const profileGetTicketInfo = () => {
   return apiClient.get(url);
 };
 
-// 닉네임로 프로필 조회
+// ✅ 닉네임로 프로필 조회
 export const profileGetProfileByName = (nickname: string) => {
   const url = `/api/v1/profiles?nickname=${nickname}`;
   return apiClient.get(url);
@@ -75,4 +75,10 @@ export const profileGetAllTraveler = (page: number, size: number) => {
 export const profileGetByFilter = (filter: ProfileGetByFilterType) => {
   const url = `/api/v1/profiles/search`;
   return apiClient.post(url, filter);
+};
+
+// ✅ 프로필 수정
+export const profilePutModify = (profile: any) => {
+  const url = `/api/v1/members/profile`;
+  return apiClient.put(url, profile);
 };
