@@ -5,6 +5,10 @@ import DropDown from "@components/_common/DropDown";
 import EditBtn from "@components/ProfileModifyPage/EditBtn";
 import EditModal from "@components/ProfileModifyPage/EditModal";
 import { useGetProfile } from "@services/hooks/profile";
+import { useNavigate } from "react-router-dom";
+
+import { useRecoilValue } from "recoil";
+import { profileState } from "@services/store/auth";
 
 type EditItemProps = {
   subtitle: string;
@@ -41,6 +45,7 @@ const EditItem = ({ subtitle, value, onClick }: EditItemProps) => {
 };
 
 const ProfileModifyPage = () => {
+  const nav = useNavigate();
   const interestKey = [
     "wellbeing",
     "activitiesInvestmentTech",
@@ -60,13 +65,16 @@ const ProfileModifyPage = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [form, setForm] = useState("");
 
+  const myProfile = useRecoilValue(profileState);
+  useEffect(() => {
+    console.log(JSON.stringify(myProfile));
+  }, []);
+
   // 내 프로필 정보 가져오기
   const { data, isLoading, error } = useGetProfile();
 
   useEffect(() => {
     if (data) {
-      console.log("프로필" + JSON.stringify(data.data.data));
-      console.log(data.data.data.memberInfo.nickname);
       setProfile(data.data.data);
     }
   }, [isLoading]);
@@ -148,7 +156,7 @@ const ProfileModifyPage = () => {
   return (
     <div className="profile-modify-page-container">
       <div className="profile-nav-bar">
-        <p>Cancel</p>
+        <p onClick={() => nav(-1)}>Cancel</p>
         <p id="blue-text">Complete</p>
       </div>
 
@@ -156,6 +164,7 @@ const ProfileModifyPage = () => {
         isModalOpen={isOpenModal}
         onClose={handleCloseModal}
         form={form}
+        profile={profile}
       />
 
       {/* 프로필 사진 */}
