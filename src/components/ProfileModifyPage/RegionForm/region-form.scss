@@ -26,6 +26,7 @@
     border-radius: 100px;
     background: color(light-grey);
     cursor: pointer;
+    @include font-style(--font-text, 14px, black, 500);
 
     &.selected {
       background: color(main-yellow);
