@@ -57,9 +57,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 120px;
+  padding-bottom: 110px;
 
   .empty {
     height: calc(100vh - 310px);
+  }
+
+  .page-last-item-ref-rect {
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 }

@@ -32,7 +32,7 @@ export const useSetLoginState = () => {
 
   useEffect(() => {
     IsLogin();
-    console.log("로그인 상태", isLogin);
+    // console.log("로그인 상태", isLogin);
   }, [location.pathname]);
 
   const IsLogin = () => {

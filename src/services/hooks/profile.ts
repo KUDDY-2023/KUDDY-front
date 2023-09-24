@@ -13,10 +13,14 @@ import {
   profileCreateTheFirstProfile,
   profileGetProfile,
   profileGetProfileByName,
+  profileGetAllKuddy,
+  profileGetAllTraveler,
+  profileGetByFilter,
   profilePutModify,
 } from "@services/api/profile";
 import { useRecoilState } from "recoil";
 import useCheckNickname from "@utils/hooks/useCheckNickname";
+import useInfiniteScroll from "@utils/hooks/useInfiniteScroll";
 
 import { useAuthReLogin } from "./auth";
 
@@ -246,6 +250,19 @@ export const CheckNicknameString = (newName: string) => {
   return [alertText, textColor];
 };
 
+// 프로필 수정
+export const usePutProfileModify = () => {
+  const onProfileModify = async (profile: any) => {
+    try {
+      const res = await profilePutModify(profile);
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  return onProfileModify;
+};
+
 // 닉네임으로 프로필 조회
 export const useGetProfileByName = () => {
   const onGetProfileByName = async (nickname: string) => {
@@ -260,16 +277,31 @@ export const useGetProfileByName = () => {
   return onGetProfileByName;
 };
 
-// 프로필 수정
-export const usePutProfileModify = () => {
-  const onProfileModify = async (profile: any) => {
-    try {
-      const res = await profilePutModify(profile);
-      return res;
-    } catch (err) {
-      console.log(err);
-    }
-  };
+// 모든 프로필 조회 (무한 스크롤)
+export const useGetAllProfile = (type: string) => {
+  const { pageLastItemRef, data, isFetching, hasNextPage, fetchNextPage } =
+    useInfiniteScroll({
+      queryKey: ["allTraveler", type],
+      initialPage: 1,
+      fetch:
+        type === "K-Buddy"
+          ? profileGetAllKuddy
+          : type === "Traveler"
+          ? profileGetAllTraveler
+          : null,
+      fetchParams: { size: 20 },
+      onIntersect: async (entry, observer) => {
+        observer.unobserve(entry.target);
+        if (hasNextPage && !isFetching) fetchNextPage();
+      },
+    });
+  return { pageLastItemRef, hasNextPage, data };
+};
 
-  return onProfileModify;
+// 필터로 프로필 조회
+export const useGetProfileByFilter = (filter: ProfileGetByFilterType) => {
+  const { data, isLoading, error } = useQuery(["filteredProfile", filter], () =>
+    profileGetByFilter(filter),
+  );
+  return { data, isLoading, error };
 };
