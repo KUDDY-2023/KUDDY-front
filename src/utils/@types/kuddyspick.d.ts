@@ -1,16 +1,16 @@
 interface KuddysPickPreviewContentType {
-  id: number;
-  thumbnail: string;
+  contentId: number;
+  imageUrl: string;
   name: string;
-  description: string;
+  summary: string;
 }
 
 interface KuddysPickPreviewType {
   id: number;
   thumbnail: string;
   title: string;
-  description: string;
-  contents: KuddysPickPreviewContentType[];
+  content: string;
+  pickSpotList: KuddysPickPreviewContentType[];
 }
 
 interface KuddysPickType {
@@ -20,22 +20,19 @@ interface KuddysPickType {
 }
 
 interface KuddysPickDetailContentType {
-  id: number;
-  travel: {
-    id: number;
-    name: string;
-    district: string;
-    category: string;
-    thumbnail: string;
-  };
-  description: string;
-  image: string[];
+  contentId: number;
+  name: string;
+  district: string;
+  category: string;
+  imageUrl: string;
+  detail: string;
+  pickImageList: string[];
 }
 
 interface KuddysPickDetailType {
   id: number;
   thumbnail: string;
   title: string;
-  description: string;
-  contents: KuddysPickDetailContentType[];
+  content: string;
+  pickSpotList: KuddysPickDetailContentType[];
 }
