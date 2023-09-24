@@ -34,15 +34,25 @@ export const useCreateProfile = () => {
   type accType = itemType[];
 
   // 1. 중복 선택한 언어는 걸러내기 + level number 타입으로 바꾸기
+  const test = {
+    Beginner: 1,
+    Intermediate: 2,
+    Advanced: 3,
+    "Native Speaker": 4,
+  };
+
   const filteredLangArr = newProfile.availableLanguages.reduce(
     (accumulator: accType, currentItem: itemType) => {
       const isDuplicate = accumulator.some(
         (item: itemType) => item.languageType === currentItem.languageType,
       );
       if (!isDuplicate) {
+        let levelIndex = currentItem.languageLevel.toString();
+        let NumberlanguageLevel = test[levelIndex as keyof typeof test];
+
         accumulator.push({
           ...currentItem,
-          languageLevel: Number(currentItem.languageLevel),
+          languageLevel: NumberlanguageLevel,
         });
       }
       return accumulator;
