@@ -37,7 +37,7 @@ const MatesSearchBar = () => {
     <div className="mates-search-bar-wrapper">
       <form
         className="homesearchbar-box"
-        onClick={() => nav(`/mates/search${window.location.search}`)}
+        onClick={() => nav(`/buddy/search${window.location.search}`)}
       >
         <SearchIcon stroke="var(--color-black)" />
         <input

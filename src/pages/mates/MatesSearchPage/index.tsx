@@ -8,9 +8,11 @@ import MatesDropDown from "@components/MatesPage/MatesDropDown";
 import { districtArray } from "@pages/travel/TravelPage/_mock";
 import { languageArray, interestArray } from "@pages/mates/MatesPage/_mock";
 
+// interest 로직 추가 필요
 const MatesSearchPage = () => {
   const nav = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+
   const { value, onChange, reset, setValue } = useInput(
     searchParams.get("keyword") === null
       ? ""
@@ -97,13 +99,13 @@ const MatesSearchPage = () => {
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (value) handleItem("keyword", value);
-    nav(`/mates/list${window.location.search}`);
+    nav(`/buddy/list${window.location.search}`);
   };
 
   return (
     <div className="travelsearch-wrapper">
       <div className="kuddyspicksearchbar-wrapper">
-        <BackIcon onClick={() => nav(`/mates/list${window.location.search}`)} />
+        <BackIcon onClick={() => nav(`/buddy/list${window.location.search}`)} />
         <div className="kuddyspicksearchbar-rect">
           <form onSubmit={handleSubmit}>
             <input

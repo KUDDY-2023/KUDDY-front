@@ -60,13 +60,17 @@ export const profileGetProfileByName = (nickname: string) => {
 };
 
 // 프로필 커디 목록 전체 조회
-export const profileGetAllKuddy = (page: number, size: number) => {
+type GetProfileProps = {
+  page: number;
+  size: number;
+};
+export const profileGetAllKuddy = ({ page, size }: GetProfileProps) => {
   const url = `/api/v1/profiles/kuddy?page=${page}&size=${size}`;
   return apiClient.get(url);
 };
 
 // 프로필 여행자 목록 전체 조회
-export const profileGetAllTraveler = (page: number, size: number) => {
+export const profileGetAllTraveler = ({ page, size }: GetProfileProps) => {
   const url = `/api/v1/profiles/traveler?page=${page}&size=${size}`;
   return apiClient.get(url);
 };

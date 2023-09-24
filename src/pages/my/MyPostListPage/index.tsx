@@ -19,6 +19,8 @@ const MyPostListPage = () => {
       : communityGetMyComments().then(res => setPostsArray(res.data.data));
   }, [type]);
 
+  console.log(postsArray);
+
   return (
     <>
       <BackNavBar middleTitle="My post" isShare={false} />
@@ -52,7 +54,7 @@ const MyPostListPage = () => {
                   {item.postType === "itenerary-feedback"
                     ? "Itenerary Feedback"
                     : item.postType === "talking-board"
-                    ? "Talking Board"
+                    ? "Open Forum"
                     : ""}
                 </div>
                 {/* item.isJoinus === true && <div>Join us</div> */}
