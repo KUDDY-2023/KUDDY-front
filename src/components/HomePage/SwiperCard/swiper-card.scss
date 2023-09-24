@@ -7,11 +7,17 @@
 
     .swiper-slide {
       width: 350px !important;
+      @media (max-width: 400px) {
+        width: 85% !important;
+      }
     }
   }
 
   .swiper-img-rect {
     width: 350px;
+    @media (max-width: 400px) {
+      width: 100% !important;
+    }
     aspect-ratio: 1 / 1;
     border-radius: 12px;
     overflow: hidden;

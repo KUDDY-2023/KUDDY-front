@@ -149,11 +149,11 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
       {isCommunity ? (
         <div
           className={
-            visible === false
-              ? "fade-out-community topbar-container topbar-community"
+            visible === false && position > 100
+              ? "fade-out-community topbar-community"
               : visible === true
-              ? "fade-in-community topbar-container topbar-community"
-              : "topbar-container topbar-community"
+              ? "fade-in-community topbar-community"
+              : "topbar-community"
           }
         >
           <div className="inner">{Content()}</div>
@@ -162,7 +162,7 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
       ) : (
         <div
           className={
-            visible === false
+            visible === false && position > 60
               ? "fade-out topbar-container"
               : visible === true
               ? "fade-in topbar-container"

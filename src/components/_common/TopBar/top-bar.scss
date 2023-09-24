@@ -50,9 +50,22 @@
 }
 
 .topbar-community {
-  height: 120px;
-  padding-bottom: 5px;
+  width: 100%;
+  height: 110px;
+  display: flex;
   flex-direction: column;
+  position: fixed;
+  top: 0;
+  z-index: 999;
+  background-color: color(white);
+  @media (min-width: 600px) {
+    width: 600px;
+  }
+  .left {
+    display: flex;
+    align-items: center;
+    margin-left: 22px;
+  }
 
   .inner {
     margin-top: 15px;
@@ -63,25 +76,26 @@
   }
 
   &.fade-in-community {
-    animation: show 0.8s;
-    @keyframes show {
+    top: 0px;
+    animation: cshow 0.8s;
+    @keyframes cshow {
       from {
-        margin-top: -70px;
+        top: -55px;
       }
       to {
-        margin-top: 0px;
+        top: 0px;
       }
     }
   }
   &.fade-out-community {
-    margin-top: -70px;
-    animation: disappear 0.5s;
-    @keyframes disappear {
+    top: -55px;
+    animation: cdisappear 0.5s;
+    @keyframes cdisappear {
       from {
-        margin-top: 0px;
+        top: 0px;
       }
       to {
-        margin-top: -70px;
+        top: -55px;
       }
     }
   }
