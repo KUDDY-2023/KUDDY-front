@@ -5,6 +5,8 @@ import {
   communityPostPost,
   communityGetKuddyReviews,
   communityGetTravelerReviews,
+  communityGetEachPost,
+  communityGetPostReviews,
 } from "@services/api/community";
 import {
   itineraryPostState,
@@ -66,4 +68,32 @@ export const useGetTravelerReviews = () => {
   };
 
   return onGetTravelerReviews;
+};
+
+// ✅ 개별 게시물 조회
+export const useGetEachPost = () => {
+  const onGetEachPost = async (id: number) => {
+    try {
+      const res = await communityGetEachPost(id);
+      return res.data.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return onGetEachPost;
+};
+
+// ✅ 게시물 댓글 조회
+export const useGetPostReviews = () => {
+  const onGetPostReviews = async (id: number) => {
+    try {
+      const res = await communityGetPostReviews(id);
+      return res.data.data;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return onGetPostReviews;
 };

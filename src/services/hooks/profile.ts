@@ -93,6 +93,7 @@ export const useCreateProfile = () => {
   );
 
   const onCreateProfile = () => {
+    console.log("프로필 생성 요청 !! ", newProfile);
     createProfile(newProfile);
   };
 
@@ -166,8 +167,8 @@ export const useCanNext = () => {
 
     if (type === "uniqueName") {
       canNext = uniqueName;
-    } else if (type === "age") {
-      canNext = profile.age !== 0; // 음수 고려하기..
+    } else if (type === "birthDate") {
+      canNext = profile.birthDate !== "";
     } else if (type === "job") {
       canNext = profile.job !== "";
     } else if (type === "region") {

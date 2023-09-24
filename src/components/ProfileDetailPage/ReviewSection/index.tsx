@@ -1,6 +1,5 @@
 import "./review-section.scss";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import {
   useGetKuddyReviews,
   useGetTravelerReviews,
@@ -24,8 +23,6 @@ const ReviewSection = ({ profile }: Props) => {
       } else if (profile?.role === "TRAVELER") {
         res = await onGetTravelerReviews(profile?.memberInfo?.memberId);
       }
-
-      console.log("리뷰" + res);
       setReviews(res);
     };
 
@@ -35,28 +32,30 @@ const ReviewSection = ({ profile }: Props) => {
   return (
     <div className="review-section-container">
       <div className="review-count-container">
+        <div className="meet-title">meetings</div>
+        <div className="meet-count-text">{reviews?.meetupCount}</div>
         <div
           className={
             profile?.role === "KUDDY" ? "review-title kuddy" : "review-title"
           }
         >
-          {profile?.role === "KUDDY" ? "Review" : "Written Review"}
+          {profile?.role === "KUDDY" ? "Reviews" : "Traveler's Reviews"}
         </div>
         <div
           className={
-            profile?.role === "kuddy"
+            profile?.role === "KUDDY"
               ? "review-count-text kuddy"
               : "review-count-text"
           }
         >
           {reviews?.reviewCount}
         </div>
-        <div className="meet-title">meet</div>
-        <div className="meet-count-text">{reviews?.meetupCount}</div>
       </div>
 
       {reviews?.reviewResDto?.map((review: any) => {
-        return <ReviewBox key={review?.id} {...review} />;
+        return (
+          <ReviewBox key={review?.id} review={review} role={profile?.role} />
+        );
       })}
     </div>
   );

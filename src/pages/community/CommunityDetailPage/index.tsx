@@ -1,40 +1,50 @@
 import "./community-detail-page.scss";
 import { useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
 import BackNavBar from "@components/_common/BackNavBar";
 import PostContent from "@components/CommunityDetailPage/PostContent";
 import CommentList from "@components/CommunityDetailPage/CommentList";
 import CommentInput from "@components/CommunityDetailPage/CommentInput";
-
-import {
-  ItineraryFeedbackPostData,
-  TalkingBoardPostData,
-} from "@utils/data/communityPost";
+import { useGetEachPost, useGetPostReviews } from "@services/hooks/community";
 
 const CommunityDetailPage = () => {
-  const { category, id } = useParams() as { category: MenuType; id: string };
+  const { id } = useParams();
+  const [postData, setPostData] = useState<any>();
+  const [reviewData, setReviewData] = useState<any>();
+  const [title, setTitle] = useState<string>("");
+  const onGetEachPost = useGetEachPost();
+  const onGetPostReviews = useGetPostReviews();
 
-  // 게시물 데이터 조회 코드 추가 필요
-  let PostData;
-  switch (category) {
-    case "itinerary-feedback":
-      PostData = ItineraryFeedbackPostData[parseInt(id) - 1];
-      break;
-    default:
-      PostData = TalkingBoardPostData[parseInt(id) - 1];
-  }
+  // 게시물 상세 조회
+  useEffect(() => {
+    const getPostInfo = async () => {
+      const res = await onGetEachPost(Number(id));
+      setPostData(res);
+      const reviews = await onGetPostReviews(Number(id));
+      setReviewData(reviews);
+    };
+
+    getPostInfo();
+  }, []);
+
+  // 삭제할 코드
+  useEffect(() => {
+    console.log(reviewData);
+  }, [reviewData]);
+
+  useEffect(() => {
+    if (typeof postData !== "undefined") {
+      typeof postData?.postType !== "undefined"
+        ? setTitle("Open Forum")
+        : setTitle("Route Feedback");
+    }
+  }, [postData]);
 
   return (
     <div className="community-detail-container">
-      <BackNavBar
-        middleTitle={
-          category === "itinerary-feedback"
-            ? "Itinerary Feedback"
-            : "Talking Board"
-        }
-        isShare={true}
-      />
-      <PostContent {...PostData} />
-      <CommentList />
+      <BackNavBar middleTitle={title} isShare={true} />
+      <PostContent postData={postData} reviewCnt={reviewData?.length} />
+      <CommentList reviewData={reviewData} />
       <CommentInput />
     </div>
   );

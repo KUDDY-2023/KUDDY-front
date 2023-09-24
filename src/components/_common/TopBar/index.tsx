@@ -13,6 +13,11 @@ import { useSetLoginState } from "@services/hooks/auth";
 import { useRecoilValue } from "recoil";
 import { isLoginState } from "@services/store/auth";
 
+// 안읽은 알림 개수
+import { useGetNotiCount } from "@services/hooks/notification";
+// SSE
+import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
+
 type TopBarProps = {
   isCommunity?: boolean;
   handleMenuClick?: (menu: MenuType) => void;
@@ -40,8 +45,8 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
   }, [position]);
 
   const [profileSrc, setProfileSrc] = useState<string>(defaultprofile);
-  const [newNotification, isNewNotification] = useState<boolean>(true);
-  const [newChat, isNewChat] = useState<boolean>(true);
+  const [newNotification, isNewNotification] = useState<boolean>(false); // 새로운 댓글이 있을 때
+  const [newChat, isNewChat] = useState<boolean>(true); // 새로운 채팅이 있을 때
 
   useEffect(() => {
     setPosition(0);
@@ -54,6 +59,65 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
         })
         .catch();
   }, []);
+
+  /**
+   * 로그인 했고, 안 읽은 알림이 있는 경우 (query로 요청)
+   */
+  const { notiCount } = useGetNotiCount(); // 알림개수 가져오기
+  useEffect(() => {
+    if (notiCount) isNewNotification(true);
+    else isNewNotification(false);
+  }, [notiCount]);
+
+  /**
+   * 새로운 알림이 발생한 경우
+   * Notification SSE 연결
+   */
+  const [listening, setListening] = useState(false);
+  const EventSource = EventSourcePolyfill || NativeEventSource;
+  const token = localStorage.getItem("accessToken");
+
+  useEffect(() => {
+    if (!listening && token) {
+      // 로그인 한 경우만 요청
+      setListening(true);
+      try {
+        const eventSource = new EventSource(
+          `https://api.kuddy.co.kr/api/v1/notifications/subscribe`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
+          },
+        );
+
+        // 연결 됐을 때
+        eventSource.onopen = async event => {
+          console.log("연결 성공", event);
+        };
+
+        // 이벤트 왔을 때
+        eventSource.onmessage = event => {
+          if (event.data.startsWith("{")) {
+            console.log("댓글 알림 발생", event.data);
+            isNewNotification(true);
+          }
+        };
+
+        // 에러 발생 & 연결 끊겼을 때
+        eventSource.onerror = (event: any) => {
+          console.log("에러 발생");
+          if (event.readyState == EventSource.CLOSED) {
+            console.log("에러 발생 : CLOSED");
+          }
+        };
+      } catch (err) {
+        setListening(false);
+        alert("알림 연결 실패");
+      }
+    }
+  }, [listening]);
 
   const Content = () => {
     return (

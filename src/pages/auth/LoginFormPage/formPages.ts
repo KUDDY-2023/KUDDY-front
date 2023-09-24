@@ -12,7 +12,7 @@ import InterestForm from "./forms/InterestForm";
 export const TravelerFormPages = [
   { type: "", component: TypeForm },
   { type: "uniqueName", component: ProfileForm },
-  { type: "age", component: BasicForm },
+  { type: "abirthDatege", component: BasicForm },
   { type: "job", component: JobForm },
   { type: "", component: PersonalityForm },
   { type: "nationality", component: NationalityForm },
@@ -23,7 +23,7 @@ export const TravelerFormPages = [
 export const KuddyFormPages = [
   { type: "", component: TypeForm },
   { type: "uniqueName", component: ProfileForm },
-  { type: "age", component: BasicForm },
+  { type: "birthDate", component: BasicForm },
   { type: "job", component: JobForm },
   { type: "", component: PersonalityForm },
   { type: "region", component: AreaForm },

@@ -5,15 +5,17 @@ import guideGrade from "@assets/profile/guid_grade.svg";
 import verified from "@assets/profile/verified.svg";
 import notVerified from "@assets/profile/not_verified.svg";
 import edit from "@assets/profile/edit.svg";
+import { useGetRoomStatus } from "@services/hooks/chat";
 
 type Props = {
   profile: any;
+  isMine: boolean;
 };
 
 // 공통 : 닉네임, 프로필사진, 소개글, interest
 // kuddy: 가이드 등급
 // traveler: 인증 여부
-const IntroSection = ({ profile }: Props) => {
+const IntroSection = ({ profile, isMine }: Props) => {
   const interestKey = [
     "wellbeing",
     "activitiesInvestmentTech",
@@ -27,7 +29,7 @@ const IntroSection = ({ profile }: Props) => {
   ];
   const [interestText, setInterestText] = useState<string[]>([]);
   const nav = useNavigate();
-  let isMine = profile?.mine;
+  const onGetRoomStatus = useGetRoomStatus(); // 채팅방 여부 조회 (없으면 채팅방 생성)
   let badgeText, badgeIcon;
 
   switch (profile?.role) {
@@ -66,11 +68,17 @@ const IntroSection = ({ profile }: Props) => {
     setInterestText(newValues);
   }, [profile]);
 
-  const handleBtnClick = () => {
+  const handleBtnClick = async () => {
     if (isMine) {
       nav("/profile/modify");
     } else {
       // 채팅 페이지로 이동
+      const res = await onGetRoomStatus(
+        profile?.memberInfo?.email,
+        profile?.memberInfo?.nickname,
+      );
+      const roomId = Number(res.roomId);
+      nav(`/chat/${roomId}`);
     }
   };
 
@@ -90,14 +98,16 @@ const IntroSection = ({ profile }: Props) => {
               <div className="badge-text">{badgeText}</div>
             </div>
           </div>
-          <div className="profile-btn">
+          <div className="profile-btn" onClick={handleBtnClick}>
             {isMine && <img src={edit} />}
             {isMine ? "edit" : "Send message"}
           </div>
         </div>
       </div>
 
-      <div className="introduction-content">{profile?.introduce}</div>
+      {profile?.introduce && (
+        <div className="introduction-content">{profile?.introduce}</div>
+      )}
       {profile?.interests && (
         <div className="interest-list">
           {interestText?.map((item, index) => {

@@ -1,4 +1,4 @@
-import "./writereviewpage.scss";
+import "./write-review-page.scss";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import BackNavBar from "@components/_common/BackNavBar";
@@ -10,9 +10,9 @@ const WriteReviewPage = () => {
   const [meetUp, setMeetUp] = useState<any>();
   const [aboutBuddy, setAboutBuddy] = useState("");
   const [satisfaction, setSatisfaction] = useState([
-    { grade: "Perfect", isSelected: false },
+    { grade: "Excellent", isSelected: false },
     { grade: "Good", isSelected: false },
-    { grade: "Disappoint", isSelected: false },
+    { grade: "Disappointing", isSelected: false },
   ]);
 
   // 만족도 버튼 클릭
@@ -32,23 +32,24 @@ const WriteReviewPage = () => {
   // complete 버튼 클릭
   const handleCompleteClick = async () => {
     const selectedSatisfaction = satisfaction.filter(item => item.isSelected);
-    console.log("만족도" + selectedSatisfaction[0].grade.toLowerCase());
-    console.log("리뷰 작성 폼 제출");
     const res = await onPostReview({
-      meetId: Number(appointmentId),
+      meetupId: Number(appointmentId),
       content: aboutBuddy,
       grade: selectedSatisfaction[0].grade.toLowerCase(),
     });
+    console.log(res);
   };
 
   // 같은 id의 동행 정보 저장
   useEffect(() => {
     const getMeetUps = async () => {
       let res = await onGetMeetUps();
-      res = res?.meetupList?.filter(
-        (item: any) => item.meetupId === Number(appointmentId),
-      );
-      console.log("동행" + res);
+
+      for (let i = 0; i < res?.meetupList?.length; i++) {
+        if (res.meetupList[i].meetupId === Number(appointmentId)) {
+          res = res.meetupList[i];
+        }
+      }
       setMeetUp(res);
     };
 
