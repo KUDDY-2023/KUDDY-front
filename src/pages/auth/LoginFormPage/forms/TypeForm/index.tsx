@@ -32,9 +32,9 @@ export default function TypeForm() {
             onClick={() => _handleClickTypeBtn("k-buddy")}
             id={type[0] ? "active" : ""}
           >
-            K-buddy
+            K-Buddy
           </div>
-          <p>Korean Users Providing Guided Services</p>
+          <p>Korean Users Providing Tour Guide Services</p>
         </div>
         <div className="type-btn-container">
           <div
@@ -42,9 +42,9 @@ export default function TypeForm() {
             onClick={() => _handleClickTypeBtn("traveler")}
             id={type[1] ? "active" : ""}
           >
-            traveler
+            Traveler
           </div>
-          <p>Non-Korean Users Looking for K-buddy</p>
+          <p>Foreign Travelers Looking for K-Buddy</p>
         </div>
       </div>
     </div>

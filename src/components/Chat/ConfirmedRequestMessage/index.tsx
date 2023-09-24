@@ -27,7 +27,7 @@ export default function ConfirmedRequestMessage({ info, statusType }: Props) {
 
   const typeNum = statusTypeMap[statusType] - 1;
 
-  const meetStatus = ["Accepted", "Refused", "Done", "Cancelled"];
+  const meetStatus = ["Accepted", "Refused", "Complete", "Cancelled"];
 
   // KUDDY_CANCEL  버전 하나 추가해야함
   const MeetUpIcon = [YellowMeetUp, RedwMeetUp, BlueMeetUp, RedwMeetUp][
