@@ -8,6 +8,7 @@ type MatesDropDownProps = {
   placeholder: string;
   value: string | null;
   setValue: (value: string) => void;
+  groupValue?: string | null;
   isFlex?: boolean;
   isAutoOpen?: boolean;
   setIsAutoOpen?: (value: boolean) => void;
@@ -18,6 +19,7 @@ const MatesDropDown = ({
   placeholder,
   value,
   setValue,
+  groupValue,
   isFlex,
   isAutoOpen,
   setIsAutoOpen,
@@ -47,7 +49,11 @@ const MatesDropDown = ({
           marginLeft: isFlex === true ? "10px" : 0,
         }}
         ref={buttonRef}
-        onClick={() => setIsOpened(!isOpened)}
+        onClick={() =>
+          groupValue === "Group" && placeholder === "Element"
+            ? setIsOpened(isOpened)
+            : setIsOpened(!isOpened)
+        }
       >
         <p>{value && value.replace(/^[a-z]/, char => char.toUpperCase())}</p>
         <ArrowIcon

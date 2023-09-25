@@ -1,6 +1,6 @@
 import "./mates-page.scss";
 import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import useModal from "@utils/hooks/useModal";
 import TopBar from "@components/_common/TopBar";
 import BottomNavBar from "@components/_common/BottomNavBar";
@@ -8,73 +8,66 @@ import MatesSearchBar from "@components/MatesPage/MatesSearchBar";
 import MatesBlock from "@components/MatesPage/MatesBlock";
 import { ReactComponent as ArrowIcon } from "@assets/icon/arrow_down.svg";
 import { ReactComponent as CheckIcon } from "@assets/icon/check.svg";
-import {
-  useGetAllProfile,
-  useGetProfileByFilter,
-} from "@services/hooks/profile";
-import { useRecoilState } from "recoil";
-import { profileFilter } from "@services/store/profile";
+import { useGetProfileByFilter } from "@services/hooks/profile";
+import { useRecoilState, useResetRecoilState } from "recoil";
+import { buddyType, profileFilter } from "@services/store/profile";
 
 const MatesPage = () => {
-  const nav = useNavigate();
-  const [matesType, setMatesType] = useState<string>("K-Buddy");
   const matetype = ["K-Buddy", "Traveler"];
-  const [matesArray, setMatesArray] = useState<MatesType[]>();
+  const [matesType, setMatesType] = useRecoilState(buddyType);
   const [searchParams, setSearchParams] = useSearchParams();
-
-  const { pageLastItemRef, hasNextPage, data } = useGetAllProfile(matesType);
+  const [filter, setFilter] = useRecoilState(profileFilter);
+  const { pageLastItemRef, hasNextPage, data } = useGetProfileByFilter(filter);
+  const resetFilter = useResetRecoilState(profileFilter);
+  const resetParams = () => {
+    const filterArray = [
+      "gender",
+      "language",
+      "district",
+      "interest",
+      "keyword",
+    ];
+    filterArray.map(item => searchParams.delete(item));
+    setSearchParams(searchParams);
+  };
 
   useEffect(() => {
-    // setMatesArray(matesType === "K-Buddy" ? matesArrayK : matesArrayT);
+    setFilter({
+      ...filter,
+      role: matesType === "K-Buddy" ? "KUDDY" : "TRAVELER",
+    });
   }, [matesType]);
 
-  const [isOpened, setIsOpened] = useState<boolean>(false);
-  const { buttonRef, modalRef } = useModal(isOpened, setIsOpened);
+  useEffect(() => {
+    if (!searchParams) return;
+    setFilter({
+      ...filter,
+      genderType: searchParams.get("gender")
+        ? searchParams.get("gender")!.toUpperCase()
+        : "",
+      languageType: searchParams.get("language")
+        ? searchParams
+            .get("language")!
+            .replace(/^[a-z]/, char => char.toUpperCase())
+        : "",
+      areaName: searchParams.get("district")
+        ? searchParams
+            .get("district")!
+            .replace(/^[a-z]/, char => char.toUpperCase())
+        : "",
+      nickname: searchParams.get("keyword")
+        ? String(searchParams.get("keyword"))
+        : "",
+    });
+    // interest
+  }, [searchParams]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const [filter, setFilter] = useRecoilState(profileFilter);
-  useEffect(() => {
-    searchParams.get("gender")
-      ? setFilter({
-          ...filter,
-          gender: searchParams.get("gender")!.toUpperCase(),
-        })
-      : setFilter(filter);
-    searchParams.get("language")
-      ? setFilter({
-          ...filter,
-          languageType: searchParams
-            .get("language")!
-            .replace(/^[a-z]/, char => char.toUpperCase()),
-        })
-      : setFilter(filter);
-    searchParams.get("district")
-      ? setFilter({
-          ...filter,
-          areaName: searchParams
-            .get("district")!
-            .replace(/^[a-z]/, char => char.toUpperCase()),
-        })
-      : setFilter(filter);
-    // interest
-  }, [searchParams]);
-
-  useEffect(() => {
-    console.log(filter);
-    if (
-      filter.gender === "" &&
-      filter.languageType === "" &&
-      filter.areaName === "" &&
-      filter.interestGroup === "" &&
-      filter.interestContent === "" &&
-      filter.nickname === ""
-    ) {
-    } else {
-    }
-  }, [filter]);
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+  const { buttonRef, modalRef } = useModal(isOpened, setIsOpened);
 
   return (
     <>
@@ -111,13 +104,13 @@ const MatesPage = () => {
       <MatesSearchBar />
       <div className="mates-block-wrapper">
         {data &&
-          data.pages.map(page =>
-            page.data.data.profileList.length === 0 ? (
-              <div className="empty">
-                <div className="no-result">No result</div>
-                <p>Try searching differently</p>
-              </div>
-            ) : (
+          (data.pages[0].data.data.profileList.length === 0 ? (
+            <div className="empty">
+              <div className="no-result">No result</div>
+              <p>Try searching differently</p>
+            </div>
+          ) : (
+            data.pages.map(page =>
               page.data.data.profileList.map((item: MatesType, idx: number) =>
                 page.data.data.pageInfo.size === idx + 1 ? (
                   <div
@@ -125,14 +118,18 @@ const MatesPage = () => {
                     ref={pageLastItemRef}
                     className="page-last-item-ref-rect"
                   >
-                    <MatesBlock {...item} key={item.profileId} />
+                    {item.seletedInterests && (
+                      <MatesBlock {...item} key={item.profileId} />
+                    )}
                   </div>
                 ) : (
-                  <MatesBlock {...item} key={item.profileId} />
+                  item.seletedInterests && (
+                    <MatesBlock {...item} key={item.profileId} />
+                  )
                 ),
-              )
-            ),
-          )}
+              ),
+            )
+          ))}
       </div>
       <BottomNavBar />
     </>

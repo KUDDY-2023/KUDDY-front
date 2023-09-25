@@ -2,6 +2,7 @@ import "./mates-search-bar.scss";
 import "@components/HomePage/HomeSearchBar/home-search-bar.scss";
 import { ReactComponent as SearchIcon } from "@assets/icon/search.svg";
 import filtericon from "@assets/icon/filter.svg";
+import { ReactComponent as XBtnIcon } from "@assets/icon/xbtn.svg";
 import { ReactComponent as RefreshIcon } from "@assets/icon/refresh.svg";
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -35,16 +36,24 @@ const MatesSearchBar = () => {
 
   return (
     <div className="mates-search-bar-wrapper">
-      <form
-        className="homesearchbar-box"
-        onClick={() => nav(`/buddy/search${window.location.search}`)}
-      >
+      <form className="homesearchbar-box">
         <SearchIcon stroke="var(--color-black)" />
         <input
           readOnly
-          value={currentKeyword !== null ? currentKeyword : undefined}
+          value={currentKeyword !== null ? currentKeyword : ""}
           placeholder={`Find your own buddy!`}
+          onClick={() => nav(`/buddy/search${window.location.search}`)}
         />
+        {currentKeyword && (
+          <XBtnIcon
+            className="xbtn"
+            onClick={() => {
+              searchParams.delete("keyword");
+              setSearchParams(searchParams);
+              setCurrentKeyword(null);
+            }}
+          />
+        )}
         <div
           className="filter-circle"
           style={{
@@ -52,6 +61,7 @@ const MatesSearchBar = () => {
               ? "var(--color-main-yellow)"
               : "var(--color-white)",
           }}
+          onClick={() => nav(`/buddy/search${window.location.search}`)}
         >
           <img src={filtericon} />
         </div>

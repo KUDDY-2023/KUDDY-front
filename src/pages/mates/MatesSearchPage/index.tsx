@@ -183,6 +183,7 @@ const MatesSearchPage = () => {
             )
             .map(row => row.element)}
           placeholder="Element"
+          groupValue={selectedGroup}
           value={selectedElement}
           setValue={setSelectedElement}
           isFlex={true}
