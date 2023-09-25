@@ -6,7 +6,7 @@ interface MatesType {
   introduce: string;
   profileImage: string;
   kuddyLevel?: string;
-  seletedInterests: string[];
+  allInterests: string[];
 }
 
 interface MatesFilterType {

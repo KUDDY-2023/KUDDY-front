@@ -94,20 +94,20 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
 
         // 연결 됐을 때
         eventSource.onopen = async event => {
-          console.log("연결 성공", event);
+          // console.log("연결 성공", event);
         };
 
         // 이벤트 왔을 때
         eventSource.onmessage = event => {
           if (event.data.startsWith("{")) {
-            console.log("댓글 알림 발생", event.data);
+            // console.log("댓글 알림 발생", event.data);
             isNewNotification(true);
           }
         };
 
         // 에러 발생 & 연결 끊겼을 때
         eventSource.onerror = (event: any) => {
-          console.log("에러 발생");
+          // console.log("에러 발생");
           if (event.readyState == EventSource.CLOSED) {
             console.log("에러 발생 : CLOSED");
           }
