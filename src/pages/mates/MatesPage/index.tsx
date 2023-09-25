@@ -4,32 +4,23 @@ import { useSearchParams } from "react-router-dom";
 import useModal from "@utils/hooks/useModal";
 import TopBar from "@components/_common/TopBar";
 import BottomNavBar from "@components/_common/BottomNavBar";
+import Loading from "@components/_common/Loading";
 import MatesSearchBar from "@components/MatesPage/MatesSearchBar";
 import MatesBlock from "@components/MatesPage/MatesBlock";
 import { ReactComponent as ArrowIcon } from "@assets/icon/arrow_down.svg";
 import { ReactComponent as CheckIcon } from "@assets/icon/check.svg";
 import { useGetProfileByFilter } from "@services/hooks/profile";
-import { useRecoilState, useResetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { buddyType, profileFilter } from "@services/store/profile";
+import { interestArray } from "@pages/mates/MatesPage/_mock";
 
 const MatesPage = () => {
   const matetype = ["K-Buddy", "Traveler"];
   const [matesType, setMatesType] = useRecoilState(buddyType);
   const [searchParams, setSearchParams] = useSearchParams();
   const [filter, setFilter] = useRecoilState(profileFilter);
-  const { pageLastItemRef, hasNextPage, data } = useGetProfileByFilter(filter);
-  const resetFilter = useResetRecoilState(profileFilter);
-  const resetParams = () => {
-    const filterArray = [
-      "gender",
-      "language",
-      "district",
-      "interest",
-      "keyword",
-    ];
-    filterArray.map(item => searchParams.delete(item));
-    setSearchParams(searchParams);
-  };
+  const { pageLastItemRef, hasNextPage, data, isFetching } =
+    useGetProfileByFilter(filter);
 
   useEffect(() => {
     setFilter({
@@ -58,8 +49,19 @@ const MatesPage = () => {
       nickname: searchParams.get("keyword")
         ? String(searchParams.get("keyword"))
         : "",
+      interestContent: searchParams.get("interest")
+        ? searchParams.get("interest")!.toUpperCase()
+        : "",
+      interestGroup: searchParams.get("interest")
+        ? interestArray
+            .map(item =>
+              item.element === searchParams.get("interest")!.toUpperCase()
+                ? item.group
+                : "",
+            )
+            .filter(item => item !== "")[0]
+        : "",
     });
-    // interest
   }, [searchParams]);
 
   useEffect(() => {
@@ -67,6 +69,7 @@ const MatesPage = () => {
   }, []);
 
   console.log(data);
+  console.log(filter);
 
   const [isOpened, setIsOpened] = useState<boolean>(false);
   const { buttonRef, modalRef } = useModal(isOpened, setIsOpened);
@@ -106,7 +109,15 @@ const MatesPage = () => {
       <MatesSearchBar />
       <div className="mates-block-wrapper">
         {data &&
-          (data.pages[0].data.data.profileList.length === 0 ? (
+          (isFetching ? (
+            <div className="loading-container">
+              <Loading
+                backColor="transparent"
+                spinnerColor="#eee"
+                size="30px"
+              />
+            </div>
+          ) : data.pages[0].data.data.profileList.length === 0 ? (
             <div className="empty">
               <div className="no-result">No result</div>
               <p>Try searching differently</p>

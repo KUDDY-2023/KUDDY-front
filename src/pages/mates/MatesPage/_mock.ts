@@ -26,7 +26,8 @@ export const interestArray: InterestType[] = [
   { group: "lifestyle", element: "element21" },
   { group: "entertainment", element: "element22" },
   { group: "food", element: "element23" },
-  { group: "hobbiesInterests", element: "element24" },
-  { group: "sports", element: "element31" },
+  { group: "hobbiesInterests", element: "READING" },
+  { group: "sports", element: "SKI" },
+  { group: "sports", element: "RUNNING" },
   { group: "wellbeing", element: "element32" },
 ];

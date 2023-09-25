@@ -42,7 +42,7 @@ const MatesSearchPage = () => {
       ? "Group"
       : interestArray
           .map(item =>
-            item.element === searchParams.get("interest")
+            item.element === searchParams.get("interest")!.toUpperCase()
               ? item.group.replace(/^[a-z]/, char => char.toUpperCase())
               : null,
           )
@@ -62,16 +62,20 @@ const MatesSearchPage = () => {
   useEffect(() => {
     setIsAutoOpen(
       selectedGroup !== "Group" &&
+        !!searchParams.get("interest") &&
         selectedGroup !==
           interestArray
             .map(item =>
-              item.element === searchParams.get("interest")
+              item.element === searchParams.get("interest")!.toUpperCase()
                 ? item.group.replace(/^[a-z]/, char => char.toUpperCase())
                 : null,
             )
             .filter(item => item !== null)[0],
     );
   }, [selectedGroup]);
+  useEffect(() => {
+    if (isAutoOpen) setSelectedElement("Element");
+  }, [isAutoOpen]);
 
   const handleItem = (type: string, item: string) => {
     searchParams.set(type, item);
@@ -90,10 +94,7 @@ const MatesSearchPage = () => {
         selectedDistrict!.replace(/^[A-Z]/, char => char.toLowerCase()),
       );
     if (selectedElement !== "Element")
-      handleItem(
-        "interest",
-        selectedElement!.replace(/^[A-Z]/, char => char.toLowerCase()),
-      );
+      handleItem("interest", selectedElement!.toLowerCase());
   }, [selectedLanguage, selectedDistrict, selectedElement]);
 
   const handleSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
@@ -181,7 +182,11 @@ const MatesSearchPage = () => {
                 item.group.replace(/^[a-z]/, char => char.toUpperCase()) ===
                 selectedGroup,
             )
-            .map(row => row.element)}
+            .map(item =>
+              item.element
+                .toLowerCase()
+                .replace(/^[a-z]/, char => char.toUpperCase()),
+            )}
           placeholder="Element"
           groupValue={selectedGroup}
           value={selectedElement}

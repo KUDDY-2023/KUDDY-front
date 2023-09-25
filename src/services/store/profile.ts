@@ -30,7 +30,11 @@ export const profileFilter = atom<ProfileGetByFilterType>({
           "buddyType"
         ] === "K-Buddy"
         ? "KUDDY"
-        : "TRAVELER"
+        : JSON.parse(String(localStorage.getItem("recoil-persist")))[
+            "buddyType"
+          ] === "Traveler"
+        ? "TRAVELER"
+        : "KUDDY"
       : "KUDDY",
   },
 });
