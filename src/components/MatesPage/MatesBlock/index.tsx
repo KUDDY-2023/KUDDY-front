@@ -19,13 +19,12 @@ const MatesBlock = ({
     if (profileContainer.current && interestContainer.current)
       if (
         profileContainer.current!.offsetWidth -
-          interestContainer.current!.offsetLeft +
-          15 -
+          interestContainer.current!.offsetLeft -
           interestContainer.current!.offsetWidth <
         0
       )
         setIsOverflow(true);
-  }, []);
+  }, [seletedInterests]);
   return (
     <div
       className="mates-block-container"
@@ -38,22 +37,23 @@ const MatesBlock = ({
       <div className="text-section">
         <div className="name-container">
           <div className="name">{nickname}</div>
-          <div className="circle">{role === "KUDDY" ? kuddyLevel : null}</div>
+          {role === "KUDDY" && (
+            <div className="circle">{role === "KUDDY" ? kuddyLevel : null}</div>
+          )}
         </div>
         <div className="introduce">{introduce ? introduce : "-"}</div>
         <div className="interests-container" ref={interestContainer}>
-          {seletedInterests &&
-            (isOveflow
-              ? seletedInterests.splice(0, 2).map(item => (
-                  <div className="interests" key={item}>
-                    {item}
-                  </div>
-                ))
-              : seletedInterests.map(item => (
-                  <div className="interests" key={item}>
-                    {item}
-                  </div>
-                )))}
+          {isOveflow
+            ? seletedInterests.splice(0, 2).map(item => (
+                <div className="interests" key={item}>
+                  {item}
+                </div>
+              ))
+            : seletedInterests.map((item, idx) => (
+                <div className="interests" key={item + idx}>
+                  {item}
+                </div>
+              ))}
         </div>
       </div>
     </div>

@@ -59,25 +59,14 @@ export const profileGetProfileByName = (nickname: string) => {
   return apiClient.get(url);
 };
 
-// 프로필 커디 목록 전체 조회
+// 프로필 검색 필터링
 type GetProfileProps = {
   page: number;
   size: number;
+  filter: ProfileGetByFilterType;
 };
-export const profileGetAllKuddy = ({ page, size }: GetProfileProps) => {
-  const url = `/api/v1/profiles/kuddy?page=${page}&size=${size}`;
-  return apiClient.get(url);
-};
-
-// 프로필 여행자 목록 전체 조회
-export const profileGetAllTraveler = ({ page, size }: GetProfileProps) => {
-  const url = `/api/v1/profiles/traveler?page=${page}&size=${size}`;
-  return apiClient.get(url);
-};
-
-// 프로필 검색 필터링
-export const profileGetByFilter = (filter: ProfileGetByFilterType) => {
-  const url = `/api/v1/profiles/search`;
+export const profileGetByFilter = ({ page, size, filter }: GetProfileProps) => {
+  const url = `/api/v1/profiles/search?page=${page}&size=${size}`;
   return apiClient.post(url, filter);
 };
 

@@ -13,8 +13,6 @@ import {
   profileCreateTheFirstProfile,
   profileGetProfile,
   profileGetProfileByName,
-  profileGetAllKuddy,
-  profileGetAllTraveler,
   profileGetByFilter,
   profilePutModify,
 } from "@services/api/profile";
@@ -277,31 +275,17 @@ export const useGetProfileByName = () => {
   return onGetProfileByName;
 };
 
-// 모든 프로필 조회 (무한 스크롤)
-export const useGetAllProfile = (type: string) => {
+// 필터로 프로필 조회 (무한 스크롤)
+export const useGetProfileByFilter = (filter: ProfileGetByFilterType) => {
   const { pageLastItemRef, data, isFetching, hasNextPage, fetchNextPage } =
     useInfiniteScroll({
-      queryKey: ["allTraveler", type],
-      initialPage: 1,
-      fetch:
-        type === "K-Buddy"
-          ? profileGetAllKuddy
-          : type === "Traveler"
-          ? profileGetAllTraveler
-          : null,
-      fetchParams: { size: 20 },
+      queryKey: ["filteredProfile", filter],
+      fetch: profileGetByFilter,
+      fetchParams: { size: 10, filter: filter },
       onIntersect: async (entry, observer) => {
         observer.unobserve(entry.target);
         if (hasNextPage && !isFetching) fetchNextPage();
       },
     });
   return { pageLastItemRef, hasNextPage, data };
-};
-
-// 필터로 프로필 조회
-export const useGetProfileByFilter = (filter: ProfileGetByFilterType) => {
-  const { data, isLoading, error } = useQuery(["filteredProfile", filter], () =>
-    profileGetByFilter(filter),
-  );
-  return { data, isLoading, error };
 };
