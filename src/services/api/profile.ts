@@ -75,3 +75,9 @@ export const profilePutModify = (profile: any) => {
   const url = `/api/v1/members/profile`;
   return apiClient.put(url, profile);
 };
+
+// K-Buddy Top5 유저 조히
+export const profileGetTop5 = () => {
+  const url = `/api/v1/profiles/kuddy/top5`;
+  return apiClient.get(url);
+};
