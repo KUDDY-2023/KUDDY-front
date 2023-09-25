@@ -12,19 +12,38 @@ const MatesBlock = ({
   allInterests,
 }: MatesType) => {
   const nav = useNavigate();
+  const [slicedInterests, setSlicedInterests] =
+    useState<string[]>(allInterests);
   const profileContainer = useRef<HTMLDivElement>(null);
   const interestContainer = useRef<HTMLDivElement>(null);
-  const [isOveflow, setIsOverflow] = useState<boolean>(false);
-  useEffect(() => {
+  const [isOverflow, setIsOverflow] = useState<boolean>(false);
+  const [isSliced, setIsSliced] = useState<boolean>(false);
+
+  const detectOverflow = () => {
     if (profileContainer.current && interestContainer.current)
       if (
         profileContainer.current!.offsetWidth -
           interestContainer.current!.offsetLeft -
-          interestContainer.current!.offsetWidth <
+          interestContainer.current!.offsetWidth +
+          120 <
         0
       )
         setIsOverflow(true);
-  }, [allInterests]);
+      else {
+        setIsOverflow(false);
+        setIsSliced(true);
+      }
+  };
+  useEffect(() => {
+    detectOverflow();
+  }, [slicedInterests]);
+
+  useEffect(() => {
+    isOverflow
+      ? setSlicedInterests(slicedInterests.slice(0, slicedInterests.length - 1))
+      : setSlicedInterests(slicedInterests);
+  }, [slicedInterests, isOverflow]);
+
   return (
     <div
       className="mates-block-container"
@@ -43,17 +62,14 @@ const MatesBlock = ({
         </div>
         <div className="introduce">{introduce ? introduce : "-"}</div>
         <div className="interests-container" ref={interestContainer}>
-          {isOveflow
-            ? allInterests.splice(0, 2).map(item => (
-                <div className="interests" key={item}>
-                  {item}
-                </div>
-              ))
-            : allInterests.map((item, idx) => (
-                <div className="interests" key={item + idx}>
-                  {item}
-                </div>
-              ))}
+          {slicedInterests.map((item, idx) => (
+            <div
+              className={isSliced ? "interests" : "interests slicing"}
+              key={item + idx}
+            >
+              {item}
+            </div>
+          ))}
         </div>
       </div>
     </div>
