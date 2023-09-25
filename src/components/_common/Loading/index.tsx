@@ -6,9 +6,10 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 type Props = {
   backColor: string;
   spinnerColor: string;
+  size: string;
 };
 
-const Loading = ({ backColor, spinnerColor }: Props) => {
+const Loading = ({ backColor, spinnerColor, size }: Props) => {
   const theme = createTheme({
     palette: {
       primary: {
@@ -20,7 +21,7 @@ const Loading = ({ backColor, spinnerColor }: Props) => {
   return (
     <div className="loading-background" style={{ background: backColor }}>
       <ThemeProvider theme={theme}>
-        <CircularProgress size="80px" />
+        <CircularProgress size={size} />
       </ThemeProvider>
     </div>
   );
