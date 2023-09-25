@@ -287,5 +287,5 @@ export const useGetProfileByFilter = (filter: ProfileGetByFilterType) => {
         if (hasNextPage && !isFetching) fetchNextPage();
       },
     });
-  return { pageLastItemRef, hasNextPage, data };
+  return { pageLastItemRef, hasNextPage, data, isFetching };
 };

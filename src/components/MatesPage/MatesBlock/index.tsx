@@ -1,5 +1,6 @@
 import "./mates-block.scss";
 import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 // 네비게이트 path 수정 필요
@@ -25,7 +26,7 @@ const MatesBlock = ({
         profileContainer.current!.offsetWidth -
           interestContainer.current!.offsetLeft -
           interestContainer.current!.offsetWidth +
-          120 <
+          110 <
         0
       )
         setIsOverflow(true);
@@ -43,6 +44,8 @@ const MatesBlock = ({
       ? setSlicedInterests(slicedInterests.slice(0, slicedInterests.length - 1))
       : setSlicedInterests(slicedInterests);
   }, [slicedInterests, isOverflow]);
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   return (
     <div
@@ -65,9 +68,15 @@ const MatesBlock = ({
           {slicedInterests.map((item, idx) => (
             <div
               className={isSliced ? "interests" : "interests slicing"}
+              style={{
+                backgroundColor:
+                  searchParams.get("interest") === item.toLowerCase()
+                    ? "var(--color-main-yellow)"
+                    : "var(--color-light-grey)",
+              }}
               key={item + idx}
             >
-              {item}
+              {item.toLowerCase()}
             </div>
           ))}
         </div>
