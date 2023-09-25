@@ -72,7 +72,13 @@ export default function LoginFormPage() {
 
   return (
     <div className="login-form-page">
-      {isLoading && <Loading />}
+      {isLoading && (
+        <Loading
+          backColor="rgba(0, 0, 0, 0.5)"
+          spinnerColor="#FFF798"
+          size="80px"
+        />
+      )}
 
       <BackNavBar middleTitle="Join" isShare={false} />
       <LoginProgressBar completed={completed} />
