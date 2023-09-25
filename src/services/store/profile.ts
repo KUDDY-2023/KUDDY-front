@@ -1,7 +1,14 @@
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
+import defaultprofile from "@assets/topbar/profile_default.svg";
 
 const { persistAtom } = recoilPersist();
+
+export const profileImage = atom<string>({
+  key: "profileImage",
+  default: defaultprofile,
+  effects_UNSTABLE: [persistAtom],
+});
 
 export const buddyType = atom<string>({
   key: "buddyType",

@@ -1,5 +1,16 @@
 @import "../../../style/mixins";
 
+.mates-page-wrapper {
+  width: 100%;
+  position: relative;
+  @media (min-width: 600px) {
+    width: 585px;
+  }
+  @media (min-width: 615px) {
+    width: 600px;
+  }
+}
+
 .mates-type-container {
   display: flex;
   align-items: center;
@@ -29,8 +40,8 @@
   background-color: color(white);
   position: absolute;
   z-index: 50;
-  left: 35px;
-  top: 105px;
+  left: 32px;
+  top: 110px;
   padding: 8px 0;
 
   .click-area {

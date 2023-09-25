@@ -72,7 +72,7 @@ const MatesPage = () => {
   const { buttonRef, modalRef } = useModal(isOpened, setIsOpened);
 
   return (
-    <>
+    <div className="mates-page-wrapper">
       <TopBar />
       <div
         className="mates-type-container"
@@ -134,7 +134,7 @@ const MatesPage = () => {
           ))}
       </div>
       <BottomNavBar />
-    </>
+    </div>
   );
 };
 
