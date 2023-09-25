@@ -26,13 +26,15 @@ const CommunityListPage = () => {
   }, []);
 
   return (
-    <div className="community-list-container">
+    <>
       <TopBar isCommunity={true} handleMenuClick={handleMenuClick} />
-      <PostList postList={postList} />
-      <div style={{ height: "120vh" }} />
-      <WritePostBtn />
-      <BottomNavBar />
-    </div>
+      <div className="community-list-container">
+        <PostList postList={postList} />
+        <div style={{ height: "120vh" }} />
+        <WritePostBtn />
+        <BottomNavBar />
+      </div>
+    </>
   );
 };
 
