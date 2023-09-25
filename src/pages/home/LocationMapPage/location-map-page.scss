@@ -1,6 +1,17 @@
 @import "../../../style/mixins";
 
-.loading-rect {
+.location-map-page-wrapper {
+  position: relative;
+  width: 100%;
+  @media (min-width: 600px) {
+    width: 585px;
+  }
+  @media (min-width: 615px) {
+    width: 600px;
+  }
+}
+
+.loading-container {
   position: absolute;
   z-index: 500;
   top: 55px;
