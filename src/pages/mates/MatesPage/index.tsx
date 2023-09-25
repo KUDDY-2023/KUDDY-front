@@ -19,8 +19,15 @@ const MatesPage = () => {
   const [matesType, setMatesType] = useRecoilState(buddyType);
   const [searchParams, setSearchParams] = useSearchParams();
   const [filter, setFilter] = useRecoilState(profileFilter);
+  const [filterTrigger, setFilterTrigger] = useState<boolean>(false);
   const { pageLastItemRef, hasNextPage, data, isFetching } =
     useGetProfileByFilter(filter);
+  useEffect(() => {
+    setFilterTrigger(true);
+  }, [filter]);
+  useEffect(() => {
+    if (isFetching === false) setFilterTrigger(false);
+  }, [isFetching]);
 
   useEffect(() => {
     setFilter({
@@ -109,7 +116,7 @@ const MatesPage = () => {
       <MatesSearchBar />
       <div className="mates-block-wrapper">
         {data &&
-          (isFetching ? (
+          (isFetching && filterTrigger ? (
             <div className="loading-container">
               <Loading
                 backColor="transparent"
