@@ -18,11 +18,12 @@ export const profileFilter = atom<ProfileGetByFilterType>({
     interestGroup: "",
     interestContent: "",
     nickname: "",
-    role:
-      JSON.parse(String(localStorage.getItem("recoil-persist")))[
-        "buddyType"
-      ] === "K-Buddy"
+    role: localStorage.getItem("recoil-persist")
+      ? JSON.parse(String(localStorage.getItem("recoil-persist")))[
+          "buddyType"
+        ] === "K-Buddy"
         ? "KUDDY"
-        : "TRAVELER",
+        : "TRAVELER"
+      : "KUDDY",
   },
 });

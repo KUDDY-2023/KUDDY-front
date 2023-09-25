@@ -9,7 +9,7 @@ const MatesBlock = ({
   profileImage,
   role,
   kuddyLevel,
-  seletedInterests,
+  allInterests,
 }: MatesType) => {
   const nav = useNavigate();
   const profileContainer = useRef<HTMLDivElement>(null);
@@ -24,7 +24,7 @@ const MatesBlock = ({
         0
       )
         setIsOverflow(true);
-  }, [seletedInterests]);
+  }, [allInterests]);
   return (
     <div
       className="mates-block-container"
@@ -44,12 +44,12 @@ const MatesBlock = ({
         <div className="introduce">{introduce ? introduce : "-"}</div>
         <div className="interests-container" ref={interestContainer}>
           {isOveflow
-            ? seletedInterests.splice(0, 2).map(item => (
+            ? allInterests.splice(0, 2).map(item => (
                 <div className="interests" key={item}>
                   {item}
                 </div>
               ))
-            : seletedInterests.map((item, idx) => (
+            : allInterests.map((item, idx) => (
                 <div className="interests" key={item + idx}>
                   {item}
                 </div>

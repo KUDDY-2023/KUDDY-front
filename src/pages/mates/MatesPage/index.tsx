@@ -66,6 +66,8 @@ const MatesPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  console.log(data);
+
   const [isOpened, setIsOpened] = useState<boolean>(false);
   const { buttonRef, modalRef } = useModal(isOpened, setIsOpened);
 
@@ -118,12 +120,12 @@ const MatesPage = () => {
                     ref={pageLastItemRef}
                     className="page-last-item-ref-rect"
                   >
-                    {item.seletedInterests && (
+                    {item.allInterests && (
                       <MatesBlock {...item} key={item.profileId} />
                     )}
                   </div>
                 ) : (
-                  item.seletedInterests && (
+                  item.allInterests && (
                     <MatesBlock {...item} key={item.profileId} />
                   )
                 ),
