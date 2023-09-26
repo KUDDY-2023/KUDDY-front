@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { currentPosition } from "@services/store/travel";
 import { ReactComponent as ListIcon } from "@assets/location/list.svg";
-import defaultthumbnail from "@assets/location/default_thumbnail.jpeg";
+import defaultthumbnail from "@assets/location/default_travel_thumbnail.png";
 
 export type LocationPreviewBlockProps = {
   contentId: number;

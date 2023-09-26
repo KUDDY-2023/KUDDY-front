@@ -2,7 +2,7 @@ import "./travel-detail-title.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useBookmark from "@utils/hooks/useBookmark";
-import defaultthumbnail from "@assets/location/default_thumbnail.jpeg";
+import defaultthumbnail from "@assets/location/default_travel_thumbnail.png";
 import { ReactComponent as BookmarkIcon } from "@assets/icon/bookmark.svg";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Autoplay } from "swiper";

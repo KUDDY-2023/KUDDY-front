@@ -8,32 +8,33 @@ const WeeklyUser = () => {
   const [weeklyUser, setWeeklyUser] = useState<any[]>();
   useEffect(() => {
     profileGetTop5()
-      .then(res => setWeeklyUser(res.data.data.profileList))
+      .then(res => setWeeklyUser(res.data.data.top5KuddyList))
       .catch();
   }, []);
-  console.log(weeklyUser);
 
   return (
     <>
       <div className="weeklyuser-title">Weekly K-Buddy</div>
       <div className="weeklyuser-container">
         {weeklyUser &&
-          weeklyUser.map(item => (
+          weeklyUser.map((item: any) => (
             <div
               className="weeklyuser-rect"
-              key={item.id}
+              key={item.profileId}
               onClick={() => nav(`/profile/${item.nickname}`)}
             >
               <div className="weeklyuser-top-section">
                 <div className="weeklyuser-grade">{item.kuddyLevel}</div>
                 <div className="weeklyuser-profile-circle">
-                  <img src={item.profileImage} />
+                  <img src={item.profileImageUrl} />
                 </div>
                 <div className="weeklyuser-username">{item.nickname}</div>
               </div>
               <div className="weeklyuser-review">
                 <div className="weeklyuser-review-title">Review</div>
-                <div className="weeklyuser-review-text">{`review`}</div>
+                <div className="weeklyuser-review-text">
+                  {item.recentReview}
+                </div>
               </div>
             </div>
           ))}

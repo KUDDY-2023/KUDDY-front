@@ -2,6 +2,10 @@ import "./mates-block.scss";
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { ReactComponent as Level1Icon } from "@assets/level/level1.svg";
+import { ReactComponent as Level2Icon } from "@assets/level/level2.svg";
+import { ReactComponent as Level3Icon } from "@assets/level/level3.svg";
+import { ReactComponent as Level4Icon } from "@assets/level/level4.svg";
 
 // 네비게이트 path 수정 필요
 const MatesBlock = ({
@@ -60,7 +64,19 @@ const MatesBlock = ({
         <div className="name-container">
           <div className="name">{nickname}</div>
           {role === "KUDDY" && (
-            <div className="circle">{role === "KUDDY" ? kuddyLevel : null}</div>
+            <div className="circle">
+              {role === "KUDDY" ? (
+                kuddyLevel === "EXPLORER" ? (
+                  <Level1Icon />
+                ) : kuddyLevel === "FRIEND" ? (
+                  <Level2Icon />
+                ) : kuddyLevel === "COMPANION" ? (
+                  <Level3Icon />
+                ) : kuddyLevel === "SOULMATE" ? (
+                  <Level4Icon />
+                ) : null
+              ) : null}
+            </div>
           )}
         </div>
         <div className="introduce">{introduce ? introduce : "-"}</div>
