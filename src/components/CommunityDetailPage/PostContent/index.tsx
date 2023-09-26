@@ -2,15 +2,13 @@ import "./post-content.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PhotoSlide from "@components/CommunityDetailPage/PhotoSlide";
-import commentIcon from "@assets/community/comment_icon.svg";
 import customPin from "@assets/community/customPin.svg";
 
 type Props = {
   postData: any;
-  reviewCnt: number;
 };
 
-const PostContent = ({ postData, reviewCnt }: Props) => {
+const PostContent = ({ postData }: Props) => {
   const nav = useNavigate();
   const { kakao } = window;
   const [map, setMap] = useState<any>();
@@ -78,17 +76,15 @@ const PostContent = ({ postData, reviewCnt }: Props) => {
 
   // 지도 생성
   useEffect(() => {
-    if (category === "itinerary") {
-      window.kakao.maps.load(() => {
-        const container = document.getElementById("map-feedback");
-        const options = {
-          center: new kakao.maps.LatLng(33.450701, 126.570667),
-          level: 7,
-        };
-        setMap(new kakao.maps.Map(container, options));
-      });
-    }
-  }, [category]);
+    window.kakao.maps.load(() => {
+      const container = document.getElementById("map-feedback");
+      const options = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        level: 7,
+      };
+      setMap(new kakao.maps.Map(container, options));
+    });
+  }, []);
 
   useEffect(() => {
     // 마커 생성
@@ -146,7 +142,7 @@ const PostContent = ({ postData, reviewCnt }: Props) => {
         {category === "talking" && postData?.postType === "joinus" && (
           <div className="join-detail-container">
             {joinDetail.map(item => (
-              <div>
+              <div key={item.id}>
                 <div className="join-detail-title">{item.title}</div>
                 <div className="join-detail-value">{item.value}</div>
               </div>
@@ -159,7 +155,7 @@ const PostContent = ({ postData, reviewCnt }: Props) => {
           <div className="spot-list-container">
             {postData?.spots?.map((spot: any, index: number) => {
               return (
-                <>
+                <div key={index}>
                   {index > 0 && (
                     <div className="spot-distance-container">
                       <div className="spot-line"></div>
@@ -181,7 +177,7 @@ const PostContent = ({ postData, reviewCnt }: Props) => {
                       </div>
                     </div>
                   </div>
-                </>
+                </div>
               );
             })}
             {category === "itinerary" && <div id="map-feedback"></div>}
@@ -189,11 +185,6 @@ const PostContent = ({ postData, reviewCnt }: Props) => {
         )}
 
         {postData?.fileUrls && <PhotoSlide />}
-      </div>
-
-      <div className="post-footer">
-        <img src={commentIcon} alt="comment" />
-        <p>{reviewCnt}</p>
       </div>
     </div>
   );

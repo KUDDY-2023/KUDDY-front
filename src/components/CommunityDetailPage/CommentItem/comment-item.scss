@@ -5,10 +5,16 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
+  padding: 5px;
 
   &.indent {
     padding-left: 42px;
   }
+}
+
+#selected-comment {
+  border-radius: 7px;
+  background-color: #fffcd4;
 }
 
 .comment-profile {

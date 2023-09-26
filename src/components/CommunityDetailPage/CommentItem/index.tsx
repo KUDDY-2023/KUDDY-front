@@ -5,10 +5,12 @@ import creatorBadge from "@assets/community/creator_badge.svg";
 
 type Props = {
   review: any;
+  isSelected?: boolean; // reply 버튼 클릭된 댓글 (선택된 댓글)
   isReply: boolean;
+  onClickReply?: (commentId: number) => void; // reply 버튼 클릭
 };
 
-const CommentItem = ({ review, isReply }: Props) => {
+const CommentItem = ({ review, isSelected, isReply, onClickReply }: Props) => {
   const nav = useNavigate();
   const createdDate = new Date(review?.createdDate).toLocaleString("sv");
 
@@ -21,13 +23,14 @@ const CommentItem = ({ review, isReply }: Props) => {
       className={
         isReply ? "comment-item-container indent" : "comment-item-container"
       }
+      id={isSelected ? "selected-comment" : ""}
     >
       <div className="comment-profile">
         <img
-          src={review?.commentWriterInfoDto?.profileImageUrl}
+          src={review?.writerInfoDto?.profileImageUrl}
           alt="profile"
           onClick={() => {
-            handleProfileClick(review?.commentWriterInfoDto?.nickname);
+            handleProfileClick(review?.writerInfoDto?.nickname);
           }}
         />
       </div>
@@ -37,10 +40,10 @@ const CommentItem = ({ review, isReply }: Props) => {
           <div
             className="comment-nickname"
             onClick={() => {
-              handleProfileClick(review?.commentWriterInfoDto?.nickname);
+              handleProfileClick(review?.writerInfoDto?.nickname);
             }}
           >
-            {review?.commentWriterInfoDto?.nickname}
+            {review?.writerInfoDto?.nickname}
           </div>
           {/* kuddy 뱃지 + creator 뱃지도 가능 */}
           {/*review.userInfo.hasBadge && <img src={kuddyBadge} />*/}
@@ -52,7 +55,14 @@ const CommentItem = ({ review, isReply }: Props) => {
 
         <div className="comment-content-bottom">
           <div className="comment-date-time">{createdDate}</div>
-          {!isReply && <div className="comment-reply-btn">Reply</div>}
+          {!isReply && (
+            <div
+              className="comment-reply-btn"
+              onClick={() => onClickReply?.(Number(review.id))}
+            >
+              Reply
+            </div>
+          )}
         </div>
       </div>
     </div>
