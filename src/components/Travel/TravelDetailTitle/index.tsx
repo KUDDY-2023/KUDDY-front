@@ -25,15 +25,12 @@ const TravelDetailTitle = ({
   name,
   district,
   category,
-  kuddyList,
-  travelerList,
 }: TravelDetailType) => {
   const nav = useNavigate();
   const isLogin = useRecoilValue<boolean>(isLoginState);
   const myPickList = useRecoilValue<TravelPreviewType[]>(pickedTravel);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
   const { state, toggle } = useBookmark(isBookmarked, contentId);
-  const getPick = useGetPick();
   const { heart, matesPreview, setTrigger } = useDetailPickedMates(
     contentId,
     "ALL",
@@ -48,7 +45,6 @@ const TravelDetailTitle = ({
   }, [myPickList, contentId]);
 
   useEffect(() => {
-    getPick();
     setTrigger(Date.now());
   }, [contentId]);
 

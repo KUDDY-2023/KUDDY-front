@@ -12,10 +12,10 @@ const useBookmark = (isBookmarked: boolean, currentTravelId: number) => {
   const [id, setId] = useState<number>(0);
   const [trigger, setTrigger] = useState<number>(0);
   const toggle = () => setTrigger(trigger + 1);
-  const getPick = useGetPick();
+  const { getPickList } = useGetPick();
 
   useEffect(() => {
-    getPick();
+    getPickList();
   }, []);
 
   useEffect(() => {
@@ -29,14 +29,14 @@ const useBookmark = (isBookmarked: boolean, currentTravelId: number) => {
         if (state === true) {
           pickDeletePick(id)
             .then(res => {
-              getPick();
+              getPickList();
               setState(false);
             })
             .catch();
         } else {
           pickPostPick(id)
             .then(res => {
-              getPick();
+              getPickList();
               setState(true);
             })
             .catch();
