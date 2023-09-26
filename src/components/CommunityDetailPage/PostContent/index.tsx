@@ -78,15 +78,17 @@ const PostContent = ({ postData, reviewCnt }: Props) => {
 
   // 지도 생성
   useEffect(() => {
-    window.kakao.maps.load(() => {
-      const container = document.getElementById("map-feedback");
-      const options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 7,
-      };
-      setMap(new kakao.maps.Map(container, options));
-    });
-  }, []);
+    if (category === "itinerary") {
+      window.kakao.maps.load(() => {
+        const container = document.getElementById("map-feedback");
+        const options = {
+          center: new kakao.maps.LatLng(33.450701, 126.570667),
+          level: 7,
+        };
+        setMap(new kakao.maps.Map(container, options));
+      });
+    }
+  }, [category]);
 
   useEffect(() => {
     // 마커 생성
@@ -112,7 +114,7 @@ const PostContent = ({ postData, reviewCnt }: Props) => {
         <div
           className="writer-container"
           onClick={() => {
-            handleProfileClick(postData?.writerName);
+            handleProfileClick(postData?.writerInfoDto?.nickname);
           }}
         >
           <img
@@ -182,7 +184,7 @@ const PostContent = ({ postData, reviewCnt }: Props) => {
                 </>
               );
             })}
-            <div id="map-feedback"></div>
+            {category === "itinerary" && <div id="map-feedback"></div>}
           </div>
         )}
 
