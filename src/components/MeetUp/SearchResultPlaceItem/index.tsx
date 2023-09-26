@@ -26,7 +26,7 @@ export default function SearchResultPlaceItem({
       </div>
       <div className="result-info">
         <p className="place-name">
-          <span>{placeItem.name}</span>test
+          <span>{placeItem.name}</span>
         </p>
         <p className="place-gu">{placeItem.district}</p>
       </div>

@@ -17,9 +17,9 @@ const BottomNavBar = () => {
           <PickIcon />
           <div className="nav-text">PICK</div>
         </NavLink>
-        <NavLink to="/mates/list" className="nav-click-area">
+        <NavLink to="/buddy/list" className="nav-click-area">
           <MatesIcon />
-          <div className="nav-text">MATES</div>
+          <div className="nav-text">BUDDY</div>
         </NavLink>
         <NavLink to="/community/list" className="nav-click-area">
           <CommunityIcon />

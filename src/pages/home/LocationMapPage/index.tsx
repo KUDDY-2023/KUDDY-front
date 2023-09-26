@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./location-map-page.scss";
 import BackNavBar from "@components/_common/BackNavBar";
+import Loading from "@components/_common/Loading";
 import LocationPreviewBlock from "@components/Location/LocationPreviewBlock";
 import pin from "@assets/location/pin.svg";
 import curpin from "@assets/location/pin_current.svg";
@@ -153,7 +154,11 @@ const LocationMapPage = () => {
   return (
     <div className="location-map-page-wrapper">
       <BackNavBar middleTitle="Near my location" isShare={false} />
-      {isLoading && <div className="loading-rect">loading</div>}
+      {isLoading && (
+        <div className="loading-container">
+          <Loading backColor="transparent" spinnerColor="#eee" size="30px" />
+        </div>
+      )}
       <div id="map"></div>
       {!isLoading && blockProps && <LocationPreviewBlock {...blockProps} />}
     </div>

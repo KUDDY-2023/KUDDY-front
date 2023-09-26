@@ -59,21 +59,14 @@ export const profileGetProfileByName = (nickname: string) => {
   return apiClient.get(url);
 };
 
-// 프로필 커디 목록 전체 조회
-export const profileGetAllKuddy = (page: number, size: number) => {
-  const url = `/api/v1/profiles/kuddy?page=${page}&size=${size}`;
-  return apiClient.get(url);
-};
-
-// 프로필 여행자 목록 전체 조회
-export const profileGetAllTraveler = (page: number, size: number) => {
-  const url = `/api/v1/profiles/traveler?page=${page}&size=${size}`;
-  return apiClient.get(url);
-};
-
 // 프로필 검색 필터링
-export const profileGetByFilter = (filter: ProfileGetByFilterType) => {
-  const url = `/api/v1/profiles/search`;
+type GetProfileProps = {
+  page: number;
+  size: number;
+  filter: ProfileGetByFilterType;
+};
+export const profileGetByFilter = ({ page, size, filter }: GetProfileProps) => {
+  const url = `/api/v1/profiles/search?page=${page}&size=${size}`;
   return apiClient.post(url, filter);
 };
 
@@ -81,4 +74,10 @@ export const profileGetByFilter = (filter: ProfileGetByFilterType) => {
 export const profilePutModify = (profile: any) => {
   const url = `/api/v1/members/profile`;
   return apiClient.put(url, profile);
+};
+
+// K-Buddy Top5 유저 조히
+export const profileGetTop5 = () => {
+  const url = `/api/v1/profiles/kuddy/top5`;
+  return apiClient.get(url);
 };

@@ -67,4 +67,8 @@
       }
     }
   }
+
+  .empty {
+    height: calc(100svh - 180px);
+  }
 }

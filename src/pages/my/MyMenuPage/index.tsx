@@ -22,7 +22,7 @@ const iconSrc = [
     src: tic,
     navTo: "/my/traveler-verification",
   },
-  { text: "Delete my account", src: del, navTo: "/my/delete" },
+  { text: "Delete my account", src: del, navTo: "/auth/delete" },
 ];
 
 const MyMenuPage = () => {

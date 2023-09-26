@@ -99,4 +99,5 @@ interface ProfileGetByFilterType {
   interestGroup: string;
   interestContent: string;
   nickname: string;
+  role: "KUDDY" | "TRAVELER";
 }

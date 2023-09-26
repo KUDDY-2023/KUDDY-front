@@ -17,7 +17,7 @@ const TravelPage = () => {
   const { pageLastItemRef, hasNextPage, data } = useAllSpot(filter);
 
   useEffect(() => {
-    console.log("filter", filter);
+    // console.log("filter", filter);
   }, [filter]);
 
   // searchParams로 filter 업데이트

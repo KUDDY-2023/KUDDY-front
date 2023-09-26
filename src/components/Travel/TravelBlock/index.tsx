@@ -1,6 +1,6 @@
 import "./travel-block.scss";
 import { ReactComponent as BookmarkIcon } from "@assets/icon/bookmark.svg";
-import defaultthumbnail from "@assets/location/default_thumbnail.jpeg";
+import defaultthumbnail from "@assets/location/default_travel_thumbnail.png";
 import { useNavigate } from "react-router-dom";
 
 type TravelBlockProps = {

@@ -47,7 +47,10 @@ $colors: (
 // PC view
 #wrapper {
   @media (min-width: 600px) {
-    width: 600px;
+    width: 585px;
     margin: 0 auto;
+  }
+  @media (min-width: 615px) {
+    width: 600px;
   }
 }

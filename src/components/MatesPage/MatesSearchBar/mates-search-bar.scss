@@ -14,6 +14,7 @@
   }
 
   input {
+    width: calc(100% - 130px);
     color: color(black);
     background-color: transparent;
     font: {
@@ -26,6 +27,12 @@
     &::placeholder {
       color: color(grey-line);
     }
+  }
+
+  .xbtn {
+    width: 24px;
+    height: 24px;
+    padding: 6px;
   }
 
   .filter-circle {

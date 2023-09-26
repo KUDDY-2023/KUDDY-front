@@ -11,8 +11,10 @@ import { useNavigate } from "react-router-dom";
 import { MutableRefObject } from "react";
 import { CompatClient } from "@stomp/stompjs";
 import { useSaveMessage } from "@services/hooks/chat";
-
 import { useFormatDate } from "@utils/hooks/useformatDate";
+
+// 페이팔 모달
+import PayPal from "@components/Paypal";
 
 interface Props {
   client: MutableRefObject<CompatClient | undefined>;
@@ -35,8 +37,8 @@ export default function RequestMessage({
   };
 
   const onPayPal = () => {
-    console.log("페이팔 요청");
-    onUpdateMessage("PAYED");
+    console.log("⭐ 페이팔 요청");
+    handleOpen(); // 페이팔 모달 열기
   };
 
   const onRefuse = () => {
@@ -83,8 +85,19 @@ export default function RequestMessage({
     }
   };
 
+  // 페이팔 모달 상태
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <div className="confirmed-request-message-section">
+      <PayPal
+        open={open}
+        handleClose={handleClose}
+        onUpdateMessage={onUpdateMessage}
+        info={info}
+      />
       <div className="confirmed-request-message">
         <YellowMeetUp id="meetup-icon" />
 

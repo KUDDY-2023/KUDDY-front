@@ -1,39 +1,88 @@
 import "./mates-page.scss";
 import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import useModal from "@utils/hooks/useModal";
 import TopBar from "@components/_common/TopBar";
 import BottomNavBar from "@components/_common/BottomNavBar";
+import Loading from "@components/_common/Loading";
 import MatesSearchBar from "@components/MatesPage/MatesSearchBar";
 import MatesBlock from "@components/MatesPage/MatesBlock";
 import { ReactComponent as ArrowIcon } from "@assets/icon/arrow_down.svg";
 import { ReactComponent as CheckIcon } from "@assets/icon/check.svg";
-import { matesArrayK, matesArrayT } from "@pages/mates/MatesPage/_mock";
+import { useGetProfileByFilter } from "@services/hooks/profile";
+import { useRecoilState } from "recoil";
+import { buddyType, profileFilter } from "@services/store/profile";
+import { interestArray } from "@pages/mates/MatesPage/_mock";
 
 const MatesPage = () => {
-  const nav = useNavigate();
-  const [matesType, setMatesType] = useState<string>("K-Buddy");
   const matetype = ["K-Buddy", "Traveler"];
-  const [matesArray, setMatesArray] = useState<MatesType[]>(matesArrayK);
+  const [matesType, setMatesType] = useRecoilState(buddyType);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [filter, setFilter] = useRecoilState(profileFilter);
+  const [filterTrigger, setFilterTrigger] = useState<boolean>(false);
+  const { pageLastItemRef, hasNextPage, data, isFetching } =
+    useGetProfileByFilter(filter);
+  useEffect(() => {
+    setFilterTrigger(true);
+  }, [filter]);
+  useEffect(() => {
+    if (isFetching === false) setFilterTrigger(false);
+  }, [isFetching]);
 
   useEffect(() => {
-    setMatesArray(matesType === "K-Buddy" ? matesArrayK : matesArrayT);
+    setFilter({
+      ...filter,
+      role: matesType === "K-Buddy" ? "KUDDY" : "TRAVELER",
+    });
   }, [matesType]);
 
-  const [isOpened, setIsOpened] = useState<boolean>(false);
-  const { buttonRef, modalRef } = useModal(isOpened, setIsOpened);
+  useEffect(() => {
+    if (!searchParams) return;
+    setFilter({
+      ...filter,
+      genderType: searchParams.get("gender")
+        ? searchParams.get("gender")!.toUpperCase()
+        : "",
+      languageType: searchParams.get("language")
+        ? searchParams
+            .get("language")!
+            .replace(/^[a-z]/, char => char.toUpperCase())
+        : "",
+      areaName: searchParams.get("district")
+        ? searchParams
+            .get("district")!
+            .replace(/^[a-z]/, char => char.toUpperCase())
+        : "",
+      nickname: searchParams.get("keyword")
+        ? String(searchParams.get("keyword"))
+        : "",
+      interestContent: searchParams.get("interest")
+        ? searchParams.get("interest")!.toUpperCase()
+        : "",
+      interestGroup: searchParams.get("interest")
+        ? interestArray
+            .map(item =>
+              item.element === searchParams.get("interest")!.toUpperCase()
+                ? item.group
+                : "",
+            )
+            .filter(item => item !== "")[0]
+        : "",
+    });
+  }, [searchParams]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    setMatesArray(matesArray);
-  }, [searchParams]);
+  console.log(data);
+  console.log(filter);
+
+  const [isOpened, setIsOpened] = useState<boolean>(false);
+  const { buttonRef, modalRef } = useModal(isOpened, setIsOpened);
 
   return (
-    <>
+    <div className="mates-page-wrapper">
       <TopBar />
       <div
         className="mates-type-container"
@@ -66,18 +115,44 @@ const MatesPage = () => {
       )}
       <MatesSearchBar />
       <div className="mates-block-wrapper">
-        {matesArray &&
-          (matesArray.length === 0 ? (
+        {data &&
+          (isFetching && filterTrigger ? (
+            <div className="loading-container">
+              <Loading
+                backColor="transparent"
+                spinnerColor="#eee"
+                size="30px"
+              />
+            </div>
+          ) : data.pages[0].data.data.profileList.length === 0 ? (
             <div className="empty">
               <div className="no-result">No result</div>
               <p>Try searching differently</p>
             </div>
           ) : (
-            matesArray.map(item => <MatesBlock {...item} key={item.id} />)
+            data.pages.map(page =>
+              page.data.data.profileList.map((item: MatesType, idx: number) =>
+                page.data.data.pageInfo.size === idx + 1 ? (
+                  <div
+                    key={item.profileId}
+                    ref={pageLastItemRef}
+                    className="page-last-item-ref-rect"
+                  >
+                    {item.allInterests && (
+                      <MatesBlock {...item} key={item.profileId} />
+                    )}
+                  </div>
+                ) : (
+                  item.allInterests && (
+                    <MatesBlock {...item} key={item.profileId} />
+                  )
+                ),
+              ),
+            )
           ))}
       </div>
       <BottomNavBar />
-    </>
+    </div>
   );
 };
 

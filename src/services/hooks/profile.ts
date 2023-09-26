@@ -13,10 +13,12 @@ import {
   profileCreateTheFirstProfile,
   profileGetProfile,
   profileGetProfileByName,
+  profileGetByFilter,
   profilePutModify,
 } from "@services/api/profile";
 import { useRecoilState } from "recoil";
 import useCheckNickname from "@utils/hooks/useCheckNickname";
+import useInfiniteScroll from "@utils/hooks/useInfiniteScroll";
 
 import { useAuthReLogin } from "./auth";
 
@@ -246,6 +248,19 @@ export const CheckNicknameString = (newName: string) => {
   return [alertText, textColor];
 };
 
+// 프로필 수정
+export const usePutProfileModify = () => {
+  const onProfileModify = async (profile: any) => {
+    try {
+      const res = await profilePutModify(profile);
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  return onProfileModify;
+};
+
 // 닉네임으로 프로필 조회
 export const useGetProfileByName = () => {
   const onGetProfileByName = async (nickname: string) => {
@@ -260,16 +275,17 @@ export const useGetProfileByName = () => {
   return onGetProfileByName;
 };
 
-// 프로필 수정
-export const usePutProfileModify = () => {
-  const onProfileModify = async (profile: any) => {
-    try {
-      const res = await profilePutModify(profile);
-      return res;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  return onProfileModify;
+// 필터로 프로필 조회 (무한 스크롤)
+export const useGetProfileByFilter = (filter: ProfileGetByFilterType) => {
+  const { pageLastItemRef, data, isFetching, hasNextPage, fetchNextPage } =
+    useInfiniteScroll({
+      queryKey: ["filteredProfile", filter],
+      fetch: profileGetByFilter,
+      fetchParams: { size: 10, filter: filter },
+      onIntersect: async (entry, observer) => {
+        observer.unobserve(entry.target);
+        if (hasNextPage && !isFetching) fetchNextPage();
+      },
+    });
+  return { pageLastItemRef, hasNextPage, data, isFetching };
 };

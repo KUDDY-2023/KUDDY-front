@@ -2,7 +2,6 @@ import "./top-bar.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Menu from "@components/CommunityListPage/Menu";
-import defaultprofile from "@assets/topbar/profile_default.svg";
 import { ReactComponent as ChatIcon } from "@assets/topbar/chat_default.svg";
 import { ReactComponent as NewChatIcon } from "@assets/topbar/chat_new.svg";
 import { ReactComponent as NotificationIcon } from "@assets/topbar/notification_default.svg";
@@ -10,7 +9,8 @@ import { ReactComponent as NewNotificationIcon } from "@assets/topbar/notificati
 
 import { profileGetProfile } from "@services/api/profile";
 import { useSetLoginState } from "@services/hooks/auth";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { profileImage } from "@services/store/profile";
 import { isLoginState } from "@services/store/auth";
 
 // 안읽은 알림 개수
@@ -44,7 +44,7 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
     };
   }, [position]);
 
-  const [profileSrc, setProfileSrc] = useState<string>(defaultprofile);
+  const [profileSrc, setProfileSrc] = useRecoilState(profileImage);
   const [newNotification, isNewNotification] = useState<boolean>(false); // 새로운 댓글이 있을 때
   const [newChat, isNewChat] = useState<boolean>(true); // 새로운 채팅이 있을 때
 
@@ -55,7 +55,11 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
     if (isLogin)
       profileGetProfile()
         .then(res => {
-          setProfileSrc(res.data.data.memberInfo.profileImageUrl);
+          setProfileSrc(prev =>
+            prev === res.data.data.memberInfo.profileImageUrl
+              ? prev
+              : res.data.data.memberInfo.profileImageUrl,
+          );
         })
         .catch();
   }, []);
@@ -94,20 +98,20 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
 
         // 연결 됐을 때
         eventSource.onopen = async event => {
-          console.log("연결 성공", event);
+          // console.log("연결 성공", event);
         };
 
         // 이벤트 왔을 때
         eventSource.onmessage = event => {
           if (event.data.startsWith("{")) {
-            console.log("댓글 알림 발생", event.data);
+            // console.log("댓글 알림 발생", event.data);
             isNewNotification(true);
           }
         };
 
         // 에러 발생 & 연결 끊겼을 때
         eventSource.onerror = (event: any) => {
-          console.log("에러 발생");
+          // console.log("에러 발생");
           if (event.readyState == EventSource.CLOSED) {
             console.log("에러 발생 : CLOSED");
           }

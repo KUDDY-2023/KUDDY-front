@@ -2,21 +2,26 @@ import "./loading.scss";
 
 import CircularProgress from "@mui/material/CircularProgress";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { yellow } from "@mui/material/colors";
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#FFF798",
+type Props = {
+  backColor: string;
+  spinnerColor: string;
+  size: string;
+};
+
+const Loading = ({ backColor, spinnerColor, size }: Props) => {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: spinnerColor,
+      },
     },
-  },
-});
+  });
 
-const Loading = () => {
   return (
-    <div className="loading-background">
+    <div className="loading-background" style={{ background: backColor }}>
       <ThemeProvider theme={theme}>
-        <CircularProgress size="80px" />
+        <CircularProgress size={size} />
       </ThemeProvider>
     </div>
   );

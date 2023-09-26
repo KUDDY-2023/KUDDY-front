@@ -1,16 +1,29 @@
 interface MatesType {
-  id: number;
-  roleType: string;
+  memberId: number;
+  profileId: number;
+  role: "KUDDY" | "TRAVELER";
   nickname: string;
   introduce: string;
-  profileImageUrl: string;
-  interests: string[];
+  profileImage: string;
+  kuddyLevel?: string;
+  allInterests: string[];
 }
 
 interface MatesFilterType {
-  gender: "MR" | "MS" | "N";
-  languageId: number;
-  districtId: number;
-  firstInterest: string;
-  secondInterest: string;
+  gender: "" | "MR" | "MS" | "NEUTRAL";
+  languageType: string;
+  areaName: string;
+  interestGroup:
+    | ""
+    | "activitiesInvestmentTech"
+    | "artBeauty"
+    | "careerMajor"
+    | "lifestyle"
+    | "entertainment"
+    | "food"
+    | "hobbiesInterests"
+    | "sports"
+    | "wellbeing";
+  interestContent: string;
+  nickname: string;
 }

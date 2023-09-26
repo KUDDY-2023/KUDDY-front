@@ -1,5 +1,16 @@
 @import "../../../style/mixins";
 
+.mates-page-wrapper {
+  width: 100%;
+  position: relative;
+  @media (min-width: 600px) {
+    width: 585px;
+  }
+  @media (min-width: 615px) {
+    width: 600px;
+  }
+}
+
 .mates-type-container {
   display: flex;
   align-items: center;
@@ -29,8 +40,8 @@
   background-color: color(white);
   position: absolute;
   z-index: 50;
-  left: 35px;
-  top: 105px;
+  left: 32px;
+  top: 110px;
   padding: 8px 0;
 
   .click-area {
@@ -53,13 +64,27 @@
 
 .mates-block-wrapper {
   width: 100%;
-  min-height: calc(100svh - 190px);
+  min-height: calc(100svh - 230px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 120px;
+  padding-bottom: 110px;
+
+  .loading-container {
+    width: 100%;
+    height: calc(100vh - 360px);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
 
   .empty {
-    height: calc(100vh - 310px);
+    height: calc(100vh - 360px);
+  }
+
+  .page-last-item-ref-rect {
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 }
