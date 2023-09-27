@@ -1,5 +1,3 @@
-import { useEffect } from "react";
-import { useQuery } from "react-query";
 import {
   communityGetPostList,
   communityPostPost,
@@ -7,12 +5,9 @@ import {
   communityGetTravelerReviews,
   communityGetEachPost,
   communityGetPostReviews,
+  communityPostComment,
+  communityPostReply,
 } from "@services/api/community";
-import {
-  itineraryPostState,
-  joinUsPostState,
-  othersPostState,
-} from "@services/store/community";
 
 // ✅ 게시글 리스트 조회
 export const useGetPostList = () => {
@@ -96,4 +91,32 @@ export const useGetPostReviews = () => {
   };
 
   return onGetPostReviews;
+};
+
+// ✅ 게시물 댓글 작성
+export const usePostComment = () => {
+  const onPostComment = async (id: number, comment: any) => {
+    try {
+      const res = await communityPostComment(id, comment);
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return onPostComment;
+};
+
+// ✅ 게시물 대댓글 작성
+export const usePostReply = () => {
+  const onPostReply = async (id: number, reply: any) => {
+    try {
+      const res = await communityPostReply(id, reply);
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return onPostReply;
 };

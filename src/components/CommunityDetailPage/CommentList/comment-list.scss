@@ -1,5 +1,30 @@
 @import "../../../style/mixins";
 
+.comment-cnt-container {
+  display: flex;
+  width: calc(100% - 46px);
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  margin-bottom: 16px;
+
+  img {
+    width: 14px;
+    height: 14px;
+    stroke-width: 1.2px;
+    stroke: #a2a2a2;
+  }
+
+  p {
+    color: #a2a2a2;
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+}
+
 .comment-list-container {
   width: 100%;
   display: flex;
@@ -11,10 +36,65 @@
   width: calc(100% - 46px);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 16px;
+  justify-content: center;
+  gap: 11px;
   padding-top: 16px;
   padding-bottom: 60px;
 
   border-top: 1px solid color(grey);
+}
+
+.comment-input-container {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 98px;
+
+  background-color: color(white);
+  border-top: 1px solid #efefef;
+
+  @media (min-width: 600px) {
+    width: 600px;
+  }
+}
+
+.comment-input-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100% - 38px);
+  height: 40px;
+  gap: 6px;
+  margin-top: 16px;
+
+  input {
+    width: 100%;
+    height: 100%;
+    padding: 10px 21px 9px 21px;
+
+    border-radius: 59px;
+    border: 1px solid color(grey-line);
+    background: #f3f3f3;
+
+    &:focus {
+      outline: none;
+    }
+    &::placeholder {
+      color: color(grey-line);
+      font-family: var(--font-text);
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+    }
+  }
+
+  img {
+    width: 40px;
+    height: 40px;
+
+    cursor: pointer;
+  }
 }
