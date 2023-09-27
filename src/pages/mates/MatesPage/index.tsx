@@ -75,9 +75,6 @@ const MatesPage = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  console.log(data);
-  console.log(filter);
-
   const [isOpened, setIsOpened] = useState<boolean>(false);
   const { buttonRef, modalRef } = useModal(isOpened, setIsOpened);
 

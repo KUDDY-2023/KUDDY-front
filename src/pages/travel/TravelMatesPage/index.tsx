@@ -3,7 +3,7 @@ import BackNavBar from "@components/_common/BackNavBar";
 import TravelMatesBlock from "@components/Travel/TravelMatesBlock";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useDetailPickedMates } from "@services/hooks/pick";
+import { useDetailSpot } from "@services/hooks/spot";
 
 type roleType = "KUDDY" | "TRAVELER";
 type mateTypeArrayType = {
@@ -14,24 +14,23 @@ type mateTypeArrayType = {
 const TravelMatesPage = () => {
   const { id } = useParams();
   const [matesType, setMatesType] = useState<roleType>("KUDDY");
-  const { kMatesList, tMatesList, setTrigger } = useDetailPickedMates(
-    Number(id),
-    matesType,
-  );
-  const mateTypeArray: mateTypeArrayType[] = [
-    { type: "KUDDY", text: "K-Buddy", list: kMatesList },
-    { type: "TRAVELER", text: "Traveler", list: tMatesList },
-  ];
-
+  const { data } = useDetailSpot(Number(id));
+  const [matesArray, setMatesArray] = useState<mateTypeArrayType[]>([
+    { type: "KUDDY", text: "K-Buddy", list: [] },
+    { type: "TRAVELER", text: "Traveler", list: [] },
+  ]);
   useEffect(() => {
-    setTrigger(Date.now());
-  }, [matesType]);
-
+    if (!data) return;
+    setMatesArray([
+      { type: "KUDDY", text: "K-Buddy", list: data.data.data.kuddyList },
+      { type: "TRAVELER", text: "Traveler", list: data.data.data.travelerList },
+    ]);
+  }, []);
   return (
     <>
       <BackNavBar middleTitle="Users who picked this place" isShare={false} />
       <div className="travel-mates-selectbar-container">
-        {mateTypeArray.map(item => (
+        {matesArray.map(item => (
           <div
             className={
               matesType === item.type ? "select-btn active" : "select-btn"
@@ -43,17 +42,17 @@ const TravelMatesPage = () => {
           </div>
         ))}
       </div>
-      {mateTypeArray.find(item => matesType === item.type)!.list && (
+      {matesArray.find(item => matesType === item.type)!.list && (
         <div className="travel-mates-container">
-          {mateTypeArray.find(item => matesType === item.type)!.list!.length ===
+          {matesArray.find(item => matesType === item.type)!.list!.length ===
           0 ? (
             <div className="empty">{`No ${
-              mateTypeArray.find(item => matesType === item.type)!.text
+              matesArray.find(item => matesType === item.type)!.text
             } picked here yet`}</div>
           ) : (
-            mateTypeArray
+            matesArray
               .find(item => matesType === item.type)!
-              .list!.map(mate => (
+              .list!.map((mate: PickedMatesType) => (
                 <TravelMatesBlock {...mate} key={mate.memberId} />
               ))
           )}
