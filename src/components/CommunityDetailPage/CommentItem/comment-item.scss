@@ -25,6 +25,13 @@
     object-fit: cover;
     cursor: pointer;
   }
+
+  &.deleted {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    background-color: color(grey);
+  }
 }
 
 .comment-content-container {
@@ -32,6 +39,13 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
+
+  &.deleted {
+    height: 30px;
+    justify-content: center;
+    align-items: center;
+    @include font-style(--font-text, 14px, color(grey-text), 400);
+  }
 }
 
 .comment-content-top {
@@ -42,22 +56,12 @@
   height: 17px;
 
   .comment-nickname {
-    color: color(black);
-    font-family: Inter;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
+    @include font-style(--font-text, 14px, color(black), 600);
   }
 }
 
 .comment-content-body {
-  color: color(black);
-  font-family: Inter;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
+  @include font-style(--font-text, 14px, color(black), 400);
 }
 
 .comment-content-bottom {
@@ -66,23 +70,11 @@
   gap: 8px;
 
   .comment-date-time {
-    color: #d0d0d0;
-    font-family: Inter;
-    font-size: 11px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+    @include font-style(--font-text, 11px, #d0d0d0, 400);
   }
 
   .comment-reply-btn {
-    color: var(--grey-text, #b1b1b1);
-    text-align: center;
-    font-family: Inter;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
-
+    @include font-style(--font-text, 12px, color(grey-text), 600);
     cursor: pointer;
   }
 }

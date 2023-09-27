@@ -77,6 +77,7 @@ const CommentList = () => {
                   <CommentItem
                     review={item}
                     isSelected={selectedComment === item?.id ? true : false}
+                    isDeleted={item?.isRemoved}
                     isReply={false}
                     onClickReply={handleReplyClick}
                   />
@@ -86,6 +87,7 @@ const CommentList = () => {
                         key={reply?.id}
                         review={reply}
                         isReply={true}
+                        isDeleted={reply?.isRemoved}
                       />
                     );
                   })}

@@ -150,12 +150,13 @@ const PostContent = ({ postData }: Props) => {
           </div>
         )}
         <div className="post-content">{postData?.content}</div>
-        {/* 사진 있으면 사진, 코스 피드백 게시판이면 코스 및 지도 렌더링되도록 코드 추가 예정*/}
+
+        {/* 사진 있으면 사진, 코스 피드백 게시판이면 코스 및 지도 렌더링*/}
         {category === "itinerary" && (
           <div className="spot-list-container">
             {postData?.spots?.map((spot: any, index: number) => {
               return (
-                <div key={index}>
+                <>
                   {index > 0 && (
                     <div className="spot-distance-container">
                       <div className="spot-line"></div>
@@ -177,7 +178,7 @@ const PostContent = ({ postData }: Props) => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </>
               );
             })}
             {category === "itinerary" && <div id="map-feedback"></div>}
