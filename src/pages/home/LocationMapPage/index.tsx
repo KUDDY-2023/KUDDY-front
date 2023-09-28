@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./location-map-page.scss";
 import BackNavBar from "@components/_common/BackNavBar";
+import Loading from "@components/_common/Loading";
 import LocationPreviewBlock from "@components/Location/LocationPreviewBlock";
 import pin from "@assets/location/pin.svg";
 import curpin from "@assets/location/pin_current.svg";
@@ -8,7 +10,9 @@ import { ReactComponent as RefreshIcon } from "@assets/location/refresh.svg";
 import { LocationPreviewBlockProps } from "@components/Location/LocationPreviewBlock";
 import { useRecoilState } from "recoil";
 import { currentPosition } from "@services/store/travel";
+import { spotGetNearLocation } from "@services/api/spot";
 import { useNearLocation } from "@services/hooks/spot";
+import { AxiosError } from "axios";
 
 declare global {
   interface Window {
@@ -17,6 +21,7 @@ declare global {
 }
 
 const LocationMapPage = () => {
+  const nav = useNavigate();
   const { kakao } = window;
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [map, setMap] = useState<any>();
@@ -50,10 +55,9 @@ const LocationMapPage = () => {
     if (map) {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
-          var lat = position.coords.latitude,
-            lon = position.coords.longitude;
           // setPos({ y: position.coords.latitude, x: position.coords.longitude });
-          setPos({ y: 37.5615351, x: 126.9572863 });
+          // setPos({ y: 37.5615351, x: 126.9572863 });
+          setPos({ y: 37.4615351, x: 128.9872863 });
           var locPosition = new kakao.maps.LatLng(pos.y, pos.x);
           map.setCenter(locPosition);
           setIsLoading(false);
@@ -150,12 +154,31 @@ const LocationMapPage = () => {
     );
   }, [clickedId]);
 
+  const [noData, setNoData] = useState<boolean>(false);
+  useEffect(() => {
+    spotGetNearLocation({ page: 0, pos })
+      .then()
+      .catch(err => setNoData(err.response.status === 400));
+  }, []);
+  useEffect(() => {
+    if (noData) {
+      alert("no recommendation here, try somewhere else");
+      nav("/");
+    }
+  }, [noData]);
+
   return (
     <div className="location-map-page-wrapper">
       <BackNavBar middleTitle="Near my location" isShare={false} />
-      {isLoading && <div className="loading-rect">loading</div>}
+      {isLoading && (
+        <div className="loading-container">
+          <Loading backColor="transparent" spinnerColor="#eee" size="30px" />
+        </div>
+      )}
       <div id="map"></div>
-      {!isLoading && blockProps && <LocationPreviewBlock {...blockProps} />}
+      {noData
+        ? null
+        : !isLoading && blockProps && <LocationPreviewBlock {...blockProps} />}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import "./location-list-block.scss";
 import { useNavigate } from "react-router-dom";
 import { LocationPreviewBlockProps } from "@components/Location/LocationPreviewBlock";
-import defaultthumbnail from "@assets/location/default_thumbnail.jpeg";
+import defaultthumbnail from "@assets/location/default_travel_thumbnail.png";
 
 const LocationListBlock = ({
   contentId,

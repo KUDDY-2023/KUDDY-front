@@ -1,12 +1,13 @@
 .pick-wrapper {
   width: 100%;
-  min-height: calc(100svh - 180px);
+  min-height: calc(100svh - 200px);
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 80px;
 
   .empty {
+    height: calc(100svh - 200px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -35,6 +36,14 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    padding-bottom: 110px;
+    padding-bottom: 100px;
+
+    .loading-container {
+      width: 100%;
+      height: calc(100svh - 250px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 }

@@ -57,3 +57,15 @@ export const communityGetMyComments = async () => {
   const url = `/api/v1/comments/my`;
   return apiClient.get(url);
 };
+
+// 댓글 작성 (게시물 id 전달)
+export const communityPostComment = async (id: number, comment: any) => {
+  const url = `/api/v1/comments/${id}`;
+  return apiClient.post(url, comment);
+};
+
+// 대댓글 작성 (게시물 id, 부모댓글 id, 대댓글 내용 전달)
+export const communityPostReply = async (id: number, reply: any) => {
+  const url = `/api/v1/comments/reply/${id}`;
+  return apiClient.post(url, reply);
+};

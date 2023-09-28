@@ -64,14 +64,22 @@
 
 .mates-block-wrapper {
   width: 100%;
-  min-height: calc(100svh - 190px);
+  min-height: calc(100svh - 230px);
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: 110px;
 
+  .loading-container {
+    width: 100%;
+    height: calc(100vh - 360px);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
   .empty {
-    height: calc(100vh - 310px);
+    height: calc(100vh - 360px);
   }
 
   .page-last-item-ref-rect {

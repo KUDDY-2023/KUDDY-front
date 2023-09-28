@@ -24,31 +24,6 @@
     margin-top: 16px;
   }
 
-  .post-footer {
-    display: flex;
-    width: calc(100% - 46px);
-    align-items: center;
-    gap: 8px;
-    margin-top: 16px;
-    margin-bottom: 16px;
-
-    img {
-      width: 14px;
-      height: 14px;
-      stroke-width: 1.2px;
-      stroke: #a2a2a2;
-    }
-
-    p {
-      color: #a2a2a2;
-      font-family: Inter;
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: normal;
-    }
-  }
-
   .writer-container {
     display: inline-flex;
     align-items: center;

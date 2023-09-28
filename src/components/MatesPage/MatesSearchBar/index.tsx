@@ -6,6 +6,8 @@ import { ReactComponent as XBtnIcon } from "@assets/icon/xbtn.svg";
 import { ReactComponent as RefreshIcon } from "@assets/icon/refresh.svg";
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useResetRecoilState } from "recoil";
+import { profileFilter } from "@services/store/profile";
 
 const filterArray = ["gender", "language", "district", "interest"];
 
@@ -13,6 +15,7 @@ const MatesSearchBar = () => {
   const nav = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const [isFiltered, setIsFiltered] = useState<boolean>(false);
+  const resetFilter = useResetRecoilState(profileFilter);
 
   useEffect(() => {
     if (
@@ -26,6 +29,7 @@ const MatesSearchBar = () => {
   }, [searchParams]);
 
   const onRefresh = () => {
+    resetFilter();
     filterArray.map(item => searchParams.delete(item));
     setSearchParams(searchParams);
   };

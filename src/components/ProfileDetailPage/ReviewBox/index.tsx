@@ -16,17 +16,17 @@ const ReviewBox = ({ review, role }: Props) => {
         <div className="review-grade-box">{review?.grade}</div>
       </div>
       <img src={review?.writerInfo?.profileImageUrl} />
-      <div className="review-nickname-text">
+      <div className="review-nickname-text kuddy">
         <strong>{review?.writerInfo?.nickname}</strong>
       </div>
-      <div className="review-content-text">{review?.content}</div>
+      <div className="review-content-text kuddy">{review?.content}</div>
     </div>
   ) : (
     <div className="review-content-container">
-      <div className="review-content-text">{review?.content}</div>
+      <div className="review-content-text traveler">{review?.content}</div>
       <div className="review-profile-traveler">
         <div className="review-profile-inner-traveler">
-          <div className="review-nickname-text">
+          <div className="review-nickname-text traveler">
             with <strong>{review?.kuddyInfo?.nickname}</strong>
           </div>
           <div className="review-date-text">{createdDate}</div>
