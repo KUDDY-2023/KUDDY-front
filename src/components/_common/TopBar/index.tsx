@@ -45,8 +45,10 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
   }, [position]);
 
   const [profileSrc, setProfileSrc] = useRecoilState(profileImage);
-  const [newNotification, isNewNotification] = useState<boolean>(false); // 새로운 댓글이 있을 때
-  const [newChat, isNewChat] = useState<boolean>(true); // 새로운 채팅이 있을 때
+  const [newNotification, isNewNotification] = useState<{
+    alarm: boolean;
+    chat: boolean;
+  }>({ alarm: false, chat: false }); // 새로운 댓글 & 채팅이 있을 때
 
   useEffect(() => {
     setPosition(0);
@@ -69,8 +71,7 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
    */
   const { notiCount } = useGetNotiCount(); // 알림개수 가져오기
   useEffect(() => {
-    if (notiCount) isNewNotification(true);
-    else isNewNotification(false);
+    if (notiCount) isNewNotification({ ...newNotification, alarm: true });
   }, [notiCount]);
 
   /**
@@ -98,20 +99,25 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
 
         // 연결 됐을 때
         eventSource.onopen = async event => {
-          // console.log("연결 성공", event);
+          console.log("연결 성공", event);
         };
 
         // 이벤트 왔을 때
-        eventSource.onmessage = event => {
-          if (event.data.startsWith("{")) {
-            // console.log("댓글 알림 발생", event.data);
-            isNewNotification(true);
+        eventSource.onmessage = async event => {
+          let eventType = JSON.parse(event.data).notificationType;
+
+          if (eventType == "COMMENT") {
+            console.log("댓글 알림 발생");
+            isNewNotification({ ...newNotification, alarm: true });
+          } else if (eventType === "CHAT ") {
+            console.log("채팅 알림 발생");
+            isNewNotification({ ...newNotification, chat: true });
           }
         };
 
         // 에러 발생 & 연결 끊겼을 때
         eventSource.onerror = (event: any) => {
-          // console.log("에러 발생");
+          console.log("알림 에러 발생");
           if (event.readyState == EventSource.CLOSED) {
             console.log("에러 발생 : CLOSED");
           }
@@ -134,14 +140,14 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
         </div>
         <div className="topbar-icon-container">
           <div onClick={() => nav(isLogin ? "/alarm" : "/auth/login")}>
-            {newNotification && isLogin ? (
+            {newNotification.alarm && isLogin ? (
               <NewNotificationIcon />
             ) : (
               <NotificationIcon />
             )}
           </div>
           <div onClick={() => nav(isLogin ? "/chat/list" : "/auth/login")}>
-            {newChat && isLogin ? <NewChatIcon /> : <ChatIcon />}
+            {newNotification.chat && isLogin ? <NewChatIcon /> : <ChatIcon />}
           </div>
         </div>
       </>
