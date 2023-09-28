@@ -21,6 +21,8 @@ import {
 // SSE
 import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 
+import { useSSE } from "@services/hooks/notification";
+
 type TopBarProps = {
   isCommunity?: boolean;
   handleMenuClick?: (menu: MenuType) => void;
@@ -48,10 +50,6 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
   }, [position]);
 
   const [profileSrc, setProfileSrc] = useRecoilState(profileImage);
-  const [newNotification, isNewNotification] = useState<{
-    alarm: boolean;
-    chat: boolean;
-  }>({ alarm: false, chat: false }); // 새로운 댓글 & 채팅이 있을 때
 
   useEffect(() => {
     setPosition(0);
@@ -69,87 +67,8 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
         .catch();
   }, []);
 
-  /**
-   * 로그인 했고, 안 읽은 알림이 있는 경우 (query로 요청)
-   */
-  const { notiCount } = useGetCommentNotiCount(); // 댓글 알림 개수 가져오기
-  const { notiChatCount } = useGetChatNotiCount(); // 채팅 알림 개수 가져오기
-
-  useEffect(() => {
-    console.log(">>", notiChatCount);
-
-    if (notiCount) isNewNotification({ ...newNotification, alarm: true });
-    if (notiChatCount) {
-      console.log(">>", notiChatCount);
-      isNewNotification({ ...newNotification, chat: true });
-    }
-  }, [notiCount, notiChatCount]);
-
-  /**
-   * 새로운 알림이 발생한 경우
-   * Notification SSE 연결
-   */
-  const [listening, setListening] = useState(false);
-  const EventSource = EventSourcePolyfill || NativeEventSource;
-  const token = localStorage.getItem("accessToken");
-
-  useEffect(() => {
-    if (!listening && token) {
-      // 로그인 한 경우만 요청
-      setListening(true);
-      try {
-        // 채팅 알림 구독 : api.kuddy.co.kr/chat/v1/notification/subscribe
-        const eventSource = new EventSource(
-          `https://api.kuddy.co.kr/api/v1/notifications/subscribe`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-            withCredentials: true,
-          },
-        );
-
-        // 연결 됐을 때
-        eventSource.onopen = async event => {
-          console.log("연결 성공", event);
-        };
-
-        // 이벤트 왔을 때
-        eventSource.onmessage = async event => {
-          if (!event.data.startsWith("EventStream")) {
-            // 이벤트일때만 JSON.parse 실행
-            try {
-              const eventData = JSON.parse(event.data);
-              const eventType = eventData.notificationType;
-
-              if (eventType === "COMMENT") {
-                console.log("댓글 알림 발생");
-                isNewNotification({ ...newNotification, alarm: true });
-              } else if (eventType === "CHAT") {
-                console.log("채팅 알림 발생");
-                isNewNotification({ ...newNotification, chat: true });
-              } else {
-                console.log("Unknown event type:", eventType);
-              }
-            } catch (error) {
-              console.error("Error parsing JSON:", error);
-            }
-          }
-        };
-
-        // 에러 발생 & 연결 끊겼을 때
-        eventSource.onerror = (event: any) => {
-          console.log("알림 에러 발생");
-          if (event.readyState == EventSource.CLOSED) {
-            console.log("에러 발생 : CLOSED");
-          }
-        };
-      } catch (err) {
-        setListening(false);
-        alert("알림 연결 실패");
-      }
-    }
-  }, [listening]);
+  /* 알림 상태 관리 hook */
+  const { newNotification } = useSSE();
 
   const Content = () => {
     return (
