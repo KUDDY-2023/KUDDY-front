@@ -11,6 +11,9 @@
 
   .top-section {
     width: 100%;
+    @media (min-width: 600px) {
+      width: 600px;
+    }
     position: fixed;
     top: 0;
     z-index: 100;
