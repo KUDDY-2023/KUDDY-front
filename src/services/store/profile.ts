@@ -38,3 +38,8 @@ export const profileFilter = atom<ProfileGetByFilterType>({
       : "KUDDY",
   },
 });
+
+export const profileIntroduce = atom<string>({
+  key: "profileIntroduce",
+  default: "",
+});
