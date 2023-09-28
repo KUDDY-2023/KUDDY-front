@@ -3,7 +3,7 @@ import TopBar from "@components/_common/TopBar";
 import BottomNavBar from "@components/_common/BottomNavBar";
 import TravelBlock from "@components/Travel/TravelBlock";
 import Loading from "@components/_common/Loading";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { pickDeletePick } from "@services/api/pick";
 import { useGetPick } from "@services/hooks/pick";
@@ -13,21 +13,22 @@ import { pickedTravel } from "@services/store/travel";
 const Pick = () => {
   const nav = useNavigate();
   const pickList = useRecoilValue<TravelPreviewType[]>(pickedTravel);
-  const { data, isFetching } = useGetPick();
-
+  const { data, isLoading, getPickList } = useGetPick();
   const onDelete = (id: number) => {
-    pickDeletePick(id).then().catch();
+    pickDeletePick(id)
+      .then(res => getPickList())
+      .catch();
   };
   useEffect(() => {
     window.scrollTo(0, 0);
+    getPickList();
   }, []);
-
   return (
     <>
       <TopBar />
       <div className="pick-wrapper">
         <div className="inner-container">
-          {isFetching ? (
+          {isLoading && pickList.length === 0 ? (
             <div className="loading-container">
               <Loading
                 backColor="transparent"
@@ -35,27 +36,24 @@ const Pick = () => {
                 size="30px"
               />
             </div>
+          ) : data && data.data.data.spots.length === 0 ? (
+            <div className="empty">
+              No picked travel yet. <br />
+              <span>
+                Search for your pick&nbsp;
+                <div onClick={() => nav("/travel/list")} className="link">
+                  here
+                </div>
+              </span>
+            </div>
           ) : (
-            pickList &&
-            (pickList.length === 0 ? (
-              <div className="empty">
-                No picked travel yet. <br />
-                <span>
-                  Search for your pick&nbsp;
-                  <div onClick={() => nav("/travel/list")} className="link">
-                    here
-                  </div>
-                </span>
-              </div>
-            ) : (
-              pickList.map(item => (
-                <TravelBlock
-                  {...item}
-                  isPick={true}
-                  onDelete={() => onDelete(item.contentId)}
-                  key={item.contentId}
-                />
-              ))
+            pickList.map((item: TravelPreviewType) => (
+              <TravelBlock
+                {...item}
+                isPick={true}
+                onDelete={() => onDelete(item.contentId)}
+                key={item.contentId}
+              />
             ))
           )}
         </div>
