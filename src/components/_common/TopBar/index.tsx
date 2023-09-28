@@ -14,7 +14,10 @@ import { profileImage } from "@services/store/profile";
 import { isLoginState } from "@services/store/auth";
 
 // 안읽은 알림 개수
-import { useGetNotiCount } from "@services/hooks/notification";
+import {
+  useGetCommentNotiCount,
+  useGetChatNotiCount,
+} from "@services/hooks/notification";
 // SSE
 import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 
@@ -69,10 +72,18 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
   /**
    * 로그인 했고, 안 읽은 알림이 있는 경우 (query로 요청)
    */
-  const { notiCount } = useGetNotiCount(); // 알림개수 가져오기
+  const { notiCount } = useGetCommentNotiCount(); // 댓글 알림 개수 가져오기
+  const { notiChatCount } = useGetChatNotiCount(); // 채팅 알림 개수 가져오기
+
   useEffect(() => {
+    console.log(">>", notiChatCount);
+
     if (notiCount) isNewNotification({ ...newNotification, alarm: true });
-  }, [notiCount]);
+    if (notiChatCount) {
+      console.log(">>", notiChatCount);
+      isNewNotification({ ...newNotification, chat: true });
+    }
+  }, [notiCount, notiChatCount]);
 
   /**
    * 새로운 알림이 발생한 경우
@@ -87,6 +98,7 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
       // 로그인 한 경우만 요청
       setListening(true);
       try {
+        // 채팅 알림 구독 : api.kuddy.co.kr/chat/v1/notification/subscribe
         const eventSource = new EventSource(
           `https://api.kuddy.co.kr/api/v1/notifications/subscribe`,
           {
@@ -104,14 +116,24 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
 
         // 이벤트 왔을 때
         eventSource.onmessage = async event => {
-          let eventType = JSON.parse(event.data).notificationType;
+          if (!event.data.startsWith("EventStream")) {
+            // 이벤트일때만 JSON.parse 실행
+            try {
+              const eventData = JSON.parse(event.data);
+              const eventType = eventData.notificationType;
 
-          if (eventType == "COMMENT") {
-            console.log("댓글 알림 발생");
-            isNewNotification({ ...newNotification, alarm: true });
-          } else if (eventType === "CHAT ") {
-            console.log("채팅 알림 발생");
-            isNewNotification({ ...newNotification, chat: true });
+              if (eventType === "COMMENT") {
+                console.log("댓글 알림 발생");
+                isNewNotification({ ...newNotification, alarm: true });
+              } else if (eventType === "CHAT") {
+                console.log("채팅 알림 발생");
+                isNewNotification({ ...newNotification, chat: true });
+              } else {
+                console.log("Unknown event type:", eventType);
+              }
+            } catch (error) {
+              console.error("Error parsing JSON:", error);
+            }
           }
         };
 

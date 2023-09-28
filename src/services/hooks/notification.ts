@@ -7,6 +7,7 @@ import {
   nofiReadAll,
   nofiRead,
   nofiUnReadCount,
+  nofiUnReadChat,
 } from "@services/api/notification";
 
 import { useQuery } from "react-query";
@@ -45,8 +46,8 @@ export const useGetAllNoti = () => {
   };
 };
 
-// ✅ 안읽은 알림 개수 가져오기
-export const useGetNotiCount = () => {
+// ✅ 안읽은 댓글 알림 개수 가져오기
+export const useGetCommentNotiCount = () => {
   const isLogin = !!localStorage.getItem("accessToken");
   const { data, error, isLoading, refetch } = useQuery(
     "notificationsCount",
@@ -122,4 +123,26 @@ export const useGotoPost = () => {
   };
 
   return onGotoPost;
+};
+
+// ✅ 안읽은 채팅 알림 개수 가져오기
+export const useGetChatNotiCount = () => {
+  const isLogin = !!localStorage.getItem("accessToken");
+  const { data, error, isLoading, refetch } = useQuery(
+    "nofiUnReadChat",
+    nofiUnReadChat,
+    {
+      enabled: isLogin, // 로그인 한 경우에만 요청
+      refetchOnWindowFocus: false,
+      select: data => data.data.data.totalUnReadMessages,
+      cacheTime: 0,
+    },
+  );
+
+  return {
+    notiChatCount: data,
+    notiChatCountError: error,
+    notiChatCountLoading: isLoading,
+    refetchNotiChatCount: refetch,
+  };
 };
