@@ -1,78 +1,79 @@
 import "./profile-modify-page.scss";
-import { ReactNode, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import photoBtn from "@assets/profile/photo.svg";
 import DropDown from "@components/_common/DropDown";
-import EditBtn from "@components/ProfileModifyPage/EditBtn";
 import EditModal from "@components/ProfileModifyPage/EditModal";
-import { useGetProfile } from "@services/hooks/profile";
+import BasicModifyForm from "@components/ProfileModifyPage/BasicModifyForm";
+import EditBtnModifyForm from "@components/ProfileModifyPage/EditBtnModifyForm";
+import { useGetProfile, usePutProfileModify } from "@services/hooks/profile";
 import { useNavigate } from "react-router-dom";
 
-import { useRecoilValue } from "recoil";
-import { profileState } from "@services/store/auth";
-
-type EditItemProps = {
-  subtitle: string;
-  value: string;
-  onClick: () => void;
-};
-
-type ModifyItemProps = {
-  text: string;
-  children: ReactNode;
-};
-
-// 일반 형식
-const ModifyItem = ({ text, children }: ModifyItemProps) => {
-  return (
-    <div className="detail-modify-inner-container">
-      <div className="profile-subtitle">{text}</div>
-      {children}
-    </div>
-  );
-};
-
-// edit 버튼 있는(region, language, interest) 형식
-const EditItem = ({ subtitle, value, onClick }: EditItemProps) => {
-  return (
-    <div className="detail-modify-inner-container">
-      <div className="profile-subtitle">{subtitle}</div>
-      <div className="vertical-container">
-        <div className="profile-content grey">{value}</div>
-        <EditBtn onClick={onClick} />
-      </div>
-    </div>
-  );
-};
+import { useRecoilState, useRecoilValue } from "recoil";
+import { profileState, interestsArrState } from "@services/store/auth";
+import { profileIntroduce } from "@services/store/profile";
 
 const ProfileModifyPage = () => {
   const nav = useNavigate();
-  const interestKey = [
-    "wellbeing",
+  const genders = ["Male", "Female", "Prefer not to say"];
+  const languages = ["Beginner", "Intermediate", "Advanced", "Native Speaker"];
+  const nations = ["Spanish", "US", "Germany"];
+  const interestType = [
+    "artBeauty",
     "activitiesInvestmentTech",
     "careerMajor",
     "entertainment",
+    "food",
     "hobbiesInterests",
     "lifestyle",
-    "artBeauty",
-    "food",
     "sports",
+    "wellbeing",
   ];
-  const genders = ["Mr", "Ms", "Neutral"];
-  const nations = ["Spanish", "US", "Germany"];
-  const [profile, setProfile] = useState<any>();
-  const [languageText, setLanguageText] = useState("");
-  const [interestText, setInterestText] = useState("");
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const [form, setForm] = useState("");
+
+  const [profile, setProfile] = useRecoilState(profileState); // 프로필 전역 상태
+  const [introduce, setIntroduce] = useRecoilState(profileIntroduce); // 프로필 introduce 전역 상태
+  const [interestsArr, setInterestsArr] = useRecoilState(interestsArrState); // interest 전역 상태 (값 읽기)
+
+  const [gender, setGender] = useState(""); // 선택한 성별 텍스트
+  const [regionText, setRegionText] = useState(""); // 선택한 지역 텍스트로 표현
+  const [languageText, setLanguageText] = useState(""); // 선택한 언어 텍스트로 표현
+  const [interestText, setInterestText] = useState(""); // 선택한 interest 텍스트로 표현
+  const [isOpenModal, setIsOpenModal] = useState(false); // 편집 모달 오픈 여부
+  const [form, setForm] = useState(""); // 오픈할 모달 형식
+  const { data, isLoading, error } = useGetProfile();
+  const onProfileModify = usePutProfileModify();
 
   // 내 프로필 정보 가져오기
-  const { data, isLoading, error } = useGetProfile();
-
   useEffect(() => {
     if (data) {
-      setProfile(data.data.data);
+      console.log("####" + JSON.stringify(data.data.data));
+      const myProfile = data.data.data;
+      console.log("$$$" + JSON.stringify(myProfile?.interests));
+
+      // 프로필 저장
+      setProfile({
+        roleType: myProfile.role,
+        nickname: myProfile.memberInfo.nickname,
+        profileImageUrl: myProfile.memberInfo.profileImageUrl,
+        genderType: myProfile.gender,
+        birthDate: myProfile.birthDate,
+        temperament: myProfile.temperament.toUpperCase(),
+        decisionMaking: myProfile.decisionMaking.toUpperCase(),
+        job: myProfile.job,
+        nationality: myProfile.nationality,
+        availableLanguages: myProfile.languages,
+        districts: myProfile.areas,
+      });
+      // 소개글 저장
+      setIntroduce(myProfile?.introduce);
+      // interest 저장
     }
   }, [isLoading]);
+
+  // ✨지우기
+  useEffect(() => {
+    console.log(JSON.stringify(profile));
+  }, [profile]);
+  // ✨
 
   // 프로필 이미지 관련
   const handlePhotoBtnClick = () => {
@@ -80,21 +81,45 @@ const ProfileModifyPage = () => {
   };
 
   // gender 관련
+  useEffect(() => {
+    let genderTemp = "";
+    switch (profile?.genderType) {
+      case "MR":
+        genderTemp = "Male";
+        break;
+      case "MS":
+        genderTemp = "Female";
+        break;
+      case "N":
+        genderTemp = "Prefer not to say";
+    }
+    setGender(genderTemp);
+  }, [profile?.genderType]);
+
   const handleSelectGender = (id: number, type: string, selected: string) => {
-    let newGender: GenderType = profile.gender;
+    let newGender: GenderType = profile.genderType;
     switch (selected) {
-      case "Mr":
+      case "Male":
         newGender = "MR";
         break;
-      case "Ms":
+      case "Female":
         newGender = "MS";
         break;
-      case "Neutral":
+      case "Prefer not to say":
         newGender = "N";
     }
-    setProfile({ ...profile, gender: newGender });
-    console.log(profile);
+    setProfile({ ...profile, genderType: newGender });
   };
+
+  // region 관련
+  useEffect(() => {
+    let newRegionText = "";
+    profile?.districts?.map((area, index) => {
+      if (index > 0) newRegionText += ", ";
+      newRegionText += area.areaName;
+    });
+    setRegionText(newRegionText);
+  }, [profile?.districts]);
 
   // nation 관련
   const handleSelectNation = (id: number, type: string, selected: string) => {
@@ -104,40 +129,39 @@ const ProfileModifyPage = () => {
   // language 관련
   useEffect(() => {
     let newLanguageText = "";
-    profile?.languages?.forEach((l: AvailableLanguageType) => {
-      newLanguageText += `${l.languageType} - ${l.languageLevel}\n`;
+    profile?.availableLanguages?.forEach((l: AvailableLanguageType) => {
+      newLanguageText += `${l.languageType} - ${
+        languages[Number(l.languageLevel) - 1]
+      }\n`;
     });
     setLanguageText(newLanguageText);
-  }, [profile?.languages]);
+  }, [profile?.availableLanguages]);
 
   // interest 관련
   useEffect(() => {
     let newValues = [];
     let newInterestText = "";
 
-    if (!!profile) {
-      console.log(profile.interests);
-      for (let i = 0; i < interestKey.length; i++) {
-        const temp = profile?.interests[interestKey[i]]?.filter(
-          (v: any) => v !== "NOT_SELECTED",
-        );
+    for (let i = 0; i < interestsArr.length; i++) {
+      const temp = interestsArr[i].interests
+        .filter(interest => interest.selected)
+        .map(interest => interest.inter);
 
-        if (!!temp) {
-          newValues.push(temp);
-        }
+      if (!!temp) {
+        newValues.push(temp);
       }
-
-      for (let i = 0; i < newValues.length; i++) {
-        newValues[i].forEach((v: any) => {
-          v = v.toLowerCase();
-          v = v.replace(/^[a-z]/, (char: any) => char.toUpperCase());
-          v !== "" && (newInterestText += v + ", ");
-        });
-      }
-
-      setInterestText(newInterestText.substring(0, newInterestText.length - 2));
     }
-  }, [profile]);
+
+    for (let i = 0; i < newValues.length; i++) {
+      newValues[i].forEach((v: any) => {
+        v = v.toLowerCase();
+        v = v.replace(/^[a-z]/, (char: any) => char.toUpperCase());
+        v !== "" && (newInterestText += v + ", ");
+      });
+    }
+
+    setInterestText(newInterestText.substring(0, newInterestText.length - 2));
+  }, [interestsArr]);
 
   // edit 모달 관련
   const handleCloseModal = () => {
@@ -148,26 +172,31 @@ const ProfileModifyPage = () => {
     setForm(editForm);
   };
 
+  // complete 버튼 클릭
+  const handleCompleteClick = async () => {
+    const res = await onProfileModify();
+    console.log(res);
+    nav(`/profile/${profile.nickname}`);
+  };
+
   return (
     <div className="profile-modify-page-container">
       <div className="profile-nav-bar">
         <p onClick={() => nav(-1)}>Cancel</p>
-        <p id="blue-text">Complete</p>
+        <p id="blue-text" onClick={handleCompleteClick}>
+          Complete
+        </p>
       </div>
 
       <EditModal
         isModalOpen={isOpenModal}
         onClose={handleCloseModal}
         form={form}
-        profile={profile}
       />
 
       {/* 프로필 사진 */}
       <div className="profile-image-container">
-        <img
-          src={profile?.memberInfo?.profileImageUrl}
-          className="profile-image"
-        />
+        <img src={profile?.profileImageUrl} className="profile-image" />
         <img
           src={photoBtn}
           className="photo-btn"
@@ -177,59 +206,46 @@ const ProfileModifyPage = () => {
 
       {/* 이름 */}
       <div className="detail-modify-container">
-        <ModifyItem text="name">
+        <BasicModifyForm text="name">
           <input
             type="text"
             className="profile-content"
-            placeholder={profile?.memberInfo?.nickname}
-            value={profile?.memberInfo?.nickname || ""}
+            placeholder={profile?.nickname}
+            value={profile?.nickname || ""}
             onChange={e =>
               setProfile((p: any) => ({ ...p, nickname: e.target.value }))
             }
           />
-        </ModifyItem>
+        </BasicModifyForm>
 
         {/* 소개글 */}
-        <ModifyItem text="introduce">
+        <BasicModifyForm text="introduce">
           <textarea
             className="profile-content"
-            placeholder={profile?.introduce}
-            value={profile?.introduce || ""}
-            onChange={e =>
-              setProfile((p: any) => ({ ...p, introduce: e.target.value }))
-            }
+            placeholder={introduce}
+            value={introduce || ""}
+            onChange={e => setIntroduce(e.target.value)}
           />
-        </ModifyItem>
+        </BasicModifyForm>
         <div className="profile-line"></div>
 
         {/* 성별 */}
-        <ModifyItem text="gender">
+        <BasicModifyForm text="gender">
           <DropDown
             items={genders}
             type="Gender"
             placeholder="Gender"
             id={1}
-            state={profile?.gender}
+            state={gender}
             onSelect={handleSelectGender}
           />
-        </ModifyItem>
-        {/* 나이 */}
-        <ModifyItem text="age">
-          <input
-            type="text"
-            className="profile-content"
-            placeholder={String(profile?.age)}
-            value={profile?.age || ""}
-            onChange={e =>
-              setProfile((p: any) => ({
-                ...p,
-                age: Number(e.target.value.replace(/[^0-9]/g, "")),
-              }))
-            }
-          />
-        </ModifyItem>
+        </BasicModifyForm>
+        {/* 생일 추가 */}
+        <BasicModifyForm text="birth">
+          <div>생일</div>
+        </BasicModifyForm>
         {/* 직업 */}
-        <ModifyItem text="job">
+        <BasicModifyForm text="job">
           <input
             type="text"
             className="profile-content"
@@ -239,7 +255,7 @@ const ProfileModifyPage = () => {
               setProfile((p: any) => ({ ...p, job: e.target.value }))
             }
           />
-        </ModifyItem>
+        </BasicModifyForm>
         {/* 성격 */}
         <div className="detail-modify-inner-container">
           <div className="profile-subtitle">personality</div>
@@ -247,10 +263,10 @@ const ProfileModifyPage = () => {
         </div>
 
         {/* 지역/나라 */}
-        {profile?.role === "KUDDY" ? (
-          <EditItem
+        {profile?.roleType === "KUDDY" ? (
+          <EditBtnModifyForm
             subtitle="region"
-            value={profile?.activeRegion}
+            value={regionText}
             onClick={() => handleOpenModal("region")}
           />
         ) : (
@@ -267,7 +283,7 @@ const ProfileModifyPage = () => {
           </div>
         )}
         {/* 언어 */}
-        <EditItem
+        <EditBtnModifyForm
           subtitle="language"
           value={languageText}
           onClick={() => handleOpenModal("language")}
@@ -275,7 +291,7 @@ const ProfileModifyPage = () => {
         <div className="profile-line"></div>
 
         {/* 흥미 */}
-        <EditItem
+        <EditBtnModifyForm
           subtitle="interest"
           value={interestText}
           onClick={() => handleOpenModal("interest")}

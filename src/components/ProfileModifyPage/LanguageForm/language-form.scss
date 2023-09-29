@@ -23,7 +23,7 @@
     width: 100%;
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 10px;
 
     img {
       width: 20px;
@@ -44,6 +44,7 @@
   border-radius: 100px;
   border: 1px solid color(grey);
   @include font-style(--font-text, 14px, black, 500);
+  cursor: pointer;
 
   img {
     width: 10px;

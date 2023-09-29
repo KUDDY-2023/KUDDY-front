@@ -1,0 +1,27 @@
+.detail-modify-inner-container {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  gap: 20px;
+
+  input,
+  textarea {
+    width: calc(100% - 100px);
+    border: none;
+    resize: none;
+    padding: 0;
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.profile-subtitle {
+  width: 80px;
+  color: var(--color-black);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
