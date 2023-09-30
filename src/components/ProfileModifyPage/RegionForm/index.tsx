@@ -1,12 +1,21 @@
 import "./region-form.scss";
 import { useState, useEffect } from "react";
+import { useRecoilValue } from "recoil";
+import { profileState } from "@services/store/auth";
 import { citiesData } from "@pages/auth/LoginFormPage/forms/AreaForm/citiesData";
+import { useUpdateProfile } from "@services/hooks/profile";
 
 type cityDataType = { id: number; city: string; selected: boolean };
 
-const RegionForm = ({ profile }: any) => {
-  const [regions, setRegions] = useState<cityDataType[]>([]); // 연결
-  const [selectedCnt, setSelectedCnt] = useState(0);
+type Props = {
+  onClose: () => void;
+};
+
+const RegionForm = ({ onClose }: Props) => {
+  const profile = useRecoilValue(profileState); // 프로필 전역 상태 값
+  const [regions, setRegions] = useState<cityDataType[]>([]);
+  const [selectedCnt, setSelectedCnt] = useState(0); // 선택된 지역 수
+  const onUpdateProfile = useUpdateProfile();
 
   const handleRegionClick = (id: number) => {
     const newRegions = regions.map(region => {
@@ -20,8 +29,9 @@ const RegionForm = ({ profile }: any) => {
     }
   };
 
+  // 프로필에 저장된 지역 불러오기
   useEffect(() => {
-    const selectedArea = profile.areas.map((area: any) => area.areaName);
+    const selectedArea = profile?.districts?.map((area: any) => area.areaName);
     const newArea = citiesData.map(city => {
       return { ...city, selected: selectedArea.includes(city.city) };
     });
@@ -33,6 +43,16 @@ const RegionForm = ({ profile }: any) => {
     let cnt = regions.filter(region => region.selected).length;
     setSelectedCnt(cnt);
   }, [regions]);
+
+  // 저장 버튼 클릭
+  const handleSaveClick = () => {
+    const newAreaName = regions
+      .filter(region => region.selected)
+      .map(region => ({ areaName: region.city }));
+    onUpdateProfile({ districts: newAreaName });
+
+    onClose();
+  };
 
   return (
     <div className="region-edit-container">
@@ -47,6 +67,9 @@ const RegionForm = ({ profile }: any) => {
             {region.city}
           </div>
         ))}
+      </div>
+      <div className="save-btn" onClick={handleSaveClick}>
+        Save
       </div>
     </div>
   );

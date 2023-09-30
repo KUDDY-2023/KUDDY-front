@@ -7,6 +7,7 @@ import {
   interestsArrState,
   userInfoState,
 } from "@services/store/auth";
+import { profileIntroduce } from "@services/store/profile";
 import {
   profileCheckNickname,
   profileGetSocialProfile,
@@ -16,7 +17,7 @@ import {
   profileGetByFilter,
   profilePutModify,
 } from "@services/api/profile";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import useCheckNickname from "@utils/hooks/useCheckNickname";
 import useInfiniteScroll from "@utils/hooks/useInfiniteScroll";
 
@@ -250,9 +251,50 @@ export const CheckNicknameString = (newName: string) => {
 
 // 프로필 수정
 export const usePutProfileModify = () => {
-  const onProfileModify = async (profile: any) => {
+  const interestKey = [
+    "activitiesInvestmentTech",
+    "artBeauty",
+    "careerMajor",
+    "lifestyle",
+    "entertainment",
+    "food",
+    "hobbiesInterests",
+    "sports",
+    "wellbeing",
+  ];
+  const profile = useRecoilValue(profileState);
+  const introduce = useRecoilValue(profileIntroduce);
+  const interestsArr = useRecoilValue(interestsArrState);
+
+  let newInterests: Record<string, string[]> = {
+    activitiesInvestmentTech: [],
+    artBeauty: [],
+    careerMajor: [],
+    lifestyle: [],
+    entertainment: [],
+    food: [],
+    hobbiesInterests: [],
+    sports: [],
+    wellbeing: [],
+  };
+
+  for (let i = 0; i < interestsArr.length; i++) {
+    const temp = interestsArr[i].interests
+      .filter(interest => interest.selected)
+      .map(interest => interest.inter);
+
+    newInterests[interestKey[i]] = temp.length ? temp : ["NOT_SELECTED"];
+  }
+
+  let newProfile = {
+    ...profile,
+    introduce: introduce,
+    interests: newInterests,
+  };
+
+  const onProfileModify = async () => {
     try {
-      const res = await profilePutModify(profile);
+      const res = await profilePutModify(newProfile);
       return res;
     } catch (err) {
       console.log(err);
