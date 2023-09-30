@@ -124,14 +124,15 @@
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
-      text-align: center;
+      text-align: left;
       @include font-style(--font-text, 14px, color(black), 500);
     }
 
     .spot-district {
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
+      text-align: right;
       width: 92px;
       height: 100%;
       @include font-style(--font-text, 12px, color(grey-text), 400);
