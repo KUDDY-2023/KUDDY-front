@@ -164,9 +164,11 @@ export default function ChatPage() {
 
   // new Flight 메세지 바로 화면에 반영하기
   const handleMyMessage = (newmsg: any) => {
+    const myEmail = localStorage.getItem("myEmail");
+
     newmsg = {
       ...newmsg,
-      mine: newmsg.senderEmail === profile.email,
+      mine: newmsg.senderEmail === myEmail,
     };
 
     setFlightMessageArr(prevMessageArr => [...prevMessageArr, newmsg]);
