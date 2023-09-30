@@ -58,10 +58,9 @@ const TravelPage = () => {
   const selectedCategoryRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     window.scrollTo(0, 0);
-    console.log(filter.category);
     categoryArray.map(
       item =>
-        item.params === filter.category &&
+        item.params === searchParams.get("category") &&
         (item.id > 3
           ? categoryBarRef.current!.scrollTo(
               selectedCategoryRef.current!.offsetLeft,
@@ -69,7 +68,7 @@ const TravelPage = () => {
             )
           : categoryBarRef.current!.scrollTo(0, 0)),
     );
-  }, [filter.category]);
+  }, []);
 
   // 필터 바 스크롤 감지에 따른 상태
   const [position, setPosition] = useState(window.pageYOffset);

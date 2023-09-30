@@ -1,6 +1,6 @@
 import "./travel-detail-title.scss";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useBookmark from "@utils/hooks/useBookmark";
 import defaultthumbnail from "@assets/location/default_travel_thumbnail.png";
 import { ReactComponent as BookmarkIcon } from "@assets/icon/bookmark.svg";
@@ -10,7 +10,6 @@ import "swiper/swiper.scss";
 import ImageView from "@components/_common/ImageView";
 import { useRecoilValue } from "recoil";
 import { pickedTravel } from "@services/store/travel";
-import { useGetPick, useDetailPickedMates } from "@services/hooks/pick";
 import { isLoginState } from "@services/store/auth";
 
 type ImageViewType = {
@@ -18,42 +17,46 @@ type ImageViewType = {
   index: number;
   imgUrl: string;
 };
+type TravelDetailTitleProps = {
+  imageList: string[];
+  name: string;
+  district: string;
+  category: string;
+  heart: number;
+  matesPreview: string[];
+  refetch: () => void;
+};
 
 const TravelDetailTitle = ({
-  contentId,
   imageList,
   name,
   district,
   category,
-  kuddyList,
-  travelerList,
-}: TravelDetailType) => {
+  heart,
+  matesPreview,
+  refetch,
+}: TravelDetailTitleProps) => {
   const nav = useNavigate();
+  const { id } = useParams();
+
   const isLogin = useRecoilValue<boolean>(isLoginState);
   const myPickList = useRecoilValue<TravelPreviewType[]>(pickedTravel);
-  const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
-  const { state, toggle } = useBookmark(isBookmarked, contentId);
-  const getPick = useGetPick();
-  const { heart, matesPreview, setTrigger } = useDetailPickedMates(
-    contentId,
-    "ALL",
+  const [isBookmarked, setIsBookmarked] = useState<boolean>(
+    isLogin === false
+      ? false
+      : myPickList.map(row => row.contentId).includes(Number(id)),
   );
-
   useEffect(() => {
     setIsBookmarked(
       isLogin === false
         ? false
-        : myPickList.map(row => row.contentId).includes(contentId),
+        : myPickList.map(row => row.contentId).includes(Number(id)),
     );
-  }, [myPickList, contentId]);
+  }, [myPickList, id]);
 
+  const { state, toggle } = useBookmark(isBookmarked, Number(id));
   useEffect(() => {
-    getPick();
-    setTrigger(Date.now());
-  }, [contentId]);
-
-  useEffect(() => {
-    setTrigger(Date.now());
+    if (isBookmarked !== state) refetch();
   }, [state]);
 
   SwiperCore.use([Autoplay]);
@@ -92,7 +95,7 @@ const TravelDetailTitle = ({
       <div className="flex-container">
         <div
           className="mates-container"
-          onClick={() => nav(`/travel/${contentId}/users`)}
+          onClick={() => nav(`/travel/${Number(id)}/users`)}
         >
           {matesPreview &&
             (matesPreview.length === 0 ? (

@@ -3,6 +3,7 @@ import "swiper/swiper.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./swiper-card.scss";
+import Loading from "@components/_common/Loading";
 import { kuddyspickGetSwiperCard } from "@services/api/kuddyspick";
 
 type SwiperInfoType = {
@@ -22,7 +23,11 @@ const SwiperCard = () => {
 
   return (
     <div className="swiper-card-wrapper">
-      {swiperInfo && (
+      {!swiperInfo ? (
+        <div className="loading-container">
+          <Loading backColor="transparent" spinnerColor="#eee" size="30px" />
+        </div>
+      ) : (
         <Swiper
           slidesPerView={"auto"}
           spaceBetween={8}
