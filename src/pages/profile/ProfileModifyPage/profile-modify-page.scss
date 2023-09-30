@@ -1,3 +1,5 @@
+@import "../../../style/mixins";
+
 .profile-modify-page-container {
   display: flex;
   width: 100%;
@@ -66,4 +68,30 @@
   width: calc(100% - 5px);
   height: 0px;
   border-top: 1px solid var(--color-grey-line,);
+}
+
+.personality-container {
+  display: flex;
+  height: 32px;
+  align-items: flex-start;
+  gap: 12px;
+
+  .personality-btn {
+    display: flex;
+    height: 100%;
+    padding: 8px 16px;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 100px;
+    border: 1px solid color(grey-line);
+    @include font-style(--font-text, 14px, color(grey-text), 500);
+    cursor: pointer;
+
+    &.selected {
+      background: color(main-yellow);
+      border: 0;
+      @include font-style(--font-text, 14px, color(black), 500);
+    }
+  }
 }

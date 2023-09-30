@@ -5,10 +5,15 @@ import DropDown from "@components/_common/DropDown";
 import EditModal from "@components/ProfileModifyPage/EditModal";
 import BasicModifyForm from "@components/ProfileModifyPage/BasicModifyForm";
 import EditBtnModifyForm from "@components/ProfileModifyPage/EditBtnModifyForm";
-import { useGetProfile, usePutProfileModify } from "@services/hooks/profile";
+import {
+  useUpdateProfile,
+  useGetProfile,
+  usePutProfileModify,
+} from "@services/hooks/profile";
+import { useGetPresignedUrl, usePostImage } from "@services/hooks/image";
 import { useNavigate } from "react-router-dom";
 
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { profileState, interestsArrState } from "@services/store/auth";
 import { profileIntroduce } from "@services/store/profile";
 
@@ -41,6 +46,9 @@ const ProfileModifyPage = () => {
   const [form, setForm] = useState(""); // 오픈할 모달 형식
   const { data, isLoading, error } = useGetProfile();
   const onProfileModify = usePutProfileModify();
+  const onUpdateProfile = useUpdateProfile();
+  const onGetUrl = useGetPresignedUrl();
+  const onPostImage = usePostImage();
 
   // 내 프로필 정보 가져오기
   useEffect(() => {
@@ -65,7 +73,22 @@ const ProfileModifyPage = () => {
       });
       // 소개글 저장
       setIntroduce(myProfile?.introduce);
+
       // interest 저장
+      const newInterests = interestsArr.map((category, index) => {
+        // 내 프로필에 포함된 interest 배열
+        const temp = myProfile?.interests[interestType[index]];
+        return {
+          ...category,
+          interests: category.interests.map(interest => {
+            //만약 프로필에 포함된 interest이면 selected 수정
+            return temp.includes(interest.inter)
+              ? { ...interest, selected: true }
+              : interest;
+          }),
+        };
+      });
+      setInterestsArr(newInterests);
     }
   }, [isLoading]);
 
@@ -76,8 +99,24 @@ const ProfileModifyPage = () => {
   // ✨
 
   // 프로필 이미지 관련
-  const handlePhotoBtnClick = () => {
-    console.log("프로필 이미지 편집");
+  const handlePhotoBtnClick = async (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (!e.target.files) return;
+
+    let fileName = e.target.files[0].name; // 파일 이름 저장
+    const presignedUrlList = await onGetUrl([fileName]); // url 받아오기
+    if (presignedUrlList) {
+      try {
+        const res = await onPostImage(presignedUrlList[0], e.target.files[0]);
+        let newImg = presignedUrlList[0].split("?")[0];
+        onUpdateProfile({
+          profileImageUrl: newImg,
+        });
+      } catch (err) {
+        alert(err);
+      }
+    }
   };
 
   // gender 관련
@@ -108,7 +147,24 @@ const ProfileModifyPage = () => {
       case "Prefer not to say":
         newGender = "N";
     }
-    setProfile({ ...profile, genderType: newGender });
+    onUpdateProfile({
+      genderType: newGender,
+    });
+  };
+
+  // personality 관련
+  const handlePersonalityClick = (type: string, idx: number) => {
+    if (type === "temperament") {
+      {
+        idx
+          ? onUpdateProfile({ temperament: "EXTROVERT" })
+          : onUpdateProfile({ temperament: "INTROVERT" });
+      }
+    } else {
+      idx
+        ? onUpdateProfile({ decisionMaking: "PROSPECTING" })
+        : onUpdateProfile({ decisionMaking: "JUDGING" });
+    }
   };
 
   // region 관련
@@ -123,7 +179,9 @@ const ProfileModifyPage = () => {
 
   // nation 관련
   const handleSelectNation = (id: number, type: string, selected: string) => {
-    setProfile({ ...profile, nationality: selected });
+    onUpdateProfile({
+      nationality: selected,
+    });
   };
 
   // language 관련
@@ -197,10 +255,15 @@ const ProfileModifyPage = () => {
       {/* 프로필 사진 */}
       <div className="profile-image-container">
         <img src={profile?.profileImageUrl} className="profile-image" />
-        <img
-          src={photoBtn}
-          className="photo-btn"
-          onClick={handlePhotoBtnClick}
+        <label htmlFor="profile-image-input">
+          <img src={photoBtn} className="photo-btn" />
+        </label>
+        <input
+          type="file"
+          id="profile-image-input"
+          accept="image/*"
+          hidden
+          onChange={handlePhotoBtnClick}
         />
       </div>
 
@@ -257,10 +320,54 @@ const ProfileModifyPage = () => {
           />
         </BasicModifyForm>
         {/* 성격 */}
-        <div className="detail-modify-inner-container">
-          <div className="profile-subtitle">personality</div>
-          <div className="vertical-container"></div>
-        </div>
+        <BasicModifyForm text="personality">
+          <div className="vertical-container">
+            <div className="personality-container">
+              <div
+                className={
+                  profile?.temperament === "INTROVERT"
+                    ? "personality-btn selected"
+                    : "personality-btn"
+                }
+                onClick={() => handlePersonalityClick("temperament", 0)}
+              >
+                Introvert
+              </div>
+              <div
+                className={
+                  profile?.temperament === "EXTROVERT"
+                    ? "personality-btn selected"
+                    : "personality-btn"
+                }
+                onClick={() => handlePersonalityClick("temperament", 1)}
+              >
+                Extrovert
+              </div>
+            </div>
+            <div className="personality-container">
+              <div
+                className={
+                  profile?.decisionMaking === "JUDGING"
+                    ? "personality-btn selected"
+                    : "personality-btn"
+                }
+                onClick={() => handlePersonalityClick("decisionMaking", 0)}
+              >
+                Judging
+              </div>
+              <div
+                className={
+                  profile?.decisionMaking === "PROSPECTING"
+                    ? "personality-btn selected"
+                    : "personality-btn"
+                }
+                onClick={() => handlePersonalityClick("decisionMaking", 1)}
+              >
+                Prospecting
+              </div>
+            </div>
+          </div>
+        </BasicModifyForm>
 
         {/* 지역/나라 */}
         {profile?.roleType === "KUDDY" ? (
