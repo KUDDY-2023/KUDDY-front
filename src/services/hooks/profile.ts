@@ -286,58 +286,11 @@ export const usePutProfileModify = () => {
     newInterests[interestKey[i]] = temp.length ? temp : ["NOT_SELECTED"];
   }
 
-  //✨
-  console.log("~~~~~" + JSON.stringify(newInterests));
-
-  const temp = {
-    roleType: "KUDDY",
-    nickname: "yerin_kuddy",
-    profileImageUrl:
-      "https://lh3.googleusercontent.com/a/ACg8ocIloJRtAFQcD8KOpWO2h1Itc_6AY176OmsH6cEquls9=s96-c",
-    genderType: "MR",
-    birthDate: "1999.11.03",
-    temperament: "INTROVERT",
-    decisionMaking: "JUDGING",
-    job: "student",
-    nationality: "KOREA",
-    introduce: "hiiii",
-    availableLanguages: [
-      { languageType: "English", languageLevel: 3 },
-      { languageType: "Spanish", languageLevel: 4 },
-      { languageType: "Italian", languageLevel: 4 },
-      { languageType: "Russian", languageLevel: 1 },
-    ],
-    districts: [
-      { areaName: "Gwangjin" },
-      { areaName: "Dongjak" },
-      { areaName: "Seongdong" },
-      { areaName: "Nowon" },
-      { areaName: "Songpa" },
-    ],
-    interests: {
-      activitiesInvestmentTech: ["REAL_ESTATE"],
-      artBeauty: ["PICTURE"],
-      careerMajor: ["WORK_LIFE"],
-      lifestyle: ["STAYING_HOME"],
-      entertainment: ["INSTAGRAM"],
-      food: ["DESSERT"],
-      hobbiesInterests: ["LANGUAGE_EXCHANGE"],
-      sports: ["BASKETBALL"],
-      wellbeing: ["CAMPING"],
-    },
-  };
-
-  let newProfile = {
-    ...temp,
-  };
-
-  /*
   let newProfile = {
     ...profile,
     introduce: introduce,
     interests: newInterests,
   };
-  */
 
   const onProfileModify = async () => {
     try {
