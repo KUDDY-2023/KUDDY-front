@@ -155,18 +155,13 @@ export default function RequestMessage({
     <div className="confirmed-request-message-section">
       <AlertModal />
 
-      {/* {openAlert && (
-        <Modal isOpen={openAlert} closer={handleCloseAlert}>
-          <h3>3일이 지나 결제하실 수 없습니다.</h3>
-        </Modal>
-      )} */}
-
       <PayPal
         open={open}
         handleClose={handleClose}
         onUpdateMessage={onUpdateMessage}
         info={info}
       />
+
       <div className="confirmed-request-message">
         <YellowMeetUp id="meetup-icon" />
 
