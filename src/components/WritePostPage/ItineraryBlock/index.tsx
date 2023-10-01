@@ -237,7 +237,7 @@ const ItineraryBlock = () => {
       </div>
 
       <div className="itinerary-form-header">
-        <div>Itinerary</div>
+        <div>Route</div>
         <div
           className={`place-delete-btn ${btnText}`}
           onClick={handleDeleteClick}
