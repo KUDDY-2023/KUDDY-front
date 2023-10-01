@@ -48,7 +48,7 @@ const AddSpotForm = ({ onClose, onSavePlace }: Props) => {
   // 검색 버튼 클릭
   const handleSearchClick = async () => {
     const res = await onSearchSpot(searchInput.value);
-    if (res.spots.length === 0) alert("검색 결과가 없습니다.");
+    if (res.spots.length === 0) alert("No search results.");
     setSearchResults(res.spots); // 검색 결과 저장
   };
 
