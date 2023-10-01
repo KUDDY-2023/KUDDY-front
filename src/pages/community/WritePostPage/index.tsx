@@ -49,7 +49,6 @@ const WritePostPage = () => {
       try {
         for (let i = 0; i < presignedUrlList.length; i++) {
           const res = await onPostImage(presignedUrlList[i], e.target.files[i]);
-          console.log("이미지 업로드 성공", res);
         }
 
         for (let i = 0; i < presignedUrlList.length; i++) {
@@ -57,13 +56,11 @@ const WritePostPage = () => {
         }
 
         if (subject === "join us") {
-          console.log(images);
           setJoinUsPost({
             ...joinUsPost,
             images: [...images],
           });
         } else {
-          console.log(images);
           setOthersPost({
             ...othersPost,
             images: [...images],
@@ -78,12 +75,36 @@ const WritePostPage = () => {
   const handleClickPostBtn = async () => {
     if (postType === "itinerary") {
       // 코스 피드백 게시물
+      if (itineraryPost.title === "" || itineraryPost.content === "") {
+        alert("Please write the title and content.");
+        return;
+      }
+      if (itineraryPost.spots.length === 0) {
+        alert("Please add a Route.");
+        return;
+      }
       const res = await onPostPost("itinerary", itineraryPost);
     } else if (postType === "talking" && subject === "join us") {
       // talking board - join us 게시물
+      if (joinUsPost.title === "" || joinUsPost.content === "") {
+        alert("Please write the title and content.");
+        return;
+      }
+      if (joinUsPost.date === "" || joinUsPost.district === "") {
+        alert("Please select a date and region");
+        return;
+      }
       const res = await onPostPost("talkingboard", joinUsPost);
     } else {
       // 그 외의 talking board 게시물
+      if (othersPost.subject === "") {
+        alert("Please select a subject");
+        return;
+      }
+      if (othersPost.title === "" || othersPost.content === "") {
+        alert("Please write the title and content.");
+        return;
+      }
       const res = await onPostPost("talkingboard", othersPost);
     }
     nav("/community/list");
@@ -117,7 +138,7 @@ const WritePostPage = () => {
             }
             onClick={() => setPostType("itinerary")}
           >
-            Itinerary
+            Feedback
           </div>
           <div
             className={
@@ -127,7 +148,7 @@ const WritePostPage = () => {
             }
             onClick={() => setPostType("talking")}
           >
-            Talking
+            Forum
           </div>
         </div>
         {postType === "talking" && (
