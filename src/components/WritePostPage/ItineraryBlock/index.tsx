@@ -9,6 +9,12 @@ import xBtn from "@assets/icon/red_x.svg";
 import customPin from "@assets/community/customPin.svg";
 import { itineraryPostState } from "@services/store/community";
 
+type markerType = {
+  mapX: number;
+  mapY: number;
+  idx: number;
+};
+
 const ItineraryBlock = () => {
   const [itineraryPost, setItineraryPost] = useRecoilState(itineraryPostState);
   const { kakao } = window;
@@ -16,6 +22,7 @@ const ItineraryBlock = () => {
   const [spots, setSpots] = useState<SpotType[]>([]);
   const [map, setMap] = useState<any>();
   const [markers, setMarkers] = useState<any>([]); // 마커
+  const [overlays, setOverlays] = useState<any>([]); // 커스텀 오버레이
   const [polylines, setPolylines] = useState<any>([]); // 마커 사이의 선
   const [distances, setDistances] = useState<number[]>([]); // 장소 간 거리
   const [isSelected, setIsSelected] = useState(false); // 모달에서 장소 선택 여부
@@ -53,120 +60,118 @@ const ItineraryBlock = () => {
     });
   }, []);
 
-  // 마커 생성
-  function addMarker(mapX: number, mapY: number, idx: number) {
-    var placePosition = new kakao.maps.LatLng(mapY, mapX); // 임의
-    var imageSize = new kakao.maps.Size(18, 22); // 마커 이미지의 크기
-    var markerImage = new kakao.maps.MarkerImage(customPin, imageSize);
-    var marker = new kakao.maps.Marker({
-      position: placePosition, // 마커의 위치
-      image: markerImage,
-    });
+  // 마커, 오버레이 생성 & 지도에 표시
+  function addMarker(newMarkers: markerType[]) {
+    const updatedMarkers = [];
+    const updatedOverlays = [];
+    for (let i = 0; i < newMarkers.length; i++) {
+      var placePosition = new kakao.maps.LatLng(
+        newMarkers[i].mapY,
+        newMarkers[i].mapX,
+      );
+      var imageSize = new kakao.maps.Size(18, 22); // 마커 이미지의 크기
+      var markerImage = new kakao.maps.MarkerImage(customPin, imageSize);
+      var marker = new kakao.maps.Marker({
+        position: placePosition, // 마커의 위치
+        image: markerImage,
+      });
 
-    marker.setMap(map); // 지도 위에 마커 표출
-    setMarkers([...markers, marker]); // 생성된 마커 추가
+      // 커스텀 오버레이 (몇 번째 장소인지 표시)
+      var content =
+        '<div id="spot-num-custom">' + `${newMarkers[i].idx + 1}` + "</div>";
 
-    // 커스텀 오버레이 (몇 번째 장소인지 표시)
-    var content = '<div id="spot-num-custom">' + `${idx + 1}` + "</div>";
+      var customOverlay = new kakao.maps.CustomOverlay({
+        map: map,
+        position: placePosition,
+        content: content,
+        yAnchor: 1,
+      });
 
-    var customOverlay = new kakao.maps.CustomOverlay({
-      map: map,
-      position: placePosition,
-      content: content,
-      yAnchor: 1,
-    });
+      marker.setMap(map);
+      updatedMarkers.push(marker);
+      updatedOverlays.push(customOverlay);
+    }
 
-    map.setCenter(new kakao.maps.LatLng(mapY, mapX));
+    setMarkers([...markers, ...updatedMarkers]);
+    setOverlays([...overlays, ...updatedOverlays]); // 생성된 커스텀 오버레이 추가
 
-    //💛
-    console.log(idx);
-    console.log(markers);
-    //💛
+    map.setCenter(
+      new kakao.maps.LatLng(
+        newMarkers[updatedMarkers.length - 1].mapY,
+        newMarkers[updatedMarkers.length - 1].mapX,
+      ),
+    );
+
     return marker;
   }
 
   // 라인 배열에 추가
   const addLine = (linePath: any[]) => {
-    var newPolyline = new kakao.maps.Polyline({
-      path: linePath, // 선 구성하는 좌표배열
-      strokeWeight: 4, // 선의 두께
-      strokeColor: "#31302A", // 선의 색깔
-      strokeOpacity: 1, // 선의 불투명도
-      strokeStyle: "dashed", // 선의 스타일
-    });
-
-    setPolylines([...polylines, newPolyline]);
-  };
-
-  // polylines 업데이트
-  useEffect(() => {
-    //💛
-    console.log(spots);
-    //💛
-    if (spots?.length > 1 && spots?.length > polylines?.length - 1) {
-      const lastIdx = spots.length - 1;
-      const linePath = [
-        new kakao.maps.LatLng(spots[lastIdx - 1].mapY, spots[lastIdx - 1].mapX),
-        new kakao.maps.LatLng(spots[lastIdx].mapY, spots[lastIdx].mapX),
-      ];
-      addLine(linePath);
+    const updatedPolylines = [];
+    const updatedDistances = [];
+    for (let i = 0; i < linePath.length; i++) {
+      var newPolyline = new kakao.maps.Polyline({
+        path: linePath[i], // 선 구성하는 좌표배열
+        strokeWeight: 4,
+        strokeColor: "#31302A",
+        strokeOpacity: 1,
+        strokeStyle: "dashed",
+      });
+      updatedPolylines.push(newPolyline);
+      updatedDistances.push(Math.round(newPolyline.getLength() / 1000));
     }
 
+    setPolylines([...polylines, ...updatedPolylines]);
+    setDistances([...distances, ...updatedDistances]);
+  };
+
+  useEffect(() => {
+    // 장소 전역 상태 업데이트
     const newSpots = spots?.map(spot => spot.contentId);
     setItineraryPost({ ...itineraryPost, spots: newSpots });
   }, [spots]);
 
   useEffect(() => {
+    // 장소 삭제 시 마커 & 오버레이 다시 그리기
     if (markers.length === 0 && spots.length > 0) {
-      for (let i = 0; i < markers.length; i++) {
-        markers[i].setMap(map);
+      const newMarkers = [];
+      for (let i = 0; i < spots.length; i++) {
+        newMarkers.push({ mapX: spots[i].mapX, mapY: spots[i].mapY, idx: i });
       }
+      addMarker(newMarkers);
     }
-  }, [markers]);
+  }, [spots, markers, overlays]);
 
   // polylines 업데이트
   useEffect(() => {
-    //💛
-    console.log("--갱신--");
-    console.log(polylines);
-    //💛
     // polylines 다시 저장 (장소 삭제 시)
-    if (polylines?.length === 0 && spots?.length > 0) {
-      for (let i = 1; i < spots.length; i++) {
+    if (polylines.length === 0 && spots.length > 1) {
+      const newLinePath = [];
+      for (let i = 0; i < spots.length - 1; i++) {
         const linePath = [
-          new kakao.maps.LatLng(spots[i - 1].mapY, spots[i - 1].mapX),
           new kakao.maps.LatLng(spots[i].mapY, spots[i].mapX),
+          new kakao.maps.LatLng(spots[i + 1].mapY, spots[i + 1].mapX),
         ];
-        addLine(linePath);
+        newLinePath.push(linePath);
       }
+      addLine(newLinePath);
     }
 
     // polylines 지도에 다시 그리고, distance도 업데이트
     for (let i = 0; i < polylines.length; i++) {
       polylines[i].setMap(map);
-
-      setDistances(distance => [
-        ...distance,
-        Math.round(polylines[i].getLength() / 1000),
-      ]);
     }
-  }, [polylines]);
+  }, [spots, polylines]);
 
   // 마커 삭제
   function removeMarker(idx: number) {
-    //💛
-    console.log(markers);
-    console.log(idx);
-    //💛
-    // 마커 지도에서 삭제
+    // 마커 & 커스텀 오버레이 지도에서 삭제
     for (let i = 0; i < markers.length; i++) {
       markers[i].setMap(null);
+      overlays[i].setMap(null);
     }
-    // 마커 배열에서 삭제
-    const newMarkers = markers.filter(
-      (marker: any, index: number) => index !== idx,
-    );
-    setMarkers(newMarkers);
+    setMarkers([]);
+    setOverlays([]);
     // 장소 삭제
     const newSpots = spots.filter((spot, index) => idx !== index);
     setSpots(newSpots);
@@ -192,9 +197,23 @@ const ItineraryBlock = () => {
     if (typeof selectedPlace === "undefined") return;
     // 장소 저장 추가
     if (isSelected) {
+      if (spots.length > 0) {
+        const lastIdx = spots.length - 1;
+        const linePath = [
+          new kakao.maps.LatLng(spots[lastIdx].mapY, spots[lastIdx].mapX),
+          new kakao.maps.LatLng(selectedPlace.mapY, selectedPlace.mapX),
+        ];
+        addLine([linePath]);
+      }
       setSpots([...spots, selectedPlace]);
       // 마커 추가
-      addMarker(selectedPlace.mapX, selectedPlace.mapY, spots.length);
+      addMarker([
+        {
+          mapX: selectedPlace.mapX,
+          mapY: selectedPlace.mapY,
+          idx: spots.length,
+        },
+      ]);
     }
   };
 
