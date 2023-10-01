@@ -1,18 +1,12 @@
 import "./chatlistpage.scss";
 import BackNavBar from "@components/_common/BackNavBar";
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { chatListData } from "./chatListData";
-
 import { useQuery } from "react-query";
-import { useGetChatRooms } from "@services/hooks/chat";
 import { chatRooms } from "@services/api/chat";
 import calculateTimeDifference from "./calculateTimeDifference";
-import { profileGetProfile } from "@services/api/profile";
-import { userInfoState } from "@services/store/auth";
 
-import { useUpdateDefaultProfile } from "@services/hooks/profile";
-import { useRecoilState } from "recoil";
+import Loading from "@components/_common/Loading";
+
 export default function ChatListPage() {
   const navigate = useNavigate();
 
@@ -32,9 +26,17 @@ export default function ChatListPage() {
     <div className="chat-list-page">
       <BackNavBar middleTitle="Chat" isShare={false} />
       {isLoading ? (
-        <p>로딩...</p>
+        <Loading
+          backColor="rgba(0, 0, 0, 0)"
+          spinnerColor="#FFF798"
+          size="80px"
+        />
       ) : (
         <div className="chat-list-container">
+          {data?.length === 0 ?? (
+            <p className="no-chatroom">No chat rooms available</p>
+          )}
+
           {data?.map((room: IChatRoom) => {
             let chatStyle = room.unReadCount ? "unread" : "read";
             let sendAt = room.latestMessage?.sendAt;

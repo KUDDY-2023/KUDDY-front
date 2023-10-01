@@ -10,11 +10,18 @@ import { useNavigate } from "react-router-dom";
 // 채팅
 import { MutableRefObject } from "react";
 import { CompatClient } from "@stomp/stompjs";
-import { useSaveMessage } from "@services/hooks/chat";
 import { useFormatDate } from "@utils/hooks/useformatDate";
 
 // 페이팔 모달
 import PayPal from "@components/Paypal";
+
+// 모달
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+
+// import Modal from "@components/_common/Modal";
 
 interface Props {
   client: MutableRefObject<CompatClient | undefined>;
@@ -30,15 +37,31 @@ export default function RequestMessage({
   statusType,
 }: Props) {
   const navigate = useNavigate();
-  const onSave = useSaveMessage();
 
   const onPlaceDetail = (placeId: number) => {
     navigate(`/travel/${placeId}`);
   };
 
+  const calculateDaysAgo = (sendTime: number) => {
+    const today = new Date();
+    const sendDate = new Date(sendTime);
+
+    const timeDifference = today.getTime() - sendDate.getTime();
+    const daysAgo = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+    return daysAgo;
+  };
+
   const onPayPal = () => {
-    console.log("⭐ 페이팔 요청");
-    handleOpen(); // 페이팔 모달 열기
+    // 날짜 확인하기 + 시간 지났으면 모달 띄우기
+    let sendTime = info.sendTime;
+    if (calculateDaysAgo(sendTime) >= 3) {
+      console.log("🔥 3일 지남");
+      handleOpenAlert();
+    } else {
+      console.log("⭐ 페이팔 요청");
+      handleOpen(); // 페이팔 모달 열기
+    }
   };
 
   const onRefuse = () => {
@@ -90,14 +113,55 @@ export default function RequestMessage({
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  // Alert 모달 상태
+  const [openAlert, setOpenAlert] = useState(false);
+  const handleOpenAlert = () => setOpenAlert(true);
+  const handleCloseAlert = () => setOpenAlert(false);
+
+  const AlertModal = () => {
+    // 모달 스타일
+    const style = {
+      position: "absolute" as "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: "80%",
+      maxWidth: 400,
+      bgcolor: "background.paper",
+      border: "2px solid #000",
+      boxShadow: 24,
+      p: 4,
+    };
+
+    return (
+      <Modal
+        open={openAlert}
+        onClose={handleCloseAlert}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            The request was created more than 3 days ago, so you cannot proceed
+            with the payment.
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}></Typography>
+        </Box>
+      </Modal>
+    );
+  };
+
   return (
     <div className="confirmed-request-message-section">
+      <AlertModal />
+
       <PayPal
         open={open}
         handleClose={handleClose}
         onUpdateMessage={onUpdateMessage}
         info={info}
       />
+
       <div className="confirmed-request-message">
         <YellowMeetUp id="meetup-icon" />
 
