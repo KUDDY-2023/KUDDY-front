@@ -17,6 +17,11 @@ import { useRecoilState } from "recoil";
 import { profileState, interestsArrState } from "@services/store/auth";
 import { profileIntroduce } from "@services/store/profile";
 
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import dayjs from "dayjs";
+
 const ProfileModifyPage = () => {
   const nav = useNavigate();
   const genders = ["Male", "Female", "Prefer not to say"];
@@ -150,6 +155,31 @@ const ProfileModifyPage = () => {
     onUpdateProfile({
       genderType: newGender,
     });
+  };
+
+  // birth date 관련
+  const formatDate = (inputDateString: string) => {
+    let dateParts = String(inputDateString).split(" ");
+    console.log("dateParts" + dateParts);
+    let extractedDate = dateParts.slice(1, 4).join(" ");
+    console.log("extractedDate" + extractedDate);
+
+    let parsedDate = new Date(extractedDate); // 추출한 부분을 Date 객체로 파싱
+    console.log("parsedDate" + parsedDate);
+
+    // 날짜를 "2021-11-05" 형식으로 포맷팅
+    let formattedDate =
+      parsedDate.getFullYear() +
+      "." +
+      ("0" + (parsedDate.getMonth() + 1)).slice(-2) +
+      "." +
+      ("0" + parsedDate.getDate()).slice(-2);
+
+    return formattedDate;
+  };
+
+  const handleSelectAge = (newBirth: string) => {
+    onUpdateProfile({ birthDate: newBirth });
   };
 
   // personality 관련
@@ -305,7 +335,13 @@ const ProfileModifyPage = () => {
         </BasicModifyForm>
         {/* 생일 추가 */}
         <BasicModifyForm text="birth">
-          <div>생일</div>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <MobileDatePicker
+              format="YYYY / MM / DD"
+              defaultValue={dayjs(profile?.birthDate)}
+              onChange={(value: any) => handleSelectAge(formatDate(value.$d))}
+            />
+          </LocalizationProvider>
         </BasicModifyForm>
         {/* 직업 */}
         <BasicModifyForm text="job">

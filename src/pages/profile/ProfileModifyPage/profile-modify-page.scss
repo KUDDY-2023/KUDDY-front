@@ -95,3 +95,29 @@
     }
   }
 }
+
+.MuiInputBase-root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  .MuiInputBase-input {
+    @include font-style(--font-text, 14px, color(black), 500);
+    padding: 0;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    width: 110px;
+    height: 30px;
+  }
+  .MuiOutlinedInput-notchedOutline {
+    border: none;
+  }
+}
+
+.MuiFormControl-root:first-child {
+  margin-right: 12px;
+
+  @include narrowMobile {
+    margin-bottom: 12px;
+  }
+}
