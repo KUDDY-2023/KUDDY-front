@@ -2,6 +2,7 @@ import "./message.scss";
 import { useState } from "react";
 
 import Translate from "../Translate";
+
 interface Props {
   messageType: string;
   message: IGetMessage;

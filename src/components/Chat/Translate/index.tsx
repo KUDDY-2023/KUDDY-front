@@ -1,6 +1,12 @@
 import "./translate.scss";
 import { useState, useEffect } from "react";
 
+import { useTranslate } from "@services/hooks/translate";
+
+// 전역 - 유저 정보
+import { useRecoilValue } from "recoil";
+import { userInfoState } from "@services/store/auth";
+
 interface Props {
   isTranslated: boolean;
   message: string;
@@ -9,12 +15,21 @@ interface Props {
 
 export default function Translate({ isTranslated, message, onClick }: Props) {
   const [translatedText, setTranslatedText] = useState("");
+  const { role } = useRecoilValue(userInfoState);
+
+  const onTranslate = useTranslate();
+
+  const setTranslateResult = async () => {
+    // 커디 유저면 : 한국어로
+    // 여행자 유저면 : 영어로
+    let target = role === "KUDDY" ? "ko" : "en";
+    const result = await onTranslate(message, target);
+    setTranslatedText(result);
+  };
 
   useEffect(() => {
     if (isTranslated) {
-      let result = "안녕하세요! 초대장 보내드릴게요 :)";
-      console.log("번역 요청"); // 번역 요청 api 코드 넣기
-      setTranslatedText(result);
+      setTranslateResult();
     }
   }, [isTranslated]);
 
