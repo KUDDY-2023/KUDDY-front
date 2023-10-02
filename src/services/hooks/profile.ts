@@ -106,7 +106,7 @@ export const useCreateProfile = () => {
 
   const onCreateProfile = () => {
     console.log("프로필 생성 요청 !! ", newProfile);
-    //createProfile(newProfile);
+    createProfile(newProfile);
   };
 
   return { onCreateProfile, isLoading };

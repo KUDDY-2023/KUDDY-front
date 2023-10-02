@@ -96,8 +96,7 @@ export const InterestData = [
       { id: 62, inter: "Surfing", selected: false },
       { id: 63, inter: "Skateboard", selected: false },
       { id: 64, inter: "Skiing", selected: false },
-      { id: 65, inter: "Climbing", selected: false },
-      { id: 66, inter: "Crossfit", selected: false },
+      { id: 65, inter: "Crossfit", selected: false },
     ],
   },
 ];
