@@ -17,7 +17,7 @@ const Pick = () => {
   const onDelete = (id: number) => {
     pickDeletePick(id)
       .then(res => getPickList())
-      .catch();
+      .catch(err => console.log(err));
   };
   useEffect(() => {
     window.scrollTo(0, 0);

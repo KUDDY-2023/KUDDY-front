@@ -9,7 +9,7 @@ const WeeklyUser = () => {
   useEffect(() => {
     profileGetTop5()
       .then(res => setWeeklyUser(res.data.data.top5KuddyList))
-      .catch();
+      .catch(err => console.log(err));
   }, []);
 
   return (
