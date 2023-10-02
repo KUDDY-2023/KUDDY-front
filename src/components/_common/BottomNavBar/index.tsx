@@ -5,9 +5,12 @@ import { ReactComponent as PickIcon } from "@assets/bottomnavbar/pick.svg";
 import { ReactComponent as MatesIcon } from "@assets/bottomnavbar/mates.svg";
 import { ReactComponent as CommunityIcon } from "@assets/bottomnavbar/community.svg";
 
+import KakaoChat from "../KakaoChat";
+
 const BottomNavBar = () => {
   return (
     <div className="nav-container">
+      <KakaoChat />
       <div className="nav-inner-container">
         <NavLink to="/" className="nav-click-area">
           <HomeIcon />
