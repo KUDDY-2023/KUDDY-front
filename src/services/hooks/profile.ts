@@ -71,20 +71,18 @@ export const useCreateProfile = () => {
 
   const categories: string[] = [
     "artBeauty",
-    "activitiesInvestmentTech",
     "careerMajor",
     "entertainment",
     "food",
     "hobbiesInterests",
     "lifestyle",
     "sports",
-    "wellbeing",
   ];
 
   for (let i = 0; i < interestsArr.length; i++) {
     const temp = interestsArr[i].interests
       .filter(inter => inter.selected)
-      .map(inter => inter.inter);
+      .map(inter => inter.inter.toUpperCase().replace(/ /g, "_")); // 대문자와 언더바 조합으로 변경
 
     interests[categories[i]] = temp.length ? temp : ["NOT_SELECTED"];
   }
@@ -108,7 +106,7 @@ export const useCreateProfile = () => {
 
   const onCreateProfile = () => {
     console.log("프로필 생성 요청 !! ", newProfile);
-    createProfile(newProfile);
+    //createProfile(newProfile);
   };
 
   return { onCreateProfile, isLoading };
