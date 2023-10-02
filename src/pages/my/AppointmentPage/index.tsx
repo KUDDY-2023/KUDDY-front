@@ -11,6 +11,7 @@ import canceledIcon from "@assets/icon/red_x.svg";
 import { useGetMeetUps } from "@services/hooks/user";
 import { useGetRoomStatus } from "@services/hooks/chat";
 import { usePutMeetUpCancel } from "@services/hooks/user";
+import { useDeleteCalendar } from "@services/hooks/calendar";
 
 const AppointmentPage = () => {
   const nav = useNavigate();
@@ -18,6 +19,7 @@ const AppointmentPage = () => {
   const onGetMeetUps = useGetMeetUps(); // 동행 조회
   const onMeetUpCancel = usePutMeetUpCancel(); // 동행 요청 취소
   const onGetRoomStatus = useGetRoomStatus(); // 채팅방 여부 조회 (없으면 채팅방 생성)
+  const onDeleteCalendar = useDeleteCalendar(); // 캘린더 삭제
   const [meetUpStyle, setMeetUpStyle] = useState<any>([]);
 
   // 동행 리스트 받아오기
@@ -75,13 +77,15 @@ const AppointmentPage = () => {
     }
   };
 
-  const handleCancelClick = async (id: number) => {
-    const res = await onMeetUpCancel(id);
+  const handleCancelClick = async (meetupId: number, chatId: string) => {
+    const res = await onMeetUpCancel(meetupId);
     console.log(res);
+
+    const deleteRes = await onDeleteCalendar(chatId);
 
     // 취소된 동행 스타일 업데이트
     const newStyle = meetUpStyle.map((meetUp: any) => {
-      return meetUp.meetupId === id
+      return meetUp.meetupId === meetupId
         ? { ...meetUp, type: canceledIcon, style: "disabled", text: "canceled" }
         : meetUp;
     });
@@ -165,7 +169,9 @@ const AppointmentPage = () => {
                   <div className="appointment-item-footer">
                     <div
                       className="appointment-btn"
-                      onClick={() => handleCancelClick(item?.meetupId)}
+                      onClick={() =>
+                        handleCancelClick(item?.meetupId, item?.chatId)
+                      }
                     >
                       Cancel
                     </div>

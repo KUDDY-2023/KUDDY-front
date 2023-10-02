@@ -7,14 +7,14 @@ import { useEffect, useState } from "react";
 import {
   useReadAllNoti,
   useGetAllNoti,
-  useGetNotiCount,
+  useGetCommentNotiCount,
   useGotoPost,
 } from "@services/hooks/notification";
 
 export default function AlarmViewPage() {
   const { notiData, notiError, notiLoading, refetchNotiData } = useGetAllNoti(); // 모든 알림 가져오기
   const { notiCount, notiCountError, notiCountLoading, refetchNotiCount } =
-    useGetNotiCount(); // 알림개수 가져오기
+    useGetCommentNotiCount(); // 알림개수 가져오기
 
   useEffect(() => {
     console.log("알림 조회 > ", notiData);

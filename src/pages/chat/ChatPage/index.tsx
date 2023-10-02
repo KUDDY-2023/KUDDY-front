@@ -7,13 +7,9 @@ import SystemMessage from "@components/Chat/SystemMessage";
 import ConfirmedRequestMessage from "@components/Chat/ConfirmedRequestMessage";
 import RequestMessage from "@components/Chat/RequestMessage";
 import MakeMeetUpModal from "@components/MeetUp/MakeMeetUpModal";
-import { url, mockMessage } from "./_mock";
 
 import { useState, useEffect, useRef } from "react";
-
-import { useParams, useNavigate } from "react-router-dom";
-
-import { apiClient } from "@services/api";
+import { useParams } from "react-router-dom";
 
 import {
   CompatClient,
@@ -22,7 +18,6 @@ import {
   StompSubscription,
 } from "@stomp/stompjs";
 import SockJS from "sockjs-client";
-import { profileGetSocialProfile } from "@services/api/profile";
 
 import { useQuery } from "react-query";
 import { chatGetAllMessage } from "@services/api/chat";
@@ -37,8 +32,6 @@ export default function ChatPage() {
   const [profile, setProfile] = useRecoilState(userInfoState); // 전역 프로필 recoil
   const token = window.localStorage.getItem("accessToken") as string; // 토큰
 
-  const [myEmail, setMyEmail] = useState<string>(""); // 현재 유저의 이메일
-  const [myNickname, setMyNickname] = useState<string>(""); // 현재 유저의 닉네임
   const [isOpenBottomModal, setIsOpenBottomModal] = useState(false);
 
   const [partnerInfo, setPartnerInfo] = useState({
@@ -59,54 +52,13 @@ export default function ChatPage() {
   const messageEndRef = useRef<HTMLDivElement | null>(null);
   const initialRenderRef = useRef(true);
 
-  useEffect(() => {
-    console.log("⭐⭐⭐ 전역 상태 >>>>>>>> ", profile);
-  }, [profile]);
-
-  let updateMsg = {
-    id: "64fb179e4a4e36075eb150ab",
-    roomId: "3",
-    contentType: "MEETUP",
-    content: "동행",
-    senderName: "maru",
-    spotContentId: 1,
-    appointmentTime: "2021-11-05 13:47:13.248",
-    price: 10,
-    spotName: "롯데타워",
-    senderId: 15,
-    sendTime: 16823942839,
-    meetStatus: "TRAVELER_CANCEL",
-    senderEmail: "dy6578ekdbs@naver.com",
-    readCount: 1,
-    isUpdated: 1,
-  };
-
-  // 유저 정보 가져오기
-  const getProfile = async () => {
-    const res = await profileGetSocialProfile();
-
-    console.log("요청 좀 해봐 시🔥🔥🔥🔥", res);
-    setMyEmail(res.data.data.email);
-    setMyNickname(res.data.data.nickname);
-
-    // 전역
-    // setProfile(res.data.data);
-    // setProfile({ ...profile, nickname: res.data.data.nickname });
-
-    localStorage.setItem("email", res.data.data.email);
-  };
-
   // ⭐ 채팅 내역 가져오는 쿼리
-  const { data, error, isLoading } = useQuery(
-    "messages",
-    () => chatGetAllMessage(roomId || ""),
-    {
-      select: data => data?.data.data,
-      refetchOnMount: false,
-      refetchOnWindowFocus: false, // 너엿구나 하..
-      cacheTime: 0,
-    },
-  );
+  const { data } = useQuery("messages", () => chatGetAllMessage(roomId || ""), {
+    select: data => data?.data.data,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false, // 너엿구나 하..
+    cacheTime: 0,
+  });
 
   // 받아온 메세지 내역 저장
   useEffect(() => {
@@ -121,13 +73,15 @@ export default function ChatPage() {
   // ⭐ 내 프로필 정보 가져오는 쿼리
   const profileData = useQuery("profile", profileGetProfile, {
     refetchOnWindowFocus: false,
-    retry: false,
+    retry: true,
   });
+
   const onSave = useUpdateDefaultProfile();
+
   // 전역 상태 - 내 프로필 정보 저장
   useEffect(() => {
     if (profileData.isSuccess) {
-      console.log(">>", profileData.data?.data.data);
+      console.log("💙 프로필 조회 쿼리 isSuccess", profileData.data?.data.data);
       const res = profileData.data?.data.data;
 
       let email = res.memberInfo.email;
@@ -135,6 +89,8 @@ export default function ChatPage() {
       let profileImageUrl = res.memberInfo.profileImageUrl;
       let memberId = res.memberInfo.memberId;
       let role = res.role;
+
+      localStorage.setItem("myEmail", email);
 
       onSave({
         email: email,
@@ -145,6 +101,11 @@ export default function ChatPage() {
       });
     }
   }, [profileData.isSuccess]);
+
+  useEffect(() => {
+    console.log("⭐⭐⭐ 전역 상태 >>>>>>>> ", profile);
+    //setMyEmail(profile.email);
+  }, [profile]);
 
   // 새 메세지 왔을 때의 스크롤
   useEffect(() => {
@@ -185,24 +146,29 @@ export default function ChatPage() {
     let body = JSON.parse(newmsg.body);
     console.log("구독 후 받아온 거 >>", body);
 
+    const myEmail = localStorage.getItem("myEmail");
+
     body = {
       ...body,
-      mine: body.senderEmail === profile.email,
+      mine: body.senderEmail === myEmail,
     };
     console.log(">>>>⭐", body);
 
+    console.log("myEmail state", myEmail);
     // 상대방한테서 온 메세지
-    if (body.senderEmail !== profile.email) {
-      console.log(body.senderEmail, "??", profile.email); // 🔥 여기서 자꾸 myEmail이 사라져..
+    if (body.senderEmail !== myEmail) {
+      console.log(body.senderEmail, "??", myEmail); // 🔥 여기서 자꾸 myEmail이 사라짐
       setFlightMessageArr(prevMessageArr => [...prevMessageArr, body]);
     }
   };
 
   // new Flight 메세지 바로 화면에 반영하기
   const handleMyMessage = (newmsg: any) => {
+    const myEmail = localStorage.getItem("myEmail");
+
     newmsg = {
       ...newmsg,
-      mine: newmsg.senderEmail === profile.email,
+      mine: newmsg.senderEmail === myEmail,
     };
 
     setFlightMessageArr(prevMessageArr => [...prevMessageArr, newmsg]);
@@ -288,7 +254,7 @@ export default function ChatPage() {
     event.returnValue = "";
 
     alert("???");
-    console.log("실행됨, 현재 이메일은", myEmail);
+    //console.log("실행됨, 현재 이메일은", myEmail);
     const email = localStorage.getItem("email"); // 아 이거 별론디..
     fetch(
       `${process.env.REACT_APP_API_HOST}/chat/v1/chatrooms/${roomId}?email=${email}`,
@@ -337,6 +303,8 @@ export default function ChatPage() {
     window.addEventListener("popstate", disconnectStomp);
 
     return () => {
+      // localStorage 비우기
+      localStorage.removeItem("myEmail");
       // 페이지를 나갈 때 이벤트 리스너 제거
       window.removeEventListener("beforeunload", disconnectStomp);
       //document.removeEventListener("visibilitychange", disconnectStomp);
@@ -450,8 +418,10 @@ export default function ChatPage() {
 
         <hr />
 
+        {/* 새로운 메세지 */}
         {FlightMessageArr?.map((msg: IGetMessage) => {
           if (msg.contentType === "TEXT") {
+            console.log("😁 >> ", msg.mine);
             return (
               <Message
                 message={msg}

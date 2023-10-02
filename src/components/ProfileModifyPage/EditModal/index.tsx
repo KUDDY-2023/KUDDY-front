@@ -8,28 +8,23 @@ interface Props {
   isModalOpen: boolean;
   onClose: () => void;
   form: string;
-  profile: any;
 }
 
-const EditModal = ({ isModalOpen, onClose, form, profile }: Props) => {
+const EditModal = ({ isModalOpen, onClose, form }: Props) => {
   let title, EditForm;
   switch (form) {
     case "region":
       title = "Region";
-      EditForm = <RegionForm profile={profile} />;
+      EditForm = <RegionForm onClose={onClose} />;
       break;
     case "language":
       title = "Language";
-      EditForm = <LanguageForm />;
+      EditForm = <LanguageForm onClose={onClose} />;
       break;
     case "interest":
       title = "Interest";
-      EditForm = <InterestForm />;
+      EditForm = <InterestForm onClose={onClose} />;
   }
-
-  const handleSaveClick = () => {
-    console.log("저장");
-  };
 
   return (
     <BottomUpModal
@@ -39,10 +34,7 @@ const EditModal = ({ isModalOpen, onClose, form, profile }: Props) => {
       isWhiteBackground={true}
     >
       <div className="edit-title">{title}</div>
-      <div className="edit-form-container">
-        {EditForm}
-        <div className="save-btn">Save</div>
-      </div>
+      <div className="edit-form-container">{EditForm}</div>
     </BottomUpModal>
   );
 };

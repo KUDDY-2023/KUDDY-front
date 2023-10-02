@@ -1,3 +1,5 @@
+@import "../../../style/mixins";
+
 $main-yellow: var(--color-main-yellow);
 
 .chat-list-page {
@@ -8,6 +10,11 @@ $main-yellow: var(--color-main-yellow);
   .chat-list-container {
     margin-top: 15px;
     width: 85%;
+  }
+
+  .no-chatroom {
+    @include font-style(--font-text, 16px, var(--color-black), 500);
+    margin-top: 100px;
   }
 
   .chat-list {

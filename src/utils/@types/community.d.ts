@@ -1,12 +1,13 @@
 type MenuType = "itinerary-feedback" | "talking-board";
 
 interface SpotType {
-  spotId: number;
-  spotName: string;
   contentId: number;
+  name: string;
   district: string;
   category: string;
   imageUrl: string;
+  mapX: number;
+  mapY: number;
 }
 
 interface PostType {

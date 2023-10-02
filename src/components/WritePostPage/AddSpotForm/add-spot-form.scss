@@ -61,16 +61,22 @@
     justify-content: center;
     width: calc(100% - 40px);
     height: calc(100% - 48px);
-    padding-top: 35px;
+    padding-top: 100px;
     gap: 12px;
     overflow-y: scroll;
     -ms-overflow-style: none;
     scrollbar-width: none;
+
+    &.no-result {
+      padding-top: 0;
+    }
+
     &::-webkit-scrollbar {
       display: none;
     }
 
     .spot-search-guide {
+      text-align: center;
       justify-self: center;
       @include font-style(--font-text, 12px, color(black), 400);
     }
@@ -109,13 +115,17 @@
 
     .spot-item-text-container {
       display: flex;
-      width: calc(100% - 84px);
+      width: calc(100% - 146px);
       height: 42px;
       flex-direction: column;
       align-items: flex-start;
       gap: 8px;
 
       .spot-item-title {
+        width: calc(100% - 80px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         @include font-style(--font-text, 14px, color(black), 400);
 
         &.selected {

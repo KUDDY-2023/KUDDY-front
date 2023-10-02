@@ -2,6 +2,7 @@
 
 .interest-edit-container {
   width: calc(100% - 50px);
+  height: calc(100% - 250px);
 
   .selected-interest-cnt {
     margin-left: 5px;
@@ -12,15 +13,24 @@
 
 .interest-list-container {
   width: calc(100% + 25px);
-  display: inline-flex;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
   margin-bottom: 50px;
+}
+
+.category-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 10px;
 
   .category-text {
     @include font-style(--font-text, 14px, color(grey-text), 500);
-    margin-bottom: 10px;
   }
 }
 
@@ -44,6 +54,7 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
+  cursor: pointer;
 
   border-radius: 100px;
   background: color(light-grey);

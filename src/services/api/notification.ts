@@ -18,8 +18,14 @@ export const nofiRead = async (nofiNum: number) => {
   return apiClient.post(url);
 };
 
-// ✅ 읽지 않은 알림 개수
+// ✅ 읽지 않은 댓글 알림 개수
 export const nofiUnReadCount = async () => {
   const url = `/api/v1/notifications/count`;
+  return apiClient.get(url);
+};
+
+// ✅ 읽지 않은 채팅 알림 개수
+export const nofiUnReadChat = async () => {
+  const url = `chat/v1/notification`;
   return apiClient.get(url);
 };

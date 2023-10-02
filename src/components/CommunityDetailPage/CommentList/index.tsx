@@ -11,6 +11,7 @@ const CommentList = () => {
   let postId = useParams().id; // 게시물 id
   const inputRef = useRef<HTMLInputElement>(null);
   const [reviewData, setReviewData] = useState<any>(); // 조회한 댓글 목록
+  const [commentNum, setCommentNum] = useState<number>();
   const [newComment, setNewComment] = useState(""); // 댓글창에서 작성한 텍스트
   const [selectedComment, setSelectedComment] = useState<number>(0); // 선택된 댓글 (reply 버튼 클릭된 댓글)
   const onGetPostReviews = useGetPostReviews();
@@ -20,8 +21,11 @@ const CommentList = () => {
   // 댓글 조회
   const getComment = async () => {
     const reviews = await onGetPostReviews(Number(postId));
-    reviews.sort((a: any, b: any) => (a.id > b.id ? 1 : -1)); // 댓글 정렬 (id 오름차순)
-    setReviewData(reviews);
+    if (reviews.commentDtoList.length > 0) {
+      reviews.commentDtoList.sort((a: any, b: any) => (a.id > b.id ? 1 : -1)); // 댓글 정렬 (id 오름차순)
+    }
+    setReviewData(reviews.commentDtoList);
+    setCommentNum(reviews.commentNo);
   };
 
   useEffect(() => {
@@ -63,7 +67,7 @@ const CommentList = () => {
       {/* 댓글 수 */}
       <div className="comment-cnt-container">
         <img src={commentIcon} alt="comment" />
-        <p>{reviewData?.length}</p>
+        <p>{commentNum}</p>
       </div>
 
       {/* 작성된 댓글 리스트 */}
