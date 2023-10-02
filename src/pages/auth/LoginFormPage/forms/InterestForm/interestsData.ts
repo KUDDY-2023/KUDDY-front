@@ -49,7 +49,7 @@ export const InterestData = [
   {
     category: "Entertainment",
     interests: [
-      { id: 31, inter: "MOVIE", selected: false },
+      { id: 31, inter: "MOVIES", selected: false },
       { id: 32, inter: "NETFLIX", selected: false },
       { id: 33, inter: "KPOP", selected: false },
       { id: 34, inter: "ANIMATION", selected: false },
