@@ -62,7 +62,7 @@ export default function PersonalityForm() {
             id={judge[0] ? "active" : ""}
             onClick={() => _handleClickJudgeBtn(true)}
           >
-            Judging
+            Prefer Planning
           </div>
           <p>or</p>
           <div
@@ -70,7 +70,7 @@ export default function PersonalityForm() {
             id={judge[1] ? "active" : ""}
             onClick={() => _handleClickJudgeBtn(false)}
           >
-            Prospecting
+            Prefer Spontaneous
           </div>
         </div>
       </div>

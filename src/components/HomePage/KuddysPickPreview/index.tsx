@@ -12,7 +12,7 @@ const KuddysPickPreview = () => {
   useEffect(() => {
     kuddyspickGetPreview()
       .then(res => setKuddysPickPreview(res.data.data))
-      .catch();
+      .catch(err => console.log(err));
   }, []);
 
   return (
