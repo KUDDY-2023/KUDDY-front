@@ -6,6 +6,7 @@ import { ReactComponent as Level1Icon } from "@assets/level/level1.svg";
 import { ReactComponent as Level2Icon } from "@assets/level/level2.svg";
 import { ReactComponent as Level3Icon } from "@assets/level/level3.svg";
 import { ReactComponent as Level4Icon } from "@assets/level/level4.svg";
+import useInterest from "@utils/hooks/useInterest";
 
 // 네비게이트 path 수정 필요
 const MatesBlock = ({
@@ -17,45 +18,13 @@ const MatesBlock = ({
   allInterests,
 }: MatesType) => {
   const nav = useNavigate();
-  const [slicedInterests, setSlicedInterests] =
-    useState<string[]>(allInterests);
-  const profileContainer = useRef<HTMLDivElement>(null);
-  const interestContainer = useRef<HTMLDivElement>(null);
-  const [isOverflow, setIsOverflow] = useState<boolean>(false);
-  const [isSliced, setIsSliced] = useState<boolean>(false);
-
-  const detectOverflow = () => {
-    if (profileContainer.current && interestContainer.current)
-      if (
-        profileContainer.current!.offsetWidth -
-          interestContainer.current!.offsetLeft -
-          interestContainer.current!.offsetWidth +
-          110 <
-        0
-      )
-        setIsOverflow(true);
-      else {
-        setIsOverflow(false);
-        setIsSliced(true);
-      }
-  };
-  useEffect(() => {
-    detectOverflow();
-  }, [slicedInterests]);
-
-  useEffect(() => {
-    isOverflow
-      ? setSlicedInterests(slicedInterests.slice(0, slicedInterests.length - 1))
-      : setSlicedInterests(slicedInterests);
-  }, [slicedInterests, isOverflow]);
-
   const [searchParams, setSearchParams] = useSearchParams();
+  const { altElement } = useInterest();
 
   return (
     <div
       className="mates-block-container"
       onClick={() => nav(`/profile/${nickname}`)}
-      ref={profileContainer}
     >
       <div className="profile-circle">
         <img src={profileImage} alt={nickname} />
@@ -80,21 +49,22 @@ const MatesBlock = ({
           )}
         </div>
         <div className="introduce">{introduce ? introduce : "-"}</div>
-        <div className="interests-container" ref={interestContainer}>
-          {slicedInterests.map((item, idx) => (
-            <div
-              className={isSliced ? "interests" : "interests slicing"}
-              style={{
-                backgroundColor:
-                  searchParams.get("interest") === item.toLowerCase()
-                    ? "var(--color-main-yellow)"
-                    : "var(--color-light-grey)",
-              }}
-              key={item + idx}
-            >
-              {item.toLowerCase()}
-            </div>
-          ))}
+        <div className="interests-container">
+          {allInterests &&
+            allInterests.map((item, idx) => (
+              <div
+                className="interests"
+                style={{
+                  backgroundColor:
+                    searchParams.get("interest") === item.toLowerCase()
+                      ? "var(--color-main-yellow)"
+                      : "var(--color-light-grey)",
+                }}
+                key={item + idx}
+              >
+                {item && altElement(item)}
+              </div>
+            ))}
         </div>
       </div>
     </div>

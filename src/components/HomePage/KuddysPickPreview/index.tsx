@@ -4,12 +4,16 @@ import { useNavigate } from "react-router-dom";
 import KuddysPickMainInfo from "@components/KuddysPickDetailPage/KuddysPickMainInfo";
 import { ReactComponent as ArrowIcon } from "@assets/icon/home_text_arrow.svg";
 import { kuddyspickGetPreview } from "@services/api/kuddyspick";
+import { useResetRecoilState } from "recoil";
+import { titleKeyword } from "@services/store/kuddyspick";
 
 const KuddysPickPreview = () => {
   const nav = useNavigate();
+  const resetKuddysPickKeyword = useResetRecoilState(titleKeyword);
   const [kuddysPickPreview, setKuddysPickPreview] =
     useState<KuddysPickPreviewType[]>();
   useEffect(() => {
+    resetKuddysPickKeyword();
     kuddyspickGetPreview()
       .then(res => setKuddysPickPreview(res.data.data))
       .catch(err => console.log(err));

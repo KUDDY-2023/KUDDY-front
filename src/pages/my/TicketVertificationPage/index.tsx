@@ -31,10 +31,7 @@ const TicketVerificationPage = () => {
 
   useEffect(() => {
     profileGetTicketInfo()
-      .then(res => {
-        console.log(res.data.data);
-        setTicketInfo(res.data.data);
-      })
+      .then(res => setTicketInfo(res.data.data))
       .catch();
   }, []);
 

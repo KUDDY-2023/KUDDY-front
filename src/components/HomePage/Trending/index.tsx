@@ -13,7 +13,7 @@ const Trending = () => {
   useEffect(() => {
     spotGetTrendingNow()
       .then(res => setTrendingPlace(res.data.data))
-      .catch();
+      .catch(err => console.log(err));
   }, []);
 
   return (
