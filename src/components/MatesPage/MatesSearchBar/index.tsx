@@ -1,13 +1,14 @@
 import "./mates-search-bar.scss";
 import "@components/HomePage/HomeSearchBar/home-search-bar.scss";
-import { ReactComponent as SearchIcon } from "@assets/icon/search.svg";
-import filtericon from "@assets/icon/filter.svg";
-import { ReactComponent as XBtnIcon } from "@assets/icon/xbtn.svg";
-import { ReactComponent as RefreshIcon } from "@assets/icon/refresh.svg";
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useResetRecoilState } from "recoil";
 import { profileFilter } from "@services/store/profile";
+import useInterest from "@utils/hooks/useInterest";
+import { ReactComponent as SearchIcon } from "@assets/icon/search.svg";
+import filtericon from "@assets/icon/filter.svg";
+import { ReactComponent as XBtnIcon } from "@assets/icon/xbtn.svg";
+import { ReactComponent as RefreshIcon } from "@assets/icon/refresh.svg";
 
 const filterArray = ["gender", "language", "district", "interest"];
 
@@ -16,6 +17,7 @@ const MatesSearchBar = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isFiltered, setIsFiltered] = useState<boolean>(false);
   const resetFilter = useResetRecoilState(profileFilter);
+  const { altElement } = useInterest();
 
   useEffect(() => {
     if (
@@ -77,10 +79,12 @@ const MatesSearchBar = () => {
             item =>
               searchParams.get(item) && (
                 <div className="rect">
-                  {searchParams.get(item) &&
-                    searchParams
-                      .get(item)
-                      ?.replace(/^[a-z]/, char => char.toUpperCase())}
+                  {!!searchParams.get(item) &&
+                    (item === "interest"
+                      ? altElement(String(searchParams.get(item)).toUpperCase())
+                      : searchParams
+                          .get(item)!
+                          .replace(/^[a-z]/, char => char.toUpperCase()))}
                 </div>
               ),
           )}
