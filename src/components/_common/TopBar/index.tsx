@@ -66,9 +66,13 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
   });
   useEffect(() => {
     if (!data) return;
-    if (isLogin) setProfileSrc(data.data.data.memberInfo.profileImageUrl);
-    else resetProfileImage();
+    else {
+      if (isLogin) setProfileSrc(data.data.data.memberInfo.profileImageUrl);
+    }
   }, [data]);
+  useEffect(() => {
+    if (isLogin === false) resetProfileImage();
+  }, [isLogin]);
   const profile = useRecoilValue(profileState);
   useEffect(() => {
     refetch();
