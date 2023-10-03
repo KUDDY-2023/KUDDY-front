@@ -14,6 +14,7 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { profileImage } from "@services/store/profile";
 import defaultprofileimage from "@assets/topbar/profile_default.svg";
 import { isLoginState } from "@services/store/auth";
+import { profileState } from "@services/store/auth";
 
 // 안읽은 알림 개수
 import {
@@ -58,17 +59,20 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
 
   const [profileSrc, setProfileSrc] = useRecoilState(profileImage);
   const resetProfileImage = useResetRecoilState(profileImage);
-  const { data } = useQuery(["profile"], profileGetProfile, {
+  const { data, refetch } = useQuery(["profile"], profileGetProfile, {
     staleTime: 1800000,
     cacheTime: Infinity,
     enabled: profileSrc === defaultprofileimage,
-    onSuccess: () => console.log("프로필 사진 겟 요청"),
   });
   useEffect(() => {
     if (!data) return;
     if (isLogin) setProfileSrc(data.data.data.memberInfo.profileImageUrl);
     else resetProfileImage();
   }, [data]);
+  const profile = useRecoilValue(profileState);
+  useEffect(() => {
+    refetch();
+  }, [profile]);
 
   /* 알림 상태 관리 hook */
   const { newNotification } = useSSE();

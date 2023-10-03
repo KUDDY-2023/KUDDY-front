@@ -139,11 +139,18 @@ export const useSetDefaultProfile = () => {
 
 // ✅ 프로필 조회 훅
 export const useGetProfile = () => {
-  const { data, isLoading, error } = useQuery(
+  const { data, isLoading, error, refetch } = useQuery(
     "userProfile",
     profileGetProfile,
-    { staleTime: 1800000, cacheTime: Infinity },
+    {
+      staleTime: 1800000,
+      cacheTime: Infinity,
+    },
   );
+  const profile = useRecoilValue(profileState);
+  useEffect(() => {
+    refetch();
+  }, [profile]);
   return { data, isLoading, error };
 };
 
@@ -151,11 +158,12 @@ export const useGetProfile = () => {
 export const useUpdateProfile = () => {
   const [profile, setProfile] = useRecoilState(profileState);
 
-  const onUpdateProfile = (updates: any) =>
+  const onUpdateProfile = (updates: any) => {
     setProfile(profile => ({
       ...profile,
       ...updates,
     }));
+  };
 
   return onUpdateProfile;
 };
