@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./swiper-card.scss";
 import Loading from "@components/_common/Loading";
 import { kuddyspickGetSwiperCard } from "@services/api/kuddyspick";
+import { useQuery } from "react-query";
 
 type SwiperInfoType = {
   id: number;
@@ -14,16 +15,17 @@ type SwiperInfoType = {
 
 const SwiperCard = () => {
   const nav = useNavigate();
-  const [swiperInfo, setSwiperInfo] = useState<SwiperInfoType[]>();
-  useEffect(() => {
-    kuddyspickGetSwiperCard()
-      .then(res => setSwiperInfo(res.data.data.thumbnailList))
-      .catch(err => console.log(err));
-  }, []);
-
+  const { data, isLoading } = useQuery(
+    ["swiperCard"],
+    kuddyspickGetSwiperCard,
+    {
+      staleTime: 1800000,
+      cacheTime: Infinity,
+    },
+  );
   return (
     <div className="swiper-card-wrapper">
-      {!swiperInfo ? (
+      {isLoading ? (
         <div className="loading-container">
           <Loading backColor="transparent" spinnerColor="#eee" size="30px" />
         </div>
@@ -34,21 +36,22 @@ const SwiperCard = () => {
           centeredSlides={true}
           loop={true}
         >
-          {swiperInfo.map(item => (
-            <SwiperSlide
-              key={item.id}
-              onClick={() => nav(`/kuddys-pick/${item.id}`)}
-            >
-              <div className="swiper-img-rect">
-                <img src={item.thumbnail} />
-                <div className="swiper-img-gradient"></div>
-              </div>
-              <div className="swiper-text-container">
-                <div className="swiper-text small">KUDDY's Pick</div>
-                <div className="swiper-text">{item.title}</div>
-              </div>
-            </SwiperSlide>
-          ))}
+          {data &&
+            data.data.data.thumbnailList.map((item: SwiperInfoType) => (
+              <SwiperSlide
+                key={item.id}
+                onClick={() => nav(`/kuddys-pick/${item.id}`)}
+              >
+                <div className="swiper-img-rect">
+                  <img src={item.thumbnail} />
+                  <div className="swiper-img-gradient"></div>
+                </div>
+                <div className="swiper-text-container">
+                  <div className="swiper-text small">KUDDY's Pick</div>
+                  <div className="swiper-text">{item.title}</div>
+                </div>
+              </SwiperSlide>
+            ))}
         </Swiper>
       )}
     </div>

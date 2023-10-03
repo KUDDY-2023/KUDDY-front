@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import KuddysPickMainInfo from "@components/KuddysPickDetailPage/KuddysPickMainInfo";
 import { ReactComponent as ArrowIcon } from "@assets/icon/home_text_arrow.svg";
+import { useQuery } from "react-query";
 import { kuddyspickGetPreview } from "@services/api/kuddyspick";
 import { useResetRecoilState } from "recoil";
 import { titleKeyword } from "@services/store/kuddyspick";
@@ -10,15 +11,13 @@ import { titleKeyword } from "@services/store/kuddyspick";
 const KuddysPickPreview = () => {
   const nav = useNavigate();
   const resetKuddysPickKeyword = useResetRecoilState(titleKeyword);
-  const [kuddysPickPreview, setKuddysPickPreview] =
-    useState<KuddysPickPreviewType[]>();
+  const { data } = useQuery(["kuddysPickPrevew"], kuddyspickGetPreview, {
+    staleTime: 1800000,
+    cacheTime: Infinity,
+  });
   useEffect(() => {
     resetKuddysPickKeyword();
-    kuddyspickGetPreview()
-      .then(res => setKuddysPickPreview(res.data.data))
-      .catch(err => console.log(err));
   }, []);
-
   return (
     <>
       <div className="kuddyspickpreview-header">
@@ -31,9 +30,9 @@ const KuddysPickPreview = () => {
           <ArrowIcon />
         </div>
       </div>
-      {kuddysPickPreview && (
+      {data && (
         <div className="kuddyspickpreview-container">
-          {kuddysPickPreview.map(item => (
+          {data.data.data.map((item: KuddysPickPreviewType) => (
             <div key={item.id} style={{ marginBottom: "30px" }}>
               <KuddysPickMainInfo {...item} />
               {item.pickSpotList &&

@@ -139,7 +139,11 @@ export const useSetDefaultProfile = () => {
 
 // ✅ 프로필 조회 훅
 export const useGetProfile = () => {
-  const { data, isLoading, error } = useQuery("userProfile", profileGetProfile);
+  const { data, isLoading, error } = useQuery(
+    "userProfile",
+    profileGetProfile,
+    { staleTime: 1800000, cacheTime: Infinity },
+  );
   return { data, isLoading, error };
 };
 

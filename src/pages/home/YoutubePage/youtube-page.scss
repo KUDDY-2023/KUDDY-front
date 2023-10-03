@@ -1,0 +1,28 @@
+.youtube-page-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .list-container {
+    width: calc(100% - 50px);
+    margin-top: 10px;
+
+    iframe {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 10px;
+    }
+
+    .youtube-title {
+      color: var(--color-black);
+      font-family: var(--font-text);
+      font-size: 18px;
+      font-weight: 600;
+      word-break: keep-all;
+      line-height: 120%;
+      padding: 0 5px;
+      margin: 5px 0 20px 0;
+    }
+  }
+}
