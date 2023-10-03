@@ -52,7 +52,7 @@ const IntroSection = ({ profile, isMine }: Props) => {
     let newValues: string[] = [];
 
     for (let i = 0; i < interestKey.length; i++) {
-      const temp = profile?.interests?.[interestKey[i]].map((v: any) => {
+      const temp = profile?.interests?.[interestKey[i]]?.map((v: any) => {
         if (v !== "NOT_SELECTED") {
           return v.toLowerCase();
         }

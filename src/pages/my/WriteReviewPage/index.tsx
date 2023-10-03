@@ -32,10 +32,22 @@ const WriteReviewPage = () => {
   // complete 버튼 클릭
   const handleCompleteClick = async () => {
     const selectedSatisfaction = satisfaction.filter(item => item.isSelected);
+    let updatedGrade = "";
+    switch (selectedSatisfaction[0].grade) {
+      case "Excellent":
+        updatedGrade = "perfect";
+        break;
+      case "Good":
+        updatedGrade = "good";
+        break;
+      case "Disappointing":
+        updatedGrade = "disappoint";
+    }
+
     const res = await onPostReview({
       meetupId: Number(appointmentId),
       content: aboutBuddy,
-      grade: selectedSatisfaction[0].grade.toLowerCase(),
+      grade: updatedGrade,
     });
     console.log(res);
   };
