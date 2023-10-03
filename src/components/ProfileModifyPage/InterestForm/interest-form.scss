@@ -2,7 +2,7 @@
 
 .interest-edit-container {
   width: calc(100% - 50px);
-  height: calc(100% - 250px);
+  height: calc(100% - 200px);
 
   .selected-interest-cnt {
     margin-left: 5px;
@@ -41,6 +41,7 @@
   gap: 12px;
 
   overflow-x: scroll;
+  white-space: nowrap;
   -ms-overflow-style: none;
   scrollbar-width: none;
   &::-webkit-scrollbar {
@@ -50,6 +51,7 @@
 
 .interest-item {
   display: flex;
+  width: fit-content;
   padding: 8px 16px;
   justify-content: center;
   align-items: center;

@@ -29,14 +29,12 @@ const ProfileModifyPage = () => {
   const nations = ["Spanish", "US", "Germany"];
   const interestType = [
     "artBeauty",
-    "activitiesInvestmentTech",
     "careerMajor",
     "entertainment",
     "food",
     "hobbiesInterests",
     "lifestyle",
     "sports",
-    "wellbeing",
   ];
 
   const [profile, setProfile] = useRecoilState(profileState); // 프로필 전역 상태
@@ -58,9 +56,7 @@ const ProfileModifyPage = () => {
   // 내 프로필 정보 가져오기
   useEffect(() => {
     if (data) {
-      console.log("####" + JSON.stringify(data.data.data));
       const myProfile = data.data.data;
-      console.log("$$$" + JSON.stringify(myProfile?.interests));
 
       // 프로필 저장
       setProfile({
@@ -96,12 +92,6 @@ const ProfileModifyPage = () => {
       setInterestsArr(newInterests);
     }
   }, [isLoading]);
-
-  // ✨지우기
-  useEffect(() => {
-    console.log(JSON.stringify(profile));
-  }, [profile]);
-  // ✨
 
   // 프로필 이미지 관련
   const handlePhotoBtnClick = async (
@@ -160,12 +150,9 @@ const ProfileModifyPage = () => {
   // birth date 관련
   const formatDate = (inputDateString: string) => {
     let dateParts = String(inputDateString).split(" ");
-    console.log("dateParts" + dateParts);
     let extractedDate = dateParts.slice(1, 4).join(" ");
-    console.log("extractedDate" + extractedDate);
 
     let parsedDate = new Date(extractedDate); // 추출한 부분을 Date 객체로 파싱
-    console.log("parsedDate" + parsedDate);
 
     // 날짜를 "2021-11-05" 형식으로 포맷팅
     let formattedDate =
