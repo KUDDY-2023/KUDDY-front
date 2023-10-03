@@ -250,15 +250,13 @@ export const CheckNicknameString = (newName: string) => {
 // 프로필 수정
 export const usePutProfileModify = () => {
   const interestKey = [
-    "activitiesInvestmentTech",
     "artBeauty",
     "careerMajor",
-    "lifestyle",
     "entertainment",
     "food",
     "hobbiesInterests",
+    "lifestyle",
     "sports",
-    "wellbeing",
   ];
   const profile = useRecoilValue(profileState);
   const introduce = useRecoilValue(profileIntroduce);
@@ -279,7 +277,7 @@ export const usePutProfileModify = () => {
   for (let i = 0; i < interestsArr.length; i++) {
     const temp = interestsArr[i].interests
       .filter(interest => interest.selected)
-      .map(interest => interest.inter);
+      .map(interest => interest.inter.toUpperCase().replace(/ /g, "_"));
 
     newInterests[interestKey[i]] = temp.length ? temp : ["NOT_SELECTED"];
   }
