@@ -45,7 +45,18 @@ const TravelDetailSection = ({
           className={isOpened ? "content about" : "content about about-closed"}
           onClick={isOpened ? undefined : () => setIsOpened(true)}
         >
-          {content}
+          {content.includes("<br>") ? (
+            content.split("<br>").map((line, idx) => (
+              <span key={idx}>
+                {line}
+                <br />
+              </span>
+            ))
+          ) : content === "" ? (
+            <span>-</span>
+          ) : (
+            <span>{content}</span>
+          )}
         </div>
       )}
       {title === "Phone number" && typeof content === "string" && (

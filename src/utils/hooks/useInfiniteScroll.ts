@@ -48,7 +48,6 @@ const useInfiniteScroll = ({
         ? fetch({ page: pageParam, ...fetchParams })
         : fetch(pageParam),
     {
-      keepPreviousData: true,
       getNextPageParam: data => {
         const pageInfo = data.data.data.pageInfo;
         return pageInfo.page < pageInfo.totalPages
