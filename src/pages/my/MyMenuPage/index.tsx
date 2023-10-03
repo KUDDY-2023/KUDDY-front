@@ -32,33 +32,31 @@ const MyMenuPage = () => {
   const { data, isLoading, error } = useGetProfile();
   const onLogout = useAuthLogout();
 
-  useEffect(() => {
-    if (data) setUserInfo(data.data.data);
-  }, [isLoading]);
-
   return (
     <div className="my-menu-page-wrapper">
       <div className="xbtn-container">
         <XbtnIcon onClick={() => nav("/")} />
       </div>
-      {userInfo && (
+      {data && (
         <>
           <div
             className="to-profile-click-area"
-            onClick={() => nav(`/profile/${userInfo.memberInfo.nickname}`)}
+            onClick={() =>
+              nav(`/profile/${data.data.data.memberInfo.nickname}`)
+            }
           >
             <div className="profile-circle">
-              <img src={userInfo.memberInfo.profileImageUrl} />
+              <img src={data.data.data.memberInfo.profileImageUrl} />
             </div>
-            <div className="name">{userInfo.memberInfo.nickname}</div>
-            <div className="email">{userInfo.memberInfo.email}</div>
+            <div className="name">{data.data.data.memberInfo.nickname}</div>
+            <div className="email">{data.data.data.memberInfo.email}</div>
           </div>
           <div className="section-container">
             {iconSrc.map(
               (item, idx) =>
                 ((idx !== 2 && idx !== 3) ||
-                  (idx === 2 && userInfo.role === "KUDDY") ||
-                  (idx === 3 && userInfo.role === "TRAVELER")) && (
+                  (idx === 2 && data.data.data.role === "KUDDY") ||
+                  (idx === 3 && data.data.data.role === "TRAVELER")) && (
                   <div
                     className="section"
                     key={item.text}

@@ -7,10 +7,12 @@ import { ReactComponent as NewChatIcon } from "@assets/topbar/chat_new.svg";
 import { ReactComponent as NotificationIcon } from "@assets/topbar/notification_default.svg";
 import { ReactComponent as NewNotificationIcon } from "@assets/topbar/notification_new.svg";
 
+import { useQuery } from "react-query";
 import { profileGetProfile } from "@services/api/profile";
 import { useSetLoginState } from "@services/hooks/auth";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { profileImage } from "@services/store/profile";
+import defaultprofileimage from "@assets/topbar/profile_default.svg";
 import { isLoginState } from "@services/store/auth";
 
 // 안읽은 알림 개수
@@ -48,26 +50,25 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, [position]);
-
-  const [profileSrc, setProfileSrc] = useRecoilState(profileImage);
-  const resetProfileImage = useResetRecoilState(profileImage);
-
   useEffect(() => {
     setPosition(0);
     setVisible(undefined);
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-    if (isLogin)
-      profileGetProfile()
-        .then(res => {
-          setProfileSrc(prev =>
-            prev === res.data.data.memberInfo.profileImageUrl
-              ? prev
-              : res.data.data.memberInfo.profileImageUrl,
-          );
-        })
-        .catch(err => console.log(err));
-    else resetProfileImage();
   }, []);
+
+  const [profileSrc, setProfileSrc] = useRecoilState(profileImage);
+  const resetProfileImage = useResetRecoilState(profileImage);
+  const { data } = useQuery(["profile"], profileGetProfile, {
+    staleTime: 1800000,
+    cacheTime: Infinity,
+    enabled: profileSrc === defaultprofileimage,
+    onSuccess: () => console.log("프로필 사진 겟 요청"),
+  });
+  useEffect(() => {
+    if (!data) return;
+    if (isLogin) setProfileSrc(data.data.data.memberInfo.profileImageUrl);
+    else resetProfileImage();
+  }, [data]);
 
   /* 알림 상태 관리 hook */
   const { newNotification } = useSSE();
