@@ -32,6 +32,7 @@
   }
 
   .text-section {
+    width: 100%;
     .name-container {
       display: flex;
       align-items: center;
@@ -86,7 +87,11 @@
 
     .interests-container {
       display: flex;
+      flex-wrap: wrap;
       margin-top: 5px;
+      width: calc(100% - 8px);
+      height: 28px;
+      overflow: hidden;
 
       .interests {
         display: flex;

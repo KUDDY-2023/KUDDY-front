@@ -1,3 +1,12 @@
+type interestGroupType =
+  | "artBeauty"
+  | "careerMajor"
+  | "entertainment"
+  | "food"
+  | "hobbiesInterests"
+  | "lifestyle"
+  | "sports";
+
 type wellbeingType =
   | "NOT_SELECTED"
   | "HEALTH"

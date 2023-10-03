@@ -19,18 +19,22 @@ const KuddysPickPage = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (searchedWord === "")
-      kuddyspickGetAllList()
-        .then(res => setKuddysPickList(res.data.data.thumbnailList))
-        .catch();
   }, []);
 
+  const { data: res, isLoading } = useQuery(
+    ["getAllKuddysPick"],
+    kuddyspickGetAllList,
+    { enabled: searchedWord === "" },
+  );
+  useEffect(() => {
+    if (res) setKuddysPickList(res!.data.data.thumbnailList);
+  }, [res]);
+
   const { data } = useQuery(
-    ["getByTitle", searchedWord],
+    ["getKuddysPickByTitle", searchedWord],
     () => kuddyspickGetByTitle(searchedWord).then().catch(),
     { enabled: !!searchedWord },
   );
-
   useEffect(() => {
     if (data) setKuddysPickList(data!.data.data.thumbnailList);
   }, [data]);
@@ -42,20 +46,19 @@ const KuddysPickPage = () => {
         setSearchInput={setValue}
         onChange={onChange}
       />
-      {kuddysPickList &&
-        (kuddysPickList.length === 0 ? (
-          <div className="empty">
-            <div className="no-result">No result</div>
-            <p>Try searching differently</p>
-          </div>
-        ) : (
-          <>
-            {kuddysPickList.map(item => (
-              <KuddysPickBlock {...item} key={item.id} />
-            ))}
-            <div style={{ height: "30px" }} />
-          </>
-        ))}
+      {kuddysPickList && !isLoading && kuddysPickList.length === 0 ? (
+        <div className="empty">
+          <div className="no-result">No result</div>
+          <p>Try searching differently</p>
+        </div>
+      ) : (
+        <>
+          {kuddysPickList.map(item => (
+            <KuddysPickBlock {...item} key={item.id} />
+          ))}
+          <div style={{ height: "30px" }} />
+        </>
+      )}
     </div>
   );
 };

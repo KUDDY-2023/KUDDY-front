@@ -18,7 +18,7 @@ const SwiperCard = () => {
   useEffect(() => {
     kuddyspickGetSwiperCard()
       .then(res => setSwiperInfo(res.data.data.thumbnailList))
-      .catch();
+      .catch(err => console.log(err));
   }, []);
 
   return (

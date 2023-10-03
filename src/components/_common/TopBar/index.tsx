@@ -9,7 +9,7 @@ import { ReactComponent as NewNotificationIcon } from "@assets/topbar/notificati
 
 import { profileGetProfile } from "@services/api/profile";
 import { useSetLoginState } from "@services/hooks/auth";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { profileImage } from "@services/store/profile";
 import { isLoginState } from "@services/store/auth";
 
@@ -50,6 +50,7 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
   }, [position]);
 
   const [profileSrc, setProfileSrc] = useRecoilState(profileImage);
+  const resetProfileImage = useResetRecoilState(profileImage);
 
   useEffect(() => {
     setPosition(0);
@@ -64,7 +65,8 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
               : res.data.data.memberInfo.profileImageUrl,
           );
         })
-        .catch();
+        .catch(err => console.log(err));
+    else resetProfileImage();
   }, []);
 
   /* 알림 상태 관리 hook */

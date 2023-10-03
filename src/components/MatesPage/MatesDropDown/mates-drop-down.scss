@@ -1,5 +1,12 @@
 @import "../../../style/mixins";
 
+.mates-drop-down-wrapper {
+  position: relative;
+  &.flex {
+    margin-left: 10px;
+  }
+}
+
 .mates-drop-down-rect {
   height: 32px;
   border-radius: 16px;
@@ -52,7 +59,8 @@
 
   position: absolute;
   z-index: 50;
-  margin-top: 42px;
+  top: 40px;
+  left: 0;
   padding: 8px 0;
 
   .drop-down-item {

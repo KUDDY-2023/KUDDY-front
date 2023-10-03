@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState } from "recoil";
 
 import { isLoginState, accessTokenState } from "@services/store/auth";
+import { profileImage } from "@services/store/profile";
 
 import { authLogOut, authDeleteAccount } from "@services/api/auth";
 import { profileGetProfile } from "@services/api/profile";
@@ -73,6 +74,7 @@ export const useAuthLogout = () => {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const navigate = useNavigate();
+  const resetProfileImage = useResetRecoilState(profileImage);
 
   const Logout = async () => {
     try {
@@ -88,6 +90,7 @@ export const useAuthLogout = () => {
     setIsLogin(false); // 비로그인상태
     updateAuthHeader(); // axios 헤더에서 토큰 비우기
     localStorage.removeItem("accessToken"); // localstorage 삭제
+    resetProfileImage(); // profile image recoil 초기화
     navigate("/"); // 메인 페이지로 이동
   };
 

@@ -28,7 +28,14 @@ const TravelBlock = ({
   const nav = useNavigate();
   return (
     <div className="travelblock-wrapper">
-      <div className="block" onClick={() => nav(`/travel/${contentId}`)}>
+      <div
+        className="block"
+        onClick={() =>
+          isNearby
+            ? nav(`/travel/${contentId}`, { replace: true })
+            : nav(`/travel/${contentId}`)
+        }
+      >
         <div className="img-rect">
           <img src={imageUrl === "" ? defaultthumbnail : imageUrl} alt={name} />
         </div>

@@ -8,7 +8,6 @@ import MatesDropDown from "@components/MatesPage/MatesDropDown";
 import { districtArray } from "@pages/travel/TravelPage/_mock";
 import { languageArray, interestArray } from "@pages/mates/MatesPage/_mock";
 
-// interest 로직 추가 필요
 const MatesSearchPage = () => {
   const nav = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -43,7 +42,7 @@ const MatesSearchPage = () => {
       : interestArray
           .map(item =>
             item.element === searchParams.get("interest")!.toUpperCase()
-              ? item.group.replace(/^[a-z]/, char => char.toUpperCase())
+              ? item.group
               : null,
           )
           .filter(item => item !== null)[0],
@@ -67,7 +66,7 @@ const MatesSearchPage = () => {
           interestArray
             .map(item =>
               item.element === searchParams.get("interest")!.toUpperCase()
-                ? item.group.replace(/^[a-z]/, char => char.toUpperCase())
+                ? item.group
                 : null,
             )
             .filter(item => item !== null)[0],
@@ -177,16 +176,8 @@ const MatesSearchPage = () => {
         />
         <MatesDropDown
           items={interestArray
-            .filter(
-              item =>
-                item.group.replace(/^[a-z]/, char => char.toUpperCase()) ===
-                selectedGroup,
-            )
-            .map(item =>
-              item.element
-                .toLowerCase()
-                .replace(/^[a-z]/, char => char.toUpperCase()),
-            )}
+            .filter(item => item.group === selectedGroup)
+            .map(row => row.element)}
           placeholder="Element"
           groupValue={selectedGroup}
           value={selectedElement}
