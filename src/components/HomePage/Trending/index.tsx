@@ -5,17 +5,14 @@ import TravelBlock from "@components/Travel/TravelBlock";
 import { ReactComponent as ArrowIcon } from "@assets/icon/home_text_arrow.svg";
 
 import { spotGetTrendingNow } from "@services/api/spot";
+import { useQuery } from "react-query";
 
 const Trending = () => {
   const nav = useNavigate();
-  const [trendingPlace, setTrendingPlace] = useState<TravelPreviewType[]>([]);
-
-  useEffect(() => {
-    spotGetTrendingNow()
-      .then(res => setTrendingPlace(res.data.data))
-      .catch(err => console.log(err));
-  }, []);
-
+  const { data } = useQuery(["trendingNow"], spotGetTrendingNow, {
+    staleTime: 1800000,
+    cacheTime: Infinity,
+  });
   return (
     <>
       <div className="trending-header">
@@ -26,9 +23,10 @@ const Trending = () => {
         </div>
       </div>
       <div className="trending-container">
-        {trendingPlace.map(item => (
-          <TravelBlock key={item.contentId} {...item} />
-        ))}
+        {data &&
+          data.data.data.map((item: TravelPreviewType) => (
+            <TravelBlock key={item.contentId} {...item} />
+          ))}
         <div className="end"></div>
       </div>
     </>

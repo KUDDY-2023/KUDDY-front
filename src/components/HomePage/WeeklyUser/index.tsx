@@ -1,23 +1,20 @@
 import "./weekly-user.scss";
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
 import { profileGetTop5 } from "@services/api/profile";
 
 const WeeklyUser = () => {
   const nav = useNavigate();
-  const [weeklyUser, setWeeklyUser] = useState<any[]>();
-  useEffect(() => {
-    profileGetTop5()
-      .then(res => setWeeklyUser(res.data.data.top5KuddyList))
-      .catch(err => console.log(err));
-  }, []);
-
+  const { data } = useQuery(["weeklyUser"], profileGetTop5, {
+    staleTime: 1800000,
+    cacheTime: Infinity,
+  });
   return (
     <>
       <div className="weeklyuser-title">Weekly K-Buddy</div>
       <div className="weeklyuser-container">
-        {weeklyUser &&
-          weeklyUser.map((item: any) => (
+        {data &&
+          data.data.data.top5KuddyList.map((item: any) => (
             <div
               className="weeklyuser-rect"
               key={item.profileId}
