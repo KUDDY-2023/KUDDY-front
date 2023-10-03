@@ -7,7 +7,7 @@ const NavBar = () => {
   const nav = useNavigate();
 
   const handleGoBack = () => {
-    nav(-1);
+    nav("/my");
   };
 
   const handleElseClick = () => {
