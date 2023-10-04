@@ -9,6 +9,9 @@ import { PayPalButtonsComponentProps } from "@paypal/react-paypal-js";
 // 캘린더
 import { useAddCalendar } from "@services/hooks/calendar";
 
+// 일정 추가 확인 alert
+import { confirmAddAlert, completeAlert } from "@components/_common/SweetAlert";
+
 // 모달
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -90,7 +93,13 @@ export default function PayPal({
         return actions.order.capture({}).then((details: any) => {
           onUpdateMessage("PAYED"); // 동행 메세지 상태 업데이트
           handleClose(); // 모달 닫기
-          onAddCalendar(info.id); // 캘린더에 일정 추가
+          confirmAddAlert().then(result => {
+            if (result.isConfirmed) {
+              onAddCalendar(info.id).then(res => {
+                completeAlert();
+              }); // 캘린더에 일정 추가
+            }
+          });
         });
       },
     };
