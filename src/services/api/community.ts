@@ -7,12 +7,18 @@ import { apiClient } from ".";
  * 그 외 복잡한 로직은 hooks에서 처리
  */
 
+type communityGetPostParamType = {
+  page: number;
+  size: number;
+  type: string;
+};
+
 // ✅ 게시글 리스트 조회
-export const communityGetPostList = async (
-  type: string,
-  page: number,
-  size: number,
-) => {
+export const communityGetPostList = async ({
+  type,
+  page,
+  size,
+}: communityGetPostParamType) => {
   const url = `/api/v1/posts/list?type=${type}&page=${page}&size=${size}`;
   return apiClient.get(url);
 };
@@ -68,4 +74,16 @@ export const communityPostComment = async (id: number, comment: any) => {
 export const communityPostReply = async (id: number, reply: any) => {
   const url = `/api/v1/comments/reply/${id}`;
   return apiClient.post(url, reply);
+};
+
+// 댓글, 대댓글 삭제
+export const communityDeleteComment = async (commentId: number) => {
+  const url = `/api/v1/comments/${commentId}`;
+  return apiClient.delete(url);
+};
+
+// 게시물 삭제
+export const communityDeletePost = async (postId: number) => {
+  const url = `/api/v1/posts/${postId}`;
+  return apiClient.delete(url);
 };

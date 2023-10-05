@@ -1,3 +1,5 @@
+@import "../../../style/mixins";
+
 .post-list-wrapper {
   width: 100%;
   display: flex;
@@ -5,4 +7,30 @@
   align-items: center;
   padding-bottom: 106px;
   margin-top: 120px;
+}
+
+.no-posts {
+  width: 100%;
+  height: calc(100vh - 195px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include font-style(--font-text, 14px, color(grey-text), 500);
+}
+
+.last-post-item {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.end-of-post-list {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+
+  text-align: center;
+  @include font-style(--font-text, 14px, color(grey-text), 500);
 }

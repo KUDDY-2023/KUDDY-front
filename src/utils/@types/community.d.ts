@@ -1,4 +1,4 @@
-type MenuType = "itinerary-feedback" | "talking-board";
+type MenuType = "itinerary" | "talkingboard";
 
 interface SpotType {
   contentId: number;

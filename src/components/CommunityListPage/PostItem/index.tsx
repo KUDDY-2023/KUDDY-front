@@ -19,7 +19,11 @@ const PostItem = ({ post }: any) => {
           {post.postType === "joinus" ? (
             <div className="post-filter is-join-us">Join us</div>
           ) : (
-            <div className="post-filter">{post.subject}</div>
+            <div className="post-filter">
+              {post.subject.replace(/^[a-z]/, (char: string) =>
+                char.toUpperCase(),
+              )}
+            </div>
           )}
           {post.postType === "joinus" && (
             <div className="join-us-container">

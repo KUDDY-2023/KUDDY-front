@@ -138,7 +138,7 @@ const WritePostPage = () => {
             }
             onClick={() => setPostType("itinerary")}
           >
-            Feedback
+            Route
           </div>
           <div
             className={

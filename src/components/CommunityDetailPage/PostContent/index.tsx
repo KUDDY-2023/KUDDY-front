@@ -2,7 +2,7 @@ import "./post-content.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import PhotoSlide from "@components/CommunityDetailPage/PhotoSlide";
-import customPin from "@assets/community/customPin.svg";
+import customPin from "@assets/community/custom_pin.svg";
 
 type Props = {
   postData: any;
@@ -180,7 +180,7 @@ const PostContent = ({ postData }: Props) => {
           </div>
         )}
 
-        {postData?.fileUrls && <PhotoSlide />}
+        {postData?.fileUrls && <PhotoSlide photoInfo={postData?.fileUrls} />}
       </div>
     </div>
   );
