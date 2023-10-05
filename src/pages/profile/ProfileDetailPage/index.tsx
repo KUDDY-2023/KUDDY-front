@@ -35,7 +35,10 @@ const ProfileDetailPage = () => {
 
   return (
     <div className="profile-detail-container">
-      <NavBar />
+      <NavBar
+        profileId={Number(profile?.memberInfo?.memberId)}
+        isMine={isMine}
+      />
       <IntroSection profile={profile} isMine={isMine} />
       <AboutBuddySection profile={profile} />
       <ReviewSection profile={profile} />

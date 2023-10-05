@@ -1,23 +1,49 @@
 import "./nav-bar.scss";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as BackIcon } from "@assets/icon/back.svg";
-import { ReactComponent as ElseIcon } from "@assets/icon/else_default.svg";
+import ViewMoreBtn from "@components/_common/ViewMoreBtn";
 
-const NavBar = () => {
+type Props = {
+  profileId: number;
+  isMine: boolean;
+};
+
+const NavBar = ({ profileId, isMine }: Props) => {
   const nav = useNavigate();
+  const { nickname } = useParams();
 
   const handleGoBack = () => {
     nav("/my");
   };
 
-  const handleElseClick = () => {
-    console.log("... 버튼 클릭");
+  // 프로필 공유
+  const handleShareClick = () => {
+    console.log("share link");
+  };
+
+  // 프로필 신고
+  const handleReportClick = () => {
+    nav(`/my/report?userId=${profileId}`);
   };
 
   return (
     <div className="nav-bar-container">
       <BackIcon onClick={handleGoBack} id="back-icon" />
-      <ElseIcon onClick={handleElseClick} id="else-icon" />
+      <div id="else-icon">
+        <ViewMoreBtn isComment={false}>
+          <>
+            {!isMine && (
+              <div className="menu-click-area" onClick={handleReportClick}>
+                <p>report user</p>
+              </div>
+            )}
+            <div className="menu-click-area" onClick={handleShareClick}>
+              <p>share link</p>
+            </div>
+          </>
+        </ViewMoreBtn>
+      </div>
     </div>
   );
 };

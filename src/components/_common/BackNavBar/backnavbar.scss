@@ -22,6 +22,12 @@ $black: var(--color-black);
     top: 18px;
   }
 
+  #more {
+    position: absolute;
+    right: 28px;
+    top: 18px;
+  }
+
   p {
     margin: 0 !important;
     color: $black;

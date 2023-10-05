@@ -85,11 +85,11 @@ const CommentItem = ({
               {review?.isAuthor && <img src={creatorBadge} />}
             </div>
             {isMine && (
-              <ViewMoreBtn
-                isComment={true}
-                isCommunity={true}
-                handleBtnClick={onClickDelete}
-              />
+              <ViewMoreBtn isComment={true}>
+                <div className="menu-click-area" onClick={onClickDelete}>
+                  <p>delete</p>
+                </div>
+              </ViewMoreBtn>
             )}
           </div>
 

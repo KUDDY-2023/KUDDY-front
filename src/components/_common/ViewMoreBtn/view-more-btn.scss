@@ -1,18 +1,20 @@
 @import "../../../style/mixins";
 
-.view-more-container {
-  position: relative;
-}
-
 .comment-else {
   width: 20px;
   height: 20px;
   cursor: pointer;
 }
 
+.nav-bar-else {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
 .more-menu-container {
   z-index: 200;
-  position: absolute;
+  position: fixed;
   left: 50%;
   bottom: 0;
   transform: translate(-50%, 0);
@@ -27,17 +29,24 @@
 
 .more-menu {
   position: absolute;
-  left: 0;
+  left: 50%;
   bottom: 0;
+  transform: translate(-50%, 0);
+
   display: inline-flex;
-  width: 100%;
-  padding: 28px 20px 42px 20px;
+  width: 100vw;
+  padding: 30px 20px 40px;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: 28px;
 
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 10px 10px 0 0;
   background: color(white);
+
+  @media (min-width: 600px) {
+    width: 600px;
+  }
 }
 
 .menu-click-area {

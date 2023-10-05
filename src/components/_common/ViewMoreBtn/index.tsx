@@ -11,16 +11,13 @@ type Props = {
 
 /*
 [댓글]
-isComment
 내 댓글에만 ... 버튼 (삭제용)
 
 [게시물]
-
-내 게시물 -> 삭제 isMyPost
-다른 사람 게시물 -> 공유  !isMyPost
+내 게시물 -> 삭제
+다른 사람 게시물 -> 공유
 
 [프로필]
-!isCommunity
 다른 사람 프로필 -> 신고, 공유
  */
 
@@ -34,7 +31,7 @@ const ViewMoreBtn = ({ isComment, children }: Props) => {
         {isComment ? (
           <CommentElseIcon className="comment-else" />
         ) : (
-          <PostElseIcon />
+          <PostElseIcon className="nav-bar-else" />
         )}
         {isOpened && (
           <div className="more-menu-container" ref={modalRef}>

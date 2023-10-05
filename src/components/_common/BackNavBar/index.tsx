@@ -9,14 +9,14 @@ interface Props {
   middleTitle: string;
   isShare: boolean;
   hasMoreBtn?: boolean; // ... 버튼
-  moreMenu?: ReactNode; // ... 버튼 - 메뉴
+  children?: ReactNode; // ... 버튼 - 메뉴
 }
 
 export default function BackNavBar({
   middleTitle,
   isShare,
   hasMoreBtn,
-  moreMenu,
+  children,
 }: Props) {
   const navigate = useNavigate();
 
@@ -34,7 +34,11 @@ export default function BackNavBar({
       <p>{middleTitle}</p>
 
       {isShare && <ShareIcon onClick={_handleShare} id="share" />}
-      {hasMoreBtn && <ViewMoreBtn isComment={false}>{moreMenu}</ViewMoreBtn>}
+      {hasMoreBtn && (
+        <div id="more">
+          <ViewMoreBtn isComment={false}>{children}</ViewMoreBtn>
+        </div>
+      )}
     </div>
   );
 }
