@@ -6,7 +6,7 @@ import AddSpotForm from "@components/WritePostPage/AddSpotForm";
 import addBtn from "@assets/community/add_btn.svg";
 import moveBtn from "@assets/community/move_btn.svg";
 import xBtn from "@assets/icon/red_x.svg";
-import customPin from "@assets/community/customPin.svg";
+import customPin from "@assets/community/custom_pin.svg";
 import { itineraryPostState } from "@services/store/community";
 
 type markerType = {
