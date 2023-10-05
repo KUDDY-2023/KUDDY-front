@@ -8,6 +8,7 @@ import {
   communityPostComment,
   communityPostReply,
   communityDeleteComment,
+  communityDeletePost,
 } from "@services/api/community";
 import useInfiniteScroll from "@utils/hooks/useInfiniteScroll";
 
@@ -142,4 +143,18 @@ export const useDeleteComment = () => {
   };
 
   return onDeleteComment;
+};
+
+// 게시물 삭제
+export const useDeletePost = () => {
+  const onDeletePost = async (postId: number) => {
+    try {
+      const res = await communityDeletePost(postId);
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return onDeletePost;
 };
