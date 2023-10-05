@@ -11,7 +11,7 @@ const CommunityListPage = () => {
 
   // 상단 메뉴 클릭
   const handleMenuClick = (menu: MenuType) => {
-    menu === "itinerary-feedback"
+    menu === "itinerary"
       ? setMenuType("itinerary")
       : setMenuType("talkingboard");
   };

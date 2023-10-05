@@ -1,36 +1,35 @@
 import "./menu.scss";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { postMenuState } from "@services/store/community";
 
 type Props = {
   handleMenuClick: (menu: MenuType) => void;
 };
 
 const Menu = ({ handleMenuClick }: Props) => {
-  const nav = useNavigate();
-  const [menu, setMenu] = useState<MenuType>("itinerary-feedback");
+  const [menuType, setMenuType] = useRecoilState(postMenuState);
 
   return (
     <div className="menu-container">
       <div className="menu-btn-container">
         <div
           className={
-            menu === "itinerary-feedback" ? "select-btn active" : "select-btn"
+            menuType === "itinerary" ? "select-btn active" : "select-btn"
           }
           onClick={() => {
-            setMenu("itinerary-feedback");
-            handleMenuClick("itinerary-feedback");
+            setMenuType("itinerary");
+            handleMenuClick("itinerary");
           }}
         >
           Route Feedback
         </div>
         <div
           className={
-            menu === "talking-board" ? "select-btn active" : "select-btn"
+            menuType === "talkingboard" ? "select-btn active" : "select-btn"
           }
           onClick={() => {
-            setMenu("talking-board");
-            handleMenuClick("talking-board");
+            setMenuType("talkingboard");
+            handleMenuClick("talkingboard");
           }}
         >
           Open Forum
