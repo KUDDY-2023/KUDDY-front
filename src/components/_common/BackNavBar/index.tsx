@@ -1,14 +1,23 @@
 import "./backnavbar.scss";
+import { ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as BackIcon } from "@assets/icon/back.svg";
 import { ReactComponent as ShareIcon } from "@assets/icon/share.svg";
+import ViewMoreBtn from "@components/_common/ViewMoreBtn";
 
 interface Props {
   middleTitle: string;
   isShare: boolean;
+  hasMoreBtn?: boolean; // ... 버튼
+  moreMenu?: ReactNode; // ... 버튼 - 메뉴
 }
 
-export default function BackNavBar({ middleTitle, isShare }: Props) {
+export default function BackNavBar({
+  middleTitle,
+  isShare,
+  hasMoreBtn,
+  moreMenu,
+}: Props) {
   const navigate = useNavigate();
 
   const goBack = () => {
@@ -25,6 +34,7 @@ export default function BackNavBar({ middleTitle, isShare }: Props) {
       <p>{middleTitle}</p>
 
       {isShare && <ShareIcon onClick={_handleShare} id="share" />}
+      {hasMoreBtn && <ViewMoreBtn isComment={false}>{moreMenu}</ViewMoreBtn>}
     </div>
   );
 }
