@@ -1,0 +1,45 @@
+@import "../../../style/mixins";
+
+.view-more-container {
+  position: relative;
+}
+
+.comment-else {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.else-dropdown {
+  z-index: 50;
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 10px;
+  border: 1px solid color(grey-line);
+  background-color: color(white);
+  padding: 8px 0;
+  cursor: pointer;
+
+  &.comment {
+    position: absolute;
+    width: 100px;
+    top: 25px;
+    right: 0px;
+  }
+
+  .click-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 34px;
+
+    &.comment {
+      height: 15px;
+    }
+
+    p {
+      @include font-style(--font-text, 14px, color(black), 500);
+    }
+  }
+}
