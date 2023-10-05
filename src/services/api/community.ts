@@ -7,12 +7,18 @@ import { apiClient } from ".";
  * 그 외 복잡한 로직은 hooks에서 처리
  */
 
+type communityGetPostParamType = {
+  page: number;
+  size: number;
+  type: string;
+};
+
 // ✅ 게시글 리스트 조회
-export const communityGetPostList = async (
-  type: string,
-  page: number,
-  size: number,
-) => {
+export const communityGetPostList = async ({
+  type,
+  page,
+  size,
+}: communityGetPostParamType) => {
   const url = `/api/v1/posts/list?type=${type}&page=${page}&size=${size}`;
   return apiClient.get(url);
 };

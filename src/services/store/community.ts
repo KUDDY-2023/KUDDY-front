@@ -1,5 +1,11 @@
 import { atom, selector } from "recoil";
 
+// 메뉴 타입 atom
+export const postMenuState = atom<string>({
+  key: "postMenuState",
+  default: "itinerary",
+});
+
 // ⭐ Itinerary 게시물 생성 atom
 export const itineraryPostState = atom<ItineraryPostType>({
   key: "itineraryPostState",

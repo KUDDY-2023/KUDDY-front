@@ -8,19 +8,27 @@ import {
   communityPostComment,
   communityPostReply,
 } from "@services/api/community";
+import useInfiniteScroll from "@utils/hooks/useInfiniteScroll";
 
 // ✅ 게시글 리스트 조회
-export const useGetPostList = () => {
-  const onGetPostList = async (type: string, page: number, size: number) => {
-    try {
-      const { data } = await communityGetPostList(type, page, size);
-      return data.data.posts;
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  return onGetPostList;
+export const useGetPostList = (type: string) => {
+  const {
+    pageLastItemRef,
+    data,
+    isFetching,
+    hasNextPage,
+    fetchNextPage,
+    isLoading,
+  } = useInfiniteScroll({
+    queryKey: ["postList", type],
+    fetch: communityGetPostList,
+    fetchParams: { size: 10, type: type },
+    onIntersect: async (entry, observer) => {
+      observer.unobserve(entry.target);
+      if (hasNextPage && !isFetching) fetchNextPage();
+    },
+  });
+  return { pageLastItemRef, hasNextPage, data, isLoading };
 };
 
 // ✅ 게시물 작성
