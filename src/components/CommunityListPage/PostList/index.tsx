@@ -11,7 +11,7 @@ const PostList = () => {
   return (
     <div className="post-list-wrapper">
       {data && data.pages[0].data.data.posts?.length === 0 && (
-        <div className="no-posts">No result</div>
+        <div className="no-posts">No results</div>
       )}
       {data &&
         data.pages.map(
