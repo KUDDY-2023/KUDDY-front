@@ -180,7 +180,7 @@ const PostContent = ({ postData }: Props) => {
           </div>
         )}
 
-        {postData?.fileUrls && <PhotoSlide />}
+        {postData?.fileUrls && <PhotoSlide photoInfo={postData?.fileUrls} />}
       </div>
     </div>
   );
