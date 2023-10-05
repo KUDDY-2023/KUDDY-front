@@ -4,8 +4,13 @@ import { useParams } from "react-router-dom";
 import CommentItem from "../CommentItem";
 import commentIcon from "@assets/community/comment_icon.svg";
 import commentBtn from "@assets/community/comment_btn.svg";
+import { useGetProfile } from "@services/hooks/profile";
 import { useGetPostReviews } from "@services/hooks/community";
-import { usePostComment, usePostReply } from "@services/hooks/community";
+import {
+  usePostComment,
+  usePostReply,
+  useDeleteComment,
+} from "@services/hooks/community";
 
 const CommentList = () => {
   let postId = useParams().id; // 게시물 id
@@ -17,6 +22,7 @@ const CommentList = () => {
   const onGetPostReviews = useGetPostReviews();
   const onPostComment = usePostComment();
   const onPostReply = usePostReply();
+  const { data, isLoading, error } = useGetProfile();
 
   // 댓글 조회
   const getComment = async () => {
@@ -62,6 +68,15 @@ const CommentList = () => {
     }
   };
 
+  // 삭제 버튼 클릭
+  const onDeleteComment = useDeleteComment();
+
+  const handleDeleteClick = async (commentId: number) => {
+    const res = await onDeleteComment(commentId);
+    console.log(res);
+    getComment();
+  };
+
   return (
     <>
       {/* 댓글 수 */}
@@ -84,6 +99,11 @@ const CommentList = () => {
                     isDeleted={item?.isRemoved}
                     isReply={false}
                     onClickReply={handleReplyClick}
+                    isMine={
+                      data?.data.data.memberInfo.memberId ===
+                      item?.writerInfoDto?.writerId
+                    }
+                    onClickDelete={() => handleDeleteClick(item?.id)}
                   />
                   {item?.replyList?.map((reply: any) => {
                     return (
@@ -92,6 +112,11 @@ const CommentList = () => {
                         review={reply}
                         isReply={true}
                         isDeleted={reply?.isRemoved}
+                        isMine={
+                          data?.data.data.memberInfo.memberId ===
+                          reply?.writerInfoDto?.writerId
+                        }
+                        onClickDelete={() => handleDeleteClick(reply?.id)}
                       />
                     );
                   })}

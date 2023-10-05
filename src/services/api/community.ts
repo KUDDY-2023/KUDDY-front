@@ -75,3 +75,9 @@ export const communityPostReply = async (id: number, reply: any) => {
   const url = `/api/v1/comments/reply/${id}`;
   return apiClient.post(url, reply);
 };
+
+// 댓글, 대댓글 삭제
+export const communityDeleteComment = async (commentId: number) => {
+  const url = `/api/v1/comments/${commentId}`;
+  return apiClient.delete(url);
+};

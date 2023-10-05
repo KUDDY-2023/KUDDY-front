@@ -7,6 +7,7 @@ import {
   communityGetPostReviews,
   communityPostComment,
   communityPostReply,
+  communityDeleteComment,
 } from "@services/api/community";
 import useInfiniteScroll from "@utils/hooks/useInfiniteScroll";
 
@@ -127,4 +128,18 @@ export const usePostReply = () => {
   };
 
   return onPostReply;
+};
+
+// 댓글, 대댓글 삭제
+export const useDeleteComment = () => {
+  const onDeleteComment = async (commentId: number) => {
+    try {
+      const res = await communityDeleteComment(commentId);
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return onDeleteComment;
 };
