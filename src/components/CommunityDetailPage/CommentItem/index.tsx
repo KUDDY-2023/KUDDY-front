@@ -1,6 +1,9 @@
 import "./comment-item.scss";
 import { useNavigate } from "react-router-dom";
-import kuddyBadge from "@assets/community/kuddy_badge.svg";
+import { ReactComponent as Level1Icon } from "@assets/level/level1.svg";
+import { ReactComponent as Level2Icon } from "@assets/level/level2.svg";
+import { ReactComponent as Level3Icon } from "@assets/level/level3.svg";
+import { ReactComponent as Level4Icon } from "@assets/level/level4.svg";
 import creatorBadge from "@assets/community/creator_badge.svg";
 import ViewMoreBtn from "@components/_common/ViewMoreBtn";
 
@@ -64,9 +67,22 @@ const CommentItem = ({
                 {review?.writerInfoDto?.nickname}
               </div>
               {/* kuddy 뱃지 + creator 뱃지도 가능 */}
-              {/*review.userInfo.hasBadge && <img src={kuddyBadge} />*/}
+              {review?.writerInfoDto?.kuddyLevel !== "NOT_KUDDY" && (
+                <div className="kuddy-badge">
+                  {review?.writerInfoDto?.kuddyLevel !== "NOT_KUDDY" ? (
+                    review?.writerInfoDto?.kuddyLevel === "EXPLORER" ? (
+                      <Level1Icon />
+                    ) : review?.writerInfoDto?.kuddyLevel === "FRIEND" ? (
+                      <Level2Icon />
+                    ) : review?.writerInfoDto?.kuddyLevel === "COMPANION" ? (
+                      <Level3Icon />
+                    ) : review?.writerInfoDto?.kuddyLevel === "SOULMATE" ? (
+                      <Level4Icon />
+                    ) : null
+                  ) : null}
+                </div>
+              )}
               {review?.isAuthor && <img src={creatorBadge} />}
-              {/* ... 버튼 추가 필요 */}
             </div>
             {isMine && (
               <ViewMoreBtn

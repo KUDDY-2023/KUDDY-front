@@ -67,6 +67,19 @@
   .comment-nickname {
     @include font-style(--font-text, 14px, color(black), 600);
   }
+
+  .kuddy-badge {
+    width: 15px;
+    height: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      width: 15px;
+      height: 15px;
+    }
+  }
 }
 
 .comment-content-body {
