@@ -25,6 +25,8 @@ $main-yellow: var(--color-main-yellow);
   }
 
   .interest-container {
+    padding-left: 11px;
+
     margin-top: 12px;
     display: flex;
     flex-direction: column;
@@ -43,6 +45,7 @@ $main-yellow: var(--color-main-yellow);
     // interest btn 쭉 나열된 곳
     .flex {
       display: flex;
+      flex-wrap: wrap;
       white-space: nowrap;
       overflow: auto;
       -ms-overflow-style: none; /* IE and Edge */
