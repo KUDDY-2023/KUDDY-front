@@ -93,13 +93,13 @@ export default function PayPal({
         return actions.order.capture({}).then((details: any) => {
           onUpdateMessage("PAYED"); // 동행 메세지 상태 업데이트
           handleClose(); // 모달 닫기
-          confirmAddAlert().then(result => {
-            if (result.isConfirmed) {
-              onAddCalendar(info.id).then(res => {
-                completeAlert();
-              }); // 캘린더에 일정 추가
-            }
-          });
+          // confirmAddAlert().then(result => {
+          //   if (result.isConfirmed) {
+          //     onAddCalendar(info.id).then(res => {
+          //       completeAlert();
+          //     }); // 캘린더에 일정 추가
+          //   }
+          // });
         });
       },
     };

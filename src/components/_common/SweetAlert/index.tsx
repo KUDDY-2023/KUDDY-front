@@ -17,3 +17,8 @@ export const completeAlert = () =>
     "약속을 잊지 않도록 리마인드 해드릴게요",
     "success",
   );
+
+export const refundAlert = () => {
+  Swal.fire("어쩌구저쩌구", "?", "success");
+  console.log();
+};
