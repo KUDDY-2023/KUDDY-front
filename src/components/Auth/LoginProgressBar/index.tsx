@@ -6,11 +6,18 @@ interface Props {
   completed: number;
 }
 export default function LoginProgressBar({ completed }: Props) {
-  const [width, setWidth] = useState<string>();
+  const [width, setWidth] = useState<string>("");
 
-  useEffect(() => {
+  const handleResizeBar = () => {
     let w = (window.innerWidth * 0.85).toString() + "px";
     setWidth(w);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", handleResizeBar);
+    return () => {
+      window.removeEventListener("resize", handleResizeBar);
+    };
   }, []);
 
   return (
