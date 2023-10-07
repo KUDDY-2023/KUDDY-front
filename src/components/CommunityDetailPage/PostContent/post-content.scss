@@ -230,3 +230,12 @@
   height: 256px;
   border-radius: 10px;
 }
+
+.loading-container {
+  width: 100%;
+  height: calc(100vh - 188px);
+  margin-top: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
