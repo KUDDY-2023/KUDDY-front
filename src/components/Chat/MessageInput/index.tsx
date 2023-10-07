@@ -1,7 +1,7 @@
 import "./messageinput.scss";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { ReactComponent as SendIcon } from "@assets/chat/chat_send.svg";
+import { ReactComponent as SendIcon } from "@assets/chat/chat_sendv2.svg";
 import { ReactComponent as MakeMeetupBtn } from "@assets/chat/bt_meetup.svg";
 import TextareaAutosize from "react-textarea-autosize";
 
