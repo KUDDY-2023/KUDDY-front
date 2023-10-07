@@ -5,6 +5,7 @@ import NavBar from "@components/ProfileDetailPage/NavBar";
 import IntroSection from "@components/ProfileDetailPage/IntroSection";
 import AboutBuddySection from "@components/ProfileDetailPage/AboutBuddySection";
 import ReviewSection from "@components/ProfileDetailPage/ReviewSection";
+import Loading from "@components/_common/Loading";
 import { useGetProfileByName } from "@services/hooks/profile";
 import { useGetProfile } from "@services/hooks/profile";
 
@@ -39,9 +40,15 @@ const ProfileDetailPage = () => {
         profileId={Number(profile?.memberInfo?.memberId)}
         isMine={isMine}
       />
-      <IntroSection profile={profile} isMine={isMine} />
-      <AboutBuddySection profile={profile} />
-      <ReviewSection profile={profile} />
+      {!profile ? (
+        <Loading backColor="transparent" spinnerColor="#eee" size="25px" />
+      ) : (
+        <>
+          <IntroSection profile={profile} isMine={isMine} />
+          <AboutBuddySection profile={profile} />
+          <ReviewSection profile={profile} />
+        </>
+      )}
     </div>
   );
 };

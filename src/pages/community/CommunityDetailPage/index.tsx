@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import BackNavBar from "@components/_common/BackNavBar";
 import PostContent from "@components/CommunityDetailPage/PostContent";
 import CommentList from "@components/CommunityDetailPage/CommentList";
+import Loading from "@components/_common/Loading";
 import { useGetEachPost, useDeletePost } from "@services/hooks/community";
 import { useGetProfile } from "@services/hooks/profile";
 
@@ -60,8 +61,14 @@ const CommunityDetailPage = () => {
           </div>
         )}
       </BackNavBar>
-      <PostContent postData={postData} />
-      <CommentList />
+      {!postData ? (
+        <Loading backColor="transparent" spinnerColor="#eee" size="25px" />
+      ) : (
+        <>
+          <PostContent postData={postData} />
+          <CommentList />
+        </>
+      )}
     </div>
   );
 };

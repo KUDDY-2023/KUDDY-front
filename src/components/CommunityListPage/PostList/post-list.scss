@@ -34,3 +34,11 @@
   text-align: center;
   @include font-style(--font-text, 14px, color(grey-text), 500);
 }
+
+#spinner-container {
+  width: 100%;
+  height: calc(100vh - 188px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

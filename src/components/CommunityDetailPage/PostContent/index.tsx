@@ -29,6 +29,18 @@ const PostContent = ({ postData }: Props) => {
     nav(`/profile/${nickname}`);
   };
 
+  // 지도 생성
+  useEffect(() => {
+    window.kakao.maps.load(() => {
+      const container = document.getElementById("map-feedback");
+      const options = {
+        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        level: 7,
+      };
+      setMap(new kakao.maps.Map(container, options));
+    });
+  }, []);
+
   // 카카오맵 관련
   // 마커 생성
   const addMarker = (mapX: number, mapY: number, idx: number) => {
@@ -73,18 +85,6 @@ const PostContent = ({ postData }: Props) => {
     // 지도에 선을 표시합니다
     polyline.setMap(map);
   };
-
-  // 지도 생성
-  useEffect(() => {
-    window.kakao.maps.load(() => {
-      const container = document.getElementById("map-feedback");
-      const options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 7,
-      };
-      setMap(new kakao.maps.Map(container, options));
-    });
-  }, []);
 
   useEffect(() => {
     // 마커 생성
@@ -176,11 +176,11 @@ const PostContent = ({ postData }: Props) => {
                 </>
               );
             })}
-            {category === "itinerary" && <div id="map-feedback"></div>}
           </div>
         )}
 
         {postData?.fileUrls && <PhotoSlide photoInfo={postData?.fileUrls} />}
+        {category === "itinerary" && <div id="map-feedback"></div>}
       </div>
     </div>
   );

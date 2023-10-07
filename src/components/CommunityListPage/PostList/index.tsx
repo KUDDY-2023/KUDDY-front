@@ -12,8 +12,8 @@ const PostList = () => {
   return (
     <div className="post-list-wrapper">
       {!data ? (
-        <div className="loading-container">
-          <Loading backColor="transparent" spinnerColor="#eee" size="25px" />
+        <div id="spinner-container">
+          <Loading backColor="transparent" spinnerColor="#eee" size="30px" />
         </div>
       ) : (
         <>
