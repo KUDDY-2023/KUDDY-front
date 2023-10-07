@@ -17,11 +17,6 @@ import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 
 // ✅ 모든 알림 가져오기
 export const useGetAllNoti = () => {
-  const [test, setTest] = useState(false);
-
-  // 바뀌면... 쿼리 요청을 다시 하고 싶은데
-  useEffect(() => {}, [test]);
-
   const { data, error, isLoading, refetch } = useQuery(
     "notifications",
     nofiGetAll,
