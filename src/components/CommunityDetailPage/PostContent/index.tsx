@@ -128,7 +128,11 @@ const PostContent = ({ postData }: Props) => {
         postData?.postType === "joinus" ? (
           <div className="post-filter join-us">Join us</div>
         ) : (
-          <div className="post-filter">{postData?.subject}</div>
+          <div className="post-filter">
+            {postData?.subject.replace(/^[a-z]/, (char: string) =>
+              char.toUpperCase(),
+            )}
+          </div>
         )}
       </div>
 
