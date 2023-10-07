@@ -11,12 +11,35 @@ const PostList = () => {
 
   return (
     <div className="post-list-wrapper">
-      {data ? (
+      {!data ? (
         <div className="loading-container">
           <Loading backColor="transparent" spinnerColor="#eee" size="25px" />
         </div>
       ) : (
-        <></>
+        <>
+          {data.pages[0].data.data.posts?.length === 0 && (
+            <div className="no-posts">No posts</div>
+          )}
+          {data.pages.map(
+            page =>
+              page.data.data.posts?.map((post: any, idx: number) =>
+                page.data.data.pageInfo.size === idx + 1 ? (
+                  <div
+                    key={post.id}
+                    ref={pageLastItemRef}
+                    className="last-post-item"
+                  >
+                    <PostItem post={post} />
+                  </div>
+                ) : (
+                  <PostItem key={post.id} post={post} />
+                ),
+              ),
+          )}
+          {!hasNextPage && data.pages[0].data.data.posts?.length !== 0 && (
+            <div className="end-of-post-list">End of list</div>
+          )}
+        </>
       )}
     </div>
   );
