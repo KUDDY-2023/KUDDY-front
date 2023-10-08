@@ -1,11 +1,15 @@
 import "./intro-section.scss";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import guideGrade from "@assets/profile/guid_grade.svg";
+import level1Icon from "@assets/level/level1.svg";
+import level2Icon from "@assets/level/level2.svg";
+import level3Icon from "@assets/level/level3.svg";
+import level4Icon from "@assets/level/level4.svg";
 import verified from "@assets/profile/verified.svg";
 import notVerified from "@assets/profile/not_verified.svg";
 import edit from "@assets/profile/edit.svg";
 import { useGetRoomStatus } from "@services/hooks/chat";
+import useInterest from "@utils/hooks/useInterest";
 
 type Props = {
   profile: any;
@@ -30,13 +34,28 @@ const IntroSection = ({ profile, isMine }: Props) => {
   const [interestText, setInterestText] = useState<string[]>([]);
   const nav = useNavigate();
   const onGetRoomStatus = useGetRoomStatus(); // 채팅방 여부 조회 (없으면 채팅방 생성)
+  const { altElement } = useInterest();
   let badgeText, badgeIcon;
 
   switch (profile?.role) {
     case "KUDDY":
       badgeText = profile?.kuddyLevel;
-      badgeIcon = guideGrade;
+
+      switch (profile?.kuddyLevel) {
+        case "EXPLORER":
+          badgeIcon = level1Icon;
+          break;
+        case "FRIEND":
+          badgeIcon = level2Icon;
+          break;
+        case "COMPANION":
+          badgeIcon = level3Icon;
+          break;
+        case "SOULMATE":
+          badgeIcon = level4Icon;
+      }
       break;
+
     case "TRAVELER":
       if (profile?.ticketStatus === "Submitted") {
         badgeText = "Verified";
@@ -54,7 +73,7 @@ const IntroSection = ({ profile, isMine }: Props) => {
     for (let i = 0; i < interestKey.length; i++) {
       const temp = profile?.interests?.[interestKey[i]]?.map((v: any) => {
         if (v !== "NOT_SELECTED") {
-          return v.toLowerCase();
+          return v;
         }
       });
 
@@ -95,7 +114,11 @@ const IntroSection = ({ profile, isMine }: Props) => {
             <div className="nickname">{profile?.memberInfo?.nickname}</div>
             <div className="badge-section">
               <img src={badgeIcon} />
-              <div className="badge-text">{badgeText}</div>
+              <div className="badge-text">
+                {badgeText
+                  .toLowerCase()
+                  .replace(/^[a-z]/, (char: string) => char.toUpperCase())}
+              </div>
             </div>
           </div>
           <div className="profile-btn" onClick={handleBtnClick}>
@@ -113,7 +136,7 @@ const IntroSection = ({ profile, isMine }: Props) => {
           {interestText?.map((item, index) => {
             return (
               <div key={index} className="interest-item">
-                {item}
+                {item && altElement(item)}
               </div>
             );
           })}

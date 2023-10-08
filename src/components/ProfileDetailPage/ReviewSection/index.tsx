@@ -1,34 +1,13 @@
 import "./review-section.scss";
 import { useState, useEffect } from "react";
-import {
-  useGetKuddyReviews,
-  useGetTravelerReviews,
-} from "@services/hooks/community";
 import ReviewBox from "@components/ProfileDetailPage/ReviewBox";
 
 type Props = {
   profile: any;
+  reviews: any;
 };
 
-const ReviewSection = ({ profile }: Props) => {
-  const [reviews, setReviews] = useState<any>();
-  const onGetKuddyReviews = useGetKuddyReviews();
-  const onGetTravelerReviews = useGetTravelerReviews();
-
-  useEffect(() => {
-    const getReviews = async () => {
-      let res;
-      if (profile?.role === "KUDDY") {
-        res = await onGetKuddyReviews(profile?.memberInfo?.memberId);
-      } else if (profile?.role === "TRAVELER") {
-        res = await onGetTravelerReviews(profile?.memberInfo?.memberId);
-      }
-      setReviews(res);
-    };
-
-    getReviews();
-  }, [profile]);
-
+const ReviewSection = ({ profile, reviews }: Props) => {
   return (
     <div className="review-section-container">
       <div className="review-count-container">
@@ -52,11 +31,15 @@ const ReviewSection = ({ profile }: Props) => {
         </div>
       </div>
 
-      {reviews?.reviewResDto?.map((review: any) => {
-        return (
-          <ReviewBox key={review?.id} review={review} role={profile?.role} />
-        );
-      })}
+      {reviews?.reviewResDto
+        ?.filter((review: any, idx: number) => {
+          return idx < 5;
+        })
+        .map((review: any) => {
+          return (
+            <ReviewBox key={review?.id} review={review} role={profile?.role} />
+          );
+        })}
     </div>
   );
 };

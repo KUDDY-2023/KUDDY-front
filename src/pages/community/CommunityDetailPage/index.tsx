@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import BackNavBar from "@components/_common/BackNavBar";
 import PostContent from "@components/CommunityDetailPage/PostContent";
 import CommentList from "@components/CommunityDetailPage/CommentList";
+import Loading from "@components/_common/Loading";
 import { useGetEachPost, useDeletePost } from "@services/hooks/community";
 import { useGetProfile } from "@services/hooks/profile";
 
@@ -49,19 +50,26 @@ const CommunityDetailPage = () => {
   return (
     <div className="community-detail-container">
       <BackNavBar middleTitle={title} isShare={false} hasMoreBtn={true}>
-        {data?.data.data.memberInfo?.memberId ===
-        postData?.writerInfoDto?.writerId ? (
-          <div className="menu-click-area" onClick={handleDeleteClick}>
-            <p>delete</p>
-          </div>
-        ) : (
+        <>
+          {data?.data.data.memberInfo?.memberId ===
+            postData?.writerInfoDto?.writerId && (
+            <div className="menu-click-area" onClick={handleDeleteClick}>
+              <p>delete</p>
+            </div>
+          )}
           <div className="menu-click-area" onClick={handleShareClick}>
             <p>share link</p>
           </div>
-        )}
+        </>
       </BackNavBar>
-      <PostContent postData={postData} />
-      <CommentList />
+      {!postData ? (
+        <Loading backColor="transparent" spinnerColor="#eee" size="25px" />
+      ) : (
+        <>
+          <PostContent postData={postData} />
+          <CommentList />
+        </>
+      )}
     </div>
   );
 };

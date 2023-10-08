@@ -1,6 +1,7 @@
 import "./post-list.scss";
 import { useRecoilValue } from "recoil";
 import PostItem from "@components/CommunityListPage/PostItem";
+import Loading from "@components/_common/Loading";
 import { useGetPostList } from "@services/hooks/community";
 import { postMenuState } from "@services/store/community";
 
@@ -10,28 +11,35 @@ const PostList = () => {
 
   return (
     <div className="post-list-wrapper">
-      {data && data.pages[0].data.data.posts?.length === 0 && (
-        <div className="no-posts">No results</div>
-      )}
-      {data &&
-        data.pages.map(
-          page =>
-            page.data.data.posts?.map((post: any, idx: number) =>
-              page.data.data.pageInfo.size === idx + 1 ? (
-                <div
-                  key={post.id}
-                  ref={pageLastItemRef}
-                  className="last-post-item"
-                >
-                  <PostItem post={post} />
-                </div>
-              ) : (
-                <PostItem key={post.id} post={post} />
+      {!data ? (
+        <div id="spinner-container">
+          <Loading backColor="transparent" spinnerColor="#eee" size="30px" />
+        </div>
+      ) : (
+        <>
+          {data.pages[0].data.data.posts?.length === 0 && (
+            <div className="no-posts">No posts</div>
+          )}
+          {data.pages.map(
+            page =>
+              page.data.data.posts?.map((post: any, idx: number) =>
+                page.data.data.pageInfo.size === idx + 1 ? (
+                  <div
+                    key={post.id}
+                    ref={pageLastItemRef}
+                    className="last-post-item"
+                  >
+                    <PostItem post={post} />
+                  </div>
+                ) : (
+                  <PostItem key={post.id} post={post} />
+                ),
               ),
-            ),
-        )}
-      {data && !hasNextPage && data.pages[0].data.data.posts?.length !== 0 && (
-        <div className="end-of-post-list">End of list</div>
+          )}
+          {!hasNextPage && data.pages[0].data.data.posts?.length !== 0 && (
+            <div className="end-of-post-list">End of list</div>
+          )}
+        </>
       )}
     </div>
   );
