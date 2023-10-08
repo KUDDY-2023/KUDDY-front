@@ -56,15 +56,46 @@ export default function ChatPage() {
   const { data } = useQuery("messages", () => chatGetAllMessage(roomId || ""), {
     select: data => data?.data.data,
     refetchOnMount: false,
-    refetchOnWindowFocus: false, // 너엿구나 하..
+    refetchOnWindowFocus: false,
     cacheTime: 0,
   });
+
+  const findTodayChat = (chatList: any) => {
+    let findIndex = -1;
+
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+
+    chatList.forEach((c: any, index: number) => {
+      const date = new Date(c.sendTime);
+      date.setUTCHours(0, 0, 0, 0);
+
+      if (date >= today) {
+        console.log("여기임", date, today);
+        findIndex = index - 1;
+        return;
+      }
+    });
+
+    return findIndex === -1 ? chatList.length : findIndex;
+  };
 
   // 받아온 메세지 내역 저장
   useEffect(() => {
     if (data) {
-      setMessageArr(data.chatList);
-      setPartnerInfo(data.receiverInfo);
+      let chatList = data.chatList;
+      let receiverInfo = data.receiverInfo;
+
+      // 끼워넣을 index 찾는 함수 만들기
+      const todayIndex = findTodayChat(chatList);
+
+      // 찾은 index에 today 요소 끼워넣기
+      chatList.splice(todayIndex, 0, { contentType: "TODAY" });
+
+      console.log("💙", chatList);
+
+      setMessageArr(chatList);
+      setPartnerInfo(receiverInfo);
 
       console.log("채팅내역", data);
     }
@@ -254,7 +285,6 @@ export default function ChatPage() {
     event.returnValue = "";
 
     alert("???");
-    //console.log("실행됨, 현재 이메일은", myEmail);
     const email = localStorage.getItem("email"); // 아 이거 별론디..
     fetch(
       `${process.env.REACT_APP_API_HOST}/chat/v1/chatrooms/${roomId}?email=${email}`,
@@ -360,12 +390,6 @@ export default function ChatPage() {
       />
 
       <div className="message-container">
-        {/* <ConfirmedRequestMessage info={tempInfo} />
-        <RequestMessage info={tempInfo2} />
-        <TodayBar />
-        <button onClick={updateMessage}>상태 변화 테스트</button>
-        <SystemMessage type="feedback" /> */}
-
         {/* 기존 메세지 렌더링 */}
         {MessageArr?.map((msg: IGetMessage) => {
           if (msg.contentType === "TEXT") {
@@ -375,8 +399,7 @@ export default function ChatPage() {
                 messageType={msg.mine ? "my" : "partner"}
               />
             );
-          }
-          if (msg.contentType === "MEETUP") {
+          } else if (msg.contentType === "MEETUP") {
             if (msg.meetStatus === "NOT_ACCEPT") {
               if (profile.role === "KUDDY") {
                 console.log(profile.role);
@@ -412,11 +435,10 @@ export default function ChatPage() {
                 />
               );
             }
+          } else if (msg.contentType === "TODAY") {
+            return <TodayBar />;
           }
-          return null;
         })}
-
-        <hr />
 
         {/* 새로운 메세지 */}
         {FlightMessageArr?.map((msg: IGetMessage) => {
