@@ -23,7 +23,7 @@ import useInfiniteScroll from "@utils/hooks/useInfiniteScroll";
 
 import { useAuthReLogin } from "./auth";
 
-import useIsBeforeToday from "@utils/hooks/useIsBeforeToday";
+import useIsValidDate from "@utils/hooks/useIsValidDate";
 
 // ✅ 프로필 최초 생성
 export const useCreateProfile = () => {
@@ -188,7 +188,7 @@ export const useCanNext = () => {
   const [profile, setProfile] = useRecoilState(profileState);
   const [uniqueName, setUniqueName] = useRecoilState(uniqueNameState);
 
-  const checkBeforeToday = useIsBeforeToday();
+  const [checkBeforeToday, _] = useIsValidDate();
 
   const onCanNextNow = (type: string) => {
     let canNext = false;

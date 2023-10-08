@@ -8,10 +8,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import dayjs from "dayjs";
-import useIsBeforeToday from "@utils/hooks/useIsBeforeToday";
+import useIsBeforeToday from "@utils/hooks/useIsValidDate";
 
 export default function BasicForm() {
-  const checkBeforeToday = useIsBeforeToday();
+  const [checkBeforeToday, _] = useIsBeforeToday();
   const [invalidDate, setInvalidDate] = useState(false);
 
   const [profile, setProfile] = useRecoilState(profileState); // 전역상태
