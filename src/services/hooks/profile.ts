@@ -23,6 +23,8 @@ import useInfiniteScroll from "@utils/hooks/useInfiniteScroll";
 
 import { useAuthReLogin } from "./auth";
 
+import useIsBeforeToday from "@utils/hooks/useIsBeforeToday";
+
 // ✅ 프로필 최초 생성
 export const useCreateProfile = () => {
   // 전역에서 프로필 정보 가져오기
@@ -186,13 +188,7 @@ export const useCanNext = () => {
   const [profile, setProfile] = useRecoilState(profileState);
   const [uniqueName, setUniqueName] = useRecoilState(uniqueNameState);
 
-  const isDateBeforeToday = (dateString: string) => {
-    const inputDate = new Date(dateString);
-    const today = new Date();
-    inputDate.setHours(0, 0, 0, 0);
-    today.setHours(0, 0, 0, 0);
-    return inputDate < today;
-  };
+  const checkBeforeToday = useIsBeforeToday();
 
   const onCanNextNow = (type: string) => {
     let canNext = false;
@@ -201,8 +197,7 @@ export const useCanNext = () => {
       canNext = uniqueName;
     } else if (type === "birthDate") {
       // 생일이 오늘 이전이어야함
-      canNext =
-        profile.birthDate !== "" && isDateBeforeToday(profile.birthDate);
+      canNext = profile.birthDate !== "" && checkBeforeToday(profile.birthDate);
     } else if (type === "job") {
       canNext = profile.job !== "";
     } else if (type === "region") {
