@@ -20,7 +20,7 @@ interface IGetMessage {
   id: string;
   roomId: number;
   senderName: string;
-  contentType: "TEXT" | "MEETUP" | "NOTI";
+  contentType: "TEXT" | "MEETUP" | "NOTI" | "TODAY";
   content: string;
   sendDate: number;
   sendTime: number;

@@ -113,5 +113,12 @@ $main-yellow: var(--color-main-yellow);
         }
       }
     }
+
+    #alert {
+      margin-left: 75px;
+      margin-top: 3px;
+      text-align: start;
+      @include font-style(--font-text, 12px, var(--color-red), 500);
+    }
   }
 }

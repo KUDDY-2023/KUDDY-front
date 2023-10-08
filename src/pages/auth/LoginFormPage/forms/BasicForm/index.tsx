@@ -8,8 +8,12 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import dayjs from "dayjs";
+import useIsBeforeToday from "@utils/hooks/useIsValidDate";
 
 export default function BasicForm() {
+  const [checkBeforeToday, _] = useIsBeforeToday();
+  const [invalidDate, setInvalidDate] = useState(false);
+
   const [profile, setProfile] = useRecoilState(profileState); // 전역상태
   const [gender, setGender] = useState([
     profile.genderType === "MR",
@@ -34,7 +38,7 @@ export default function BasicForm() {
       newProfileGender = "MS";
     } else {
       newGender = [false, false, true];
-      newProfileGender = "N";
+      newProfileGender = "NEUTRAL";
     }
 
     setGender(newGender);
@@ -68,6 +72,7 @@ export default function BasicForm() {
   useEffect(() => {
     console.log(profile);
   }, [profile]);
+
   return (
     <div className="basic-form-container">
       <p className="title">Fill your basic information</p>
@@ -105,10 +110,20 @@ export default function BasicForm() {
             <MobileDatePicker
               defaultValue={dayjs(birth || today)}
               className={birth !== "" ? "active-text" : ""}
-              onChange={(value: any) => _handleSetAge(formatDate(value.$d))}
+              onChange={(value: any) => {
+                // 오늘 이전만 선택 가능
+                const selectedDate = formatDate(value.$d);
+                if (!checkBeforeToday(selectedDate)) {
+                  setInvalidDate(true);
+                } else {
+                  _handleSetAge(formatDate(value.$d));
+                  setInvalidDate(false);
+                }
+              }}
             />
           </LocalizationProvider>
         </div>
+        {invalidDate && <p id="alert">This is not a valid date of birth.</p>}
       </div>
     </div>
   );
