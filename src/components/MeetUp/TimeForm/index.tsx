@@ -9,7 +9,11 @@ import { MobileTimePicker } from "@mui/x-date-pickers/MobileTimePicker";
 
 import { useMakeMeetUpInfo } from "@services/hooks/chat";
 
+import useIsValidDate from "@utils/hooks/useIsValidDate";
+
 export default function TimeForm() {
+  const [_, checkAfterToday] = useIsValidDate();
+
   const onMakeMeetUpInfo = useMakeMeetUpInfo(); // meetup 전역 업데이트 훅
   const [date, setDate] = useState<any>("");
   const [time, setTime] = useState<any>("");
@@ -55,30 +59,40 @@ export default function TimeForm() {
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <div className="time-form-style">
-        <div className="title">Time</div>
-        <div className="forms-container">
-          <MobileDatePicker
-            defaultValue={dayjs(today)}
-            className={date !== "" ? "active-text" : ""}
-            onChange={(value: any) => {
-              onMakeMeetUpInfo({ appointmentTimeD: formatDate(value.$d) });
-              setDate(value);
-            }}
-          />
+    <>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <div className="time-form-style">
+          <div className="title">Time</div>
+          <div className="forms-container">
+            <MobileDatePicker
+              defaultValue={dayjs(today)}
+              className={date !== "" ? "active-text" : ""}
+              onChange={(value: any) => {
+                const selectedDate = formatDate(value.$d);
+                // 오늘 이후인 경우에만 선택 가능
+                if (checkAfterToday(selectedDate)) {
+                  onMakeMeetUpInfo({ appointmentTimeD: selectedDate });
+                  setDate(value);
+                } else {
+                  // 유효하지 않은 날짜 선택한 경우
+                  onMakeMeetUpInfo({ appointmentTimeD: null });
+                  setDate("");
+                }
+              }}
+            />
 
-          <MobileTimePicker
-            defaultValue={dayjs(today)}
-            className={time !== "" ? "active-text" : ""}
-            onChange={(value: any) => {
-              onMakeMeetUpInfo({ appointmentTimeT: formatTime(value.$d) });
-              console.log(formatTime(value.$d));
-              setTime(value);
-            }}
-          />
+            <MobileTimePicker
+              defaultValue={dayjs(today)}
+              className={time !== "" ? "active-text" : ""}
+              onChange={(value: any) => {
+                onMakeMeetUpInfo({ appointmentTimeT: formatTime(value.$d) });
+                console.log(formatTime(value.$d));
+                setTime(value);
+              }}
+            />
+          </div>
         </div>
-      </div>
-    </LocalizationProvider>
+      </LocalizationProvider>
+    </>
   );
 }

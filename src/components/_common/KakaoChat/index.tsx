@@ -1,5 +1,7 @@
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import "./kakao-chat.scss";
-import { useNavigate } from "react-router-dom";
+import kakaoQuestion from "@assets/logo/question_large_yellow_mobile.png";
 
 declare global {
   interface Window {
@@ -8,7 +10,9 @@ declare global {
 }
 
 export default function KakaoChat() {
-  const history = useNavigate();
+  const location = useLocation();
+
+  console.log(location);
 
   const handleChatClick = () => {
     chatChannel();
@@ -26,10 +30,9 @@ export default function KakaoChat() {
 
   return (
     <div id="chat-channel-button" onClick={handleChatClick}>
-      <img
-        src="/images/consult_small_yellow_pc.png"
-        alt="카카오톡 채널 채팅하기 버튼"
-      />
+      {location.pathname !== "/community/list" && (
+        <img src={kakaoQuestion} alt="카카오톡 채널 채팅하기 버튼" />
+      )}
     </div>
   );
 }
