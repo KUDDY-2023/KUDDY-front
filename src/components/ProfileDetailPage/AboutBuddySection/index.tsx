@@ -16,7 +16,6 @@ type TextProps = {
 };
 
 const AboutBuddyText = ({ iconImage, texts, isAreaName }: TextProps) => {
-  useEffect(() => console.log(texts), []);
   return (
     <div className="about-buddy-detail-container">
       <img src={iconImage} />
