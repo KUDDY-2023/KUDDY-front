@@ -22,6 +22,7 @@ const ImageView = ({
   hasTrashBtn,
   isJoinUs,
 }: Props) => {
+  const [totalIndex, setTotalIndex] = useState<number>(photoInfo?.length);
   const [curIndex, setCurIndex] = useState<number>(clickedIndex);
   const [joinUsPost, setJoinUsPost] = useRecoilState(joinUsPostState);
   const [othersPost, setOthersPost] = useRecoilState(othersPostState);
@@ -38,18 +39,27 @@ const ImageView = ({
         images: othersPost.images.filter((image, index) => index !== curIndex),
       });
     }
+
+    setTotalIndex(totalIndex - 1);
   };
 
   useEffect(() => {
     setCurIndex(clickedIndex);
   }, []);
 
+  useEffect(() => {
+    console.log(totalIndex);
+    if (totalIndex <= 0) {
+      onClose();
+    }
+  }, [totalIndex]);
+
   return (
     <div className="image-view-container">
       <div className="image-view-navbar">
         <img src={backIcon} onClick={onClose} />
         <div className="image-index">
-          {curIndex + 1} / {photoInfo.length}
+          {curIndex + 1} / {totalIndex}
         </div>
       </div>
 
