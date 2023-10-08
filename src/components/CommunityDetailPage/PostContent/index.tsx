@@ -29,17 +29,21 @@ const PostContent = ({ postData }: Props) => {
     nav(`/profile/${nickname}`);
   };
 
-  // 지도 생성
+  // 지도 생성 - 코스 피드백만
   useEffect(() => {
-    window.kakao.maps.load(() => {
-      const container = document.getElementById("map-feedback");
-      const options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
-        level: 7,
-      };
-      setMap(new kakao.maps.Map(container, options));
-    });
-  }, []);
+    if (!!postData) {
+      if (category === "itinerary") {
+        window.kakao.maps.load(() => {
+          const container = document.getElementById("map-feedback");
+          const options = {
+            center: new kakao.maps.LatLng(33.450701, 126.570667),
+            level: 7,
+          };
+          setMap(new kakao.maps.Map(container, options));
+        });
+      }
+    }
+  }, [postData]);
 
   // 카카오맵 관련
   // 마커 생성
@@ -89,20 +93,22 @@ const PostContent = ({ postData }: Props) => {
   useEffect(() => {
     // 마커 생성
     if (typeof postData?.spots !== "undefined") {
-      const spots = postData?.spots;
-      for (let i = 0; i < spots.length; i++) {
-        addMarker(spots[i].mapX, spots[i].mapY, i + 1);
+      if (!!map) {
+        const spots = postData?.spots;
+        for (let i = 0; i < spots.length; i++) {
+          addMarker(spots[i].mapX, spots[i].mapY, i + 1);
 
-        if (i < spots.length - 1) {
-          const linePath = [
-            new kakao.maps.LatLng(spots[i].mapY, spots[i].mapX),
-            new kakao.maps.LatLng(spots[i + 1].mapY, spots[i + 1].mapX),
-          ];
-          addLine(linePath);
+          if (i < spots.length - 1) {
+            const linePath = [
+              new kakao.maps.LatLng(spots[i].mapY, spots[i].mapX),
+              new kakao.maps.LatLng(spots[i + 1].mapY, spots[i + 1].mapX),
+            ];
+            addLine(linePath);
+          }
         }
       }
     }
-  }, [postData]);
+  }, [postData, map]);
 
   return (
     <div className="post-content-container">
@@ -129,7 +135,7 @@ const PostContent = ({ postData }: Props) => {
           <div className="post-filter join-us">Join us</div>
         ) : (
           <div className="post-filter">
-            {postData?.subject.replace(/^[a-z]/, (char: string) =>
+            {postData?.subject?.replace(/^[a-z]/, (char: string) =>
               char.toUpperCase(),
             )}
           </div>
@@ -152,39 +158,41 @@ const PostContent = ({ postData }: Props) => {
 
         {/* 사진 있으면 사진, 코스 피드백 게시판이면 코스 및 지도 렌더링*/}
         {category === "itinerary" && (
-          <div className="spot-list-container">
-            {postData?.spots?.map((spot: any, index: number) => {
-              return (
-                <>
-                  {index > 0 && (
-                    <div className="spot-distance-container">
-                      <div className="spot-line"></div>
-                      <div className="spot-distance">
-                        {distances[index - 1]}km
+          <>
+            <div className="spot-list-container">
+              {postData?.spots?.map((spot: any, index: number) => {
+                return (
+                  <>
+                    {index > 0 && (
+                      <div className="spot-distance-container">
+                        <div className="spot-line"></div>
+                        <div className="spot-distance">
+                          {distances[index - 1]}km
+                        </div>
+                      </div>
+                    )}
+                    <div className="spot-item-container">
+                      <div className="spot-item">
+                        <div className="spot-num">{index + 1}</div>
+                        <div className="spot-name">{spot?.name}</div>
+                        <div className="spot-district">
+                          {spot?.district
+                            .toLowerCase()
+                            .replace(/\b[a-z]/, (letter: string) =>
+                              letter.toUpperCase(),
+                            )}
+                        </div>
                       </div>
                     </div>
-                  )}
-                  <div className="spot-item-container">
-                    <div className="spot-item">
-                      <div className="spot-num">{index + 1}</div>
-                      <div className="spot-name">{spot?.name}</div>
-                      <div className="spot-district">
-                        {spot?.district
-                          .toLowerCase()
-                          .replace(/\b[a-z]/, (letter: string) =>
-                            letter.toUpperCase(),
-                          )}
-                      </div>
-                    </div>
-                  </div>
-                </>
-              );
-            })}
-          </div>
+                  </>
+                );
+              })}
+            </div>
+            <div id="map-feedback"></div>
+          </>
         )}
 
         {postData?.fileUrls && <PhotoSlide photoInfo={postData?.fileUrls} />}
-        {category === "itinerary" && <div id="map-feedback"></div>}
       </div>
     </div>
   );
