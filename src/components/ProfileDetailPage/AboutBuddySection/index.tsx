@@ -12,20 +12,32 @@ type Props = {
 type TextProps = {
   iconImage: string;
   texts: string[];
+  isAreaName?: boolean;
 };
 
-const AboutBuddyText = ({ iconImage, texts }: TextProps) => {
+const AboutBuddyText = ({ iconImage, texts, isAreaName }: TextProps) => {
+  useEffect(() => console.log(texts), []);
   return (
     <div className="about-buddy-detail-container">
       <img src={iconImage} />
       <div className="about-buddy-text-container">
-        {texts?.map((text: string, index: number) => {
-          return (
-            <div key={index} className="about-buddy-text">
-              {text}
-            </div>
-          );
-        })}
+        {!isAreaName ? (
+          <>
+            {texts?.map((text: string, index: number) => {
+              return (
+                <div key={index} className="about-buddy-text">
+                  {text}
+                </div>
+              );
+            })}
+          </>
+        ) : (
+          <div className="about-buddy-text">
+            {texts?.map((text: string) => {
+              return text + " ";
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -33,10 +45,23 @@ const AboutBuddyText = ({ iconImage, texts }: TextProps) => {
 
 const AboutBuddySection = ({ profile }: Props) => {
   const handleLanguageLevel = (level: number) => {
+    let languageLevel;
+
     switch (level) {
       case 1:
-        return;
+        languageLevel = "Beginner";
+        break;
+      case 2:
+        languageLevel = "Intermediate";
+        break;
+      case 3:
+        languageLevel = "Advanced";
+        break;
+      case 4:
+        languageLevel = "Native Speaker";
     }
+
+    return languageLevel;
   };
 
   return (
@@ -45,7 +70,7 @@ const AboutBuddySection = ({ profile }: Props) => {
       <AboutBuddyText
         iconImage={personIcon}
         texts={[
-          `${profile?.gender.toLowerCase()}, ${profile?.age}`,
+          `${profile?.gender.toLowerCase()}, ${profile?.birthDate}`,
           `${profile?.temperament} & ${profile?.decisionMaking}`,
         ]}
       />
@@ -54,15 +79,18 @@ const AboutBuddySection = ({ profile }: Props) => {
         iconImage={pinIcon}
         texts={
           profile?.role === "KUDDY"
-            ? [profile?.areas[0]?.areaName]
+            ? profile?.areas.map((area: any) => area.areaName)
             : [profile?.nationality]
         }
+        isAreaName={profile?.role === "KUDDY"}
       />
       <AboutBuddyText
         iconImage={languageIcon}
         texts={profile?.languages?.map(
           (item: AvailableLanguageType) =>
-            `${item.languageType} - ${item.languageLevel}`,
+            `${item.languageType} - ${handleLanguageLevel(
+              Number(item.languageLevel),
+            )}`,
         )}
       />
     </div>
