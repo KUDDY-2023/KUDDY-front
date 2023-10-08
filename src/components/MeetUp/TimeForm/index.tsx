@@ -63,7 +63,10 @@ export default function TimeForm() {
             defaultValue={dayjs(today)}
             className={date !== "" ? "active-text" : ""}
             onChange={(value: any) => {
+              // 날짜가 오늘인지 판단해야함 애초에 누를 수 없게 조정하기
+
               onMakeMeetUpInfo({ appointmentTimeD: formatDate(value.$d) });
+
               setDate(value);
             }}
           />
