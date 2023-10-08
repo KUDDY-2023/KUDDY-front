@@ -186,13 +186,23 @@ export const useCanNext = () => {
   const [profile, setProfile] = useRecoilState(profileState);
   const [uniqueName, setUniqueName] = useRecoilState(uniqueNameState);
 
+  const isDateBeforeToday = (dateString: string) => {
+    const inputDate = new Date(dateString);
+    const today = new Date();
+    inputDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+    return inputDate < today;
+  };
+
   const onCanNextNow = (type: string) => {
     let canNext = false;
 
     if (type === "uniqueName") {
       canNext = uniqueName;
     } else if (type === "birthDate") {
-      canNext = profile.birthDate !== "";
+      // 생일이 오늘 이전이어야함
+      canNext =
+        profile.birthDate !== "" && isDateBeforeToday(profile.birthDate);
     } else if (type === "job") {
       canNext = profile.job !== "";
     } else if (type === "region") {
