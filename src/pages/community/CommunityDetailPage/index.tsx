@@ -50,16 +50,17 @@ const CommunityDetailPage = () => {
   return (
     <div className="community-detail-container">
       <BackNavBar middleTitle={title} isShare={false} hasMoreBtn={true}>
-        {data?.data.data.memberInfo?.memberId ===
-        postData?.writerInfoDto?.writerId ? (
-          <div className="menu-click-area" onClick={handleDeleteClick}>
-            <p>delete</p>
-          </div>
-        ) : (
+        <>
+          {data?.data.data.memberInfo?.memberId ===
+            postData?.writerInfoDto?.writerId && (
+            <div className="menu-click-area" onClick={handleDeleteClick}>
+              <p>delete</p>
+            </div>
+          )}
           <div className="menu-click-area" onClick={handleShareClick}>
             <p>share link</p>
           </div>
-        )}
+        </>
       </BackNavBar>
       {!postData ? (
         <Loading backColor="transparent" spinnerColor="#eee" size="25px" />
