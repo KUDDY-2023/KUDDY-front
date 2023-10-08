@@ -63,51 +63,55 @@ const AddSpotForm = ({ onClose, onSavePlace }: Props) => {
     <div className="spot-modal-container">
       <div className="spot-modal-title">Place</div>
 
-      <div className="spot-search-container">
-        <div className="spot-search-bar">
-          <input type="text" {...searchInput} />
-          <img src={searchBtn} onClick={handleSearchClick} />
-        </div>
-        <div
-          className={
-            searchResults.length > 0
-              ? "spot-result-container"
-              : "spot-result-container no-result"
-          }
-        >
-          {/* 입력된 텍스트 없으면 아래 문구 띄우기 */}
-          {searchResults.length === 0 && (
-            <div className="spot-search-guide">
-              Please enter the correct name.
-            </div>
-          )}
-          {searchResults?.map((result, index) => {
-            return (
-              <div key={result?.contentId} className="spot-item-container">
-                <img src={result?.imageUrl} />
-                <div className="spot-item-text-container">
-                  <div className="spot-item-title">{result?.name}</div>
-                  <div className="spot-item-district">{result?.district}</div>
-                </div>
-                <div
-                  className={
-                    selectedIdx === index
-                      ? "spot-select-btn selected"
-                      : "spot-select-btn"
-                  }
-                  onClick={() => handleSelectClick(index, result)}
-                >
-                  select
-                </div>
+      <div className="spot-search-result-container">
+        <div className="spot-search-container">
+          <div className="spot-search-bar">
+            <input type="text" {...searchInput} />
+            <img src={searchBtn} onClick={handleSearchClick} />
+          </div>
+          <div
+            className={
+              searchResults.length > 0
+                ? "spot-result-container"
+                : "spot-result-container no-result"
+            }
+          >
+            {/* 입력된 텍스트 없으면 아래 문구 띄우기 */}
+            {searchResults.length === 0 && (
+              <div className="spot-search-guide">
+                Please enter the correct name.
               </div>
-            );
-          })}
+            )}
+            {searchResults?.map((result, index) => {
+              return (
+                <div key={result?.contentId} className="spot-item-container">
+                  <img src={result?.imageUrl} />
+                  <div className="spot-item-text-container">
+                    <div className="spot-item-title">{result?.name}</div>
+                    <div className="spot-item-district">{result?.district}</div>
+                  </div>
+                  <div
+                    className={
+                      selectedIdx === index
+                        ? "spot-select-btn selected"
+                        : "spot-select-btn"
+                    }
+                    onClick={() => handleSelectClick(index, result)}
+                  >
+                    select
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
-      </div>
 
-      <div id="modal-map"></div>
-      <div className="add-itinerary-btn" onClick={onClose}>
-        Add to itinerary
+        <div id="modal-map"></div>
+      </div>
+      <div className="add-itinerary-container">
+        <div className="add-itinerary-btn" onClick={onClose}>
+          Add to route
+        </div>
       </div>
     </div>
   );
