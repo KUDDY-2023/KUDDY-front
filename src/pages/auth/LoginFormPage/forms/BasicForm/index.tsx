@@ -38,7 +38,7 @@ export default function BasicForm() {
       newProfileGender = "MS";
     } else {
       newGender = [false, false, true];
-      newProfileGender = "N";
+      newProfileGender = "NEUTRAL";
     }
 
     setGender(newGender);
