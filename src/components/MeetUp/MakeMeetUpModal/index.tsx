@@ -62,19 +62,23 @@ export default function MakeMeetUpModal({
     isUpdated: 0,
   };
 
+  // refund policy
+  const [check, isCheck] = useState(false);
+
   useEffect(() => {
     if (
       meetInfo.spotContentId !== null &&
       meetInfo.spotName !== null &&
       meetInfo.appointmentTimeD !== null &&
       meetInfo.appointmentTimeT !== null &&
-      meetInfo.price !== null
+      meetInfo.price !== null &&
+      check
     ) {
       setIsActive(true);
     } else {
       setIsActive(false);
     }
-  }, [meetInfo]);
+  }, [meetInfo, check]);
 
   const onSendMeetUpMessage = async () => {
     if (client.current) {
@@ -95,8 +99,9 @@ export default function MakeMeetUpModal({
           JSON.stringify(savedMsg),
         );
 
-        // ✅ 전역 상태 비우기
+        // ✅ 전역 상태 비우기 & policy 해제
         resetMeetInfo();
+        isCheck(false);
       } catch (e) {
         alert(e);
       } finally {
@@ -118,7 +123,7 @@ export default function MakeMeetUpModal({
         <div className="form-container">
           <PlaceForm />
           <TimeForm />
-          <PayForm />
+          <PayForm check={check} isCheck={isCheck} />
         </div>
 
         <EventBtn

@@ -7,6 +7,10 @@
   line-height: normal;
 }
 
+.swal2-container {
+  z-index: 9999999;
+}
+
 .pay-form-style {
   margin-bottom: 24px;
   display: flex;
@@ -94,7 +98,7 @@
 
     #checkbox {
       margin-right: 8px;
-      transform: translateY(2px);
+      transform: translateY(1px);
     }
     p {
       @include font-style(14px, black, 400);
@@ -103,6 +107,24 @@
     #help {
       transform: translateY(2px);
       margin-left: auto;
+      width: 80px;
+      height: 40px;
+
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
     }
+  }
+
+  .policy-detail-page {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    z-index: 9999999;
+
+    background-color: rgb(255, 255, 255);
   }
 }
