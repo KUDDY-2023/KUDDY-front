@@ -97,6 +97,11 @@
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .post-content-preview {
@@ -107,8 +112,10 @@
   font-weight: 400;
   line-height: normal;
 
-  max-height: 34px;
-  overflow: hidden; // 2행 넘어가면 숨기기
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .post-spots {
