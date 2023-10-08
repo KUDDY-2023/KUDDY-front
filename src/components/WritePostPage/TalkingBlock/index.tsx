@@ -3,6 +3,12 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { useRecoilState, useResetRecoilState } from "recoil";
 import ImageView from "@components/_common/ImageView";
 import { joinUsPostState, othersPostState } from "@services/store/community";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
+import dayjs from "dayjs";
+import useModal from "@utils/hooks/useModal";
+import { regionData } from "@pages/community/WritePostPage/subjectData";
 
 type Props = {
   subject: string;
@@ -14,6 +20,9 @@ const TalkingBlock = ({ subject }: Props) => {
   const [joinUsPost, setJoinUsPost] = useRecoilState(joinUsPostState);
   const [othersPost, setOthersPost] = useRecoilState(othersPostState);
   const [imageViewOpen, setImageViewOpen] = useState(false); // 사진 뷰 띄움 여부
+  let today = new Date();
+  const [isOpened, setIsOpened] = useState<boolean>(false); // region 드롭다운
+  const { buttonRef, modalRef } = useModal(isOpened, setIsOpened);
 
   // textarea 자동 높이 조절
   const handleResizeHeight = useCallback(() => {
@@ -41,16 +50,41 @@ const TalkingBlock = ({ subject }: Props) => {
     setJoinUsPost({ ...joinUsPost, people: event.target.value });
   };
 
-  const handleChangeDate = (event: any) => {
-    setJoinUsPost({ ...joinUsPost, date: event.target.value });
+  const formatDate = (inputDateString: string) => {
+    let dateParts = String(inputDateString).split(" ");
+    let extractedDate = dateParts.slice(1, 4).join(" ");
+
+    let parsedDate = new Date(extractedDate); // 추출한 부분을 Date 객체로 파싱
+
+    // 날짜를 "2021-11-05" 형식으로 포맷팅
+    let formattedDate =
+      parsedDate.getFullYear() +
+      "-" +
+      ("0" + (parsedDate.getMonth() + 1)).slice(-2) +
+      "-" +
+      ("0" + parsedDate.getDate()).slice(-2);
+
+    return formattedDate;
   };
 
-  const handleChangeDistrict = (event: any) => {
-    setJoinUsPost({ ...joinUsPost, district: event.target.value });
+  const handleChangeDate = (event: any) => {
+    console.log(formatDate(event));
+    setJoinUsPost({ ...joinUsPost, date: formatDate(event) });
+  };
+
+  const handleChangeDistrict = (item: string) => {
+    console.log(item);
+    setJoinUsPost({ ...joinUsPost, district: item });
   };
 
   const resetJoinUsPost = useResetRecoilState(joinUsPostState); // join us 게시물 초기화
   const resetOthersPost = useResetRecoilState(othersPostState); // others 게시물 초기화
+
+  //
+  useEffect(() => {
+    console.log(JSON.stringify(joinUsPost));
+  }, [joinUsPost]);
+  //
 
   useEffect(() => {
     resetJoinUsPost();
@@ -82,15 +116,40 @@ const TalkingBlock = ({ subject }: Props) => {
         <div className="join-us-content-container">
           <div className="join-us-item">
             <div className="join-us-title">People</div>
-            <input type="text" onChange={handleChangePeople} />
+            <input type="number" onChange={handleChangePeople} />
           </div>
           <div className="join-us-item">
             <div className="join-us-title">Date</div>
-            <input type="date" onChange={handleChangeDate} />
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <MobileDatePicker
+                format="YYYY-MM-DD"
+                onChange={handleChangeDate}
+              />
+            </LocalizationProvider>
           </div>
           <div className="join-us-item">
             <div className="join-us-title">Region</div>
-            <input type="text" onChange={handleChangeDistrict} />
+            <div
+              className="join-us-region-container"
+              ref={buttonRef}
+              onClick={() => setIsOpened(!isOpened)}
+            >
+              {!!joinUsPost?.district ? <p>{joinUsPost?.district}</p> : null}
+              {isOpened && (
+                <div className="region-dropdown" ref={modalRef}>
+                  {regionData.map(item => {
+                    return (
+                      <div
+                        className="region-click-area"
+                        onClick={() => handleChangeDistrict(item.name)}
+                      >
+                        {item.name}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}
