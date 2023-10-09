@@ -15,12 +15,14 @@
     size: 22px;
   }
   margin-left: 22px;
+  cursor: default;
 }
 
 .trending-more {
   display: flex;
   align-items: center;
   margin-right: 16px;
+  cursor: pointer;
 
   p {
     color: color(black);

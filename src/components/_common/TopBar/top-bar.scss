@@ -107,6 +107,7 @@
   border-radius: 50%;
   overflow: hidden;
   margin-right: 12px;
+  cursor: pointer;
 
   img {
     width: 100%;
@@ -122,6 +123,7 @@
     weight: 600;
   }
   color: color(black);
+  cursor: default;
 }
 
 .topbar-icon-container {
@@ -133,5 +135,6 @@
 
   svg {
     width: 28px;
+    cursor: pointer;
   }
 }
