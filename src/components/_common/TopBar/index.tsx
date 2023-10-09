@@ -91,14 +91,14 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
           <div className="topbar-title">KUDDY</div>
         </div>
         <div className="topbar-icon-container">
-          <div onClick={() => nav(isLogin ? "/alarm" : "/auth/login")}>
+          <div onClick={() => nav(isLogin ? "/alarm" : "/auth/register")}>
             {newNotification.alarm && isLogin ? (
               <NewNotificationIcon />
             ) : (
               <NotificationIcon />
             )}
           </div>
-          <div onClick={() => nav(isLogin ? "/chat/list" : "/auth/login")}>
+          <div onClick={() => nav(isLogin ? "/chat/list" : "/auth/register")}>
             {newNotification.chat && isLogin ? <NewChatIcon /> : <ChatIcon />}
           </div>
         </div>
