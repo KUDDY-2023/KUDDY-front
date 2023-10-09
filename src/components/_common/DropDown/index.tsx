@@ -5,6 +5,7 @@ import "./dropdown.scss";
 import check from "@assets/icon/check.svg";
 
 import { ReactComponent as ArrowDown } from "@assets/icon/arrow_down.svg";
+import { englishIsMandatoryAlert } from "../SweetAlert";
 
 interface Props {
   items: string[];
@@ -26,7 +27,11 @@ export default function DownDown({
   inActive,
 }: Props) {
   const _handleClickToggle = (nation: string) => {
-    if (inActive) return; // 선택 불가능
+    if (inActive) {
+      englishIsMandatoryAlert();
+      return; // 선택 불가능
+    }
+
     onSelect(id, type, nation);
   };
 

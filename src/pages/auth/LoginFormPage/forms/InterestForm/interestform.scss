@@ -25,8 +25,7 @@ $main-yellow: var(--color-main-yellow);
   }
 
   .interest-container {
-    padding-left: 11px;
-
+    margin-left: 7%;
     margin-top: 12px;
     display: flex;
     flex-direction: column;
@@ -36,14 +35,14 @@ $main-yellow: var(--color-main-yellow);
     margin-bottom: 92px;
 
     h2 {
-      margin-bottom: 12px;
-      margin-left: 10px;
-      margin-left: 7%;
+      margin-bottom: 8px;
+      margin-left: 11px;
       @include font-style(--font-text, 14px, #aeaeae, 500);
     }
 
     // interest btn 쭉 나열된 곳
     .flex {
+      margin-bottom: 20px;
       display: flex;
       flex-wrap: wrap;
       white-space: nowrap;
@@ -64,7 +63,7 @@ $main-yellow: var(--color-main-yellow);
       border-radius: 100px;
       background: #f9f9f9;
 
-      margin-left: 12px;
+      margin-right: 12px;
       margin-bottom: 12px;
 
       @include font-style(--font-text, 14px, var(--color-black), 500);
