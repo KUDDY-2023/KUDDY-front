@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import "./location-map-page.scss";
 import BackNavBar from "@components/_common/BackNavBar";
 import Loading from "@components/_common/Loading";
@@ -12,7 +11,7 @@ import { useRecoilState } from "recoil";
 import { currentPosition } from "@services/store/travel";
 import { spotGetNearLocation } from "@services/api/spot";
 import { useNearLocation } from "@services/hooks/spot";
-import { AxiosError } from "axios";
+import Swal from "sweetalert2";
 
 declare global {
   interface Window {
@@ -23,7 +22,6 @@ const defaultX: number = 126.977295;
 const defaultY: number = 37.575267;
 
 const LocationMapPage = () => {
-  const nav = useNavigate();
   const { kakao } = window;
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [map, setMap] = useState<any>();
@@ -70,12 +68,20 @@ const LocationMapPage = () => {
           setIsLoading(false);
         });
       } else {
-        var locPosition = new kakao.maps.LatLng(defaultY, defaultX);
-        map.setCenter(locPosition);
-        alert(
-          "Cannot find current location.\nPlease allow permission collecting your location information.",
-        );
-        setIsLoading(false);
+        // 현재 위치를 가져올 수 없는 경우
+        Swal.fire({
+          title: "Fail to access your current location",
+          text: "Please allow location permission to use this service.",
+          icon: "error",
+          iconColor: "#eeeeee",
+          confirmButtonText: "OK",
+        }).then(res => {
+          if (res.isConfirmed) {
+            setPos({ y: defaultY, x: defaultX });
+            map.setCenter(new kakao.maps.LatLng(defaultY, defaultX));
+            setIsLoading(false);
+          }
+        });
       }
     }
   }, [map]);
@@ -169,10 +175,19 @@ const LocationMapPage = () => {
   }, []);
   useEffect(() => {
     if (noData) {
-      alert("no recommendation here, try somewhere else");
-      setPos({ y: defaultY, x: defaultX });
-      map.setCenter(new kakao.maps.LatLng(defaultY, defaultX));
-      setIsLoading(false);
+      Swal.fire({
+        title: "Try somewhere else",
+        text: "There is no recommendation near your location now.",
+        icon: "error",
+        iconColor: "#eeeeee",
+        confirmButtonText: "OK",
+      }).then(res => {
+        if (res.isConfirmed) {
+          setPos({ y: defaultY, x: defaultX });
+          map.setCenter(new kakao.maps.LatLng(defaultY, defaultX));
+          setIsLoading(false);
+        }
+      });
     }
   }, [noData]);
 
