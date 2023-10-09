@@ -23,6 +23,14 @@ export default function Message({ message, messageType }: Props) {
             onClick={() => setReqTrans(!reqTrans)}
           />
         )}
+
+        <p
+          className={`${
+            messageType === "my" ? "mySentTime" : "partnerSentTime"
+          }`}
+        >
+          날짜
+        </p>
       </div>
     </div>
   );

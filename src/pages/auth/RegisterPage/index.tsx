@@ -15,10 +15,14 @@ export default function RegisterPage() {
     navigate("/auth/privacy");
   };
 
+  const onGoback = () => {
+    navigate("/");
+  };
+
   return (
     <div className="login-guide-page">
       <div className="navbar-container">
-        <Xicon />
+        <Xicon onClick={onGoback} />
       </div>
       <div className="profile-container">
         <LogoProfile />

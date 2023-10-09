@@ -9,8 +9,9 @@ export default function LoginProgressBar({ completed }: Props) {
   const [width, setWidth] = useState<string>("");
 
   const handleResizeBar = () => {
-    let w = (window.innerWidth * 0.85).toString() + "px";
-    setWidth(w);
+    let width = window.innerWidth * 0.85;
+    width = width > 530 ? 530 : width; // 최대 530px
+    setWidth(width.toString() + "px");
   };
 
   useEffect(() => {
@@ -18,6 +19,10 @@ export default function LoginProgressBar({ completed }: Props) {
     return () => {
       window.removeEventListener("resize", handleResizeBar);
     };
+  }, []);
+
+  useEffect(() => {
+    handleResizeBar();
   }, []);
 
   return (

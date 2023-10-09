@@ -68,20 +68,13 @@ $main-yellow: var(--color-main-yellow);
         justify-content: space-between;
       }
       .read {
-        color: #d6d6d6;
-        font-family: Inter;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
+        @include font-style(--font-text, 14px, #d6d6d6, 400);
+        line-height: 20px;
+        text-align: start;
       }
 
       .unread {
-        color: black;
-        font-family: Inter;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 600;
+        @include font-style(--font-text, 14px, var(--color-black), 600);
         line-height: 20px;
       }
 

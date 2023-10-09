@@ -49,6 +49,8 @@
   justify-content: end;
 
   .message-style {
+    position: relative;
+
     p {
       @extend .text-style;
     }
@@ -64,6 +66,18 @@
 
     #translate-btn-text {
       @extend .translate-btn-text-style;
+    }
+
+    .mySentTime {
+      position: absolute;
+      bottom: 3px;
+      left: -33px;
+    }
+
+    .partnerSentTime {
+      position: absolute;
+      bottom: 3px;
+      right: -33px;
     }
   }
 

@@ -61,7 +61,7 @@ export default function MessageInput({
   };
 
   const onSendMessage = async () => {
-    if (client.current) {
+    if (client.current && newMessage !== "") {
       try {
         let newText = { ...normalMsg }; // 복사
 
