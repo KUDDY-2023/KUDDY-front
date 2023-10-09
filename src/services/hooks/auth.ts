@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { useRecoilState, useResetRecoilState } from "recoil";
 
@@ -70,18 +70,21 @@ export const useAuthLogin = () => {
 };
 
 // ✅ 로그아웃
-export const useAuthLogout = () => {
+export const useAuthLogout = (): [() => void, boolean] => {
   const [accessToken, setAccessToken] = useRecoilState(accessTokenState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const navigate = useNavigate();
   const resetProfileImage = useResetRecoilState(profileImage);
 
-  const Logout = async () => {
+  const [logoutLoading, setLogoutLoading] = useState(false);
+
+  // react-query로 변경하기
+  const onLogout = async () => {
     try {
+      setLogoutLoading(true);
       const res = await authLogOut(accessToken);
     } catch (err) {
-      alert("서버 오류로 로그아웃에 실패했습니다.");
-      console.log("로그아웃 실패 >> ", err);
+      console.log("서버 오류로 로그아웃에 실패 >> ", err);
     }
 
     // 서버 성공 여부와 상관 없이 클라이언트에선 로그아웃 진행
@@ -89,12 +92,12 @@ export const useAuthLogout = () => {
     setAccessToken(""); // 토큰 날리기
     setIsLogin(false); // 비로그인상태
     updateAuthHeader(); // axios 헤더에서 토큰 비우기
-    localStorage.removeItem("accessToken"); // localstorage 삭제
     resetProfileImage(); // profile image recoil 초기화
+    setLogoutLoading(false); // 모달 끄기
     navigate("/"); // 메인 페이지로 이동
+    localStorage.removeItem("accessToken"); // localstorage 삭제
   };
-
-  return Logout;
+  return [onLogout, logoutLoading];
 };
 
 // ✅ 토큰 재발급 후 토큰 상태 관리하는 훅
