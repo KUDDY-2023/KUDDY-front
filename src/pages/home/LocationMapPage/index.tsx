@@ -51,9 +51,11 @@ const LocationMapPage = () => {
     });
   }, []);
 
+  const [notAllowed, setNotAllowed] = useState<boolean>(false);
   useEffect(() => {
     if (map) {
       if (navigator.geolocation) {
+        setNotAllowed(false);
         navigator.geolocation.getCurrentPosition(function (position) {
           // 현재 위치 좌표
           setPos({ y: position.coords.latitude, x: position.coords.longitude });
@@ -69,6 +71,7 @@ const LocationMapPage = () => {
         });
       } else {
         // 현재 위치를 가져올 수 없는 경우
+        setNotAllowed(true);
         Swal.fire({
           title: "Fail to access your current location",
           text: "Please allow location permission to use this service.",
@@ -174,7 +177,7 @@ const LocationMapPage = () => {
       .catch(err => setNoData(err.response.status === 400));
   }, []);
   useEffect(() => {
-    if (noData) {
+    if (noData && !notAllowed) {
       Swal.fire({
         title: "Try somewhere else",
         text: "There is no recommendation near your location now.",
