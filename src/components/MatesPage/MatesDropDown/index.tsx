@@ -74,17 +74,20 @@ const MatesDropDown = ({
       </div>
       {isOpened && (
         <div className="mates-drop-down-container" ref={modalRef}>
-          {items.map(item => (
+          {items.map((item: any, idx: number) => (
             <div
               className="drop-down-item"
               onClick={() => onClickItem(item)}
               key={item}
+              style={{
+                marginBottom: idx === items.length - 1 ? "5px" : "10px",
+              }}
             >
               {placeholder === "Group"
                 ? altGroup(item)
                 : placeholder === "Element"
                 ? altElement(item)
-                : item.replace(/^[a-z]/, char => char.toUpperCase())}
+                : item.replace(/^[a-z]/, (char: string) => char.toUpperCase())}
             </div>
           ))}
         </div>

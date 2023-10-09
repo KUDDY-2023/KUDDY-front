@@ -34,7 +34,7 @@ const LocationPreviewBlock = ({
         </div>
       </div>
       <div className="rect" onClick={() => nav(`/travel/${contentId}`)}>
-        <div className="img-rect">
+        <div className={imageUrl ? "img-rect" : "img-rect default"}>
           <img src={imageUrl ? imageUrl : defaultthumbnail} />
           <div className="category">{category}</div>
         </div>

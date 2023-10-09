@@ -18,12 +18,14 @@
     size: 22px;
   }
   margin-left: 23px;
+  cursor: default;
 }
 
 .kuddyspickpreview-more {
   display: flex;
   align-items: center;
   margin-right: 17px;
+  cursor: pointer;
 
   p {
     color: color(black);
@@ -57,6 +59,7 @@
   display: flex;
   align-items: center;
   margin-top: 15px;
+  cursor: pointer;
 }
 
 .kuddyspickpreview-content-img-rect {

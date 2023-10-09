@@ -1,3 +1,5 @@
+@import "../../../style/mixins";
+
 .pick-wrapper {
   width: 100%;
   min-height: calc(100svh - 200px);
@@ -18,7 +20,6 @@
       family: var(--font-text);
       size: 14px;
       weight: 400;
-      style: italic;
     }
 
     span {
@@ -27,6 +28,8 @@
 
     .link {
       text-decoration: underline;
+      font-weight: 600;
+      cursor: pointer;
     }
   }
 

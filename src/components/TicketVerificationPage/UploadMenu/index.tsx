@@ -3,6 +3,7 @@ import { ReactComponent as HelpIcon } from "@assets/ticket/help.svg";
 import { ReactComponent as PhotoIcon } from "@assets/ticket/photo.svg";
 import { ReactComponent as ErrorIcon } from "@assets/ticket/error.svg";
 import { useState, useRef } from "react";
+import { ticketNotUploadedYetAlert } from "@components/_common/SweetAlert";
 
 import { useGetPresignedUrl, usePostImage } from "@services/hooks/image";
 import {
@@ -117,7 +118,10 @@ const UploadMenu = ({ ticketStatus }: TicketInfoType) => {
           Your flight ticket will be reviewed and confirmed.
         </div>
       </div>
-      <div className="button" onClick={onSubmit}>
+      <div
+        className="button"
+        onClick={ticketImageUrl === "" ? ticketNotUploadedYetAlert : onSubmit}
+      >
         Request verification
       </div>
     </>

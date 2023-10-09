@@ -24,6 +24,7 @@
   .swiper-container {
     width: 100%;
     .swiper-slide {
+      cursor: pointer;
       width: 350px !important;
       @media (max-width: 400px) {
         width: 85% !important;

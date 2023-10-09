@@ -12,6 +12,7 @@
     top: 25px;
     bottom: 20px;
   }
+  cursor: default;
 }
 
 .weeklyuser-container {
@@ -37,6 +38,7 @@
   border-radius: 20px;
   border: 1px solid color(grey-line);
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .weeklyuser-top-section {
@@ -55,11 +57,12 @@
   font: {
     family: var(--font-text);
     size: 12px;
-    weight: 600;
+    weight: 500;
   }
   border-radius: 12px;
   margin-top: 20px;
   padding: 0 12px;
+  padding-top: 1px;
 }
 
 .weeklyuser-profile-circle {

@@ -18,7 +18,7 @@ export const useDetailSpot = (id: number) => {
   const { data: nearbyData } = useQuery(
     ["travelNearby", id],
     () => spotGetDetailNearby(id, data?.data.data.mapX, data?.data.data.mapY),
-    { enabled: !!data },
+    { enabled: !!data, retry: 5 },
   );
 
   const [matesPreview, setMatesPreview] = useState<string[]>();

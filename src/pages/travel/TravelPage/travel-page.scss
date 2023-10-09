@@ -72,6 +72,7 @@
       justify-content: center;
       align-items: center;
       flex-shrink: 0;
+      cursor: pointer;
 
       background-color: color(white);
       color: color(grey-text);
@@ -110,10 +111,12 @@
     svg {
       width: 10px;
       margin-left: 10px;
+      cursor: pointer;
     }
 
     .travelsearch-filter-rect {
       margin-bottom: 0;
+      cursor: default;
     }
   }
 

@@ -54,6 +54,7 @@ const useInfiniteScroll = ({
           ? pageInfo.page + 1
           : undefined;
       },
+      retry: 5,
     },
   );
 

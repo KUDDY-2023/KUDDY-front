@@ -13,12 +13,14 @@
     display: flex;
     justify-content: flex-end;
     margin-top: 48px;
+    cursor: pointer;
   }
 
   .to-profile-click-area {
     display: flex;
     flex-direction: column;
     align-items: center;
+    cursor: pointer;
   }
 
   .profile-circle {
@@ -62,6 +64,7 @@
   .section-container {
     width: calc(100% - 48px);
     margin-top: 30px;
+    cursor: pointer;
 
     .section {
       width: 100%;
@@ -90,6 +93,7 @@
     display: flex;
     img {
       height: 22px;
+      cursor: pointer;
     }
 
     p {
@@ -99,7 +103,8 @@
         size: 18px;
         weight: 400;
       }
-      margin-left: 16px;
+      padding-left: 16px;
+      cursor: pointer;
     }
   }
 }

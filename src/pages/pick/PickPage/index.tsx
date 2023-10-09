@@ -10,6 +10,7 @@ import { useGetPick } from "@services/hooks/pick";
 import { useRecoilValue } from "recoil";
 import { isLoginState } from "@services/store/auth";
 import { pickedTravel } from "@services/store/travel";
+import Swal from "sweetalert2";
 
 const Pick = () => {
   const nav = useNavigate();
@@ -17,9 +18,19 @@ const Pick = () => {
   const pickList = useRecoilValue<TravelPreviewType[]>(pickedTravel);
   const { data, isLoading, getPickList } = useGetPick();
   const onDelete = (id: number) => {
-    pickDeletePick(id)
-      .then(res => getPickList())
-      .catch(err => console.log(err));
+    Swal.fire({
+      text: "Are you sure you want to delete this item?",
+      icon: "warning",
+      iconColor: "#eeeeee",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "No",
+    }).then(res => {
+      if (res.isConfirmed)
+        pickDeletePick(id)
+          .then(res => getPickList())
+          .catch(err => console.log(err));
+    });
   };
   useEffect(() => {
     window.scrollTo(0, 0);

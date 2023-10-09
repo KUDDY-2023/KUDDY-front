@@ -41,10 +41,7 @@ const KuddysPickTravelBlock = ({
           <div className="description">{`${district} · ${category}`}</div>
         </div>
       </div>
-      <div
-        className="pick-icon-container"
-        onClick={isLogin ? toggle : () => alert("Login to pick")}
-      >
+      <div className="pick-icon-container" onClick={toggle}>
         <BookmarkIcon
           stroke="var(--color-black)"
           fill={state ? "var(--color-main-yellow)" : "var(--color-white)"}

@@ -28,6 +28,7 @@
       background-color: color(white);
       border: 1px solid color(grey-line);
       border-radius: 100px;
+      cursor: pointer;
 
       p {
         color: color(black);
@@ -46,6 +47,7 @@
     height: 25svh;
     border-radius: 10px;
     background-color: color(white);
+    cursor: pointer;
   }
 
   .img-rect {
@@ -54,15 +56,27 @@
     overflow: hidden;
     position: relative;
     border-radius: 10px 10px 0 0;
-
     img {
       width: 100%;
       height: 100%;
       object-fit: cover;
     }
 
+    &.default {
+      background-color: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: auto;
+        height: 120%;
+        object-fit: cover;
+      }
+    }
+
     .category {
       background-color: color(light-grey);
+      border: 1px solid color(grey);
       padding: 5px 16px;
       border-radius: 50px;
       color: color(black);
