@@ -14,18 +14,21 @@ $black: var(--color-black);
     position: absolute;
     left: 28px;
     top: 18px;
+    cursor: pointer;
   }
 
   #share {
     position: absolute;
     right: 28px;
     top: 18px;
+    cursor: pointer;
   }
 
   #more {
     position: absolute;
     right: 28px;
     top: 18px;
+    cursor: pointer;
   }
 
   p {
@@ -37,5 +40,6 @@ $black: var(--color-black);
       size: 16px;
       weight: 600;
     }
+    cursor: default;
   }
 }

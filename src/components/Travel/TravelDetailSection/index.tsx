@@ -32,7 +32,10 @@ const TravelDetailSection = ({
   return (
     <div className="travel-detail-section-wrapper">
       {!isTop && <div className="section-border" />}
-      <div className="flex-container" onClick={() => setIsOpened(!isOpened)}>
+      <div
+        className={isToggle ? "flex-container toggle" : "flex-container"}
+        onClick={() => setIsOpened(!isOpened)}
+      >
         <div className="title">{title}</div>
         {isToggle && (
           <ArrowIcon

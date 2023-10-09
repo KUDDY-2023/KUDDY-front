@@ -7,6 +7,11 @@
   align-items: center;
   margin-top: 10px;
 
+  div,
+  span {
+    cursor: default;
+  }
+
   .section-border {
     width: calc(100% - 50px);
     border-bottom: 1px solid color(grey);
@@ -27,6 +32,10 @@
         size: 20px;
         weight: 500;
       }
+    }
+
+    &.toggle {
+      cursor: pointer;
     }
   }
 
@@ -98,6 +107,10 @@
       scrollbar-width: none;
 
       .travelblock-wrapper {
+        cursor: pointer;
+        div {
+          cursor: pointer;
+        }
         width: 35%;
         @media (min-width: 600px) {
           width: 174px;

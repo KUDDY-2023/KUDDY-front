@@ -28,6 +28,7 @@
       background-color: color(white);
       border: 1px solid color(grey-line);
       border-radius: 100px;
+      cursor: pointer;
 
       p {
         color: color(black);
@@ -46,6 +47,7 @@
     height: 25svh;
     border-radius: 10px;
     background-color: color(white);
+    cursor: pointer;
   }
 
   .img-rect {
