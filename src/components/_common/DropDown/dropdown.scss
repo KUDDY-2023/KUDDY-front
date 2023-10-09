@@ -33,6 +33,9 @@ p {
     border: 1px solid #ddd;
     background: #fff;
 
+    height: 280px;
+    overflow-y: scroll;
+
     #active-custom-item {
       margin-bottom: 8px;
       @include font-style(--font-text, 14px, var(--color-black), 700);
