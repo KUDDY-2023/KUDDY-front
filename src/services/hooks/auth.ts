@@ -134,7 +134,7 @@ export const useIsFirstLogin = async (state: state) => {
     try {
       const res = await profileGetProfile(); // 조회
       if (state === "FORM") {
-        alert("이미 만드셨네요.....");
+        //alert("이미 프로필이 존재합니다.");
         navigate("/");
       }
     } catch (err: any) {
@@ -143,7 +143,7 @@ export const useIsFirstLogin = async (state: state) => {
 
       // 프로필 없는 경우
       if (state === "MAIN" && errCode === "프로필을 찾을 수 없습니다.") {
-        alert("프로필 만들어주세요...");
+        // alert("프로필을 만들어주세요.");
         navigate("/auth/form");
       }
     }
