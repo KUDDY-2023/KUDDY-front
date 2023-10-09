@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
 
@@ -159,6 +159,8 @@ export const useSSE = () => {
 
   const EventSource = EventSourcePolyfill || NativeEventSource;
   const token = localStorage.getItem("accessToken");
+  const eventSource1Ref = useRef<EventSource | null>(null);
+  const eventSource2Ref = useRef<EventSource | null>(null);
 
   const { notiCount } = useGetCommentNotiCount(); // 댓글 알림 개수 가져오기
   const { notiChatCount } = useGetChatNotiCount(); // 채팅 알림 개수 가져오기
@@ -169,133 +171,150 @@ export const useSSE = () => {
     if (notiChatCount) isNewNotification({ ...newNotification, chat: true });
   }, [notiCount, notiChatCount]);
 
-  // useEffect(() => {
-  //   let eventSource1: EventSource | null = null;
+  useEffect(() => {
+    if (!listeningComment && token) {
+      // 로그인 한 경우만 요청
+      setListeningComment(true);
+      try {
+        eventSource1Ref.current = new EventSource(
+          `https://api.kuddy.co.kr/api/v1/notifications/subscribe`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
+          },
+        );
 
-  //   if (!listeningComment && token) {
-  //     // 로그인 한 경우만 요청
-  //     setListeningComment(true);
-  //     try {
-  //       const eventSource1 = new EventSource(
-  //         `https://api.kuddy.co.kr/api/v1/notifications/subscribe`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //           withCredentials: true,
-  //         },
-  //       );
+        // 연결 됐을 때
+        eventSource1Ref.current.onopen = async event => {
+          console.log("Comment 연결 성공", event);
+        };
 
-  //       // 연결 됐을 때
-  //       eventSource1.onopen = async event => {
-  //         console.log("Comment 연결 성공", event);
-  //       };
+        // 이벤트 왔을 때
+        eventSource1Ref.current.onmessage = async event => {
+          if (!event.data.startsWith("EventStream")) {
+            // 이벤트일때만 JSON.parse 실행
+            try {
+              const eventData = JSON.parse(event.data);
+              const eventType = eventData.notificationType;
 
-  //       // 이벤트 왔을 때
-  //       eventSource1.onmessage = async event => {
-  //         if (!event.data.startsWith("EventStream")) {
-  //           // 이벤트일때만 JSON.parse 실행
-  //           try {
-  //             const eventData = JSON.parse(event.data);
-  //             const eventType = eventData.notificationType;
+              if (eventType === "COMMENT") {
+                isNewNotification(prevState => {
+                  // Create a new state based on the previous state
+                  let newState = { ...prevState, alarm: true };
+                  // Preserve the chat state
+                  if (prevState.chat) {
+                    newState.chat = true;
+                  }
+                  return newState; // Return the updated state
+                });
+              }
+            } catch (error) {
+              console.error("Error parsing JSON:", error);
+            }
+          }
+        };
 
-  //             if (eventType === "COMMENT") {
-  //               //console.log("댓글 알림 발생");
-  //               isNewNotification({ ...newNotification, alarm: true });
-  //             }
-  //           } catch (error) {
-  //             console.error("Error parsing JSON:", error);
-  //           }
-  //         }
-  //       };
+        // 에러 발생 & 연결 끊겼을 때
+        eventSource1Ref.current.onerror = (event: any) => {
+          console.log("Comment 알림 에러 발생");
+          if (event.readyState == EventSource.CLOSED) {
+            console.log("Comment 에러 발생 : CLOSED");
+          }
+        };
+      } catch (err) {
+        setListeningComment(false);
+        alert("Comment 알림 연결 실패");
+      }
+    }
 
-  //       // 에러 발생 & 연결 끊겼을 때
-  //       eventSource1.onerror = (event: any) => {
-  //         console.log("Comment 알림 에러 발생");
-  //         if (event.readyState == EventSource.CLOSED) {
-  //           console.log("Comment 에러 발생 : CLOSED");
-  //         }
-  //       };
-  //     } catch (err) {
-  //       setListeningComment(false);
-  //       alert("Comment 알림 연결 실패");
-  //     }
-  //   }
+    // 정리 함수 정의 (컴포넌트 언마운트 시 호출됨)
+    return () => {
+      // console.log("🔥알림 언마운트 : ", eventSource1Ref.current);
 
-  //   // 정리 함수 정의 (컴포넌트 언마운트 시 호출됨)
-  //   return () => {
-  //     console.log("✅1");
-  //     if (eventSource1) {
-  //       console.log("alarm sse 연결 끊음");
-  //       eventSource1.close(); // EventSource 연결 종료
-  //     }
-  //   };
-  // }, [listeningComment]);
+      if (eventSource1Ref.current) {
+        //console.log("🔥 알림 연결을 끊었습니다.");
+        eventSource1Ref.current.close();
+        eventSource1Ref.current = null;
+      }
+    };
+  }, []);
 
-  // useEffect(() => {
-  //   let eventSource2: EventSource | null = null;
+  useEffect(() => {
+    if (!listeningChat && token) {
+      // 로그인 한 경우만 요청
+      setListeningChat(true);
+      try {
+        eventSource2Ref.current = new EventSource(
+          `https://api.kuddy.co.kr/chat/v1/notification/subscribe`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            withCredentials: true,
+          },
+        );
 
-  //   if (!listeningChat && token) {
-  //     // 로그인 한 경우만 요청
-  //     setListeningChat(true);
-  //     try {
-  //       const eventSource2 = new EventSource(
-  //         `https://api.kuddy.co.kr/chat/v1/notification/subscribe`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${token}`,
-  //           },
-  //           withCredentials: true,
-  //         },
-  //       );
+        // 연결 됐을 때
+        eventSource2Ref.current.onopen = async event => {
+          console.log("Chat 알림 연결 성공", event);
+        };
 
-  //       // 연결 됐을 때
-  //       eventSource2.onopen = async event => {
-  //         console.log("Chat 알림 연결 성공", event);
-  //       };
+        // 이벤트 왔을 때
+        eventSource2Ref.current.onmessage = async event => {
+          if (!event.data.startsWith("EventStream")) {
+            // 이벤트일때만 JSON.parse 실행
+            try {
+              const eventData = JSON.parse(event.data);
+              const eventType = eventData.notificationType;
 
-  //       // 이벤트 왔을 때
-  //       eventSource2.onmessage = async event => {
-  //         if (!event.data.startsWith("EventStream")) {
-  //           // 이벤트일때만 JSON.parse 실행
-  //           try {
-  //             const eventData = JSON.parse(event.data);
-  //             const eventType = eventData.notificationType;
+              if (eventType === "CHAT") {
+                isNewNotification(prevState => {
+                  // Create a new state based on the previous state
+                  let newState = { ...prevState, chat: true };
+                  // Preserve the chat state
+                  if (prevState.alarm) {
+                    newState.alarm = true;
+                  }
+                  return newState; // Return the updated state
+                });
+              } else {
+                console.log("Unknown event type:", eventType);
+              }
+            } catch (error) {
+              console.error("Error parsing JSON:", error);
+            }
+          }
+        };
 
-  //             if (eventType === "CHAT") {
-  //               //console.log("채팅 알림 발생");
-  //               isNewNotification({ ...newNotification, chat: true });
-  //             } else {
-  //               console.log("Unknown event type:", eventType);
-  //             }
-  //           } catch (error) {
-  //             console.error("Error parsing JSON:", error);
-  //           }
-  //         }
-  //       };
+        // 에러 발생 & 연결 끊겼을 때
+        eventSource2Ref.current.onerror = (event: any) => {
+          console.log("Chat 알림 에러 발생");
+          if (event.readyState == EventSource.CLOSED) {
+            console.log("Chat 에러 발생 : CLOSED");
+          }
+        };
+      } catch (err) {
+        setListeningChat(false);
+        alert("Chat 알림 연결 실패");
+      }
+    }
 
-  //       // 에러 발생 & 연결 끊겼을 때
-  //       eventSource2.onerror = (event: any) => {
-  //         console.log("Chat 알림 에러 발생");
-  //         if (event.readyState == EventSource.CLOSED) {
-  //           console.log("Chat 에러 발생 : CLOSED");
-  //         }
-  //       };
-  //     } catch (err) {
-  //       setListeningChat(false);
-  //       alert("Chat 알림 연결 실패");
-  //     }
-  //   }
+    // 정리 함수 정의 (컴포넌트 언마운트 시 호출됨)
+    return () => {
+      //console.log("🔥채팅 언마운트 : ", eventSource2Ref.current);
 
-  //   return () => {
-  //     console.log("✅2");
+      if (eventSource2Ref.current) {
+        //console.log("🔥채팅 연결을 끊었습니다.");
+        eventSource2Ref.current.close();
+        eventSource2Ref.current = null;
+      }
+    };
+  }, []);
 
-  //     if (eventSource2) {
-  //       console.log("chat sse 연결 끊음");
-  //       eventSource2.close(); // EventSource 연결 종료
-  //     }
-  //   };
-  // }, [listeningChat]);
-
+  useEffect(() => {
+    console.log("💙존재 여부 >>", newNotification);
+  }, [newNotification]);
   return { newNotification };
 };
