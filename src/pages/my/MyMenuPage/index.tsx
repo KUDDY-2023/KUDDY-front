@@ -12,6 +12,7 @@ import log from "@assets/my/logout.svg";
 
 import { useGetProfile } from "@services/hooks/profile";
 import { useAuthLogout } from "@services/hooks/auth";
+import Loading from "@components/_common/Loading";
 
 const iconSrc = [
   { text: "My appoitment", src: app, navTo: "/my/appointment" },
@@ -30,10 +31,17 @@ const MyMenuPage = () => {
   const [userInfo, setUserInfo] = useState<UserInfo>();
 
   const { data, isLoading, error } = useGetProfile();
-  const onLogout = useAuthLogout();
+  const [onLogout, logoutLoading] = useAuthLogout();
 
   return (
     <div className="my-menu-page-wrapper">
+      {logoutLoading && (
+        <Loading
+          backColor="rgba(0, 0, 0, 0.5)"
+          spinnerColor="#FFF798"
+          size="80px"
+        />
+      )}
       <div className="xbtn-container">
         <XbtnIcon onClick={() => nav("/")} />
       </div>
