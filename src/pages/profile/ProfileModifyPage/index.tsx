@@ -5,22 +5,30 @@ import DropDown from "@components/_common/DropDown";
 import EditModal from "@components/ProfileModifyPage/EditModal";
 import BasicModifyForm from "@components/ProfileModifyPage/BasicModifyForm";
 import EditBtnModifyForm from "@components/ProfileModifyPage/EditBtnModifyForm";
+import Loading from "@components/_common/Loading";
 import {
   useUpdateProfile,
   useGetProfile,
   usePutProfileModify,
+  useCheckAvailableNickname,
+  CheckNicknameString,
 } from "@services/hooks/profile";
 import { useGetPresignedUrl, usePostImage } from "@services/hooks/image";
 import { useNavigate } from "react-router-dom";
 
 import { useRecoilState } from "recoil";
-import { profileState, interestsArrState } from "@services/store/auth";
+import {
+  profileState,
+  interestsArrState,
+  uniqueNameState,
+} from "@services/store/auth";
 import { profileIntroduce } from "@services/store/profile";
 
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { MobileDatePicker } from "@mui/x-date-pickers/MobileDatePicker";
 import dayjs from "dayjs";
+import useInterest from "@utils/hooks/useInterest";
 
 const ProfileModifyPage = () => {
   const nav = useNavigate();
@@ -41,6 +49,13 @@ const ProfileModifyPage = () => {
   const [introduce, setIntroduce] = useRecoilState(profileIntroduce); // 프로필 introduce 전역 상태
   const [interestsArr, setInterestsArr] = useRecoilState(interestsArrState); // interest 전역 상태 (값 읽기)
 
+  const [isAvailable, setIsAvailable] = useRecoilState(uniqueNameState); // 닉네임 사용 가능 여부
+  const [nameAlert, setNameAlert] = useState({
+    alert: isAvailable
+      ? "You can use this name"
+      : "Only alphabetic, numeric, and underbar",
+    textColor: isAvailable ? "blue-alert" : "grey-alert",
+  }); // 닉네임 중복 체크 alert
   const [gender, setGender] = useState(""); // 선택한 성별 텍스트
   const [regionText, setRegionText] = useState(""); // 선택한 지역 텍스트로 표현
   const [languageText, setLanguageText] = useState(""); // 선택한 언어 텍스트로 표현
@@ -52,6 +67,8 @@ const ProfileModifyPage = () => {
   const onUpdateProfile = useUpdateProfile();
   const onGetUrl = useGetPresignedUrl();
   const onPostImage = usePostImage();
+  const { altElement } = useInterest();
+  const onCheck = useCheckAvailableNickname();
 
   // 내 프로필 정보 가져오기
   useEffect(() => {
@@ -90,6 +107,14 @@ const ProfileModifyPage = () => {
         };
       });
       setInterestsArr(newInterests);
+
+      if (!isAvailable) {
+        let [alertText, textColor] = CheckNicknameString(profile?.nickname);
+        setNameAlert({
+          textColor: textColor,
+          alert: alertText,
+        });
+      }
     }
   }, [isLoading]);
 
@@ -110,6 +135,47 @@ const ProfileModifyPage = () => {
         });
       } catch (err) {
         alert(err);
+      }
+    }
+  };
+
+  // 닉네임 관련
+  const onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsAvailable(false);
+
+    let newName = e.target.value;
+    let [alertText, textColor] = CheckNicknameString(newName);
+
+    // 경고 문구
+    setNameAlert({
+      textColor: textColor,
+      alert: alertText,
+    });
+
+    setProfile({ ...profile, nickname: newName });
+  };
+
+  // 중복 체크 관련
+  useEffect(() => {
+    if (isAvailable) {
+      setNameAlert({
+        textColor: "blue-alert",
+        alert: "You can use this name",
+      });
+    }
+  }, [isAvailable]);
+
+  const onCheckAvailableNickname = async () => {
+    if (nameAlert.alert === "Please press the checking button") {
+      const available = await onCheck(profile?.nickname);
+      if (available) {
+        setIsAvailable(true);
+      } else {
+        setIsAvailable(false);
+        setNameAlert({
+          textColor: "red-alert",
+          alert: "Name already registered",
+        });
       }
     }
   };
@@ -229,8 +295,7 @@ const ProfileModifyPage = () => {
 
     for (let i = 0; i < newValues.length; i++) {
       newValues[i].forEach((v: any) => {
-        v = v.toLowerCase();
-        v = v.replace(/^[a-z]/, (char: any) => char.toUpperCase());
+        v = altElement(v);
         v !== "" && (newInterestText += v + ", ");
       });
     }
@@ -249,6 +314,12 @@ const ProfileModifyPage = () => {
 
   // complete 버튼 클릭
   const handleCompleteClick = async () => {
+    // 닉네임 체크 필요
+    if (!isAvailable) {
+      alert(nameAlert.alert);
+      return;
+    }
+
     const res = await onProfileModify();
     console.log(res);
     nav(`/profile/${profile.nickname}`);
@@ -268,165 +339,191 @@ const ProfileModifyPage = () => {
         onClose={handleCloseModal}
         form={form}
       />
-
-      {/* 프로필 사진 */}
-      <div className="profile-image-container">
-        <img src={profile?.profileImageUrl} className="profile-image" />
-        <label htmlFor="profile-image-input">
-          <img src={photoBtn} className="photo-btn" />
-        </label>
-        <input
-          type="file"
-          id="profile-image-input"
-          accept="image/*"
-          hidden
-          onChange={handlePhotoBtnClick}
-        />
-      </div>
-
-      {/* 이름 */}
-      <div className="detail-modify-container">
-        <BasicModifyForm text="name">
-          <input
-            type="text"
-            className="profile-content"
-            placeholder={profile?.nickname}
-            value={profile?.nickname || ""}
-            onChange={e =>
-              setProfile((p: any) => ({ ...p, nickname: e.target.value }))
-            }
-          />
-        </BasicModifyForm>
-
-        {/* 소개글 */}
-        <BasicModifyForm text="introduce">
-          <textarea
-            className="profile-content"
-            placeholder={introduce}
-            value={introduce || ""}
-            onChange={e => setIntroduce(e.target.value)}
-          />
-        </BasicModifyForm>
-        <div className="profile-line"></div>
-
-        {/* 성별 */}
-        <BasicModifyForm text="gender">
-          <DropDown
-            items={genders}
-            type="Gender"
-            placeholder="Gender"
-            id={1}
-            state={gender}
-            onSelect={handleSelectGender}
-          />
-        </BasicModifyForm>
-        {/* 생일 추가 */}
-        <BasicModifyForm text="birth">
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <MobileDatePicker
-              format="YYYY / MM / DD"
-              defaultValue={dayjs(profile?.birthDate)}
-              onChange={(value: any) => handleSelectAge(formatDate(value.$d))}
-            />
-          </LocalizationProvider>
-        </BasicModifyForm>
-        {/* 직업 */}
-        <BasicModifyForm text="job">
-          <input
-            type="text"
-            className="profile-content"
-            placeholder={profile?.job}
-            value={profile?.job || ""}
-            onChange={e =>
-              setProfile((p: any) => ({ ...p, job: e.target.value }))
-            }
-          />
-        </BasicModifyForm>
-        {/* 성격 */}
-        <BasicModifyForm text="personality">
-          <div className="vertical-container">
-            <div className="personality-container">
-              <div
-                className={
-                  profile?.temperament === "INTROVERT"
-                    ? "personality-btn selected"
-                    : "personality-btn"
-                }
-                onClick={() => handlePersonalityClick("temperament", 0)}
-              >
-                Introvert
-              </div>
-              <div
-                className={
-                  profile?.temperament === "EXTROVERT"
-                    ? "personality-btn selected"
-                    : "personality-btn"
-                }
-                onClick={() => handlePersonalityClick("temperament", 1)}
-              >
-                Extrovert
-              </div>
-            </div>
-            <div className="personality-container">
-              <div
-                className={
-                  profile?.decisionMaking === "JUDGING"
-                    ? "personality-btn selected"
-                    : "personality-btn"
-                }
-                onClick={() => handlePersonalityClick("decisionMaking", 0)}
-              >
-                Judging
-              </div>
-              <div
-                className={
-                  profile?.decisionMaking === "PROSPECTING"
-                    ? "personality-btn selected"
-                    : "personality-btn"
-                }
-                onClick={() => handlePersonalityClick("decisionMaking", 1)}
-              >
-                Prospecting
-              </div>
-            </div>
-          </div>
-        </BasicModifyForm>
-
-        {/* 지역/나라 */}
-        {profile?.roleType === "KUDDY" ? (
-          <EditBtnModifyForm
-            subtitle="region"
-            value={regionText}
-            onClick={() => handleOpenModal("region")}
-          />
-        ) : (
-          <div className="detail-modify-inner-container">
-            <div className="profile-subtitle">nationality</div>
-            <DropDown
-              items={nations}
-              type="Nationality"
-              placeholder="Nationality"
-              id={1}
-              state={profile?.nationality || ""}
-              onSelect={handleSelectNation}
+      {!profile ? (
+        <Loading backColor="transparent" spinnerColor="#eee" size="30px" />
+      ) : (
+        <>
+          {/* 프로필 사진 */}
+          <div className="profile-image-container">
+            <img src={profile?.profileImageUrl} className="profile-image" />
+            <label htmlFor="profile-image-input">
+              <img src={photoBtn} className="photo-btn" />
+            </label>
+            <input
+              type="file"
+              id="profile-image-input"
+              accept="image/*"
+              hidden
+              onChange={handlePhotoBtnClick}
             />
           </div>
-        )}
-        {/* 언어 */}
-        <EditBtnModifyForm
-          subtitle="language"
-          value={languageText}
-          onClick={() => handleOpenModal("language")}
-        />
-        <div className="profile-line"></div>
 
-        {/* 흥미 */}
-        <EditBtnModifyForm
-          subtitle="interest"
-          value={interestText}
-          onClick={() => handleOpenModal("interest")}
-        />
-      </div>
+          {/* 이름 */}
+          <div className="detail-modify-container">
+            <BasicModifyForm text="name">
+              <div className="modify-name-container">
+                <div className="modify-name-inner-container">
+                  <input
+                    type="text"
+                    className="profile-content"
+                    placeholder={profile?.nickname}
+                    value={profile?.nickname || ""}
+                    onChange={e => onChangeNickname(e)}
+                  />
+                  <div className={`status-text ${nameAlert.textColor}`}>
+                    <p>
+                      {nameAlert.alert} ({profile?.nickname?.length}/15)
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={onCheckAvailableNickname}
+                  className={`checking-btn ${
+                    isAvailable ? "grey-btn" : "yellow-btn"
+                  }`}
+                >
+                  checking
+                </button>
+              </div>
+            </BasicModifyForm>
+
+            {/* 소개글 */}
+            <BasicModifyForm text="introduce">
+              <textarea
+                className="profile-content"
+                placeholder={introduce}
+                value={introduce || ""}
+                onChange={e => setIntroduce(e.target.value)}
+              />
+            </BasicModifyForm>
+            <div className="profile-line"></div>
+
+            {/* 성별 */}
+            <BasicModifyForm text="gender">
+              <div className="modify-dropdown">
+                <DropDown
+                  items={genders}
+                  type="Gender"
+                  placeholder="Gender"
+                  id={1}
+                  state={gender}
+                  onSelect={handleSelectGender}
+                />
+              </div>
+            </BasicModifyForm>
+            {/* 생일 추가 */}
+            <BasicModifyForm text="birth">
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <MobileDatePicker
+                  format="YYYY / MM / DD"
+                  defaultValue={dayjs(profile?.birthDate)}
+                  onChange={(value: any) =>
+                    handleSelectAge(formatDate(value.$d))
+                  }
+                />
+              </LocalizationProvider>
+            </BasicModifyForm>
+            {/* 직업 */}
+            <BasicModifyForm text="job">
+              <input
+                type="text"
+                className="profile-content"
+                placeholder={profile?.job}
+                value={profile?.job || ""}
+                onChange={e =>
+                  setProfile((p: any) => ({ ...p, job: e.target.value }))
+                }
+              />
+            </BasicModifyForm>
+            {/* 성격 */}
+            <BasicModifyForm text="personality">
+              <div className="vertical-container">
+                <div className="personality-container">
+                  <div
+                    className={
+                      profile?.temperament === "INTROVERT"
+                        ? "personality-btn selected"
+                        : "personality-btn"
+                    }
+                    onClick={() => handlePersonalityClick("temperament", 0)}
+                  >
+                    Introvert
+                  </div>
+                  <div
+                    className={
+                      profile?.temperament === "EXTROVERT"
+                        ? "personality-btn selected"
+                        : "personality-btn"
+                    }
+                    onClick={() => handlePersonalityClick("temperament", 1)}
+                  >
+                    Extrovert
+                  </div>
+                </div>
+                <div className="personality-container">
+                  <div
+                    className={
+                      profile?.decisionMaking === "JUDGING"
+                        ? "personality-btn selected"
+                        : "personality-btn"
+                    }
+                    onClick={() => handlePersonalityClick("decisionMaking", 0)}
+                  >
+                    Prefer planning
+                  </div>
+                  <div
+                    className={
+                      profile?.decisionMaking === "PROSPECTING"
+                        ? "personality-btn selected"
+                        : "personality-btn"
+                    }
+                    onClick={() => handlePersonalityClick("decisionMaking", 1)}
+                  >
+                    Prefer spontaneous
+                  </div>
+                </div>
+              </div>
+            </BasicModifyForm>
+
+            {/* 지역/나라 */}
+            {profile?.roleType === "KUDDY" ? (
+              <EditBtnModifyForm
+                subtitle="region"
+                value={regionText}
+                onClick={() => handleOpenModal("region")}
+              />
+            ) : (
+              <div className="detail-modify-inner-container">
+                <div className="profile-subtitle">nationality</div>
+                <div className="modify-dropdown">
+                  <DropDown
+                    items={nations}
+                    type="Nationality"
+                    placeholder="Nationality"
+                    id={1}
+                    state={profile?.nationality || ""}
+                    onSelect={handleSelectNation}
+                  />
+                </div>
+              </div>
+            )}
+            {/* 언어 */}
+            <EditBtnModifyForm
+              subtitle="language"
+              value={languageText}
+              onClick={() => handleOpenModal("language")}
+            />
+            <div className="profile-line"></div>
+
+            {/* 흥미 */}
+            <EditBtnModifyForm
+              subtitle="interest"
+              value={interestText}
+              onClick={() => handleOpenModal("interest")}
+            />
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -114,11 +114,7 @@ const IntroSection = ({ profile, isMine }: Props) => {
             <div className="nickname">{profile?.memberInfo?.nickname}</div>
             <div className="badge-section">
               <img src={badgeIcon} />
-              <div className="badge-text">
-                {badgeText
-                  .toLowerCase()
-                  .replace(/^[a-z]/, (char: string) => char.toUpperCase())}
-              </div>
+              <div className="badge-text">{badgeText}</div>
             </div>
           </div>
           <div className="profile-btn" onClick={handleBtnClick}>
