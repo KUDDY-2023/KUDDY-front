@@ -41,6 +41,7 @@ const LocationMapPage = () => {
 
   useEffect(() => {
     setIsLoading(true);
+    setNotAllowed(false);
     window.kakao.maps.load(() => {
       const container = document.getElementById("map");
       const options = {
@@ -71,7 +72,6 @@ const LocationMapPage = () => {
         });
       } else {
         // 현재 위치를 가져올 수 없는 경우
-        setNotAllowed(true);
         Swal.fire({
           title: "Fail to access your current location",
           text: "Please allow location permission to use this service.",
@@ -80,6 +80,7 @@ const LocationMapPage = () => {
           confirmButtonText: "OK",
         }).then(res => {
           if (res.isConfirmed) {
+            setNotAllowed(true);
             setPos({ y: defaultY, x: defaultX });
             map.setCenter(new kakao.maps.LatLng(defaultY, defaultX));
             setIsLoading(false);
@@ -87,7 +88,7 @@ const LocationMapPage = () => {
         });
       }
     }
-  }, [map]);
+  }, [map, notAllowed]);
 
   function displayMarker(
     locPosition: any,
