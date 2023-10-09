@@ -56,39 +56,51 @@ const LocationMapPage = () => {
   useEffect(() => {
     if (map) {
       if (navigator.geolocation) {
-        setNotAllowed(false);
-        navigator.geolocation.getCurrentPosition(function (position) {
-          // 현재 위치 좌표
-          setPos({ y: position.coords.latitude, x: position.coords.longitude });
-          // 디폴트 좌표
-          // setPos({ y: defaultY, x: defaultX });
-          // 데이터가 없는 서울 밖 좌표
-          // setPos({ y: 36.4615351, x: 127.9872863 });
-          // 카카오맵 지원 영역 밖 좌표
-          // setPos({ y: 37.4615351, x: 128.9872863 });
-          var locPosition = new kakao.maps.LatLng(pos.y, pos.x);
-          map.setCenter(locPosition);
-          setIsLoading(false);
-        });
-      } else {
-        // 현재 위치를 가져올 수 없는 경우
-        Swal.fire({
-          title: "Fail to access your current location",
-          text: "Please allow location permission to use this service.",
-          icon: "error",
-          iconColor: "#eeeeee",
-          confirmButtonText: "OK",
-        }).then(res => {
-          if (res.isConfirmed) {
-            setNotAllowed(true);
-            setPos({ y: defaultY, x: defaultX });
-            map.setCenter(new kakao.maps.LatLng(defaultY, defaultX));
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            // 현재 위치 좌표
+            setPos({
+              y: position.coords.latitude,
+              x: position.coords.longitude,
+            });
+            // 디폴트 좌표
+            // setPos({ y: defaultY, x: defaultX });
+            // 데이터가 없는 서울 밖 좌표
+            // setPos({ y: 36.4615351, x: 127.9872863 });
+            // 카카오맵 지원 영역(한국) 밖 좌표
+            // setPos({ y: 37.4615351, x: 128.9872863 });
+            var locPosition = new kakao.maps.LatLng(pos.y, pos.x);
+            map.setCenter(locPosition);
             setIsLoading(false);
-          }
-        });
+            setNotAllowed(false);
+          },
+          function (error) {
+            console.log("error");
+            if (error.message === "User denied Geolocation")
+              setNotAllowed(true);
+          },
+        );
       }
     }
-  }, [map, notAllowed]);
+  }, [map]);
+  useEffect(() => {
+    // 현재 위치를 가져올 수 없는 경우
+    if (notAllowed) {
+      Swal.fire({
+        title: "Fail to access your current location",
+        text: "Please allow location permission to use this service.",
+        icon: "error",
+        iconColor: "#eeeeee",
+        confirmButtonText: "OK",
+      }).then(res => {
+        if (res.isConfirmed) {
+          setIsLoading(false);
+          setPos({ y: defaultY, x: defaultX });
+          map.setCenter(new kakao.maps.LatLng(defaultY, defaultX));
+        }
+      });
+    }
+  }, [notAllowed]);
 
   function displayMarker(
     locPosition: any,
@@ -173,12 +185,16 @@ const LocationMapPage = () => {
 
   const [noData, setNoData] = useState<boolean>(false);
   useEffect(() => {
-    spotGetNearLocation({ page: 0, pos })
-      .then()
-      .catch(err => setNoData(err.response.status === 400));
+    setNoData(false);
   }, []);
   useEffect(() => {
-    if (noData && !notAllowed) {
+    if (!isLoading && !notAllowed)
+      spotGetNearLocation({ page: 0, pos })
+        .then(res => console.log(res.data))
+        .catch(err => setNoData(err.response.status === 400));
+  }, [isLoading, notAllowed]);
+  useEffect(() => {
+    if (noData) {
       Swal.fire({
         title: "Try somewhere else",
         text: "There is no recommendation near your location now.",
