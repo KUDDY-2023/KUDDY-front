@@ -18,7 +18,11 @@ export const completeAlert = () =>
     "success",
   );
 
-export const refundAlert = () => {
-  Swal.fire("어쩌구저쩌구", "?", "success");
-  console.log();
+export const englishIsMandatoryAlert = () => {
+  Swal.fire({
+    text: "English proficiency is mandatory to select.",
+    icon: "warning",
+    iconColor: "#FFC6C6",
+    showConfirmButton: false,
+  });
 };
