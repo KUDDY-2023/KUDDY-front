@@ -15,7 +15,7 @@ export default function PrivateRoute({
 
   useEffect(() => {
     if (authentication && !isAuthenticated) {
-      alert("접근 불가능합니다. 로그인이 필요합니다.");
+      // alert("접근 불가능합니다. 로그인이 필요합니다.");
     }
 
     if (!authentication && isAuthenticated) {
