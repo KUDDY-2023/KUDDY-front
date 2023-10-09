@@ -4,6 +4,7 @@ import { pickPostPick, pickDeletePick } from "@services/api/pick";
 import { useGetPick } from "@services/hooks/pick";
 import { useRecoilValue } from "recoil";
 import { isLoginState } from "@services/store/auth";
+import { loginToUsePick } from "@components/_common/SweetAlert";
 
 const useBookmark = (isBookmarked: boolean, currentTravelId: number) => {
   const nav = useNavigate();
@@ -42,8 +43,7 @@ const useBookmark = (isBookmarked: boolean, currentTravelId: number) => {
             .catch();
         }
       } else {
-        alert(`Login to use 'Pick'`);
-        nav("/auth/register");
+        loginToUsePick();
       }
     }
   }, [trigger]);

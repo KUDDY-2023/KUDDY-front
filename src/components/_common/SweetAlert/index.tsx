@@ -26,3 +26,23 @@ export const englishIsMandatoryAlert = () => {
     showConfirmButton: false,
   });
 };
+
+export const ticketNotUploadedYetAlert = () => {
+  Swal.fire({
+    text: "Upload your ticket image before request.",
+    icon: "warning",
+    iconColor: "#eeeeee",
+  });
+};
+
+export const loginToUsePick = () => {
+  Swal.fire({
+    text: "Please login to 'pick' your travel",
+    icon: "warning",
+    iconColor: "#eeeeee",
+    showCancelButton: true,
+    confirmButtonText: "Login",
+  }).then(res => {
+    if (res.isConfirmed) window.location.replace("/auth/register");
+  });
+};
