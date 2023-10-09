@@ -21,6 +21,7 @@ const SwiperCard = () => {
     {
       staleTime: 1800000,
       cacheTime: Infinity,
+      retry: 3,
     },
   );
   return (
