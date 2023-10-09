@@ -1,5 +1,4 @@
 import "./my-menu-page.scss";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as XbtnIcon } from "@assets/icon/xbtn.svg";
 import { ReactComponent as ArrowIcon } from "@assets/my/arrow_right_midi.svg";
@@ -14,7 +13,7 @@ import { useGetProfile } from "@services/hooks/profile";
 import { useAuthLogout } from "@services/hooks/auth";
 
 const iconSrc = [
-  { text: "My appoitment", src: app, navTo: "/my/appointment" },
+  { text: "My appointment", src: app, navTo: "/my/appointment" },
   { text: "My post", src: pos, navTo: "/my/post" },
   { text: "Tip for K-Buddy", src: tip, navTo: "/my/tip" },
   {
@@ -27,8 +26,6 @@ const iconSrc = [
 
 const MyMenuPage = () => {
   const nav = useNavigate();
-  const [userInfo, setUserInfo] = useState<UserInfo>();
-
   const { data, isLoading, error } = useGetProfile();
   const onLogout = useAuthLogout();
 
