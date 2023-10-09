@@ -134,6 +134,7 @@ export const useGetChatNotiCount = () => {
       refetchOnWindowFocus: false,
       select: data => data.data.data.totalUnReadMessages,
       cacheTime: 0,
+      retry: 1,
     },
   );
 
@@ -184,7 +185,7 @@ export const useSSE = () => {
 
         // 연결 됐을 때
         eventSource.onopen = async event => {
-          //console.log("Comment 연결 성공", event);
+          console.log("Comment 연결 성공", event);
         };
 
         // 이벤트 왔을 때
@@ -236,7 +237,7 @@ export const useSSE = () => {
 
         // 연결 됐을 때
         eventSource2.onopen = async event => {
-          //console.log("Chat 알림 연결 성공", event);
+          console.log("Chat 알림 연결 성공", event);
         };
 
         // 이벤트 왔을 때

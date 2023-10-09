@@ -39,9 +39,10 @@ export default function ChatListPage() {
 
           {data?.map((room: IChatRoom) => {
             let chatStyle = room.unReadCount ? "unread" : "read";
-            let sendAt = room.latestMessage?.sendAt;
+            let sendTime = room.latestMessage?.sendTime;
 
-            const { beforeTime, dateUnit } = calculateTimeDifference(sendAt);
+            const timeAgo = calculateTimeDifference(sendTime);
+            console.log(room);
 
             return (
               <div
@@ -57,10 +58,10 @@ export default function ChatListPage() {
                 <div className="info">
                   <div id="name">{room.participant.nickname}</div>
                   <div className="flex">
-                    <p className={chatStyle}>{room.latestMessage?.context}</p>
-                    <p id="time">
-                      {beforeTime} {dateUnit} ago
+                    <p className={chatStyle}>
+                      {room.latestMessage?.context.slice(0, 15)}
                     </p>
+                    <p id="time">{timeAgo}</p>
                   </div>
                 </div>
               </div>

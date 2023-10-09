@@ -77,7 +77,7 @@ interface IChatRoom {
   };
   latestMessage: {
     context: string;
-    sendAt: number;
+    sendTime: number;
   };
   unReadCount: 0;
 }
