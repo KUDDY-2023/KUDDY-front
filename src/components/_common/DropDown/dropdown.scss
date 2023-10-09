@@ -33,8 +33,12 @@ p {
     border: 1px solid #ddd;
     background: #fff;
 
-    height: 280px;
+    height: 255px;
     overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
 
     #active-custom-item {
       margin-bottom: 8px;
