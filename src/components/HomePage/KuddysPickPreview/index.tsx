@@ -14,6 +14,7 @@ const KuddysPickPreview = () => {
   const { data } = useQuery(["kuddysPickPrevew"], kuddyspickGetPreview, {
     staleTime: 1800000,
     cacheTime: Infinity,
+    retry: 3,
   });
   useEffect(() => {
     resetKuddysPickKeyword();
