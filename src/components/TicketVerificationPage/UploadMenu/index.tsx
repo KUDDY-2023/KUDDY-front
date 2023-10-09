@@ -45,7 +45,6 @@ const UploadMenu = ({ ticketStatus }: TicketInfoType) => {
 
   const onSubmit = () => {
     if (
-      ticketStatus === "NOT_SUBMITTED" ||
       ticketStatus === "INVALID_PHOTO" ||
       ticketStatus === "PHOTO_UNRECOGNIZABLE"
     )
@@ -55,7 +54,7 @@ const UploadMenu = ({ ticketStatus }: TicketInfoType) => {
           window.location.reload();
         })
         .catch(err => console.log(err));
-    else
+    else if (ticketStatus === "NOT_SUBMITTED")
       profileCreateTicketInfo(ticketImageUrl)
         .then(res => {
           console.log("post", res.data);

@@ -7,6 +7,7 @@ import UploadMenu from "@components/TicketVerificationPage/UploadMenu";
 
 import {
   profileGetTicketInfo,
+  profileCreateTicketInfo,
   profilePatchTicketStatus,
 } from "@services/api/profile";
 
@@ -28,12 +29,18 @@ const TicketVerificationPage = () => {
     ticketImageUrl: "",
     ticketStatus: "",
   });
+  const [getError, setGetError] = useState<any>({});
 
   useEffect(() => {
     profileGetTicketInfo()
       .then(res => setTicketInfo(res.data.data))
-      .catch();
+      .catch(err => setGetError(err.response.data));
   }, []);
+  useEffect(() => {
+    if (!getError) return;
+    if (getError.errorCode === "C12000")
+      setTicketInfo({ ...ticketInfo, ticketStatus: "NOT_SUBMITTED" });
+  }, [getError]);
 
   //profilePatchTicketStatus("NOT_SUBMITTED");
 
