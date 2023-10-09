@@ -130,16 +130,17 @@ const PostContent = ({ postData }: Props) => {
             <div className="write-date">{createdDate}</div>
           </div>
         </div>
-        {typeof postData?.postType !== "undefined" &&
-        postData?.postType === "joinus" ? (
-          <div className="post-filter join-us">Join us</div>
-        ) : (
-          <div className="post-filter">
-            {postData?.subject?.replace(/^[a-z]/, (char: string) =>
-              char.toUpperCase(),
-            )}
-          </div>
-        )}
+        {typeof postData?.postType !== "undefined" ? (
+          postData?.postType === "joinus" ? (
+            <div className="post-filter join-us">Join us</div>
+          ) : (
+            <div className="post-filter">
+              {postData?.subject?.replace(/^[a-z]/, (char: string) =>
+                char.toUpperCase(),
+              )}
+            </div>
+          )
+        ) : null}
       </div>
 
       <div className="post-body">
