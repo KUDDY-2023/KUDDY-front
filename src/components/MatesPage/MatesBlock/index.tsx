@@ -31,22 +31,22 @@ const MatesBlock = ({
       </div>
       <div className="text-section">
         <div className="name-container">
-          <div className="name">{nickname}</div>
           {role === "KUDDY" && (
             <div className="circle">
               {role === "KUDDY" ? (
                 kuddyLevel === "EXPLORER" ? (
-                  <Level1Icon />
-                ) : kuddyLevel === "FRIEND" ? (
-                  <Level2Icon />
-                ) : kuddyLevel === "COMPANION" ? (
-                  <Level3Icon />
-                ) : kuddyLevel === "SOULMATE" ? (
                   <Level4Icon />
+                ) : kuddyLevel === "FRIEND" ? (
+                  <Level3Icon />
+                ) : kuddyLevel === "COMPANION" ? (
+                  <Level2Icon />
+                ) : kuddyLevel === "SOULMATE" ? (
+                  <Level1Icon />
                 ) : null
               ) : null}
             </div>
           )}
+          <div className="name">{nickname}</div>
         </div>
         <div className="introduce">{introduce ? introduce : "-"}</div>
         <div className="interests-container">
