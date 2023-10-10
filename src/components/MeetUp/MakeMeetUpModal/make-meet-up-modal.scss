@@ -31,6 +31,7 @@
       transform: translateY(1px);
     }
     p {
+      text-align: start;
       @include font-style(--font-text, 14px, black, 400);
     }
 
