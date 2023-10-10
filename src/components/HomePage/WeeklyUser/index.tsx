@@ -8,6 +8,7 @@ const WeeklyUser = () => {
   const { data } = useQuery(["weeklyUser"], profileGetTop5, {
     staleTime: 1800000,
     cacheTime: Infinity,
+    retry: 3,
   });
   return (
     <>

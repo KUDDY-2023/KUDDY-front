@@ -18,6 +18,7 @@
     right: 16px;
     bottom: 12px;
   }
+  cursor: pointer;
 
   p {
     color: #000;
@@ -67,9 +68,11 @@
     display: flex;
     align-items: center;
     width: calc(100% - 28px);
-    height: 36px;
+    height: 26px;
     margin: {
       left: 16px;
+      top: 5px;
+      bottom: 10px;
     }
     color: color(black);
     font: {
@@ -77,5 +80,6 @@
       size: 14px;
       weight: 500;
     }
+    cursor: pointer;
   }
 }

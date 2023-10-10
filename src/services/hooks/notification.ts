@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
 
@@ -18,7 +18,7 @@ import { EventSourcePolyfill, NativeEventSource } from "event-source-polyfill";
 // ✅ 모든 알림 가져오기
 export const useGetAllNoti = () => {
   const { data, error, isLoading, refetch } = useQuery(
-    "notifications",
+    ["notifications"],
     nofiGetAll,
     {
       refetchOnWindowFocus: false,
@@ -47,6 +47,7 @@ export const useGetAllNoti = () => {
 // ✅ 안읽은 댓글 알림 개수 가져오기
 export const useGetCommentNotiCount = () => {
   const isLogin = !!localStorage.getItem("accessToken");
+
   const { data, error, isLoading, refetch } = useQuery(
     "notificationsCount",
     nofiUnReadCount,
@@ -158,6 +159,8 @@ export const useSSE = () => {
 
   const EventSource = EventSourcePolyfill || NativeEventSource;
   const token = localStorage.getItem("accessToken");
+  const eventSource1Ref = useRef<EventSource | null>(null);
+  const eventSource2Ref = useRef<EventSource | null>(null);
 
   const { notiCount } = useGetCommentNotiCount(); // 댓글 알림 개수 가져오기
   const { notiChatCount } = useGetChatNotiCount(); // 채팅 알림 개수 가져오기
@@ -173,7 +176,7 @@ export const useSSE = () => {
       // 로그인 한 경우만 요청
       setListeningComment(true);
       try {
-        const eventSource = new EventSource(
+        eventSource1Ref.current = new EventSource(
           `https://api.kuddy.co.kr/api/v1/notifications/subscribe`,
           {
             headers: {
@@ -184,12 +187,12 @@ export const useSSE = () => {
         );
 
         // 연결 됐을 때
-        eventSource.onopen = async event => {
+        eventSource1Ref.current.onopen = async event => {
           console.log("Comment 연결 성공", event);
         };
 
         // 이벤트 왔을 때
-        eventSource.onmessage = async event => {
+        eventSource1Ref.current.onmessage = async event => {
           if (!event.data.startsWith("EventStream")) {
             // 이벤트일때만 JSON.parse 실행
             try {
@@ -197,8 +200,15 @@ export const useSSE = () => {
               const eventType = eventData.notificationType;
 
               if (eventType === "COMMENT") {
-                //console.log("댓글 알림 발생");
-                isNewNotification({ ...newNotification, alarm: true });
+                isNewNotification(prevState => {
+                  // Create a new state based on the previous state
+                  let newState = { ...prevState, alarm: true };
+                  // Preserve the chat state
+                  if (prevState.chat) {
+                    newState.chat = true;
+                  }
+                  return newState; // Return the updated state
+                });
               }
             } catch (error) {
               console.error("Error parsing JSON:", error);
@@ -207,7 +217,7 @@ export const useSSE = () => {
         };
 
         // 에러 발생 & 연결 끊겼을 때
-        eventSource.onerror = (event: any) => {
+        eventSource1Ref.current.onerror = (event: any) => {
           console.log("Comment 알림 에러 발생");
           if (event.readyState == EventSource.CLOSED) {
             console.log("Comment 에러 발생 : CLOSED");
@@ -218,14 +228,25 @@ export const useSSE = () => {
         alert("Comment 알림 연결 실패");
       }
     }
-  }, [listeningComment]);
+
+    // 정리 함수 정의 (컴포넌트 언마운트 시 호출됨)
+    return () => {
+      // console.log("🔥알림 언마운트 : ", eventSource1Ref.current);
+
+      if (eventSource1Ref.current) {
+        //console.log("🔥 알림 연결을 끊었습니다.");
+        eventSource1Ref.current.close();
+        eventSource1Ref.current = null;
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (!listeningChat && token) {
       // 로그인 한 경우만 요청
       setListeningChat(true);
       try {
-        const eventSource2 = new EventSource(
+        eventSource2Ref.current = new EventSource(
           `https://api.kuddy.co.kr/chat/v1/notification/subscribe`,
           {
             headers: {
@@ -236,12 +257,12 @@ export const useSSE = () => {
         );
 
         // 연결 됐을 때
-        eventSource2.onopen = async event => {
+        eventSource2Ref.current.onopen = async event => {
           console.log("Chat 알림 연결 성공", event);
         };
 
         // 이벤트 왔을 때
-        eventSource2.onmessage = async event => {
+        eventSource2Ref.current.onmessage = async event => {
           if (!event.data.startsWith("EventStream")) {
             // 이벤트일때만 JSON.parse 실행
             try {
@@ -249,8 +270,15 @@ export const useSSE = () => {
               const eventType = eventData.notificationType;
 
               if (eventType === "CHAT") {
-                //console.log("채팅 알림 발생");
-                isNewNotification({ ...newNotification, chat: true });
+                isNewNotification(prevState => {
+                  // Create a new state based on the previous state
+                  let newState = { ...prevState, chat: true };
+                  // Preserve the chat state
+                  if (prevState.alarm) {
+                    newState.alarm = true;
+                  }
+                  return newState; // Return the updated state
+                });
               } else {
                 console.log("Unknown event type:", eventType);
               }
@@ -261,7 +289,7 @@ export const useSSE = () => {
         };
 
         // 에러 발생 & 연결 끊겼을 때
-        eventSource2.onerror = (event: any) => {
+        eventSource2Ref.current.onerror = (event: any) => {
           console.log("Chat 알림 에러 발생");
           if (event.readyState == EventSource.CLOSED) {
             console.log("Chat 에러 발생 : CLOSED");
@@ -272,7 +300,21 @@ export const useSSE = () => {
         alert("Chat 알림 연결 실패");
       }
     }
-  }, [listeningChat]);
 
+    // 정리 함수 정의 (컴포넌트 언마운트 시 호출됨)
+    return () => {
+      //console.log("🔥채팅 언마운트 : ", eventSource2Ref.current);
+
+      if (eventSource2Ref.current) {
+        //console.log("🔥채팅 연결을 끊었습니다.");
+        eventSource2Ref.current.close();
+        eventSource2Ref.current = null;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("💙존재 여부 >>", newNotification);
+  }, [newNotification]);
   return { newNotification };
 };

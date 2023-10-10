@@ -8,14 +8,11 @@ const HomeMenu = () => {
     <div className="homemenu-wrapper">
       <div className="homemenu-inner-wrapper">
         {menus.map(item => (
-          <div
-            className="homemenu-container"
-            key={item.index}
-            onClick={() => nav(item.path)}
-          >
+          <div className="homemenu-container" key={item.index}>
             <div
               className="homemenu-rect"
               style={{ backgroundColor: item.color }}
+              onClick={() => nav(item.path)}
             >
               <img src={item.img} />
             </div>

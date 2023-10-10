@@ -24,6 +24,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        cursor: pointer;
       }
 
       input {
@@ -54,6 +55,7 @@
       }
       margin-left: 5px;
     }
+    cursor: pointer;
   }
 
   .image-rect {
@@ -95,6 +97,7 @@
       border-radius: 50%;
       right: 15px;
       bottom: 13px;
+      cursor: pointer;
 
       svg {
         width: 20px;
@@ -125,6 +128,12 @@
       }
       p {
         color: color(white);
+        cursor: default;
+        font: {
+          family: var(--font-text);
+          size: 14px;
+          weight: 500;
+        }
       }
     }
   }
@@ -140,6 +149,7 @@
     line-height: 120%;
     text-align: left;
     margin-top: 25px;
+    cursor: default;
   }
 
   .error-text {
@@ -181,10 +191,12 @@
     }
     color: color(black);
     background-color: color(main-yellow);
+    cursor: pointer;
 
     &.disabled {
       color: color(grey-text);
       background-color: color(grey);
+      cursor: default;
     }
   }
 }
@@ -210,5 +222,6 @@
       weight: 500;
     }
     margin-top: 12px;
+    cursor: default;
   }
 }

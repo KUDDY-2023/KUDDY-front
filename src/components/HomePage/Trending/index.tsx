@@ -12,6 +12,7 @@ const Trending = () => {
   const { data } = useQuery(["trendingNow"], spotGetTrendingNow, {
     staleTime: 1800000,
     cacheTime: Infinity,
+    retry: 3,
   });
   return (
     <>

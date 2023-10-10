@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import "./location-map-page.scss";
 import BackNavBar from "@components/_common/BackNavBar";
 import Loading from "@components/_common/Loading";
@@ -12,16 +11,17 @@ import { useRecoilState } from "recoil";
 import { currentPosition } from "@services/store/travel";
 import { spotGetNearLocation } from "@services/api/spot";
 import { useNearLocation } from "@services/hooks/spot";
-import { AxiosError } from "axios";
+import Swal from "sweetalert2";
 
 declare global {
   interface Window {
     kakao: any;
   }
 }
+const defaultX: number = 126.977295;
+const defaultY: number = 37.575267;
 
 const LocationMapPage = () => {
-  const nav = useNavigate();
   const { kakao } = window;
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [map, setMap] = useState<any>();
@@ -41,37 +41,66 @@ const LocationMapPage = () => {
 
   useEffect(() => {
     setIsLoading(true);
+    setNotAllowed(false);
     window.kakao.maps.load(() => {
       const container = document.getElementById("map");
       const options = {
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        center: new kakao.maps.LatLng(defaultY, defaultX),
         level: 5,
       };
       setMap(new kakao.maps.Map(container, options));
     });
   }, []);
 
+  const [notAllowed, setNotAllowed] = useState<boolean>(false);
   useEffect(() => {
     if (map) {
       if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-          // setPos({ y: position.coords.latitude, x: position.coords.longitude });
-          // setPos({ y: 37.5615351, x: 126.9572863 });
-          setPos({ y: 37.4615351, x: 128.9872863 });
-          var locPosition = new kakao.maps.LatLng(pos.y, pos.x);
-          map.setCenter(locPosition);
-          setIsLoading(false);
-        });
-      } else {
-        var locPosition = new kakao.maps.LatLng(33.450701, 126.570667);
-        map.setCenter(locPosition);
-        alert(
-          "Cannot find current location.\nPlease allow permission collecting your location information.",
+        navigator.geolocation.getCurrentPosition(
+          function (position) {
+            // 현재 위치 좌표
+            setPos({
+              y: position.coords.latitude,
+              x: position.coords.longitude,
+            });
+            // 디폴트 좌표
+            // setPos({ y: defaultY, x: defaultX });
+            // 데이터가 없는 서울 밖 좌표
+            // setPos({ y: 36.4615351, x: 127.9872863 });
+            // 카카오맵 지원 영역(한국) 밖 좌표
+            // setPos({ y: 37.4615351, x: 128.9872863 });
+            var locPosition = new kakao.maps.LatLng(pos.y, pos.x);
+            map.setCenter(locPosition);
+            setIsLoading(false);
+            setNotAllowed(false);
+          },
+          function (error) {
+            console.log("error");
+            if (error.message === "User denied Geolocation")
+              setNotAllowed(true);
+          },
         );
-        setIsLoading(false);
       }
     }
   }, [map]);
+  useEffect(() => {
+    // 현재 위치를 가져올 수 없는 경우
+    if (notAllowed) {
+      Swal.fire({
+        title: "Fail to access your current location",
+        text: "Please allow location permission to use this service.",
+        icon: "error",
+        iconColor: "#eeeeee",
+        confirmButtonText: "OK",
+      }).then(res => {
+        if (res.isConfirmed) {
+          setIsLoading(false);
+          setPos({ y: defaultY, x: defaultX });
+          map.setCenter(new kakao.maps.LatLng(defaultY, defaultX));
+        }
+      });
+    }
+  }, [notAllowed]);
 
   function displayMarker(
     locPosition: any,
@@ -156,14 +185,29 @@ const LocationMapPage = () => {
 
   const [noData, setNoData] = useState<boolean>(false);
   useEffect(() => {
-    spotGetNearLocation({ page: 0, pos })
-      .then()
-      .catch(err => setNoData(err.response.status === 400));
+    setNoData(false);
   }, []);
   useEffect(() => {
+    if (!isLoading && !notAllowed)
+      spotGetNearLocation({ page: 0, pos })
+        .then(res => console.log(res.data))
+        .catch(err => setNoData(err.response.status === 400));
+  }, [isLoading, notAllowed]);
+  useEffect(() => {
     if (noData) {
-      alert("no recommendation here, try somewhere else");
-      nav("/");
+      Swal.fire({
+        title: "Try somewhere else",
+        text: "There is no recommendation near your location now.",
+        icon: "error",
+        iconColor: "#eeeeee",
+        confirmButtonText: "OK",
+      }).then(res => {
+        if (res.isConfirmed) {
+          setPos({ y: defaultY, x: defaultX });
+          map.setCenter(new kakao.maps.LatLng(defaultY, defaultX));
+          setIsLoading(false);
+        }
+      });
     }
   }, [noData]);
 
@@ -176,9 +220,7 @@ const LocationMapPage = () => {
         </div>
       )}
       <div id="map"></div>
-      {noData
-        ? null
-        : !isLoading && blockProps && <LocationPreviewBlock {...blockProps} />}
+      {!isLoading && blockProps && <LocationPreviewBlock {...blockProps} />}
     </div>
   );
 };

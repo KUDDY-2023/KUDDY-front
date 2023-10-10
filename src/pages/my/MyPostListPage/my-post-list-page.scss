@@ -35,6 +35,7 @@
     }
 
     .title {
+      cursor: pointer;
       margin: {
         left: 10px;
         top: 10px;
@@ -70,5 +71,12 @@
 
   .empty {
     height: calc(100svh - 180px);
+    color: color(grey-text);
+    font: {
+      family: var(--font-text);
+      size: 14px;
+      weight: 400;
+    }
+    cursor: default;
   }
 }
