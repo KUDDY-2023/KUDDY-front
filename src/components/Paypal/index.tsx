@@ -53,6 +53,10 @@ export default function PayPal({
     border: "2px solid #000",
     boxShadow: 24,
     p: 4,
+    maxHeight: "90%",
+    maxWidth: "90%",
+    overflowY: "scroll",
+    overflowX: "hidden",
   };
 
   function PayPalButton() {
