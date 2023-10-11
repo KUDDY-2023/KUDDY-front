@@ -19,12 +19,20 @@ export default function PlaceSearch({
   const onSearchSpot = useGetSpotKeyWord();
 
   const _handleReqPlaceSearch = async () => {
-    // event.preventDefault();
-    console.log(searchPlaceInput.value);
     const res = await onSearchSpot(searchPlaceInput.value);
 
     console.log("⭐ 검색 결과", res);
 
+    setSpotArr(res.spots); // 검색 결과 적용
+    setShort(true);
+  };
+
+  const onSubmitReqPlaceSearch = async (
+    e: React.FormEvent<HTMLFormElement>,
+  ) => {
+    e.preventDefault();
+    const res = await onSearchSpot(searchPlaceInput.value);
+    console.log("⭐ 검색 결과", res);
     setSpotArr(res.spots); // 검색 결과 적용
     setShort(true);
   };
@@ -49,10 +57,14 @@ export default function PlaceSearch({
 
   return (
     <div className="place-search-style" ref={wrapperRef}>
-      <div className="search-section" id={short ? "short-version" : ""}>
+      <form
+        className="search-section"
+        id={short ? "short-version" : ""}
+        onSubmit={e => onSubmitReqPlaceSearch(e)}
+      >
         <input type="text" {...searchPlaceInput} autoFocus />
         <SearchIcon onClick={_handleReqPlaceSearch} />
-      </div>
+      </form>
       <div className="result-section">
         {!short || spotArr.length === 0 ? (
           <p id="no-result-text">Please enter the correct name.</p>
