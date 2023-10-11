@@ -4,6 +4,7 @@ const useIsValidDate = () => {
     const today = new Date();
     inputDate.setHours(0, 0, 0, 0);
     today.setHours(0, 0, 0, 0);
+    console.log("선택된 날짜 :", inputDate, "오늘 :", today);
     return inputDate < today;
   };
 

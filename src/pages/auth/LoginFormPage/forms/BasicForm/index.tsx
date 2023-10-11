@@ -113,10 +113,11 @@ export default function BasicForm() {
               onChange={(value: any) => {
                 // 오늘 이전만 선택 가능
                 const selectedDate = formatDate(value.$d);
+
                 if (!checkBeforeToday(selectedDate)) {
                   setInvalidDate(true);
                 } else {
-                  _handleSetAge(formatDate(value.$d));
+                  _handleSetAge(selectedDate);
                   setInvalidDate(false);
                 }
               }}
