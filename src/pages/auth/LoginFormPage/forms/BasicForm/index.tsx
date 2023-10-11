@@ -115,6 +115,7 @@ export default function BasicForm() {
                 const selectedDate = formatDate(value.$d);
 
                 if (!checkBeforeToday(selectedDate)) {
+                  _handleSetAge("");
                   setInvalidDate(true);
                 } else {
                   _handleSetAge(selectedDate);
