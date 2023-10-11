@@ -39,7 +39,7 @@ $main-yellow: var(--color-main-yellow);
     justify-content: center;
     align-items: center;
     border-radius: 100px;
-    outline: 1px solid #ddd;
+    border: 1px solid #ddd;
 
     @include font-style(--font-text, 18px, var(--color-black), 500);
     text-align: center;
@@ -51,7 +51,7 @@ $main-yellow: var(--color-main-yellow);
     justify-content: center;
     align-items: center;
     border-radius: 100px;
-    outline: none;
+    border: none;
     background: $main-yellow;
   }
 }
