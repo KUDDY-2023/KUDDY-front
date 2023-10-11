@@ -75,13 +75,13 @@ $main-yellow: var(--color-main-yellow);
     .active-next {
       @include next-style();
       background: $main-yellow;
-      outline: 1px solid var(--color-grey-line);
+      border: 1px solid var(--color-grey-line);
     }
 
     .next {
       @include next-style();
       background: white;
-      outline: 1px solid var(--color-grey-line);
+      border: 1px solid var(--color-grey-line);
       p {
         color: var(--color-grey-text);
       }

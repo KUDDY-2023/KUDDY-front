@@ -1,8 +1,6 @@
 @import "../../../style/mixins";
 
 #meet-up-container {
-  overflow-y: scroll;
-
   .form-container {
     display: flex;
     flex-direction: column;
