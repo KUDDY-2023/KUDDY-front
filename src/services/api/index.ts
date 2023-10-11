@@ -31,7 +31,7 @@ apiClient.interceptors.response.use(
       } catch (err) {
         console.log("토큰 재발급 실패 ", err);
         // alert("다시 로그인해주세요!");
-        localStorage.removeItem("accessToken");
+        localStorage.removeItem("accessToken"); // 쿠키도 지워야되나..
         window.location.href = `${process.env.REACT_APP_REACT_URL}/auth/register`;
       }
     }

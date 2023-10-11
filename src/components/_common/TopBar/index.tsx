@@ -62,7 +62,8 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
   const { data, refetch } = useQuery(["profile"], profileGetProfile, {
     staleTime: 1800000,
     cacheTime: Infinity,
-    enabled: profileSrc === defaultprofileimage,
+    retry: 3,
+    enabled: profileSrc === defaultprofileimage && isLogin,
   });
   useEffect(() => {
     if (!data) return;
@@ -75,7 +76,7 @@ const TopBar = ({ isCommunity, handleMenuClick }: TopBarProps) => {
   }, [isLogin]);
   const profile = useRecoilValue(profileState);
   useEffect(() => {
-    refetch();
+    if (isLogin) refetch();
   }, [profile]);
 
   /* 알림 상태 관리 hook */

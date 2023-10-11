@@ -105,6 +105,12 @@ export default function MessageInput({
           placeholder="Find your own buddy!"
           value={newMessage}
           onChange={e => setNewMessage(e.target.value)}
+          onKeyDown={e => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault();
+              onSendMessage();
+            }
+          }}
         />
         <div className="send-icon-container" onClick={onSendMessage}>
           <SendIcon />

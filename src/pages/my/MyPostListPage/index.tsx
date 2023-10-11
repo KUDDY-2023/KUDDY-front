@@ -6,20 +6,23 @@ import {
   communityGetMyPosts,
   communityGetMyComments,
 } from "@services/api/community";
+import { useQuery } from "react-query";
 
 const MyPostListPage = () => {
   const nav = useNavigate();
   const [type, setType] = useState<string>("Post");
   const types = ["Post", "Comment"];
-  const [postsArray, setPostsArray] = useState<any[]>([]);
 
-  useEffect(() => {
-    type === "Post"
-      ? communityGetMyPosts().then(res => setPostsArray(res.data.data))
-      : communityGetMyComments().then(res => setPostsArray(res.data.data));
-  }, [type]);
+  const { data, isLoading } = useQuery(
+    ["getMyPosts", type],
+    type === "Post" ? communityGetMyPosts : communityGetMyComments,
+  );
 
-  console.log(postsArray);
+  const altHour = (format: string) => {
+    const target = new Date(format);
+    target.setHours(target.getHours() + 9);
+    return target.toLocaleString("sv");
+  };
 
   return (
     <>
@@ -37,32 +40,35 @@ const MyPostListPage = () => {
         ))}
       </div>
       <div className="my-post-list-container">
-        {postsArray.length === 0 ? (
+        {isLoading ? (
+          <div></div>
+        ) : data && data.data.data.length === 0 ? (
           <div className="empty">
             {type === "Post" ? "No post" : "No comment"}
           </div>
         ) : (
-          postsArray.map((item, idx) => (
+          data &&
+          data.data.data.map((item: any, idx: number) => (
             <div
               className="post-container"
               key={item.id}
-              onClick={() => nav(`/community/${item.postType}/${item.id}`)}
+              onClick={() => nav(`/community/${item.id}`)}
             >
               {idx !== 0 && <div className="border" />}
               <div className="flex">
                 <div className="category">
-                  {item.postType === "itenerary-feedback"
-                    ? "Itenerary Feedback"
-                    : item.postType === "talking-board"
+                  {item.postType === "itinerary"
+                    ? "Route Feedback"
+                    : item.postType === "talingBoard"
                     ? "Open Forum"
                     : ""}
                 </div>
-                {/* item.isJoinus === true && <div>Join us</div> */}
+                {item.isJoinus === true && <div>Join us</div>}
               </div>
               <div className="title">
                 {type === "Post" ? item.title : item.postTitle}
               </div>
-              <div className="date">{item.createdDate}</div>
+              <div className="date">{altHour(item.createdDate)}</div>
             </div>
           ))
         )}

@@ -197,6 +197,7 @@ export const useCanNext = () => {
       canNext = uniqueName;
     } else if (type === "birthDate") {
       // 생일이 오늘 이전이어야함
+      console.log(profile.birthDate);
       canNext = profile.birthDate !== "" && checkBeforeToday(profile.birthDate);
     } else if (type === "job") {
       canNext = profile.job !== "";
@@ -212,6 +213,8 @@ export const useCanNext = () => {
       );
       console.log(tempArr);
       canNext = !tempArr.length; // 하나도 없어야 넘어가기 가능
+    } else if (type === "userType") {
+      canNext = profile.roleType === "KUDDY" || profile.roleType === "TRAVELER";
     } else {
       canNext = true;
     }

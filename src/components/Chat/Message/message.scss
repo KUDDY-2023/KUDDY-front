@@ -1,3 +1,5 @@
+@import "../../../style/mixins";
+
 .text-style {
   color: #000;
   font-family: var(--font-text);
@@ -6,6 +8,7 @@
   font-weight: 400;
   line-height: 17px;
   text-align: start;
+  white-space: pre;
 }
 
 .translate-btn-text-style {
@@ -70,14 +73,18 @@
 
     .mySentTime {
       position: absolute;
-      bottom: 3px;
-      left: -33px;
+      bottom: 4px;
+      left: -38px;
     }
 
     .partnerSentTime {
       position: absolute;
-      bottom: 3px;
-      right: -33px;
+      bottom: 4px;
+      right: -38px;
+    }
+
+    .send-time {
+      @include font-style(--font-text, 12px, var(--color-grey-text), 400);
     }
   }
 

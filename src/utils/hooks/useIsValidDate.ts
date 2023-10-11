@@ -1,18 +1,21 @@
+import dayjs from "dayjs";
+
 const useIsValidDate = () => {
   const checkBeforeToday = (dateString: string) => {
-    const inputDate = new Date(dateString);
-    const today = new Date();
-    inputDate.setHours(0, 0, 0, 0);
-    today.setHours(0, 0, 0, 0);
-    return inputDate < today;
+    dateString = dateString.split("T")[0].replaceAll(".", "/");
+    dateString += " 00:00:00";
+
+    const inputDate = dayjs(dateString).startOf("day");
+    const today = dayjs().startOf("day");
+
+    console.log("인풋 >>", inputDate, "오늘 >>", today);
+    return inputDate.isBefore(today) && !inputDate.isSame(today);
   };
 
   const checkAfterToday = (dateString: string) => {
-    const inputDate = new Date(dateString);
-    const today = new Date();
-    inputDate.setHours(0, 0, 0, 0);
-    today.setHours(0, 0, 0, 0);
-    return inputDate >= today;
+    const inputDate = dayjs(dateString).startOf("day");
+    const today = dayjs().startOf("day");
+    return inputDate.isSame(today) || inputDate.isAfter(today);
   };
 
   return [checkBeforeToday, checkAfterToday];

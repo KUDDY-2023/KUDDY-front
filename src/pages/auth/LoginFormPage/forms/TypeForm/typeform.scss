@@ -31,7 +31,7 @@
         align-items: center;
 
         border-radius: 100px;
-        outline: 1px solid #ddd;
+        border: 1px solid #ddd;
 
         @include font-style(--font-text, 18px, var(--color-black), 500);
         text-align: center;
@@ -46,7 +46,7 @@
         // padding: 14px 5px;
         border-radius: 100px;
         background: var(--main-yellow, #fff49b);
-        outline: none;
+        border: none;
 
         color: #000;
         text-align: center;

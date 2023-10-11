@@ -105,7 +105,7 @@ export default function BasicForm() {
           </div>
         </div>
         <div className="age-form-container">
-          <p>Age</p>
+          <p>Birth</p>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <MobileDatePicker
               defaultValue={dayjs(birth || today)}
@@ -113,10 +113,12 @@ export default function BasicForm() {
               onChange={(value: any) => {
                 // 오늘 이전만 선택 가능
                 const selectedDate = formatDate(value.$d);
+
                 if (!checkBeforeToday(selectedDate)) {
+                  _handleSetAge("");
                   setInvalidDate(true);
                 } else {
-                  _handleSetAge(formatDate(value.$d));
+                  _handleSetAge(selectedDate);
                   setInvalidDate(false);
                 }
               }}

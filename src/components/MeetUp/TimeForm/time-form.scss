@@ -71,6 +71,10 @@
     margin-right: auto;
     @include font-style(--font-text, 16px, black, 500);
     width: 42px;
+
+    @include narrowMobile {
+      margin-top: 10px;
+    }
   }
 
   .forms-container {
