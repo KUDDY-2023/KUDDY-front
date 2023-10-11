@@ -12,7 +12,7 @@ import InterestForm from "./forms/InterestForm";
 export const TravelerFormPages = [
   { type: "userType", component: TypeForm },
   { type: "uniqueName", component: ProfileForm },
-  { type: "abirthDatege", component: BasicForm },
+  { type: "birthDate", component: BasicForm },
   { type: "job", component: JobForm },
   { type: "", component: PersonalityForm },
   { type: "nationality", component: NationalityForm },

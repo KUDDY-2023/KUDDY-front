@@ -197,6 +197,7 @@ export const useCanNext = () => {
       canNext = uniqueName;
     } else if (type === "birthDate") {
       // 생일이 오늘 이전이어야함
+      console.log(profile.birthDate);
       canNext = profile.birthDate !== "" && checkBeforeToday(profile.birthDate);
     } else if (type === "job") {
       canNext = profile.job !== "";
