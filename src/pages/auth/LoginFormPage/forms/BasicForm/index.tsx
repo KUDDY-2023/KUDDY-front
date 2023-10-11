@@ -105,7 +105,7 @@ export default function BasicForm() {
           </div>
         </div>
         <div className="age-form-container">
-          <p>Age</p>
+          <p>Birth</p>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <MobileDatePicker
               defaultValue={dayjs(birth || today)}
