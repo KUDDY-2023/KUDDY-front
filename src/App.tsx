@@ -17,6 +17,7 @@ import ChatRoutes from "@routes/ChatRoutes";
 import ProfileRoutes from "@routes/ProfileRoutes";
 import AlarmViewPage from "@pages/alarm/AlarmViewPage";
 import LoginProcessingPage from "@pages/auth/LoginProcessingPage";
+import CalendarProcessingPage from "@pages/my/CalendarProcessingPage";
 import Test from "@pages/Test";
 
 import { useSetLoginState } from "@services/hooks/auth";
@@ -35,6 +36,7 @@ function App() {
       <Route path="/kuddys-pick/*" element={<KuddysPickRoutes />} />
       <Route path="/auth/*" element={<AuthRoutes />} />
       <Route path="/oauth2/redirect" element={<LoginProcessingPage />} />
+      <Route path="/auth/calendar" element={<CalendarProcessingPage />} />
 
       <Route path="/community/*" element={<CommunityRoutes />} />
       <Route path="/my/*" element={<MyRoutes />} />
