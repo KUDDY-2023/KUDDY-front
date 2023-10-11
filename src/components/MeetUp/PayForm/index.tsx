@@ -97,7 +97,17 @@ export default function PayForm({ check, isCheck }: Props) {
       )}
       <Modal open={detailModal} onClose={() => setDetailModal(false)}>
         <Box sx={style}>
-          <div>Fee detail</div>
+          <div className="fee-detail-container">
+            <h3>Fee detail</h3>
+            <h5>1. Deposit</h5>
+            <p>
+              This deposit is charged to prevent traveler's no-shows. If the
+              traveler unilaterally cancels the appointment, this deposit will
+              not be refunded and will be yours.
+            </p>
+            <h5>2. KUDDY Service fee</h5>
+            <p>This helps us run our platform and services.</p>
+          </div>
         </Box>
       </Modal>
     </div>
