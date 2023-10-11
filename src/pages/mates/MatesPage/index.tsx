@@ -19,7 +19,6 @@ const MatesPage = () => {
   const [matesType, setMatesType] = useRecoilState(buddyType);
   const [searchParams, setSearchParams] = useSearchParams();
   const [filter, setFilter] = useRecoilState(profileFilter);
-  console.log(filter);
   const [filterTrigger, setFilterTrigger] = useState<boolean>(false);
   const { pageLastItemRef, hasNextPage, data, isFetching } =
     useGetProfileByFilter(filter);

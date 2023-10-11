@@ -78,7 +78,7 @@ const MatesSearchBar = () => {
           {filterArray.map(
             item =>
               searchParams.get(item) && (
-                <div className="rect">
+                <div className="rect" key={item}>
                   {!!searchParams.get(item) &&
                     (item === "interest"
                       ? altElement(String(searchParams.get(item)).toUpperCase())

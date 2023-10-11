@@ -99,7 +99,7 @@ const TravelDetailSection = ({
       {title === "Location" && typeof content === "string" && (
         <div className="content location">
           <a
-            href={`https://map.kakao.com/link/to/${name},${mapXY}`}
+            href={`https://map.kakao.com/link/map/${name},${mapXY}`}
             target="_blank"
           >
             {content}
