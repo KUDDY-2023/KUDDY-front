@@ -212,6 +212,8 @@ export const useCanNext = () => {
       );
       console.log(tempArr);
       canNext = !tempArr.length; // 하나도 없어야 넘어가기 가능
+    } else if (type === "userType") {
+      canNext = profile.roleType === "KUDDY" || profile.roleType === "TRAVELER";
     } else {
       canNext = true;
     }

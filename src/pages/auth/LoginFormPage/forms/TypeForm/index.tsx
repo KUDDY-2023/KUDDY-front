@@ -7,8 +7,15 @@ import { useUpdateProfile } from "@services/hooks/profile";
 
 export default function TypeForm() {
   const [userType, setUserType] = useRecoilState(profileState); // 전역상태
-  const isBuddy = userType.roleType === "KUDDY"; // 전역상태 - 버튼상태 연결
-  const [type, setType] = useState(isBuddy ? [true, false] : [false, true]); // 버튼 활성화
+  // 전역상태 - 버튼상태 연결
+  let buttonState = [false, false];
+
+  if (userType.roleType === "KUDDY") {
+    buttonState = [true, false];
+  } else if (userType.roleType === "TRAVELER") {
+    buttonState = [false, true];
+  }
+  const [type, setType] = useState(buttonState); // 버튼 활성화
 
   const onUpdateProfile = useUpdateProfile();
 

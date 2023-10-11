@@ -30,7 +30,7 @@ export const userInfoState = atom<IUserSimpleInfo>({
 export const profileState = atom<IUserProfile>({
   key: "profileState",
   default: {
-    roleType: "KUDDY",
+    roleType: "",
     nickname: "",
     profileImageUrl: "",
     genderType: "MR",

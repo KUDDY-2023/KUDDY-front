@@ -1,4 +1,4 @@
-type UserType = "KUDDY" | "TRAVELER";
+type UserType = "KUDDY" | "TRAVELER" | "";
 type GenderType = "MR" | "MS" | "N"; // 중성은 뭐지..?
 type TemperamentType = "INTROVERT" | "EXTROVERT";
 type DicisionMakingType = "JUDGING" | "PROSPECTING";
