@@ -43,16 +43,16 @@ const IntroSection = ({ profile, isMine }: Props) => {
 
       switch (profile?.kuddyLevel) {
         case "EXPLORER":
-          badgeIcon = level1Icon;
+          badgeIcon = level4Icon;
           break;
         case "FRIEND":
-          badgeIcon = level2Icon;
-          break;
-        case "COMPANION":
           badgeIcon = level3Icon;
           break;
+        case "COMPANION":
+          badgeIcon = level2Icon;
+          break;
         case "SOULMATE":
-          badgeIcon = level4Icon;
+          badgeIcon = level1Icon;
       }
       break;
 

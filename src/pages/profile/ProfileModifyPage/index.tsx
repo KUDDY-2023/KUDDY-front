@@ -322,7 +322,7 @@ const ProfileModifyPage = () => {
 
     const res = await onProfileModify();
     console.log(res);
-    nav(`/profile/${profile.nickname}`);
+    nav(`/profile/${profile.nickname}`, { state: { prev: "modify" } });
   };
 
   return (

@@ -8,10 +8,20 @@ import pinCancel from "@assets/my/cancel_pin.svg";
 import scheduledIcon from "@assets/my/clock.svg";
 import completedIcon from "@assets/my/complete.svg";
 import canceledIcon from "@assets/icon/red_x.svg";
+import addScheduleIcon from "@assets/my/add_schedule.svg";
 import { useGetMeetUps } from "@services/hooks/user";
 import { useGetRoomStatus } from "@services/hooks/chat";
 import { usePutMeetUpCancel } from "@services/hooks/user";
-import { useDeleteCalendar } from "@services/hooks/calendar";
+import {
+  useDeleteCalendar,
+  useAddCalendar,
+  useCalendarPermission,
+} from "@services/hooks/calendar";
+import {
+  addCalendarAlert,
+  successAddCalendarAlert,
+  accessCalendarAlert,
+} from "@components/_common/SweetAlert";
 
 const AppointmentPage = () => {
   const nav = useNavigate();
@@ -21,11 +31,13 @@ const AppointmentPage = () => {
   const onGetRoomStatus = useGetRoomStatus(); // 채팅방 여부 조회 (없으면 채팅방 생성)
   const onDeleteCalendar = useDeleteCalendar(); // 캘린더 삭제
   const [meetUpStyle, setMeetUpStyle] = useState<any>([]);
+  const [userType, setUserType] = useState<string>(); // 유저 타입 (카카오 유저인지)
 
   // 동행 리스트 받아오기
   const getMeetUps = async () => {
     const res = await onGetMeetUps();
     setMeetUps(res.meetupList);
+    setUserType(res.providerType);
   };
 
   useEffect(() => {
@@ -103,9 +115,41 @@ const AppointmentPage = () => {
     nav(`/my/write-review/${id}`);
   };
 
+  // 일정 생성
+  const onAddCalendar = useAddCalendar();
+  const onCalendarPermission = useCalendarPermission();
+
+  // 일정 생성 아이콘 클릭 후
+  const handleSchedulBtnClick = (meetupId: number) => {
+    addCalendarAlert().then(res => {
+      // 일정 생성 동의 시
+      if (res.isConfirmed) {
+        onAddCalendar(meetupId)
+          .then(res => {
+            // 성공하면 모달
+            if (res === 200) {
+              successAddCalendarAlert();
+              // 상태코드 403이면 권한 동의
+            } else if (res === 403) {
+              onCalendarPermission();
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    });
+  };
+
   return (
     <>
-      <BackNavBar middleTitle="My appointment" isShare={false} />
+      <BackNavBar
+        middleTitle="My appointment"
+        isShare={false}
+        onClick={() => {
+          nav("/my");
+        }}
+      />
       {meetUps && (
         <div className="appointments-container">
           {meetUps?.map((item: any, index: number) => {
@@ -167,6 +211,12 @@ const AppointmentPage = () => {
 
                 {meetUpStyle[index]?.text === "scheduled" && (
                   <div className="appointment-item-footer">
+                    {userType === "KAKAO" ? (
+                      <img
+                        src={addScheduleIcon}
+                        onClick={() => handleSchedulBtnClick(item?.meetupId)}
+                      />
+                    ) : null}
                     <div
                       className="appointment-btn"
                       onClick={() =>

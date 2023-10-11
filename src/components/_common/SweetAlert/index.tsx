@@ -46,3 +46,25 @@ export const loginToUsePick = () => {
     if (res.isConfirmed) window.location.replace("/auth/register");
   });
 };
+
+export const addCalendarAlert = () =>
+  Swal.fire({
+    text: "Do you want to add a schedule to talkcalendar?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes",
+  });
+
+export const successAddCalendarAlert = () =>
+  Swal.fire({
+    text: "Successfully added the schedule.",
+    icon: "success",
+  });
+
+export const accessCalendarAlert = () =>
+  Swal.fire({
+    text: "Access permission for TalkCalendar granted. Please click the schedule creation button again.",
+    icon: "info",
+  });

@@ -1,12 +1,21 @@
-import { addCalendar, deleteCalendar } from "@services/api/calendar";
+import { useNavigate } from "react-router-dom";
+import {
+  addCalendar,
+  deleteCalendar,
+  getAccessCalendar,
+} from "@services/api/calendar";
+import { accessCalendarAlert } from "@components/_common/SweetAlert";
 
 export const useAddCalendar = () => {
-  const onAddCalendar = async (chatId: string) => {
+  const onAddCalendar = async (meetupId: number) => {
     try {
-      const res = await addCalendar(chatId);
+      const res = await addCalendar(meetupId);
       console.log("캘린더 스케줄 추가 성공", res);
-    } catch (err) {
+
+      return res.data.status;
+    } catch (err: any) {
       console.log("캘린더 스케줄 추가 실패", err);
+      return err.response.status;
     }
   };
 
@@ -24,4 +33,37 @@ export const useDeleteCalendar = () => {
   };
 
   return onDeleteCalendar;
+};
+
+// 일정 권한 요청
+export const useCalendarPermission = () => {
+  const onCalendarPermission = () => {
+    const CLIENT_MAIN_URL = process.env.REACT_APP_REACT_URL;
+    const CLIENT_ID = process.env.REACT_APP_REST_KAKAO_API_KEY;
+    const REDIRECT_URI = `${CLIENT_MAIN_URL}/auth/calendar`;
+    const URL = `https://kauth.kakao.com/oauth/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=talk_calendar`;
+
+    window.location.href = URL;
+  };
+
+  return onCalendarPermission;
+};
+
+// Access Token 저장
+export const useAccessCalendar = () => {
+  const nav = useNavigate();
+
+  const onAccessCalendar = async () => {
+    try {
+      const code = new URLSearchParams(window.location.search).get("code");
+      const token = { code: code };
+      const res = await getAccessCalendar(token);
+      nav("/my/appointment");
+      accessCalendarAlert();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return onAccessCalendar;
 };
