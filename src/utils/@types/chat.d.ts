@@ -20,7 +20,7 @@ interface IGetMessage {
   id: string;
   roomId: number;
   senderName: string;
-  contentType: "TEXT" | "MEETUP" | "NOTI" | "TODAY";
+  contentType: "TEXT" | "MEETUP" | "NOTI" | "DATE" | "TODAY";
   content: string;
   sendDate: number;
   sendTime: number;
@@ -40,6 +40,7 @@ interface IGetMessage {
 
   spotContentId: number | null;
   spotName: string | null;
+  date?: string;
 }
 
 interface ISubNewMessage {

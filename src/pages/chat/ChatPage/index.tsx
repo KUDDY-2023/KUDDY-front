@@ -60,25 +60,59 @@ export default function ChatPage() {
     cacheTime: 0,
   });
 
-  const findTodayChat = (chatList: any) => {
-    let findIndex = -1;
+  function addDateHistoryToChatList(chatList: any) {
+    const todayDate = new Date();
+    const todayFormattedDate = `${todayDate.getFullYear()}.${
+      todayDate.getMonth() + 1
+    }.${todayDate.getDate()}`;
 
-    const today = new Date();
-    today.setUTCHours(0, 0, 0, 0);
+    const newChatList = [];
 
-    chatList.forEach((c: any, index: number) => {
-      const date = new Date(c.sendTime);
-      date.setUTCHours(0, 0, 0, 0);
+    for (let i = 0; i < chatList.length; i++) {
+      // 이번 채팅
+      const currentChat = chatList[i];
+      const currentDate = new Date(currentChat.sendTime);
+      const formattedDate = `${currentDate.getFullYear()}.${
+        currentDate.getMonth() + 1
+      }.${currentDate.getDate()}`;
 
-      if (date >= today) {
-        console.log("여기임", date, today);
-        findIndex = index - 1;
-        return;
+      if (i === chatList.length - 1) {
+        // 마지막 요소 - 만약 오늘보다 이전이면
+        if (todayFormattedDate != formattedDate) {
+          console.log("오늘", todayFormattedDate, "마지막", formattedDate);
+          newChatList.push(currentChat);
+          newChatList.push({ contentType: "TODAY" });
+        } else {
+          newChatList.push(currentChat);
+        }
+        break;
       }
-    });
 
-    return findIndex === -1 ? chatList.length : findIndex;
-  };
+      // 다음 채팅
+      const nextChat = chatList[i + 1];
+      const nextDate = new Date(nextChat.sendTime);
+      const nextFormattedDate = `${nextDate.getFullYear()}.${
+        nextDate.getMonth() + 1
+      }.${nextDate.getDate()}`;
+
+      // 둘이 비교
+      if (formattedDate !== nextFormattedDate) {
+        // 날짜 다르면
+        newChatList.push(currentChat);
+        // 혹시 today는 아닌지 확인하기
+        if (todayFormattedDate === nextFormattedDate) {
+          newChatList.push({ contentType: "TODAY" });
+        } else {
+          newChatList.push({ contentType: "DATE", date: nextFormattedDate });
+        }
+      } else {
+        // 같으면
+        newChatList.push(currentChat);
+      }
+    }
+
+    return newChatList;
+  }
 
   // 받아온 메세지 내역 저장
   useEffect(() => {
@@ -86,15 +120,10 @@ export default function ChatPage() {
       let chatList = data.chatList;
       let receiverInfo = data.receiverInfo;
 
-      // 끼워넣을 index 찾는 함수 만들기
-      const todayIndex = findTodayChat(chatList);
+      const newChatList = addDateHistoryToChatList(chatList);
 
-      // 찾은 index에 today 요소 끼워넣기
-      chatList.splice(todayIndex, 0, { contentType: "TODAY" });
-
-      console.log("💙", chatList);
-
-      setMessageArr(chatList);
+      console.log("✅", newChatList);
+      setMessageArr(newChatList);
       setPartnerInfo(receiverInfo);
 
       console.log("채팅내역", data);
@@ -435,8 +464,12 @@ export default function ChatPage() {
                 />
               );
             }
-          } else if (msg.contentType === "TODAY") {
-            return <TodayBar />;
+          } else if (
+            msg.contentType === "DATE" ||
+            msg.contentType === "TODAY"
+          ) {
+            // 여기 바꾸기
+            return <TodayBar date={msg.date} />;
           }
         })}
 

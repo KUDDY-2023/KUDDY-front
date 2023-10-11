@@ -1,10 +1,13 @@
 import "./todaybar.scss";
 
-export default function TodayBar() {
+type Props = {
+  date?: string;
+};
+export default function TodayBar({ date }: Props) {
   return (
     <div className="today-bar-style">
       <hr />
-      <p>today</p>
+      <p>{date ? date : "today"}</p>
       <hr />
     </div>
   );
