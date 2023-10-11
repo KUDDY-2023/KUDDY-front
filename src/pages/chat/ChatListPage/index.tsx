@@ -44,6 +44,11 @@ export default function ChatListPage() {
             const timeAgo = calculateTimeDifference(sendTime);
             console.log(room);
 
+            const latestMessage =
+              room.latestMessage?.context === "동행"
+                ? "Let's make an appointment!"
+                : room.latestMessage?.context.slice(0, 15);
+
             return (
               <div
                 className="chat-list"
@@ -58,9 +63,7 @@ export default function ChatListPage() {
                 <div className="info">
                   <div id="name">{room.participant.nickname}</div>
                   <div className="flex">
-                    <p className={chatStyle}>
-                      {room.latestMessage?.context.slice(0, 15)}
-                    </p>
+                    <p className={chatStyle}>{latestMessage}</p>
                     <p id="time">{timeAgo}</p>
                   </div>
                 </div>
