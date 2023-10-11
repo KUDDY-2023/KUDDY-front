@@ -2,10 +2,14 @@ import dayjs from "dayjs";
 
 const useIsValidDate = () => {
   const checkBeforeToday = (dateString: string) => {
+    dateString = dateString.split("T")[0].replaceAll(".", "/");
+    dateString += " 00:00:00";
+
     const inputDate = dayjs(dateString).startOf("day");
     const today = dayjs().startOf("day");
-    console.log("선택된 날짜:", inputDate.format(), "오늘:", today.format());
-    return inputDate.isBefore(today);
+
+    console.log("인풋 >>", inputDate, "오늘 >>", today);
+    return inputDate.isBefore(today) && !inputDate.isSame(today);
   };
 
   const checkAfterToday = (dateString: string) => {
