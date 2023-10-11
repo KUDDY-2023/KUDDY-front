@@ -8,6 +8,7 @@ import ViewMoreBtn from "@components/_common/ViewMoreBtn";
 interface Props {
   middleTitle: string;
   isShare: boolean;
+  onClick?: () => void;
   hasMoreBtn?: boolean; // ... 버튼
   children?: ReactNode; // ... 버튼 - 메뉴
 }
@@ -15,13 +16,18 @@ interface Props {
 export default function BackNavBar({
   middleTitle,
   isShare,
+  onClick,
   hasMoreBtn,
   children,
 }: Props) {
   const navigate = useNavigate();
 
   const goBack = () => {
-    navigate(-1);
+    if (!!onClick) {
+      onClick();
+    } else {
+      navigate(-1);
+    }
   };
 
   const _handleShare = () => {
