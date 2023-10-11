@@ -12,7 +12,7 @@
 }
 
 .pay-form-style {
-  margin-bottom: 24px;
+  margin-bottom: 15px;
   display: flex;
   flex-direction: column;
 
@@ -58,73 +58,40 @@
     display: flex;
     flex-direction: column;
     margin-top: 12px;
-
     width: 75%;
     margin-left: auto;
+
+    hr {
+      margin: 0;
+      margin-bottom: 8px;
+    }
 
     div {
       display: flex;
       justify-content: space-between;
       align-items: center;
-
-      margin-bottom: 5px;
-
+      margin-bottom: 8px;
       .receipt-title {
-        margin: 0;
-        @include font-style(14px, black, 400);
+        @include font-style(14px, var(--color-black), 400);
       }
 
-      p {
-        @include font-style(14px, black, 400);
+      .cost {
+        @include font-style(14px, var(--color-black), 400);
       }
-
       #total {
-        @include font-style(14px, black, 600);
+        @include font-style(14px, var(--color-black), 600);
       }
     }
 
-    .description {
+    .fee-detail {
       text-align: start;
-      @include font-style(12px, #aeaeae, 400);
-
-      margin-bottom: 20px !important;
+      margin-top: 12px;
+      width: fit-content;
+      @include font-style(14px, var(--color-grey-text), 400);
+      border-bottom: 1px solid var(--color-grey-text);
+      &:hover {
+        cursor: pointer;
+      }
     }
-  }
-
-  .policy-container {
-    display: flex;
-    align-items: center;
-    margin-top: 30px;
-
-    #checkbox {
-      margin-right: 8px;
-      transform: translateY(1px);
-    }
-    p {
-      @include font-style(14px, black, 400);
-    }
-
-    #help {
-      transform: translateY(2px);
-      margin-left: auto;
-      width: 80px;
-      height: 40px;
-
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-    }
-  }
-
-  .policy-detail-page {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-
-    z-index: 9999999;
-
-    background-color: rgb(255, 255, 255);
   }
 }
