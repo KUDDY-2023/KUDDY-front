@@ -65,6 +65,6 @@ export const successAddCalendarAlert = () =>
 
 export const accessCalendarAlert = () =>
   Swal.fire({
-    text: "Access permission for TalkCalendar granted. Please click the schedule creation button again.",
+    text: "Access permission for Kakao Talk Calendar granted. Please click the schedule creation button again.",
     icon: "info",
   });
