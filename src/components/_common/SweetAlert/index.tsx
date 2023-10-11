@@ -49,7 +49,7 @@ export const loginToUsePick = () => {
 
 export const addCalendarAlert = () =>
   Swal.fire({
-    text: "Do you want to add a schedule to talkcalendar?",
+    text: "Do you want to add a schedule to Kakao Talk Calendar?",
     icon: "question",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
