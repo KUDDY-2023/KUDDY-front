@@ -20,6 +20,7 @@
     height: 120px;
     border-radius: 100%;
     object-fit: cover;
+    flex-shrink: 0;
   }
 
   .user-profile-right-section {
@@ -104,7 +105,7 @@
   width: calc(100% + 25px);
   align-self: flex-start;
   align-items: flex-start;
-  gap: 8px;
+  white-space: nowrap;
 
   overflow-x: scroll;
   -ms-overflow-style: none;
@@ -119,6 +120,7 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
+    margin-right: 8px;
 
     background-color: color(white);
     border-radius: 100px;

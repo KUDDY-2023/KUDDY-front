@@ -8,7 +8,6 @@
   align-items: center;
   margin-top: 20px;
   margin-bottom: 34px;
-  gap: 8px;
 
   overflow-x: scroll;
   -ms-overflow-style: none;
@@ -26,6 +25,7 @@
   height: 100%;
   padding: 7px 15px;
   gap: 2px;
+  margin-right: 8px;
 
   border-radius: 20px;
   background: color(light-grey);

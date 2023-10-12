@@ -4,6 +4,7 @@ import useInfiniteScroll from "@utils/hooks/useInfiniteScroll";
 import {
   spotGetDetailInfo,
   spotGetDetailNearby,
+  spotGetPersonalRecommendation,
   spotGetByFilter,
   spotGetNearLocation,
   spotGetOnlyKeyWord,
@@ -14,11 +15,17 @@ export const useDetailSpot = (id: number) => {
   const { data, isLoading, isFetching, isError, refetch } = useQuery(
     ["travelDetail", id],
     () => spotGetDetailInfo(id),
+    { retry: 3 },
   );
   const { data: nearbyData } = useQuery(
     ["travelNearby", id],
     () => spotGetDetailNearby(id, data?.data.data.mapX, data?.data.data.mapY),
-    { enabled: !!data, retry: 5 },
+    { enabled: !!data, retry: 3 },
+  );
+  const { data: personalData } = useQuery(
+    ["travelPersonal", id],
+    () => spotGetPersonalRecommendation(id),
+    { enabled: !!data, retry: 3 },
   );
 
   const [matesPreview, setMatesPreview] = useState<string[]>();
@@ -50,6 +57,7 @@ export const useDetailSpot = (id: number) => {
     isFetching,
     isError,
     nearbyData,
+    personalData,
     matesPreview,
     refetch,
   };

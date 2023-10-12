@@ -21,14 +21,12 @@ type Props = {
 // traveler: 인증 여부
 const IntroSection = ({ profile, isMine }: Props) => {
   const interestKey = [
-    "wellbeing",
-    "activitiesInvestmentTech",
+    "artBeauty",
     "careerMajor",
     "entertainment",
+    "food",
     "hobbiesInterests",
     "lifestyle",
-    "artBeauty",
-    "food",
     "sports",
   ];
   const [interestText, setInterestText] = useState<string[]>([]);
@@ -69,10 +67,14 @@ const IntroSection = ({ profile, isMine }: Props) => {
   // interest 관련
   useEffect(() => {
     let newValues: string[] = [];
+    const foods = ["KOREAN", "CHINESE", "ITALIAN", "MEXICAN", "JAPANESE"];
 
     for (let i = 0; i < interestKey.length; i++) {
       const temp = profile?.interests?.[interestKey[i]]?.map((v: any) => {
         if (v !== "NOT_SELECTED") {
+          if (i === 3 && foods.includes(v)) {
+            v = v + " " + "food";
+          }
           return v;
         }
       });
