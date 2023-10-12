@@ -31,29 +31,32 @@ const SwiperCard = () => {
           <Loading backColor="transparent" spinnerColor="#eee" size="30px" />
         </div>
       ) : (
-        <Swiper
-          slidesPerView={"auto"}
-          spaceBetween={8}
-          centeredSlides={true}
-          loop={true}
-        >
-          {data &&
-            data.data.data.thumbnailList.map((item: SwiperInfoType) => (
-              <SwiperSlide
-                key={item.id}
-                onClick={() => nav(`/kuddys-pick/${item.id}`)}
-              >
-                <div className="swiper-img-rect">
-                  <img src={item.thumbnail} />
-                  <div className="swiper-img-gradient"></div>
-                </div>
-                <div className="swiper-text-container">
-                  <div className="swiper-text small">KUDDY's Pick</div>
-                  <div className="swiper-text">{item.title}</div>
-                </div>
-              </SwiperSlide>
-            ))}
-        </Swiper>
+        data &&
+        data.data.data.thumbnailList.length !== 0 && (
+          <Swiper
+            slidesPerView={"auto"}
+            spaceBetween={8}
+            centeredSlides={true}
+            loop={true}
+          >
+            {data &&
+              data.data.data.thumbnailList.map((item: SwiperInfoType) => (
+                <SwiperSlide
+                  key={item.id}
+                  onClick={() => nav(`/kuddys-pick/${item.id}`)}
+                >
+                  <div className="swiper-img-rect">
+                    <img src={item.thumbnail} />
+                    <div className="swiper-img-gradient"></div>
+                  </div>
+                  <div className="swiper-text-container">
+                    <div className="swiper-text small">KUDDY's Pick</div>
+                    <div className="swiper-text">{item.title}</div>
+                  </div>
+                </SwiperSlide>
+              ))}
+          </Swiper>
+        )
       )}
     </div>
   );
