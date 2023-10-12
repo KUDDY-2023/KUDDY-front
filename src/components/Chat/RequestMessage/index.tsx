@@ -166,7 +166,6 @@ export default function RequestMessage({
         <YellowMeetUp id="meetup-icon" />
 
         <div className="request-partner-section">
-          {/* 상대방 이름으로 바꿔야하나? */}
           <p>Meet up with {info.senderName}!</p>
         </div>
         <div className="request-info-section">
