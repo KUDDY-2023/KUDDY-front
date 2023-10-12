@@ -7,7 +7,13 @@ const WritePostBtn = () => {
 
   return (
     <div className="btn-container">
-      <img src={postBtn} alt="post" onClick={() => nav("/community/write")} />
+      <object data={postBtn}></object>
+      <div
+        className="post-btn-click"
+        onClick={() => {
+          nav("/community/write");
+        }}
+      ></div>
     </div>
   );
 };
