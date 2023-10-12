@@ -34,7 +34,6 @@ const ProfileModifyPage = () => {
   const nav = useNavigate();
   const genders = ["Male", "Female", "Prefer not to say"];
   const languages = ["Beginner", "Intermediate", "Advanced", "Native Speaker"];
-  const nations = ["Spanish", "US", "Germany"];
   const interestType = [
     "artBeauty",
     "careerMajor",
@@ -260,13 +259,6 @@ const ProfileModifyPage = () => {
     setRegionText(newRegionText);
   }, [profile?.districts]);
 
-  // nation 관련
-  const handleSelectNation = (id: number, type: string, selected: string) => {
-    onUpdateProfile({
-      nationality: selected,
-    });
-  };
-
   // language 관련
   useEffect(() => {
     let newLanguageText = "";
@@ -319,7 +311,6 @@ const ProfileModifyPage = () => {
       alert(nameAlert.alert);
       return;
     }
-
     const res = await onProfileModify();
     console.log(res);
     nav(`/profile/${profile.nickname}`, { state: { prev: "modify" } });
@@ -496,13 +487,16 @@ const ProfileModifyPage = () => {
               <div className="detail-modify-inner-container">
                 <div className="profile-subtitle">nationality</div>
                 <div className="modify-dropdown">
-                  <DropDown
-                    items={nations}
-                    type="Nationality"
-                    placeholder="Nationality"
-                    id={1}
-                    state={profile?.nationality || ""}
-                    onSelect={handleSelectNation}
+                  <input
+                    type="text"
+                    className="profile-content"
+                    placeholder={profile?.nationality}
+                    value={profile?.nationality || ""}
+                    onChange={e => {
+                      onUpdateProfile({
+                        nationality: e.target.value,
+                      });
+                    }}
                   />
                 </div>
               </div>
