@@ -21,6 +21,8 @@ import { ReactComponent as Help } from "@assets/chat/bt_help.svg";
 // 모달
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+// 로딩
+import Loading from "@components/_common/Loading";
 
 interface Props {
   isModalOpen: boolean;
@@ -88,9 +90,16 @@ export default function MakeMeetUpModal({
     }
   }, [meetInfo, check]);
 
+  // 로딩 상태
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSendMeetUpMessage = async () => {
     if (client.current) {
       try {
+        // 로딩 컴포넌트 띄우기
+        setIsLoading(true);
+        console.log("모달 띄우기");
+
         // ✅ DB에 메세지 반영하기
         console.log("저장 시도", meetUpMsg);
         const savedMsg = await onSave(meetUpMsg);
@@ -110,6 +119,8 @@ export default function MakeMeetUpModal({
         // ✅ 전역 상태 비우기 & policy 해제
         resetMeetInfo();
         isCheck(false);
+        // 로딩 컴포넌트 치우기
+        setIsLoading(false);
       } catch (e) {
         alert(e);
       } finally {
@@ -219,6 +230,14 @@ export default function MakeMeetUpModal({
           </div>
         </Box>
       </Modal>
+
+      {isLoading && (
+        <Loading
+          backColor="rgba(0, 0, 0, 0.5)"
+          spinnerColor="#FFF798"
+          size="80px"
+        />
+      )}
     </BottomUpModal>
   );
 }
