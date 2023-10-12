@@ -6,6 +6,8 @@ import TravelDetailTitle from "@components/Travel/TravelDetailTitle";
 import TravelDetailSection from "@components/Travel/TravelDetailSection";
 
 import { useDetailSpot } from "@services/hooks/spot";
+import { useRecoilValue } from "recoil";
+import { isLoginState } from "@services/store/auth";
 
 const TravelDetailPage = () => {
   const { id } = useParams();
@@ -15,12 +17,14 @@ const TravelDetailPage = () => {
     isFetching,
     isError,
     nearbyData,
+    personalData,
     matesPreview,
     refetch,
   } = useDetailSpot(Number(id));
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
+  const isLogin = useRecoilValue(isLoginState);
 
   const [sectionType, setSectionType] = useState<any[]>([]);
   useEffect(() => {
@@ -87,11 +91,19 @@ const TravelDetailPage = () => {
                 key={item.title}
               />
             ))}
+            {isLogin && personalData && (
+              <TravelDetailSection
+                title="Places you may like"
+                content=""
+                placeArray={personalData.data.data}
+              />
+            )}
             {nearbyData && (
               <TravelDetailSection
+                isTop={isLogin ? true : false}
                 title="Nearby places"
                 content=""
-                nearbyArray={nearbyData.data.data}
+                placeArray={nearbyData.data.data}
               />
             )}
             <div style={{ height: "100px" }} />
