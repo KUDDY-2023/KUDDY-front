@@ -83,7 +83,12 @@ const AboutBuddySection = ({ profile }: Props) => {
           )}`,
         ]}
       />
-      <AboutBuddyText iconImage={jobIcon} texts={[profile?.job]} />
+      <AboutBuddyText
+        iconImage={jobIcon}
+        texts={[
+          profile?.job.replace(/^[a-z]/, (char: string) => char.toUpperCase()),
+        ]}
+      />
       <AboutBuddyText
         iconImage={pinIcon}
         texts={
