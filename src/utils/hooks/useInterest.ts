@@ -28,7 +28,7 @@ const useInterest = () => {
       return `${target
         .toLowerCase()
         .replace(/^[a-z]/, char => char.toUpperCase())
-        .replace("_", " ")} Food`;
+        .replace("_", " ")} food`;
     else
       return target
         .toLowerCase()
