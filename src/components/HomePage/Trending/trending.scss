@@ -42,6 +42,9 @@
 
 .trending-container {
   min-height: calc(110vw / 2.4);
+  @media (min-width: 600px) {
+    min-height: 315px;
+  }
   display: flex;
   margin-left: 17px;
   gap: 10px;

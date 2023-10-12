@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 const useInterest = () => {
   const altGroup = (target: string) => {
     if (target === "artBeauty") return "Art";
@@ -20,6 +18,17 @@ const useInterest = () => {
       target === "Element"
     )
       return target;
+    else if (
+      target === "KOREAN" ||
+      target === "CHINESE" ||
+      target === "ITALIAN" ||
+      target === "MEXICAN" ||
+      target === "JAPANESE"
+    )
+      return `${target
+        .toLowerCase()
+        .replace(/^[a-z]/, char => char.toUpperCase())
+        .replace("_", " ")} food`;
     else
       return target
         .toLowerCase()
