@@ -26,6 +26,10 @@ const HomePage = () => {
 
   const [isSplash, setIsSplash] = useState<boolean>(false);
   useEffect(() => {
+    // test
+    const CLIENT_MAIN_URL = process.env.REACT_APP_REACT_URL;
+    console.log("url test: " + CLIENT_MAIN_URL);
+
     window.scrollTo(0, 0);
     if (sessionStorage.getItem("visited") !== "true") {
       setIsSplash(true);
