@@ -63,6 +63,14 @@ const AboutBuddySection = ({ profile }: Props) => {
     return languageLevel;
   };
 
+  const getDecisionMaking = (text: string) => {
+    if (text === "Judging") {
+      return "Prefer planing";
+    } else {
+      return "Prefer spontaneous";
+    }
+  };
+
   return (
     <div className="about-buddy-section-container">
       <div className="about-buddy-title">About buddy</div>
@@ -70,7 +78,9 @@ const AboutBuddySection = ({ profile }: Props) => {
         iconImage={personIcon}
         texts={[
           `${profile?.gender.toLowerCase()}, ${profile?.birthDate}`,
-          `${profile?.temperament} & ${profile?.decisionMaking}`,
+          `${profile?.temperament} & ${getDecisionMaking(
+            profile?.decisionMaking,
+          )}`,
         ]}
       />
       <AboutBuddyText iconImage={jobIcon} texts={[profile?.job]} />
