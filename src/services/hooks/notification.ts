@@ -118,7 +118,7 @@ export const useGotoPost = () => {
     // 읽음 처리 요청도 보내야함
     onRead(nofiNum);
     // 상세 페이지로 라우팅
-    navigate(`/community/category/${postId}`);
+    navigate(`/community/${postId}`);
   };
 
   return onGotoPost;
