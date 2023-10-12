@@ -63,6 +63,9 @@ $main-yellow: var(--color-main-yellow);
     }
 
     .previous {
+      &:hover {
+        cursor: pointer;
+      }
       display: inline-flex;
       height: 40px;
       padding: 0px 20px;
@@ -73,6 +76,9 @@ $main-yellow: var(--color-main-yellow);
     }
 
     .active-next {
+      &:hover {
+        cursor: pointer;
+      }
       @include next-style();
       background: $main-yellow;
       border: 1px solid var(--color-grey-line);

@@ -1,4 +1,8 @@
 #chat-channel-button {
+  &:hover {
+    cursor: pointer;
+  }
+
   position: absolute;
   top: -60px;
   right: 5px;

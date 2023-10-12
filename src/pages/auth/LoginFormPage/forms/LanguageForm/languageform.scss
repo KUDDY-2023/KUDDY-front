@@ -37,6 +37,9 @@ $main-yellow: var(--color-main-yellow);
 
   .add-box {
     margin-top: 12px;
+    &:hover {
+      cursor: pointer;
+    }
 
     svg {
       margin-right: 16px;

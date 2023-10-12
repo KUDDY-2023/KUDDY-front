@@ -29,6 +29,10 @@ $main-yellow: var(--color-main-yellow);
     flex-wrap: wrap;
 
     .city-btn {
+      &:hover {
+        cursor: pointer;
+      }
+
       display: flex;
       padding: 8px 16px;
       width: fit-content;

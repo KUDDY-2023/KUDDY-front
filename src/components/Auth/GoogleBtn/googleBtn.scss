@@ -1,6 +1,9 @@
 @import "../../../style/mixins";
 
 .google-btn {
+  &:hover {
+    cursor: pointer;
+  }
   position: relative;
 
   display: flex;

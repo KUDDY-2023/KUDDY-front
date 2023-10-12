@@ -18,6 +18,10 @@ $main-yellow: var(--color-main-yellow);
   }
 
   .chat-list {
+    &:hover {
+      cursor: pointer;
+    }
+
     display: flex;
     width: 100%;
 

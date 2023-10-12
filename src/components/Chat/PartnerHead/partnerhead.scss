@@ -24,12 +24,19 @@
     top: 8px;
 
     .back-icon {
+      &:hover {
+        cursor: pointer;
+      }
+
       width: 24px;
       height: 24px;
       margin-right: 12px;
     }
 
     .profile {
+      &:hover {
+        cursor: pointer;
+      }
       width: 40px;
       height: 40px;
       border-radius: 50%;
