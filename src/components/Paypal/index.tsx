@@ -17,6 +17,8 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
+import { useSSE } from "@services/hooks/notification";
+import { useState } from "react";
 
 const clientId = process.env.REACT_APP_PAYPAL_CLIENT_ID || "test";
 
@@ -97,13 +99,6 @@ export default function PayPal({
         return actions.order.capture({}).then((details: any) => {
           onUpdateMessage("PAYED"); // 동행 메세지 상태 업데이트
           handleClose(); // 모달 닫기
-          // confirmAddAlert().then(result => {
-          //   if (result.isConfirmed) {
-          //     onAddCalendar(info.id).then(res => {
-          //       completeAlert();
-          //     }); // 캘린더에 일정 추가
-          //   }
-          // });
         });
       },
     };
