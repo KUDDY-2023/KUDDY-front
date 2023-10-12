@@ -49,6 +49,13 @@
     left: 25px;
     top: 20px;
   }
+
+  .kuddyspickmaininfo-thumbnail-rect {
+    cursor: pointer;
+  }
+  .kuddyspickmaininfo-title {
+    cursor: pointer;
+  }
 }
 
 .kuddyspickpreview-content-rect {
@@ -69,6 +76,7 @@
   overflow: hidden;
   flex-shrink: 0;
   margin: 0 12px;
+  cursor: pointer;
 
   img {
     width: 100%;

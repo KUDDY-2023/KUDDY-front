@@ -1,4 +1,5 @@
 import "./kuddys-pick-travel-block.scss";
+import defaultthumbnail from "@assets/location/default_travel_thumbnail.png";
 import { ReactComponent as BookmarkIcon } from "@assets/icon/bookmark.svg";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +27,6 @@ const KuddysPickTravelBlock = ({
         : myPickList.map(row => row.contentId).includes(contentId),
     );
   }, [myPickList]);
-
   return (
     <div className="kuddyspicktravelblock-wrapper">
       <div
@@ -34,7 +34,7 @@ const KuddysPickTravelBlock = ({
         onClick={() => nav(`/travel/${contentId}`)}
       >
         <div className="kuddyspickpreview-content-img-rect">
-          <img src={imageUrl} alt={name} />
+          <img src={imageUrl === "" ? defaultthumbnail : imageUrl} alt={name} />
         </div>
         <div className="kuddyspickpreview-content-text">
           <div className="name">{name}</div>
