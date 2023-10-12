@@ -68,3 +68,29 @@ export const accessCalendarAlert = () =>
     text: "Access permission for Kakao Talk Calendar granted. Please click the schedule creation button again.",
     icon: "info",
   });
+
+export const reportUserAlert = () =>
+  Swal.fire({
+    title: "Are you sure you want to report this user?",
+    text: "False reporting may result in disadvantages.",
+    icon: "warning",
+    iconColor: "#FFC6C6",
+    confirmButtonColor: "#3085d6",
+    confirmButtonText: "Yes",
+  });
+
+export const reportUserSuccessAlert = () =>
+  Swal.fire({
+    title: "The report has been completed.",
+    text: "We will process it quickly. Thank you.",
+    icon: "success",
+    iconColor: "#A6FE90",
+  });
+
+export const reportUserFailAlert = () =>
+  Swal.fire({
+    title: "Report failed.",
+    text: "Please try again.",
+    icon: "error",
+    iconColor: "#FFC6C6",
+  });
