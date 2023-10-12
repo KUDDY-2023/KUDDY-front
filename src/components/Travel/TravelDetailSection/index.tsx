@@ -12,7 +12,7 @@ type TravelDetailSectionProps = {
   post?: string;
   name?: string;
   mapXY?: string;
-  nearbyArray?: TravelNearbyType[];
+  placeArray?: TravelNearbyType[];
   category?: string;
 };
 
@@ -25,7 +25,7 @@ const TravelDetailSection = ({
   post,
   name,
   mapXY,
-  nearbyArray,
+  placeArray,
   category,
 }: TravelDetailSectionProps) => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
@@ -35,6 +35,9 @@ const TravelDetailSection = ({
       <div
         className={isToggle ? "flex-container toggle" : "flex-container"}
         onClick={() => setIsOpened(!isOpened)}
+        style={{
+          marginTop: title === "Nearby places" && isTop ? "0px" : "16px",
+        }}
       >
         <div className="title">{title}</div>
         {isToggle && (
@@ -115,9 +118,16 @@ const TravelDetailSection = ({
           setIsOpened={setIsOpened}
         />
       )}
-      {title === "Nearby places" && nearbyArray && (
-        <div className="content nearby">
-          {nearbyArray.map((item: TravelNearbyType) => (
+      {title === "Places you may like" && placeArray && (
+        <div className="content place">
+          {placeArray.map((item: TravelNearbyType) => (
+            <TravelBlock {...item} isNearby={true} key={item.contentId} />
+          ))}
+        </div>
+      )}
+      {title === "Nearby places" && placeArray && (
+        <div className="content place">
+          {placeArray.map((item: TravelNearbyType) => (
             <TravelBlock {...item} isNearby={true} key={item.contentId} />
           ))}
         </div>

@@ -19,6 +19,12 @@ export const spotGetNearLocation = async ({
   return apiClient.get(url);
 };
 
+// personal recommendation
+export const spotGetPersonalRecommendation = async (contentId: number) => {
+  const url = `/api/v1/spots/recommendation/personal/${contentId}`;
+  return apiClient.get(url);
+};
+
 // multi filter (infinite scroll)
 type SpotGetByFilterParamType = {
   page: number;
