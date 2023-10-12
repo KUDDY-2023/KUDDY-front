@@ -33,16 +33,21 @@ $main-yellow: var(--color-main-yellow);
   }
 
   .btn-style {
+    &:hover {
+      cursor: pointer;
+    }
+
     border: none;
     display: flex;
     padding: 8px 20px;
     justify-content: center;
     align-items: center;
-    border-radius: 100px;
-    border: 1px solid #ddd;
-
+    box-sizing: border-box;
     @include font-style(--font-text, 18px, var(--color-black), 500);
     text-align: center;
+
+    box-shadow: 0 0 0 1px #ddd; /* 외곽선 스타일 및 둥근 모서리 설정 */
+    border-radius: 100px; /* 원하는 둥근 모서리 설정 */
   }
 
   #active {
@@ -51,7 +56,7 @@ $main-yellow: var(--color-main-yellow);
     justify-content: center;
     align-items: center;
     border-radius: 100px;
-    border: none;
     background: $main-yellow;
+    box-shadow: none;
   }
 }

@@ -14,6 +14,9 @@
     svg {
       width: 18px;
       height: 18px;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 
@@ -51,6 +54,9 @@
     #privacy {
       @include font-style(--font-text, 14px, var(--color-grey-text), 400);
       text-decoration: underline;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 }

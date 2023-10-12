@@ -63,6 +63,9 @@
     }
 
     #translate-btn-text {
+      &:hover {
+        cursor: pointer;
+      }
       @extend .translate-btn-text-style;
     }
   }

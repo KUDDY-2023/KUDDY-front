@@ -354,16 +354,14 @@ export default function ChatPage() {
       onError,
     );
 
-    //getProfile();
-
     // beforeunload 이벤트가 발생할 때 (브라우저를 닫거나 페이지를 떠날 때) 호출되도록 등록
     window.addEventListener("beforeunload", disconnectStomp);
     // document.addEventListener("visibilitychange", disconnectStomp);
     window.addEventListener("popstate", disconnectStomp);
 
     return () => {
-      // localStorage 비우기
-      localStorage.removeItem("myEmail");
+      // 로컬스토리지의 이메일 지우기
+      removeEmail();
       // 페이지를 나갈 때 이벤트 리스너 제거
       window.removeEventListener("beforeunload", disconnectStomp);
       //document.removeEventListener("visibilitychange", disconnectStomp);
@@ -393,11 +391,19 @@ export default function ChatPage() {
       //connectClient(roomId, onNewMessage);
     }
   };
+
+  const removeEmail = () => {
+    // localStorage 비우기
+    localStorage.removeItem("myEmail");
+  };
+
   useEffect(() => {
     document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("unload", removeEmail);
 
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("unload", removeEmail);
     };
   }, []);
 

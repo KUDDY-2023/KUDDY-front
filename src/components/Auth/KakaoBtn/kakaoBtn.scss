@@ -4,6 +4,9 @@ $kakao-yellow: #fee500;
 $kakao-brown: #3a2929;
 
 .kakao-btn {
+  &:hover {
+    cursor: pointer;
+  }
   width: 80%;
   position: relative;
 

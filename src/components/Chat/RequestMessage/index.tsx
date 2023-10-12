@@ -118,6 +118,7 @@ export default function RequestMessage({
   const handleOpenAlert = () => setOpenAlert(true);
   const handleCloseAlert = () => setOpenAlert(false);
 
+  // 3일 지난 요청인 경우
   const AlertModal = () => {
     // 모달 스타일
     const style = {
@@ -166,7 +167,6 @@ export default function RequestMessage({
         <YellowMeetUp id="meetup-icon" />
 
         <div className="request-partner-section">
-          {/* 상대방 이름으로 바꿔야하나? */}
           <p>Meet up with {info.senderName}!</p>
         </div>
         <div className="request-info-section">

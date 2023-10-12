@@ -18,6 +18,10 @@ $inter: var(--font-text);
 }
 
 .read-alarm-item {
+  &:hover {
+    cursor: pointer;
+  }
+
   @include alarmItem();
 
   .type {
@@ -32,6 +36,10 @@ $inter: var(--font-text);
 }
 
 .unread-alarm-item {
+  &:hover {
+    cursor: pointer;
+  }
+
   @include alarmItem();
 
   .type {

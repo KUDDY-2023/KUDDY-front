@@ -5,6 +5,10 @@ import SearchResultPlaceItem from "../SearchResultPlaceItem";
 import { useGetSpotKeyWord } from "@services/hooks/spot";
 
 import useInput from "@utils/hooks/useInput";
+
+// 로딩
+import Loading from "@components/_common/Loading";
+
 interface Props {
   onSelectPlace: (placeName: string, spotContentId: number) => void;
   onCloseSearchForm: () => void;
@@ -27,14 +31,18 @@ export default function PlaceSearch({
     setShort(true);
   };
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const onSubmitReqPlaceSearch = async (
     e: React.FormEvent<HTMLFormElement>,
   ) => {
     e.preventDefault();
+    setIsLoading(true);
     const res = await onSearchSpot(searchPlaceInput.value);
     console.log("⭐ 검색 결과", res);
     setSpotArr(res.spots); // 검색 결과 적용
     setShort(true);
+    setIsLoading(false);
   };
 
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -57,6 +65,14 @@ export default function PlaceSearch({
 
   return (
     <div className="place-search-style" ref={wrapperRef}>
+      {isLoading && (
+        <Loading
+          backColor="rgba(0, 0, 0, 0.0)"
+          spinnerColor="#FFF798"
+          size="80px"
+        />
+      )}
+
       <form
         className="search-section"
         id={short ? "short-version" : ""}

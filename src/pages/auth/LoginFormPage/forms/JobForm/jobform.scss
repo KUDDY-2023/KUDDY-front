@@ -28,6 +28,10 @@ $main-yellow: var(--color-main-yellow);
     }
 
     input {
+      &:hover {
+        cursor: pointer;
+      }
+
       border: none;
       border-bottom: 1px solid #ddd;
       width: 80%;

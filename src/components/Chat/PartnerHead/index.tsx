@@ -11,9 +11,13 @@ interface Props {
 export default function PartnerHead({ userName, profileImgUrl }: Props) {
   const navigate = useNavigate();
   const onBack = () => {
-    //window.location.href = "http://localhost:3000/chat/list";
     navigate(-1);
   };
+
+  const gotoPartnerProfile = () => {
+    navigate(`/profile/${userName}`);
+  };
+
   let tempName = "User name";
   return (
     <div className="partner-head-style">
@@ -22,7 +26,12 @@ export default function PartnerHead({ userName, profileImgUrl }: Props) {
         {!profileImgUrl ? (
           <DefaultProfile />
         ) : (
-          <img src={profileImgUrl} alt="back" className="profile" />
+          <img
+            src={profileImgUrl}
+            alt="back"
+            className="profile"
+            onClick={gotoPartnerProfile}
+          />
         )}
       </div>
 
