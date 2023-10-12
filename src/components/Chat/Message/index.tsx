@@ -35,7 +35,7 @@ export default function Message({ message, messageType }: Props) {
   return (
     <div className="message-section">
       <div className={`message-style ${messageType}`}>
-        <p>{message.content}</p>
+        <p className="message-text-p">{message.content}</p>
 
         {messageType === "partner" && (
           <Translate

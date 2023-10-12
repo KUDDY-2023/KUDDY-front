@@ -95,4 +95,8 @@
   .partner {
     @extend .partner-message-style;
   }
+
+  .message-text-p {
+    text-wrap: wrap !important;
+  }
 }
