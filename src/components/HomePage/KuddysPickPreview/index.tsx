@@ -1,7 +1,8 @@
 import "./kuddys-pick-preview.scss";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import KuddysPickMainInfo from "@components/KuddysPickDetailPage/KuddysPickMainInfo";
+import defaultthumbnail from "@assets/location/default_travel_thumbnail.png";
 import { ReactComponent as ArrowIcon } from "@assets/icon/home_text_arrow.svg";
 import { useQuery } from "react-query";
 import { kuddyspickGetPreview } from "@services/api/kuddyspick";
@@ -19,6 +20,7 @@ const KuddysPickPreview = () => {
   useEffect(() => {
     resetKuddysPickKeyword();
   }, []);
+  console.log(data?.data.data);
   return (
     <>
       <div className="kuddyspickpreview-header">
@@ -44,7 +46,12 @@ const KuddysPickPreview = () => {
                     onClick={() => nav(`/travel/${content.contentId}`)}
                   >
                     <div className="kuddyspickpreview-content-img-rect">
-                      <img src={content.imageUrl} alt={content.name} />
+                      <img
+                        src={
+                          content.imageUrl ? content.imageUrl : defaultthumbnail
+                        }
+                        alt={content.name}
+                      />
                     </div>
                     <div className="kuddyspickpreview-content-text">
                       <div className="name">{content.name}</div>

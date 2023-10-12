@@ -32,20 +32,22 @@ const KuddysPickTravelPreview = ({
         </p>
       </div>
       <div className="kuddyspicktravelpreview-swiper-wrapper">
-        <Swiper
-          slidesPerView={"auto"}
-          loop={true}
-          spaceBetween={8}
-          centeredSlides={true}
-        >
-          {pickImageList.map((item: string) => (
-            <SwiperSlide key={item}>
-              <div className="swiper-rect">
-                <img src={item} />
-              </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        {pickImageList && pickImageList.length !== 0 && (
+          <Swiper
+            slidesPerView={"auto"}
+            loop={true}
+            spaceBetween={8}
+            centeredSlides={true}
+          >
+            {pickImageList.map((item: string) => (
+              <SwiperSlide key={item}>
+                <div className="swiper-rect">
+                  <img src={item} />
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        )}
       </div>
     </>
   );

@@ -2,7 +2,7 @@ import "./kuddys-pick-main-info.scss";
 import { useNavigate } from "react-router-dom";
 
 const KuddysPickMainInfo = (
-  { id, thumbnail, title, detail }: any,
+  { id, thumbnail, title, content }: any,
   isPreview: boolean | undefined,
 ) => {
   const nav = useNavigate();
@@ -25,7 +25,7 @@ const KuddysPickMainInfo = (
         className="kuddyspickmaininfo-description"
         onClick={isPreview ? () => nav(`/kuddys-pick/${id}`) : undefined}
       >
-        {detail}
+        {content}
       </div>
     </div>
   );
