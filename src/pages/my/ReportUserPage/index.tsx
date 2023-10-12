@@ -5,6 +5,9 @@ import EventBtn from "@components/_common/EventBtn";
 import { reasonsData } from "./reasonsData";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuthReportUser } from "@services/hooks/user";
+
+import Loading from "@components/_common/Loading";
+
 export default function ReportUserPage() {
   const [searchParams, _] = useSearchParams();
   const userId = Number(searchParams.get("userId"));
@@ -24,7 +27,7 @@ export default function ReportUserPage() {
     setIsActive(text !== "" && isSelected);
   }, [text, selectedId]);
 
-  const { onReport } = useAuthReportUser({
+  const { onReport, isLoading } = useAuthReportUser({
     targetId: userId,
     reason: selectedId,
     explanation: text,
@@ -33,6 +36,14 @@ export default function ReportUserPage() {
   return (
     <div className="report-user-page">
       <BackNavBar middleTitle="report user" isShare={false} />
+
+      {isLoading && (
+        <Loading
+          backColor="rgba(0, 0, 0, 0.5)"
+          spinnerColor="#FFF798"
+          size="80px"
+        />
+      )}
 
       <div className="reason-container">
         {reasonsData.map(r => {
