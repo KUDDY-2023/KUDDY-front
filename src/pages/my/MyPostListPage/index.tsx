@@ -24,6 +24,8 @@ const MyPostListPage = () => {
     return target.toLocaleString("sv");
   };
 
+  console.log(data?.data.data);
+
   return (
     <>
       <BackNavBar middleTitle="My post" isShare={false} />
@@ -59,7 +61,7 @@ const MyPostListPage = () => {
                 <div className="category">
                   {item.postType === "itinerary"
                     ? "Route Feedback"
-                    : item.postType === "talingBoard"
+                    : item.postType === "talkingBoard"
                     ? "Open Forum"
                     : ""}
                 </div>
