@@ -1,8 +1,8 @@
 import "./edit-modal.scss";
 import BottomUpModal from "@components/_common/BottomUpModal";
-import InterestForm from "@components/ProfileModifyPage/InterestForm";
-import LanguageForm from "@components/ProfileModifyPage/LanguageForm";
-import RegionForm from "@components/ProfileModifyPage/RegionForm";
+import InterestForm from "@components/ProfileModifyPage/forms/InterestForm";
+import LanguageForm from "@components/ProfileModifyPage/forms/LanguageForm";
+import RegionForm from "@components/ProfileModifyPage/forms/RegionForm";
 
 interface Props {
   isModalOpen: boolean;

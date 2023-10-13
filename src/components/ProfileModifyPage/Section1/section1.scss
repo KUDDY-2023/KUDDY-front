@@ -1,0 +1,102 @@
+@import "../../../style/mixins";
+
+.detail-modify-container {
+  width: calc(100% - 76px);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+.profile-line {
+  width: calc(100% - 5px);
+  height: 0px;
+  border-top: 1px solid var(--color-grey-line,);
+}
+
+.profile-image-container {
+  margin-top: 8px;
+  margin-bottom: 40px;
+  width: 129px;
+  height: 120px;
+
+  .profile-image {
+    position: relative;
+    width: 120px;
+    height: 100%;
+    border-radius: 120px;
+    object-fit: cover;
+  }
+
+  .photo-btn {
+    z-index: 3;
+    position: relative;
+    top: -40px;
+    left: 89px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+  }
+}
+
+.modify-name-container {
+  display: flex;
+
+  .modify-name-inner-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .checking-btn {
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+    height: fit-content;
+    padding: 4px 16px;
+    border-radius: 5px;
+    @include font-style(--font-text, 12px, black, 500);
+  }
+
+  .grey-btn {
+    background: var(--color-grey);
+  }
+
+  .yellow-btn {
+    background: var(--color-main-yellow);
+  }
+
+  .status-text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+
+    p {
+      @include font-style(--font-text, 10px, var(--color-grey-text), 500);
+      text-align: start;
+    }
+  }
+
+  @mixin text-color($color) {
+    p {
+      color: $color;
+    }
+  }
+
+  .grey-alert {
+    background-color: transparent;
+    @include text-color(var(--color-grey-text));
+  }
+
+  .red-alert {
+    background-color: transparent;
+    @include text-color(var(--color-red));
+  }
+
+  .blue-alert {
+    background-color: transparent;
+    @include text-color(var(--color-blue));
+  }
+}
