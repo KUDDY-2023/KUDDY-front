@@ -1,0 +1,36 @@
+@import "../../../style/mixins";
+
+.info-modal-rect {
+  width: 100%;
+  padding: 55px 20px 20px 20px;
+  border-radius: 10px;
+  background-color: color(white);
+
+  .title {
+    color: color(black);
+    font: {
+      family: var(--font-title);
+      weight: 600;
+      size: 20px;
+    }
+    text-align: center;
+    padding-bottom: 10px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid color(light-grey);
+  }
+
+  .text {
+    color: color(black);
+    font: {
+      family: var(--font-text);
+      weight: 400;
+      size: 14px;
+    }
+    line-height: 140%;
+    word-break: keep-all;
+    word-wrap: break-word;
+    margin-bottom: 10px;
+    margin-right: 10px;
+    list-style-type: "⎼  ";
+  }
+}
