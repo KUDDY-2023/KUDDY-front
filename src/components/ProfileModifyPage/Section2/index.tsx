@@ -128,7 +128,7 @@ const Section2 = () => {
         <BasicModifyForm text="birth">
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <MobileDatePicker
-              format="YYYY / MM / DD"
+              format="YYYY/MM/DD"
               defaultValue={dayjs(localStorage.getItem("birthDate"))}
               onChange={(value: any) => handleSelectAge(formatDate(value.$d))}
             />
