@@ -1,4 +1,5 @@
 import "./search-result-place-item.scss";
+import { ReactComponent as DefaultImg } from "@assets/location/default_travel_thumbnail.svg";
 
 interface PlaceItemType {
   category: string;
@@ -22,7 +23,7 @@ export default function SearchResultPlaceItem({
   return (
     <div className="search-result-place-item" key={placeItem.contentId}>
       <div className="result-img">
-        {placeItem.imageUrl && <img src={placeItem.imageUrl} />}
+        {placeItem.imageUrl ? <img src={placeItem.imageUrl} /> : <DefaultImg />}
       </div>
       <div className="result-info">
         <p className="place-name">
