@@ -6,13 +6,18 @@ import Section2 from "@components/ProfileModifyPage/Section2";
 import Section3 from "@components/ProfileModifyPage/Section3";
 import { useGetProfile, usePutProfileModify } from "@services/hooks/profile";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { profileState, interestsArrState } from "@services/store/auth";
+import { useRecoilState, useRecoilValue } from "recoil";
+import {
+  profileState,
+  uniqueNameState,
+  interestsArrState,
+} from "@services/store/auth";
 import { profileIntroduce } from "@services/store/profile";
 
 const ProfileModifyPage = () => {
   const nav = useNavigate();
   const [profile, setProfile] = useRecoilState(profileState); // 프로필 전역 상태
+  const isAvailable = useRecoilValue(uniqueNameState); // 닉네임 사용 가능 여부
   const [introduce, setIntroduce] = useRecoilState(profileIntroduce); // 프로필 introduce 전역 상태
   const [interestsArr, setInterestsArr] = useRecoilState(interestsArrState); // interest 전역 상태 (값 읽기)
   const { data, isLoading, error } = useGetProfile();
@@ -70,12 +75,11 @@ const ProfileModifyPage = () => {
   // complete 버튼 클릭
   const handleCompleteClick = async () => {
     // 닉네임 체크 필요
-    // if (!isAvailable) {
-    //   alert(nameAlert.alert);
-    //   return;
-    // }
+    if (!isAvailable) {
+      alert("");
+      return;
+    }
     const res = await onProfileModify();
-    console.log(res);
     nav(`/profile/${profile.nickname}`, { state: { prev: "modify" } });
   };
 

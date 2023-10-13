@@ -17,6 +17,10 @@ const Section2 = () => {
   // 성별 관련
   const [gender, setGender] = useState(""); // 선택한 성별 텍스트
   const genders = ["Male", "Female", "Prefer not to say"];
+  // 성격 관련
+  const [personality, setPersonality] = useState([0, 0]);
+  const temperament = ["Introvert", "Extrovert"];
+  const decisionMaking = ["Prefer planning", "Prefer spontaneous"];
 
   // 🚨 로컬 스토리지에 저장된 생일 제거
   useEffect(() => {
@@ -81,18 +85,27 @@ const Section2 = () => {
   };
 
   // personality 관련
-  const handlePersonalityClick = (type: string, idx: number) => {
-    if (type === "temperament") {
-      {
-        idx
-          ? onUpdateProfile({ temperament: "EXTROVERT" })
-          : onUpdateProfile({ temperament: "INTROVERT" });
-      }
-    } else {
-      idx
-        ? onUpdateProfile({ decisionMaking: "PROSPECTING" })
-        : onUpdateProfile({ decisionMaking: "JUDGING" });
-    }
+  useEffect(() => {
+    setPersonality([
+      profile?.temperament === "INTROVERT" ? 0 : 1,
+      profile?.decisionMaking === "JUDGING" ? 0 : 1,
+    ]);
+  }, [profile?.temperament, profile?.decisionMaking]);
+
+  const handleTemperamentClick = (
+    id: number,
+    type: string,
+    selected: string,
+  ) => {
+    id === 0
+      ? onUpdateProfile({ temperament: "INTROVERT" })
+      : onUpdateProfile({ temperament: "EXTROVERT" });
+  };
+
+  const handleDecisionClick = (id: number, type: string, selected: string) => {
+    id === 0
+      ? onUpdateProfile({ decisionMaking: "JUDGING" })
+      : onUpdateProfile({ decisionMaking: "PROSPECTING" });
   };
 
   return (
@@ -135,50 +148,26 @@ const Section2 = () => {
         </BasicModifyForm>
         {/* 성격 */}
         <BasicModifyForm text="personality">
-          <div className="vertical-container">
-            <div className="personality-container">
-              <div
-                className={
-                  profile?.temperament === "INTROVERT"
-                    ? "personality-btn selected"
-                    : "personality-btn"
-                }
-                onClick={() => handlePersonalityClick("temperament", 0)}
-              >
-                Introvert
-              </div>
-              <div
-                className={
-                  profile?.temperament === "EXTROVERT"
-                    ? "personality-btn selected"
-                    : "personality-btn"
-                }
-                onClick={() => handlePersonalityClick("temperament", 1)}
-              >
-                Extrovert
-              </div>
+          <div className="personality-container">
+            <div className="modify-dropdown">
+              <DropDown
+                items={temperament}
+                type="Personality"
+                placeholder="Personality"
+                id={1}
+                state={temperament[personality[0]]}
+                onSelect={handleTemperamentClick}
+              />
             </div>
-            <div className="personality-container">
-              <div
-                className={
-                  profile?.decisionMaking === "JUDGING"
-                    ? "personality-btn selected"
-                    : "personality-btn"
-                }
-                onClick={() => handlePersonalityClick("decisionMaking", 0)}
-              >
-                Prefer planning
-              </div>
-              <div
-                className={
-                  profile?.decisionMaking === "PROSPECTING"
-                    ? "personality-btn selected"
-                    : "personality-btn"
-                }
-                onClick={() => handlePersonalityClick("decisionMaking", 1)}
-              >
-                Prefer spontaneous
-              </div>
+            <div className="modify-dropdown">
+              <DropDown
+                items={decisionMaking}
+                type="Personality"
+                placeholder="Personality"
+                id={1}
+                state={decisionMaking[personality[1]]}
+                onSelect={handleDecisionClick}
+              />
             </div>
           </div>
         </BasicModifyForm>

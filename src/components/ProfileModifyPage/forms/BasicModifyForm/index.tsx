@@ -8,7 +8,7 @@ type Props = {
 
 const BasicModifyForm = ({ text, children }: Props) => {
   return (
-    <div className="detail-modify-inner-container">
+    <div className="basic-modify-container">
       <div className="profile-subtitle">{text}</div>
       {children}
     </div>

@@ -52,7 +52,7 @@ const Section1 = () => {
           profileImageUrl: newImg,
         });
       } catch (err) {
-        alert(err);
+        console.log(err);
       }
     }
   };
@@ -119,28 +119,28 @@ const Section1 = () => {
       <div className="detail-modify-container">
         <BasicModifyForm text="name">
           <div className="modify-name-container">
-            <div className="modify-name-inner-container">
-              <input
-                type="text"
-                className="profile-content"
-                placeholder={profile?.nickname}
-                value={profile?.nickname || ""}
-                onChange={e => onChangeNickname(e)}
-              />
+            <input
+              type="text"
+              className="profile-content"
+              placeholder={profile?.nickname}
+              value={profile?.nickname || ""}
+              onChange={e => onChangeNickname(e)}
+            />
+            <div className="name-check-container">
               <div className={`status-text ${nameAlert.textColor}`}>
                 <p>
                   {nameAlert.alert} ({profile?.nickname?.length}/15)
                 </p>
               </div>
+              <button
+                onClick={onCheckAvailableNickname}
+                className={`checking-btn ${
+                  isAvailable ? "grey-btn" : "yellow-btn"
+                }`}
+              >
+                checking
+              </button>
             </div>
-            <button
-              onClick={onCheckAvailableNickname}
-              className={`checking-btn ${
-                isAvailable ? "grey-btn" : "yellow-btn"
-              }`}
-            >
-              checking
-            </button>
           </div>
         </BasicModifyForm>
 
