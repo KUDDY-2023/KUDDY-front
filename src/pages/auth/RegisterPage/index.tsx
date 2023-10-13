@@ -27,7 +27,10 @@ export default function RegisterPage() {
       <div className="profile-container">
         <LogoProfile />
         <p>Join KUDDY!</p>
-        <p>KUDDY Slogan-catchphrase</p>
+        <p>
+          Seoul Awaits, KUDDY Connects: <br />
+          Explore, Learn, Share
+        </p>
       </div>
       <div className="login-btn-container ">
         <KakaoBtn onClick={() => onLogin("kakao")} />
