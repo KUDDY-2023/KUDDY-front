@@ -39,7 +39,7 @@ const CommunityDetailPage = () => {
   // 게시물 삭제
   const handleDeleteClick = async () => {
     const res = await onDeletePost(Number(id));
-    nav("/community/list");
+    nav(-1);
   };
 
   // 게시물 공유
