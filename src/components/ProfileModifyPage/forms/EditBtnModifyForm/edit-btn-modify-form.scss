@@ -26,29 +26,29 @@
       gap: 12px;
     }
   }
-}
 
-.profile-subtitle {
-  width: 80px;
-  color: var(--color-black);
-  font-family: Inter;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-}
+  .profile-subtitle {
+    width: 80px;
+    color: var(--color-black);
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
 
-.profile-content {
-  width: 100%;
-  color: var(--color-black);
-  font-family: Inter;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  white-space: pre-wrap;
+  .profile-content {
+    width: 100%;
+    color: var(--color-black);
+    font-family: Inter;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px;
+    white-space: pre-wrap;
 
-  &.grey {
-    color: #777;
+    &.grey {
+      color: #777;
+    }
   }
 }
