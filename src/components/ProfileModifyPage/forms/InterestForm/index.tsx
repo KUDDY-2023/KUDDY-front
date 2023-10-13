@@ -1,6 +1,6 @@
 import "./interest-form.scss";
 import { useState, useEffect } from "react";
-import { InterestData } from "../../../pages/auth/LoginFormPage/forms/InterestForm/interestsData";
+import { InterestData } from "../../../../pages/auth/LoginFormPage/forms/InterestForm/interestsData";
 import { useRecoilState } from "recoil";
 import { interestsArrState } from "@services/store/auth";
 

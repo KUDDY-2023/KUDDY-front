@@ -43,3 +43,8 @@ export const profileIntroduce = atom<string>({
   key: "profileIntroduce",
   default: "",
 });
+
+export const nameCheckAlert = atom<string>({
+  key: "nameCheckAlert",
+  default: "",
+});

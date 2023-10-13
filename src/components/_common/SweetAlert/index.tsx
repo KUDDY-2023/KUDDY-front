@@ -94,3 +94,9 @@ export const reportUserFailAlert = () =>
     icon: "error",
     iconColor: "#FFC6C6",
   });
+
+export const profileNameAlert = (alert: string) =>
+  Swal.fire({
+    text: alert,
+    icon: "error",
+  });

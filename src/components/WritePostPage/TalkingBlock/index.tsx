@@ -67,9 +67,8 @@ const TalkingBlock = ({ subject }: Props) => {
     return formattedDate;
   };
 
-  const handleChangeDate = (event: any) => {
-    console.log(formatDate(event));
-    setJoinUsPost({ ...joinUsPost, date: formatDate(event) });
+  const handleChangeDate = (date: any) => {
+    setJoinUsPost({ ...joinUsPost, date: date });
   };
 
   const handleChangeDistrict = (item: string) => {
@@ -123,7 +122,9 @@ const TalkingBlock = ({ subject }: Props) => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <MobileDatePicker
                 format="YYYY-MM-DD"
-                onChange={handleChangeDate}
+                onChange={(value: any) => {
+                  handleChangeDate(formatDate(value.$d));
+                }}
               />
             </LocalizationProvider>
           </div>
