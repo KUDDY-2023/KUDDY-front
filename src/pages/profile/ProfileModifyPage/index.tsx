@@ -69,6 +69,13 @@ const ProfileModifyPage = () => {
   const { altElement } = useInterest();
   const onCheck = useCheckAvailableNickname();
 
+  // 🚨 로컬 스토리지에 저장된 생일 제거
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem("birthDate");
+    };
+  }, []);
+
   // 내 프로필 정보 가져오기
   useEffect(() => {
     if (data) {
@@ -106,14 +113,7 @@ const ProfileModifyPage = () => {
         };
       });
       setInterestsArr(newInterests);
-
-      if (!isAvailable) {
-        let [alertText, textColor] = CheckNicknameString(profile?.nickname);
-        setNameAlert({
-          textColor: textColor,
-          alert: alertText,
-        });
-      }
+      setIsAvailable(true); // 처음엔 이름 중복 체크 완료된 상태로 렌더링
     }
   }, [isLoading]);
 
@@ -407,7 +407,7 @@ const ProfileModifyPage = () => {
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <MobileDatePicker
                   format="YYYY / MM / DD"
-                  defaultValue={dayjs(profile?.birthDate)}
+                  defaultValue={dayjs(localStorage.getItem("birthDate"))}
                   onChange={(value: any) =>
                     handleSelectAge(formatDate(value.$d))
                   }
