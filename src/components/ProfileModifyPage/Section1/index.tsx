@@ -10,6 +10,7 @@ import {
 import { useGetPresignedUrl, usePostImage } from "@services/hooks/image";
 import { useRecoilState } from "recoil";
 import { profileState, uniqueNameState } from "@services/store/auth";
+import { nameCheckAlert } from "@services/store/profile";
 import { profileIntroduce } from "@services/store/profile";
 
 // 프로필 사진 ~ 소개글 섹션
@@ -21,12 +22,10 @@ const Section1 = () => {
   const onPostImage = usePostImage();
   // 닉네임 관련
   const [isAvailable, setIsAvailable] = useRecoilState(uniqueNameState); // 닉네임 사용 가능 여부
-  const [nameAlert, setNameAlert] = useState({
-    alert: isAvailable
-      ? "You can use this name"
-      : "Only alphabetic, numeric, and underbar",
-    textColor: isAvailable ? "blue-alert" : "grey-alert",
-  }); // 닉네임 중복 체크 alert
+  const [alertColor, setAlertColor] = useState(
+    isAvailable ? "blue-alert" : "grey-alert",
+  );
+  const [nameAlert, setNameAlert] = useRecoilState(nameCheckAlert);
   const onCheck = useCheckAvailableNickname();
   // 소개글 관련
   const [introduce, setIntroduce] = useRecoilState(profileIntroduce); // 프로필 introduce 전역 상태
@@ -65,10 +64,8 @@ const Section1 = () => {
     let [alertText, textColor] = CheckNicknameString(newName);
 
     // 경고 문구
-    setNameAlert({
-      textColor: textColor,
-      alert: alertText,
-    });
+    setAlertColor(textColor);
+    setNameAlert(alertText);
 
     setProfile({ ...profile, nickname: newName });
   };
@@ -76,24 +73,20 @@ const Section1 = () => {
   // 중복 체크 관련
   useEffect(() => {
     if (isAvailable) {
-      setNameAlert({
-        textColor: "blue-alert",
-        alert: "You can use this name",
-      });
+      setAlertColor("blue-alert");
+      setNameAlert("You can use this name");
     }
   }, [isAvailable]);
 
   const onCheckAvailableNickname = async () => {
-    if (nameAlert.alert === "Please press the checking button") {
+    if (nameAlert === "Please press the checking button") {
       const available = await onCheck(profile?.nickname);
       if (available) {
         setIsAvailable(true);
       } else {
         setIsAvailable(false);
-        setNameAlert({
-          textColor: "red-alert",
-          alert: "Name already registered",
-        });
+        setAlertColor("red-alert");
+        setNameAlert("Name already registered");
       }
     }
   };
@@ -127,9 +120,9 @@ const Section1 = () => {
               onChange={e => onChangeNickname(e)}
             />
             <div className="name-check-container">
-              <div className={`status-text ${nameAlert.textColor}`}>
+              <div className={`status-text ${alertColor}`}>
                 <p>
-                  {nameAlert.alert} ({profile?.nickname?.length}/15)
+                  {nameAlert} ({profile?.nickname?.length}/15)
                 </p>
               </div>
               <button

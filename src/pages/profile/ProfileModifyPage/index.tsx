@@ -4,6 +4,7 @@ import Loading from "@components/_common/Loading";
 import Section1 from "@components/ProfileModifyPage/Section1";
 import Section2 from "@components/ProfileModifyPage/Section2";
 import Section3 from "@components/ProfileModifyPage/Section3";
+import { profileNameAlert } from "@components/_common/SweetAlert";
 import { useGetProfile, usePutProfileModify } from "@services/hooks/profile";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -12,12 +13,13 @@ import {
   uniqueNameState,
   interestsArrState,
 } from "@services/store/auth";
-import { profileIntroduce } from "@services/store/profile";
+import { profileIntroduce, nameCheckAlert } from "@services/store/profile";
 
 const ProfileModifyPage = () => {
   const nav = useNavigate();
   const [profile, setProfile] = useRecoilState(profileState); // 프로필 전역 상태
   const isAvailable = useRecoilValue(uniqueNameState); // 닉네임 사용 가능 여부
+  const nameAlert = useRecoilValue(nameCheckAlert);
   const [introduce, setIntroduce] = useRecoilState(profileIntroduce); // 프로필 introduce 전역 상태
   const [interestsArr, setInterestsArr] = useRecoilState(interestsArrState); // interest 전역 상태 (값 읽기)
   const { data, isLoading, error } = useGetProfile();
@@ -76,7 +78,15 @@ const ProfileModifyPage = () => {
   const handleCompleteClick = async () => {
     // 닉네임 체크 필요
     if (!isAvailable) {
-      alert("");
+      if (nameAlert === "Minimum 3 characters") {
+        profileNameAlert("Please enter at least 3 characters for your name.");
+      } else if (nameAlert === "Only alphabetic, numeric, and underbar") {
+        profileNameAlert(
+          "Please enter your name using only alphabetic, numeric, and underbar.",
+        );
+      } else {
+        profileNameAlert(nameAlert);
+      }
       return;
     }
     const res = await onProfileModify();
