@@ -91,6 +91,11 @@ const IntroSection = ({ profile, isMine }: Props) => {
 
   const handleBtnClick = async () => {
     if (isMine) {
+      // 로컬 스토리지에 생일 저장 (🚨 생일 안 불러와지는 문제 해결)
+      localStorage.setItem("birthDate", profile?.birthDate);
+      //
+      console.log(localStorage.getItem("birthDate"));
+      //
       nav("/profile/modify");
     } else {
       // 채팅 페이지로 이동
