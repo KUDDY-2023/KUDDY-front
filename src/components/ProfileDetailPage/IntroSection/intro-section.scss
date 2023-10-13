@@ -103,6 +103,8 @@
 .interest-list {
   display: flex;
   width: calc(100% + 25px);
+  gap: 8px;
+  padding-right: 20px;
   align-self: flex-start;
   align-items: flex-start;
   white-space: nowrap;
@@ -120,7 +122,6 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
-    margin-right: 8px;
 
     background-color: color(white);
     border-radius: 100px;
