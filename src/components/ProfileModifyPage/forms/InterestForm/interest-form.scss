@@ -1,4 +1,4 @@
-@import "../../../style/mixins";
+@import "../../../../style/mixins";
 
 .interest-edit-container {
   width: calc(100% - 50px);
@@ -15,7 +15,6 @@
   width: calc(100% + 25px);
   height: 100%;
   overflow-x: hidden;
-  overflow-y: scroll;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
