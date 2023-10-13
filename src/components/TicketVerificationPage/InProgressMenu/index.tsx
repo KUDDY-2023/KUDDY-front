@@ -1,15 +1,12 @@
 import { TicketInfoType } from "@pages/my/TicketVertificationPage";
-import { ReactComponent as HelpIcon } from "@assets/ticket/help.svg";
+import InfoModal from "@components/TicketVerificationPage/InfoModal";
 import { ReactComponent as LoadingIcon } from "@assets/ticket/loading.svg";
 
 const InProgressMenu = ({ ticketImageUrl }: TicketInfoType) => {
   return (
     <>
       <div className="middle-wrapper">
-        <div className="more-text">
-          <HelpIcon />
-          <p>what is ticket verification</p>
-        </div>
+        <InfoModal />
         <div className="image-rect inprogress-preview">
           <img src={ticketImageUrl} />
           <div className="filter" />

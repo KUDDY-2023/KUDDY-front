@@ -1,10 +1,9 @@
 import { TicketInfoType } from "@pages/my/TicketVertificationPage";
-import { ReactComponent as HelpIcon } from "@assets/ticket/help.svg";
 import { ReactComponent as PhotoIcon } from "@assets/ticket/photo.svg";
 import { ReactComponent as ErrorIcon } from "@assets/ticket/error.svg";
 import { useState, useRef } from "react";
 import { ticketNotUploadedYetAlert } from "@components/_common/SweetAlert";
-
+import InfoModal from "@components/TicketVerificationPage/InfoModal";
 import { useGetPresignedUrl, usePostImage } from "@services/hooks/image";
 import {
   profileCreateTicketInfo,
@@ -78,10 +77,7 @@ const UploadMenu = ({ ticketStatus }: TicketInfoType) => {
             </p>
           </div>
         )}
-        <div className="more-text">
-          <HelpIcon />
-          <p>what is ticket verification</p>
-        </div>
+        <InfoModal />
         {typeof preview === "string" ? (
           <div className="image-rect">
             <img src={preview} />
