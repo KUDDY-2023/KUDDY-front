@@ -15,17 +15,28 @@
   @include font-style(--font-text, 24px, black, 600);
 }
 
-.save-btn {
-  position: absolute;
-  bottom: 61px;
+.save-btn-container {
+  position: fixed;
   display: flex;
-  width: calc(100% - 50px);
-  height: 52px;
-  padding: 14px 5px;
   justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  background: var(--main_yellow, #fff49b);
-  @include font-style(--font-text, 18px, black, 600);
-  cursor: pointer;
+  align-items: flex-end;
+  width: 100%;
+  left: 0;
+  bottom: 0;
+  padding: 20px 0 35px;
+  background-color: color(white);
+
+  .save-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(100% - 50px);
+    height: 52px;
+    padding: 14px 5px;
+    border-radius: 10px;
+    background: var(--main_yellow, #fff49b);
+    @include font-style(--font-text, 18px, black, 600);
+    text-align: center;
+    cursor: pointer;
+  }
 }

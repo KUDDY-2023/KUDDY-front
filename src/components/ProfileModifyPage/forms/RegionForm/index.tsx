@@ -68,8 +68,10 @@ const RegionForm = ({ onClose }: Props) => {
           </div>
         ))}
       </div>
-      <div className="save-btn" onClick={handleSaveClick}>
-        Save
+      <div className="save-btn-container">
+        <div className="save-btn" onClick={handleSaveClick}>
+          Save
+        </div>
       </div>
     </div>
   );

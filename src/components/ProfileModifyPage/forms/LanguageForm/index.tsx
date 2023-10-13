@@ -128,8 +128,10 @@ const LanguageForm = ({ onClose }: Props) => {
           Add
         </div>
       </div>
-      <div className="save-btn" onClick={handleSaveClick}>
-        Save
+      <div className="save-btn-container">
+        <div className="save-btn" onClick={handleSaveClick}>
+          Save
+        </div>
       </div>
     </div>
   );
