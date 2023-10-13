@@ -2,6 +2,7 @@ import "./section3.scss";
 import { useState, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { profileState, interestsArrState } from "@services/store/auth";
+import BasicModifyForm from "../forms/BasicModifyForm";
 import EditModal from "@components/ProfileModifyPage/EditModal";
 import EditBtnModifyForm from "@components/ProfileModifyPage/forms/EditBtnModifyForm";
 import { useUpdateProfile } from "@services/hooks/profile";
@@ -93,22 +94,19 @@ const Section3 = () => {
             onClick={() => handleOpenModal("region")}
           />
         ) : (
-          <div className="detail-modify-inner-container">
-            <div className="profile-subtitle">nationality</div>
-            <div className="modify-dropdown">
-              <input
-                type="text"
-                className="profile-content"
-                placeholder={profile?.nationality}
-                value={profile?.nationality || ""}
-                onChange={e => {
-                  onUpdateProfile({
-                    nationality: e.target.value,
-                  });
-                }}
-              />
-            </div>
-          </div>
+          <BasicModifyForm text="nationality">
+            <input
+              type="text"
+              className="profile-content"
+              placeholder={profile?.nationality}
+              value={profile?.nationality || ""}
+              onChange={e => {
+                onUpdateProfile({
+                  nationality: e.target.value,
+                });
+              }}
+            />
+          </BasicModifyForm>
         )}
         {/* 언어 */}
         <EditBtnModifyForm
