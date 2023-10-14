@@ -52,6 +52,12 @@
   justify-content: end;
 
   .message-style {
+    .message-text-p {
+      max-width: 100%;
+      white-space: pre-wrap !important;
+      overflow-wrap: break-word;
+    }
+
     position: relative;
 
     p {
@@ -94,9 +100,5 @@
 
   .partner {
     @extend .partner-message-style;
-  }
-
-  .message-text-p {
-    text-wrap: wrap !important;
   }
 }
