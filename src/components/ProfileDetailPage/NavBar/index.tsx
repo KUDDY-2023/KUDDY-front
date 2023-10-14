@@ -1,8 +1,8 @@
 import "./nav-bar.scss";
-import { useParams, useNavigate, useLocation } from "react-router-dom";
-
+import { useNavigate, useLocation } from "react-router-dom";
 import { ReactComponent as BackIcon } from "@assets/icon/back.svg";
 import ViewMoreBtn from "@components/_common/ViewMoreBtn";
+import { clipboardAlert } from "@components/_common/SweetAlert";
 
 type Props = {
   profileId: number;
@@ -11,7 +11,6 @@ type Props = {
 
 const NavBar = ({ profileId, isMine }: Props) => {
   const nav = useNavigate();
-  const { nickname } = useParams();
   const location = useLocation();
 
   const handleGoBack = () => {
@@ -24,9 +23,19 @@ const NavBar = ({ profileId, isMine }: Props) => {
     }
   };
 
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      clipboardAlert();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   // 프로필 공유
   const handleShareClick = () => {
-    console.log("share link");
+    const URL = process.env.REACT_APP_REACT_URL + location.pathname;
+    handleCopyClipBoard(URL);
   };
 
   // 프로필 신고
