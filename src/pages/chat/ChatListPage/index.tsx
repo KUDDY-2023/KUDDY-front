@@ -14,7 +14,9 @@ export default function ChatListPage() {
   const { data, error, isLoading } = useQuery("chatRooms", chatRooms, {
     refetchOnWindowFocus: true,
     select: data =>
-      data?.data.data.sort((a: any, b: any) => b.regDate - a.regDate), // 최신순으로 정렬
+      data?.data.data.sort(
+        (a: any, b: any) => b.latestMessage.sendTime - a.latestMessage.sendTime,
+      ), // 최신순으로 정렬
     cacheTime: 0,
   });
 
