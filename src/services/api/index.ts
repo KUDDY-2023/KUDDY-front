@@ -19,8 +19,6 @@ apiClient.interceptors.response.use(
         const res = await authGetRefreshToken();
         const newAccessToken = res.data.data.accessToken;
 
-        console.log("토큰 재발급 요청 결과 >> ", res);
-
         if (newAccessToken) {
           localStorage.setItem("accessToken", newAccessToken); // 새 토큰 저장
           originalRequest.headers["Authorization"] = "Bearer " + newAccessToken; // 새 요청의 헤더
@@ -30,7 +28,6 @@ apiClient.interceptors.response.use(
         return axios(originalRequest);
       } catch (err) {
         console.log("토큰 재발급 실패 ", err);
-        // alert("다시 로그인해주세요!");
         localStorage.removeItem("accessToken"); // 쿠키도 지워야되나..
         window.location.href = `${process.env.REACT_APP_REACT_URL}/auth/register`;
       }

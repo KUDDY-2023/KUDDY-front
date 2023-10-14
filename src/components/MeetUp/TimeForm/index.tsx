@@ -86,7 +86,6 @@ export default function TimeForm() {
               className={time !== "" ? "active-text" : ""}
               onChange={(value: any) => {
                 onMakeMeetUpInfo({ appointmentTimeT: formatTime(value.$d) });
-                console.log(formatTime(value.$d));
                 setTime(value);
               }}
             />

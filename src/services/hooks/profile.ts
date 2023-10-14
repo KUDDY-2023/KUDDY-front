@@ -107,7 +107,6 @@ export const useCreateProfile = () => {
   );
 
   const onCreateProfile = () => {
-    console.log("프로필 생성 요청 !! ", newProfile);
     createProfile(newProfile);
   };
 
@@ -133,8 +132,7 @@ export const useSetDefaultProfile = () => {
       onUpdateProfile({ nickname: nickname, profileImageUrl: profileImageUrl });
     } catch (err: any) {
       let errCode = err.response.status;
-      // if (errCode === 401) ReLogin();
-      // console.log("기본 정보 조회 실패", err);
+      console.log("기본 정보 조회 실패", err);
     }
   };
 };
@@ -197,7 +195,6 @@ export const useCanNext = () => {
       canNext = uniqueName;
     } else if (type === "birthDate") {
       // 생일이 오늘 이전이어야함
-      console.log(profile.birthDate);
       canNext = profile.birthDate !== "" && checkBeforeToday(profile.birthDate);
     } else if (type === "job") {
       canNext = profile.job !== "";
@@ -206,12 +203,10 @@ export const useCanNext = () => {
     } else if (type === "nationality") {
       canNext = profile.nationality !== "";
     } else if (type === "language") {
-      console.log(profile.availableLanguages);
       let tempArr = profile.availableLanguages.filter(
         lang =>
           lang.languageLevel === "Level" || lang.languageType === "Language",
       );
-      console.log(tempArr);
       canNext = !tempArr.length; // 하나도 없어야 넘어가기 가능
     } else if (type === "userType") {
       canNext = profile.roleType === "KUDDY" || profile.roleType === "TRAVELER";
@@ -230,11 +225,9 @@ export const useCheckAvailableNickname = () => {
   const onCheck = async (nickname: string) => {
     try {
       const { data }: any = await profileCheckNickname(nickname);
-      console.log(data.message);
       return data.message === "SUCCESS";
     } catch (err: any) {
       const errMessage = err.response.data.message;
-
       if (errMessage === "중복된 닉네임이 존재합니다.") {
         console.log(errMessage);
         return false;

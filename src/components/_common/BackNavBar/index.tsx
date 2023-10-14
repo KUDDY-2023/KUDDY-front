@@ -43,7 +43,6 @@ export default function BackNavBar({
 
   const _handleShare = () => {
     const URL = process.env.REACT_APP_REACT_URL + location.pathname;
-    console.log(URL);
     handleCopyClipBoard(URL);
   };
 

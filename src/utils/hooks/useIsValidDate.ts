@@ -8,7 +8,6 @@ const useIsValidDate = () => {
     const inputDate = dayjs(dateString).startOf("day");
     const today = dayjs().startOf("day");
 
-    console.log("인풋 >>", inputDate, "오늘 >>", today);
     return inputDate.isBefore(today) && !inputDate.isSame(today);
   };
 

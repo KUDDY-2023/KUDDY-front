@@ -44,7 +44,6 @@ export default function ChatListPage() {
             let sendTime = room.latestMessage?.sendTime;
 
             const timeAgo = calculateTimeDifference(sendTime);
-            console.log(room);
 
             const latestMessage =
               room.latestMessage?.context === "동행"
