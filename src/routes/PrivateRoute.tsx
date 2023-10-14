@@ -19,7 +19,7 @@ export default function PrivateRoute({
     }
 
     if (!authentication && isAuthenticated) {
-      alert("접근 불가능합니다. 로그아웃이 필요합니다.");
+      //alert("접근 불가능합니다. 로그아웃이 필요합니다.");
       navigate(-1);
     }
   }, [authentication, isAuthenticated]);
