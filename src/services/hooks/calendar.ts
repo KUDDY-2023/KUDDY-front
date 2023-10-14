@@ -10,8 +10,6 @@ export const useAddCalendar = () => {
   const onAddCalendar = async (meetupId: number) => {
     try {
       const res = await addCalendar(meetupId);
-      console.log("캘린더 스케줄 추가 성공", res);
-
       return res.data.status;
     } catch (err: any) {
       console.log("캘린더 스케줄 추가 실패", err);
@@ -26,7 +24,6 @@ export const useDeleteCalendar = () => {
   const onDeleteCalendar = async (chatId: string) => {
     try {
       const res = await deleteCalendar(chatId);
-      console.log("캘린더 삭제 성공", res);
     } catch (err) {
       console.log("캘린더 삭제 실패", err);
     }

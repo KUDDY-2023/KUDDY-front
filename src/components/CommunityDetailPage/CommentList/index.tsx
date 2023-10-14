@@ -73,7 +73,6 @@ const CommentList = () => {
 
   const handleDeleteClick = async (commentId: number) => {
     const res = await onDeleteComment(commentId);
-    console.log(res);
     getComment();
   };
 

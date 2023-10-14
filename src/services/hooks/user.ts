@@ -91,7 +91,6 @@ export const usePostReview = () => {
     try {
       const res = await userPostReview(review);
       nav("/my/appointment");
-      console.log(res);
       return res;
     } catch (err) {
       console.log(err);
