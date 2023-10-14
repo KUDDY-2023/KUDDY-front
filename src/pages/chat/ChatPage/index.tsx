@@ -79,7 +79,6 @@ export default function ChatPage() {
       if (i === chatList.length - 1) {
         // 마지막 요소 - 만약 오늘보다 이전이면
         if (todayFormattedDate != formattedDate) {
-          console.log("오늘", todayFormattedDate, "마지막", formattedDate);
           newChatList.push(currentChat);
           newChatList.push({ contentType: "TODAY" });
         } else {
@@ -122,11 +121,8 @@ export default function ChatPage() {
 
       const newChatList = addDateHistoryToChatList(chatList);
 
-      console.log("✅", newChatList);
       setMessageArr(newChatList);
       setPartnerInfo(receiverInfo);
-
-      console.log("채팅내역", data);
     }
   }, [data]);
 
@@ -141,7 +137,6 @@ export default function ChatPage() {
   // 전역 상태 - 내 프로필 정보 저장
   useEffect(() => {
     if (profileData.isSuccess) {
-      console.log("💙 프로필 조회 쿼리 isSuccess", profileData.data?.data.data);
       const res = profileData.data?.data.data;
 
       let email = res.memberInfo.email;
@@ -162,16 +157,9 @@ export default function ChatPage() {
     }
   }, [profileData.isSuccess]);
 
-  useEffect(() => {
-    console.log("⭐⭐⭐ 전역 상태 >>>>>>>> ", profile);
-    //setMyEmail(profile.email);
-  }, [profile]);
-
   // 새 메세지 왔을 때의 스크롤
   useEffect(() => {
     if (messageEndRef.current) {
-      console.log("❤️❤️ 새로운 메세지 ");
-
       messageEndRef.current.scrollIntoView({ behavior: "smooth" });
       return;
     }
@@ -181,7 +169,6 @@ export default function ChatPage() {
   useEffect(() => {
     setTimeout(() => {
       if (initialRenderRef.current && messageEndRef.current) {
-        console.log("❤️❤️ 처음 실행");
         initialRenderRef.current = false;
         messageEndRef.current.scrollIntoView({
           behavior: "smooth",
@@ -204,20 +191,13 @@ export default function ChatPage() {
   // ✅ 구독) new message 이벤트로 발생한 메세지 반영
   const handleMessage = (newmsg: IMessage) => {
     let body = JSON.parse(newmsg.body);
-    console.log("구독 후 받아온 거 >>", body);
-
     const myEmail = localStorage.getItem("myEmail");
-
     body = {
       ...body,
       mine: body.senderEmail === myEmail,
     };
-    console.log(">>>>⭐", body);
-
-    console.log("myEmail state", myEmail);
     // 상대방한테서 온 메세지
     if (body.senderEmail !== myEmail) {
-      console.log(body.senderEmail, "??", myEmail); // 🔥 여기서 자꾸 myEmail이 사라짐
       setFlightMessageArr(prevMessageArr => [...prevMessageArr, body]);
     }
   };
@@ -237,8 +217,6 @@ export default function ChatPage() {
   // ✅ 구독) update 이벤트로 발생한 메세지 반영하기
   const handleUpdatedMessage = (updatedMsg: IMessage) => {
     let newMsg = JSON.parse(updatedMsg.body);
-    console.log("업데이트  발생 >", newMsg);
-
     let flag = true;
     // 이미 찾았다면
     MessageArr.forEach(msg => {
@@ -248,10 +226,8 @@ export default function ChatPage() {
     setMessageArr(prevMessageArr => {
       const updatedArr = prevMessageArr.map(msg => {
         if (msg.id === newMsg.id) {
-          console.log("1");
           return newMsg;
         } else {
-          console.log("2");
           return msg;
         }
       });
@@ -260,14 +236,11 @@ export default function ChatPage() {
 
     if (flag) {
       // 위에서 이미 찾았다면 실행하지 않음
-      console.log(" ❤️ flight message 변화 발생");
       setFlightMessageArr(prevFlightMessageArr => {
         const updatedFlightArr = prevFlightMessageArr.map(msg => {
           if (msg.id === newMsg.id) {
-            console.log("3");
             return newMsg;
           } else {
-            console.log("4");
             return msg;
           }
         });
@@ -276,14 +249,8 @@ export default function ChatPage() {
     }
   };
 
-  useEffect(() => {
-    console.log("📢 ", FlightMessageArr);
-  }, [FlightMessageArr]);
-
   function onConnect() {
     if (client.current) {
-      console.log("onConnect 연결 성공");
-
       // 구독 - 특정 채팅방의 메세지 내용 받아오기
       subscribe.current = client.current.subscribe(
         `/topic/group/${roomId}`,
@@ -382,14 +349,14 @@ export default function ChatPage() {
 
   /* 연결 끊겼을 때 다시 연결하기 위함 */
   const handleVisibilityChange = () => {
-    if (!document.hidden) {
-      console.log("다시 돌아옴");
-    }
-    // 대충..가져온 코드
-    if (document.visibilityState === "visible") {
-      // 웹 앱이 포그라운드로 돌아왔을 때 소켓 재연결 요청
-      //connectClient(roomId, onNewMessage);
-    }
+    // if (!document.hidden) {
+    //   console.log("다시 돌아옴");
+    // }
+    // // 대충..가져온 코드
+    // if (document.visibilityState === "visible") {
+    //   // 웹 앱이 포그라운드로 돌아왔을 때 소켓 재연결 요청
+    //   //connectClient(roomId, onNewMessage);
+    // }
   };
 
   const removeEmail = () => {
@@ -437,7 +404,6 @@ export default function ChatPage() {
           } else if (msg.contentType === "MEETUP") {
             if (msg.meetStatus === "NOT_ACCEPT") {
               if (profile.role === "KUDDY") {
-                console.log(profile.role);
                 return (
                   <RequestMessage
                     client={client}
@@ -447,7 +413,6 @@ export default function ChatPage() {
                   />
                 );
               } else if (profile.role === "TRAVELER") {
-                console.log(profile.role);
                 return (
                   <RequestMessage
                     client={client}
@@ -482,7 +447,6 @@ export default function ChatPage() {
         {/* 새로운 메세지 */}
         {FlightMessageArr?.map((msg: IGetMessage) => {
           if (msg.contentType === "TEXT") {
-            console.log("😁 >> ", msg.mine);
             return (
               <Message
                 message={msg}
@@ -493,7 +457,6 @@ export default function ChatPage() {
           if (msg.contentType === "MEETUP") {
             if (msg.meetStatus === "NOT_ACCEPT") {
               if (profile.role === "KUDDY") {
-                console.log(profile.role);
                 return (
                   <RequestMessage
                     client={client}
@@ -503,7 +466,6 @@ export default function ChatPage() {
                   />
                 );
               } else if (profile.role === "TRAVELER") {
-                console.log(profile.role);
                 return (
                   <RequestMessage
                     client={client}

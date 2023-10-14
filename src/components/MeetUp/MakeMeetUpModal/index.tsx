@@ -98,12 +98,9 @@ export default function MakeMeetUpModal({
       try {
         // 로딩 컴포넌트 띄우기
         setIsLoading(true);
-        console.log("모달 띄우기");
 
         // ✅ DB에 메세지 반영하기
-        console.log("저장 시도", meetUpMsg);
         const savedMsg = await onSave(meetUpMsg);
-        console.log("저장한거 >>> ", savedMsg);
 
         // ✅ 내 메세지는 바로 반영하기
         handleMyMessage(savedMsg);

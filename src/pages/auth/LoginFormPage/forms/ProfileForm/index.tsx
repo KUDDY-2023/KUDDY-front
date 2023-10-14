@@ -71,7 +71,6 @@ export default function ProfileForm() {
     if (presignedUrlList) {
       try {
         const res = await onPostImage(presignedUrlList[0], e.target.files[0]);
-        console.log("이미지 업로드 성공", res);
 
         let newImg = presignedUrlList[0].split("?")[0];
         setProfileImgUrl(newImg);
