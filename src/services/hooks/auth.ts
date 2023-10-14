@@ -95,7 +95,7 @@ export const useAuthLogout = (): [() => void, boolean] => {
     resetProfileImage(); // profile image recoil 초기화
     setLogoutLoading(false); // 모달 끄기
     navigate("/"); // 메인 페이지로 이동
-    localStorage.removeItem("accessToken"); // localstorage 삭제
+    setTimeout(() => localStorage.removeItem("accessToken"), 500);
   };
   return [onLogout, logoutLoading];
 };

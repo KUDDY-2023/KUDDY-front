@@ -100,3 +100,13 @@ export const profileNameAlert = (alert: string) =>
     text: alert,
     icon: "error",
   });
+
+export const stopMakingProfileAlert = () =>
+  Swal.fire({
+    title: "Are you sure you want to abort creating a profile?",
+    text: "If you proceed, you will be automatically logged out.",
+    icon: "warning",
+    iconColor: "#FFC6C6",
+    confirmButtonColor: "#3085d6",
+    confirmButtonText: "Yes",
+  });
