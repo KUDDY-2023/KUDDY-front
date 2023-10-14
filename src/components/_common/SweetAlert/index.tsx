@@ -110,3 +110,9 @@ export const stopMakingProfileAlert = () =>
     confirmButtonColor: "#3085d6",
     confirmButtonText: "Yes",
   });
+
+export const clipboardAlert = () =>
+  Swal.fire({
+    text: "The URL has been copied to the clipboard.",
+    icon: "success",
+  });
