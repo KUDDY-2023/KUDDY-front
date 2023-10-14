@@ -83,7 +83,7 @@ const LanguageForm = ({ onClose }: Props) => {
     const updatedLanguages = selectedLanguage?.map(language => {
       return {
         ...language,
-        languageLevel: levels.indexOf(language.languageLevel).toString(),
+        languageLevel: (levels.indexOf(language.languageLevel) + 1).toString(),
       };
     });
 
