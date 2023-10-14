@@ -8,7 +8,10 @@ import { profileImage } from "@services/store/profile";
 import { authLogOut, authDeleteAccount } from "@services/api/auth";
 import { profileGetProfile } from "@services/api/profile";
 import { updateAuthHeader } from "@services/api"; // axios 토큰 업데이트
-
+import {
+  alreadyHaveProfileAlert,
+  noProfileAlert,
+} from "@components/_common/SweetAlert";
 // ✅ 소셜 로그인 요청 훅
 export const useAuthSocialLogin = () => {
   type socialType = "kakao" | "google";
@@ -132,14 +135,14 @@ export const useIsFirstLogin = async (state: state) => {
     try {
       const res = await profileGetProfile(); // 조회
       if (state === "FORM") {
-        //alert("이미 프로필이 존재합니다.");
+        alreadyHaveProfileAlert();
         navigate("/");
       }
     } catch (err: any) {
       let errCode = err.response.data.message;
       // 프로필 없는 경우
       if (state === "MAIN" && errCode === "프로필을 찾을 수 없습니다.") {
-        // alert("프로필을 만들어주세요.");
+        noProfileAlert();
         navigate("/auth/form");
       }
     }

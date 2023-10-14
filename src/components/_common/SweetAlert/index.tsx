@@ -116,3 +116,17 @@ export const clipboardAlert = () =>
     text: "The URL has been copied to the clipboard.",
     icon: "success",
   });
+
+export const alreadyHaveProfileAlert = () =>
+  Swal.fire({
+    title: "Your profile already exists.",
+    text: "Please make profile modifications on the 'My Page'",
+    icon: "warning",
+  });
+
+export const noProfileAlert = () =>
+  Swal.fire({
+    title: "You have not created a profile.",
+    text: "Please create a profile first.",
+    icon: "warning",
+  });
