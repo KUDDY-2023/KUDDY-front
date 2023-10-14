@@ -39,14 +39,14 @@ const Section2 = () => {
       case "MS":
         genderTemp = "Female";
         break;
-      case "N":
+      default:
         genderTemp = "Prefer not to say";
     }
     setGender(genderTemp);
   }, [profile?.genderType]);
 
   const handleSelectGender = (id: number, type: string, selected: string) => {
-    let newGender: GenderType = profile.genderType;
+    let newGender;
     switch (selected) {
       case "Male":
         newGender = "MR";
@@ -55,7 +55,7 @@ const Section2 = () => {
         newGender = "MS";
         break;
       case "Prefer not to say":
-        newGender = "N";
+        newGender = "NEUTRAL";
     }
     onUpdateProfile({
       genderType: newGender,

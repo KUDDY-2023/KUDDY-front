@@ -91,7 +91,6 @@ const AppointmentPage = () => {
 
   const handleCancelClick = async (meetupId: number, chatId: string) => {
     const res = await onMeetUpCancel(meetupId);
-    console.log(res);
 
     const deleteRes = await onDeleteCalendar(chatId);
 
@@ -106,7 +105,6 @@ const AppointmentPage = () => {
 
   const handleSendMessageClick = async (email: string, nickname: string) => {
     const res = await onGetRoomStatus(email, nickname);
-    console.log(res);
     const roomId = Number(res.roomId);
     nav(`/chat/${roomId}`);
   };

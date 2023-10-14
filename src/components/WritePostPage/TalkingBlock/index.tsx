@@ -72,18 +72,11 @@ const TalkingBlock = ({ subject }: Props) => {
   };
 
   const handleChangeDistrict = (item: string) => {
-    console.log(item);
     setJoinUsPost({ ...joinUsPost, district: item });
   };
 
   const resetJoinUsPost = useResetRecoilState(joinUsPostState); // join us 게시물 초기화
   const resetOthersPost = useResetRecoilState(othersPostState); // others 게시물 초기화
-
-  //
-  useEffect(() => {
-    console.log(JSON.stringify(joinUsPost));
-  }, [joinUsPost]);
-  //
 
   useEffect(() => {
     resetJoinUsPost();

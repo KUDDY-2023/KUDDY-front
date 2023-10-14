@@ -49,7 +49,6 @@ const WriteReviewPage = () => {
       content: aboutBuddy,
       grade: updatedGrade,
     });
-    console.log(res);
   };
 
   // 같은 id의 동행 정보 저장

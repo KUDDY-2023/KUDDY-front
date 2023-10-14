@@ -77,7 +77,13 @@ const AboutBuddySection = ({ profile }: Props) => {
       <AboutBuddyText
         iconImage={personIcon}
         texts={[
-          `${profile?.gender.toLowerCase()}, ${profile?.birthDate}`,
+          `${
+            profile?.gender !== "NEUTRAL"
+              ? profile?.gender
+                  .toLowerCase()
+                  .replace(/^[a-z]/, (char: string) => char.toUpperCase())
+              : "Prefer not to say"
+          }, ${profile?.birthDate}`,
           `${profile?.temperament} & ${getDecisionMaking(
             profile?.decisionMaking,
           )}`,
