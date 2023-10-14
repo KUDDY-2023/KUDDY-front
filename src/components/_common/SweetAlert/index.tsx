@@ -100,3 +100,33 @@ export const profileNameAlert = (alert: string) =>
     text: alert,
     icon: "error",
   });
+
+export const stopMakingProfileAlert = () =>
+  Swal.fire({
+    title: "Are you sure you want to abort creating a profile?",
+    text: "If you proceed, you will be automatically logged out.",
+    icon: "warning",
+    iconColor: "#FFC6C6",
+    confirmButtonColor: "#3085d6",
+    confirmButtonText: "Yes",
+  });
+
+export const clipboardAlert = () =>
+  Swal.fire({
+    text: "The URL has been copied to the clipboard.",
+    icon: "success",
+  });
+
+export const alreadyHaveProfileAlert = () =>
+  Swal.fire({
+    title: "Your profile already exists.",
+    text: "Please make profile modifications on the 'My Page'",
+    icon: "warning",
+  });
+
+export const noProfileAlert = () =>
+  Swal.fire({
+    title: "You have not created a profile.",
+    text: "Please create a profile first.",
+    icon: "warning",
+  });

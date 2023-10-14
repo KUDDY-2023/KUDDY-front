@@ -56,21 +56,17 @@ export default function RequestMessage({
     // 날짜 확인하기 + 시간 지났으면 모달 띄우기
     let sendTime = info.sendTime;
     if (calculateDaysAgo(sendTime) >= 3) {
-      console.log("🔥 3일 지남");
       handleOpenAlert();
     } else {
-      console.log("⭐ 페이팔 요청");
       handleOpen(); // 페이팔 모달 열기
     }
   };
 
   const onRefuse = () => {
-    console.log("여행객이 거부함");
     onUpdateMessage("TRAVELER_CANCEL");
   };
 
   const onCancel = () => {
-    console.log("커디가 취소함");
     onUpdateMessage("KUDDY_CANCEL");
   };
 
@@ -82,16 +78,12 @@ export default function RequestMessage({
 
   const onUpdateMessage = async (newStatus: string) => {
     if (client.current) {
-      console.log("info", info);
-
       let updateMsg = {
         ...info,
         meetStatus: newStatus,
         isUpdated: 1,
         senderEmail: myEmail,
       };
-
-      console.log("업데이트 시도 내용", updateMsg);
 
       try {
         // ✅ 메세지 상태 업데이트하기

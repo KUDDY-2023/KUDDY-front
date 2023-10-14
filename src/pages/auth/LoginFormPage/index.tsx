@@ -14,13 +14,14 @@ import { useCanNext } from "@services/hooks/profile";
 import { useSetDefaultProfile } from "@services/hooks/profile";
 
 import { useCreateProfile } from "@services/hooks/profile";
-import { useIsFirstLogin } from "@services/hooks/auth";
+import { useAuthLogout, useIsFirstLogin } from "@services/hooks/auth";
 
 import Loading from "@components/_common/Loading";
+import { stopMakingProfileAlert } from "@components/_common/SweetAlert";
 
 export default function LoginFormPage() {
   // 프로필 유무 확인
-  //useIsFirstLogin("FORM");
+  useIsFirstLogin("FORM");
 
   // 기본 정보 세팅 - 서버에서 닉네임과 프로필 사진만 가져옴
   useSetDefaultProfile();
@@ -70,6 +71,14 @@ export default function LoginFormPage() {
     setCanNext(can);
   });
 
+  const [onLogout, logoutLoading] = useAuthLogout();
+  const stopMakingProfile = () => {
+    stopMakingProfileAlert().then(res => {
+      if (res.isConfirmed) {
+        onLogout();
+      }
+    });
+  };
   return (
     <div className="login-form-page">
       {isLoading && (
@@ -80,7 +89,11 @@ export default function LoginFormPage() {
         />
       )}
 
-      <BackNavBar middleTitle="Join" isShare={false} />
+      <BackNavBar
+        middleTitle="Join"
+        isShare={false}
+        onClick={stopMakingProfile}
+      />
       <LoginProgressBar completed={completed} />
 
       <FormComponent />

@@ -321,7 +321,7 @@ export const useSSE = () => {
   return { newNotification };
 };
 
-// 🔥 유저 신고 hook
+// 🔥 이메일 전송 요청
 export const useSendMail = (chatId: string) => {
   const { mutate: requestSendMail } = useMutation(nofiMakeMail, {
     onSuccess: res => {

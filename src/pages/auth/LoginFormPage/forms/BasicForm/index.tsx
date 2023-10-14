@@ -64,14 +64,9 @@ export default function BasicForm() {
 
   //  앞 자리 0은 삭제하는 로직
   const _handleSetAge = (newBirth: string) => {
-    console.log("?>>", newBirth);
     setBirth(newBirth);
     onUpdateProfile({ birthDate: newBirth }); // 전역 반영
   };
-
-  useEffect(() => {
-    console.log(profile);
-  }, [profile]);
 
   return (
     <div className="basic-form-container">

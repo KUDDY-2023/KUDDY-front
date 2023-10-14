@@ -1,10 +1,10 @@
 import "./backnavbar.scss";
 import { ReactNode } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ReactComponent as BackIcon } from "@assets/icon/back.svg";
 import { ReactComponent as ShareIcon } from "@assets/icon/share.svg";
 import ViewMoreBtn from "@components/_common/ViewMoreBtn";
-
+import { clipboardAlert } from "../SweetAlert";
 interface Props {
   middleTitle: string;
   isShare: boolean;
@@ -30,8 +30,20 @@ export default function BackNavBar({
     }
   };
 
+  const location = useLocation();
+
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      clipboardAlert();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const _handleShare = () => {
-    console.log("현재 url  복사");
+    const URL = process.env.REACT_APP_REACT_URL + location.pathname;
+    handleCopyClipBoard(URL);
   };
 
   return (
