@@ -14,6 +14,7 @@ import {
   interestsArrState,
 } from "@services/store/auth";
 import { profileIntroduce, nameCheckAlert } from "@services/store/profile";
+import useInterest from "@utils/hooks/useInterest";
 
 const ProfileModifyPage = () => {
   const nav = useNavigate();
@@ -22,6 +23,7 @@ const ProfileModifyPage = () => {
   const nameAlert = useRecoilValue(nameCheckAlert);
   const [introduce, setIntroduce] = useRecoilState(profileIntroduce); // 프로필 introduce 전역 상태
   const [interestsArr, setInterestsArr] = useRecoilState(interestsArrState); // interest 전역 상태 (값 읽기)
+  const { altElement } = useInterest();
   const { data, isLoading, error } = useGetProfile();
   const onProfileModify = usePutProfileModify();
   const interestType = [
@@ -59,7 +61,12 @@ const ProfileModifyPage = () => {
       // interest 저장
       const newInterests = interestsArr.map((category, index) => {
         // 내 프로필에 포함된 interest 배열
-        const temp = myProfile?.interests[interestType[index]];
+        const temp = myProfile?.interests[interestType[index]].map(
+          (interest: string) => {
+            return interest !== "NOT_SELECTED" ? altElement(interest) : "";
+          },
+        );
+
         return {
           ...category,
           interests: category.interests.map(interest => {
