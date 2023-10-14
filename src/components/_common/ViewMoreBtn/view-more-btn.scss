@@ -58,5 +58,6 @@
 
   p {
     @include font-style(--font-text, 16px, color(black), 600);
+    cursor: pointer;
   }
 }
