@@ -29,11 +29,6 @@ const Section2 = () => {
     };
   }, []);
 
-  useEffect(() => {
-    console.log(localStorage.getItem("birthDate"));
-    console.log(dayjs(localStorage.getItem("birthDate")));
-  }, []);
-
   // gender 관련
   useEffect(() => {
     let genderTemp = "";
@@ -134,10 +129,11 @@ const Section2 = () => {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <MobileDatePicker
               format="YYYY/MM/DD"
-              defaultValue={dayjs(localStorage.getItem("birthDate"))}
+              defaultValue={dayjs(
+                localStorage.getItem("birthDate")?.replaceAll(".", "/"),
+              )}
               onChange={(value: any) => {
                 handleSelectAge(formatDate(value.$d));
-                console.log("value: " + value);
               }}
             />
           </LocalizationProvider>
