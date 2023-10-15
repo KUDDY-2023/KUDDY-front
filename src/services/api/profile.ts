@@ -37,13 +37,15 @@ export const profilePatchTicketImage = (ticketImageUrl: string) => {
   return apiClient.patch(url, { ticketImageUrl: ticketImageUrl });
 };
 
-// 티켓 상태 수정
-export const profilePatchTicketStatus = (ticketStatus: string) => {
+// 티켓 상태 수정 (테스트용)
+export const profilePatchTicketStatus = (
+  ticketStatus: string,
+  memberEmail: string,
+) => {
   const url = `/api/v1/members/ticket/status`;
-  updateAuthHeader(process.env.REACT_APP_SERVER_ADMIN_TOKEN);
   return apiClient.patch(url, {
     ticketStatus: ticketStatus,
-    memberEmail: "kate0529@naver.com",
+    memberEmail: memberEmail,
   });
 };
 

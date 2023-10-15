@@ -6,6 +6,7 @@ import { chatRooms } from "@services/api/chat";
 import calculateTimeDifference from "./calculateTimeDifference";
 
 import Loading from "@components/_common/Loading";
+import { useEffect } from "react";
 
 export default function ChatListPage() {
   const navigate = useNavigate();
@@ -13,10 +14,14 @@ export default function ChatListPage() {
   // 채팅방 내역 가져오기
   const { data, error, isLoading } = useQuery("chatRooms", chatRooms, {
     refetchOnWindowFocus: true,
-    select: data =>
-      data?.data.data.sort(
-        (a: any, b: any) => b.latestMessage.sendTime - a.latestMessage.sendTime,
-      ), // 최신순으로 정렬
+    select: data => {
+      const list = data?.data.data.sort(
+        (a: any, b: any) =>
+          b.latestMessage?.sendTime - a.latestMessage?.sendTime,
+      );
+
+      return list ? list : [];
+    },
     cacheTime: 0,
   });
 
@@ -35,7 +40,7 @@ export default function ChatListPage() {
         />
       ) : (
         <div className="chat-list-container">
-          {data?.length === 0 ?? (
+          {data?.length === 0 && (
             <p className="no-chatroom">No chat rooms available</p>
           )}
 

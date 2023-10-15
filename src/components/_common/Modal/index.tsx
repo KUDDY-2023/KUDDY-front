@@ -7,9 +7,18 @@ type ModalProps = {
   isOpen: boolean;
   closer: MouseEventHandler<HTMLDivElement | SVGSVGElement>;
   isXbtn?: boolean;
+  isNever?: boolean;
+  onNeverClick?: MouseEventHandler<HTMLDivElement>;
 };
 
-const Modal = ({ children, isOpen, closer, isXbtn }: ModalProps) => {
+const Modal = ({
+  children,
+  isOpen,
+  closer,
+  isXbtn,
+  isNever,
+  onNeverClick,
+}: ModalProps) => {
   useEffect(() => {
     document.body.style.cssText = `
               position: fixed;
@@ -32,6 +41,11 @@ const Modal = ({ children, isOpen, closer, isXbtn }: ModalProps) => {
             {children}
             {isXbtn && <XBtnIcon className="xbtn" onClick={closer} />}
           </div>
+          {isNever && (
+            <div className="never-text" onClick={onNeverClick}>
+              never show again
+            </div>
+          )}
         </div>
       ) : null}
     </>

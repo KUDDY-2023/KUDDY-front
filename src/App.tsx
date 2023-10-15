@@ -19,6 +19,7 @@ import AlarmViewPage from "@pages/alarm/AlarmViewPage";
 import LoginProcessingPage from "@pages/auth/LoginProcessingPage";
 import CalendarProcessingPage from "@pages/my/CalendarProcessingPage";
 import PrivateRoute from "@routes/PrivateRoute";
+import NotFoundPage from "@pages/NotFoundPage";
 
 import { useSetLoginState } from "@services/hooks/auth";
 
@@ -46,6 +47,8 @@ function App() {
       <Route element={<PrivateRoute authentication={true} />}>
         <Route path="/alarm" element={<AlarmViewPage />} />
       </Route>
+
+      <Route path="/*" element={<NotFoundPage />} />
     </Routes>
   );
 }

@@ -9,7 +9,9 @@ import {
   profileGetTicketInfo,
   profileCreateTicketInfo,
   profilePatchTicketStatus,
+  profileGetProfile,
 } from "@services/api/profile";
+import { emit } from "process";
 
 export type TicketInfoType = {
   ticketId: number;
@@ -42,7 +44,15 @@ const TicketVerificationPage = () => {
       setTicketInfo({ ...ticketInfo, ticketStatus: "NOT_SUBMITTED" });
   }, [getError]);
 
-  //profilePatchTicketStatus("NOT_SUBMITTED");
+  // 티켓 상태 수정 (테스트용)
+  // const [testEmail, setTestEmail] = useState<string>("");
+  // useEffect(() => {
+  //   profileGetProfile().then(res =>
+  //     setTestEmail(res.data.data.memberInfo.email),
+  //   );
+  // }, []);
+  // console.log(ticketInfo);
+  // profilePatchTicketStatus("CERTIFICATION_COMPLETE", testEmail);
 
   return (
     <>

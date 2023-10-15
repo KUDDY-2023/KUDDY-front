@@ -24,7 +24,9 @@ const InfoModal = () => {
             <div className="title">what is ticket verification</div>
             <ul>
               {textArray.map(el => (
-                <li className="text">{el}</li>
+                <li className="text" key={el}>
+                  {el}
+                </li>
               ))}
             </ul>
           </div>
