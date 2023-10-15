@@ -1,5 +1,10 @@
 import BackNavBar from "@components/_common/BackNavBar";
 import Loading from "@components/_common/Loading";
+import Modal from "@components/_common/Modal";
+import useCopyToClipboard from "@utils/hooks/useCopyToClipboard";
+import { ReactComponent as ShareLinkIcon } from "@assets/icon/share_link.svg";
+import { ReactComponent as ShareKakaoIcon } from "@assets/icon/share_kakao.svg";
+
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import TravelDetailTitle from "@components/Travel/TravelDetailTitle";
@@ -9,6 +14,11 @@ import { useDetailSpot } from "@services/hooks/spot";
 import { useRecoilValue } from "recoil";
 import { isLoginState } from "@services/store/auth";
 
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
 const TravelDetailPage = () => {
   const { id } = useParams();
   const {
@@ -66,9 +76,49 @@ const TravelDetailPage = () => {
     alignItems: "center",
   };
 
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const { Kakao } = window;
+  useEffect(() => {
+    if (!Kakao.isInitialized())
+      Kakao.init(process.env.REACT_APP_KAKAO_JAVASCRIPT_KEY);
+  }, [window.Kakao]);
+  var sendKakao = function () {
+    Kakao.Link.sendScrap({
+      requestUrl: "https://kuddy.co.kr",
+      templateId: 99536,
+      templateArgs: {
+        thumbnail: data?.data.data.imageList[0],
+        district: data?.data.data.district,
+        path: `travel/${id}`,
+        category: data?.data.data.category,
+        name: data?.data.data.name,
+        about: data?.data.data.about,
+      },
+    });
+  };
+  const { onCopy } = useCopyToClipboard(() => setModalOpen(false));
+
   return (
     <>
-      <BackNavBar middleTitle="" isShare={true} />
+      <BackNavBar middleTitle="" isShare={true} setModalOpen={setModalOpen} />
+      {modalOpen && (
+        <Modal
+          isOpen={modalOpen}
+          closer={() => setModalOpen(false)}
+          isXbtn={true}
+        >
+          <div className="share-modal-block">
+            <div className="section" onClick={sendKakao}>
+              <ShareKakaoIcon />
+              <div className="text">share with KakaoTalk</div>
+            </div>
+            <div className="section" onClick={onCopy}>
+              <ShareLinkIcon />
+              <div className="text">copy link</div>
+            </div>
+          </div>
+        </Modal>
+      )}
       {isError ? (
         <div style={style}>Not Found</div>
       ) : isLoading ? (
