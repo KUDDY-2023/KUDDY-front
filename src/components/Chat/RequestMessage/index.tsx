@@ -21,7 +21,8 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 
-// import Modal from "@components/_common/Modal";
+// 이메일
+import { useSendMail } from "@services/hooks/notification";
 
 interface Props {
   client: MutableRefObject<CompatClient | undefined>;
@@ -52,11 +53,16 @@ export default function RequestMessage({
     return daysAgo;
   };
 
+  const { onReqSendMail } = useSendMail(info.id);
+
   const onPayPal = () => {
     // 날짜 확인하기 + 시간 지났으면 모달 띄우기
     let sendTime = info.sendTime;
     if (calculateDaysAgo(sendTime) >= 3) {
       handleOpenAlert();
+    } else if (info.price === `0`) {
+      onUpdateMessage("PAYED"); // 동행 메세지 상태 업데이트
+      onReqSendMail();
     } else {
       handleOpen(); // 페이팔 모달 열기
     }
