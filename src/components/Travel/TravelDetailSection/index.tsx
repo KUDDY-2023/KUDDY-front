@@ -16,7 +16,6 @@ type TravelDetailSectionProps = {
   category?: string;
 };
 
-// location kakaomap navigate
 const TravelDetailSection = ({
   isToggle,
   isTop,
@@ -29,6 +28,45 @@ const TravelDetailSection = ({
   category,
 }: TravelDetailSectionProps) => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
+  const splitRender = (content: string) => {
+    return content.includes("<br>") ? (
+      content.split("<br>").map((line, idx) => (
+        <span key={idx}>
+          {line.includes("<br />") ? (
+            line.split("<br />").map((li, idx) => (
+              <span key={idx}>
+                {li}
+                <br />
+              </span>
+            ))
+          ) : (
+            <span>{line}</span>
+          )}
+          <br />
+        </span>
+      ))
+    ) : content.includes("<br />") ? (
+      content.split("<br />").map((line, idx) => (
+        <span key={idx}>
+          {line.includes("<br>") ? (
+            line.split("<br>").map((li, idx) => (
+              <span key={idx}>
+                {li}
+                <br />
+              </span>
+            ))
+          ) : (
+            <span>{line}</span>
+          )}
+          <br />
+        </span>
+      ))
+    ) : content === "" ? (
+      <span>-</span>
+    ) : (
+      <span>{content}</span>
+    );
+  };
   return (
     <div className="travel-detail-section-wrapper">
       {!isTop && <div className="section-border" />}
@@ -51,35 +89,11 @@ const TravelDetailSection = ({
           className={isOpened ? "content about" : "content about about-closed"}
           onClick={isOpened ? undefined : () => setIsOpened(true)}
         >
-          {content.includes("<br>") ? (
-            content.split("<br>").map((line, idx) => (
-              <span key={idx}>
-                {line}
-                <br />
-              </span>
-            ))
-          ) : content === "" ? (
-            <span>-</span>
-          ) : (
-            <span>{content}</span>
-          )}
+          {splitRender(content)}
         </div>
       )}
       {title === "Phone number" && typeof content === "string" && (
-        <div className="content phonenumber">
-          {content.includes("<br>") ? (
-            content.split("<br>").map((line, idx) => (
-              <span key={idx}>
-                {line}
-                <br />
-              </span>
-            ))
-          ) : content === "" ? (
-            <span>-</span>
-          ) : (
-            <span>{content}</span>
-          )}
-        </div>
+        <div className="content phonenumber">{splitRender(content)}</div>
       )}
       {title === "Homepage" &&
         typeof content === "string" &&
