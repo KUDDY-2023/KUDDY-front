@@ -44,14 +44,14 @@ const TicketVerificationPage = () => {
       setTicketInfo({ ...ticketInfo, ticketStatus: "NOT_SUBMITTED" });
   }, [getError]);
 
-  const [testEmail, setTestEmail] = useState<string>("");
-  useEffect(() => {
-    profileGetProfile().then(res =>
-      setTestEmail(res.data.data.memberInfo.email),
-    );
-  }, []);
-
-  console.log(ticketInfo);
+  // 티켓 상태 수정 (테스트용)
+  // const [testEmail, setTestEmail] = useState<string>("");
+  // useEffect(() => {
+  //   profileGetProfile().then(res =>
+  //     setTestEmail(res.data.data.memberInfo.email),
+  //   );
+  // }, []);
+  // console.log(ticketInfo);
   // profilePatchTicketStatus("CERTIFICATION_COMPLETE", testEmail);
 
   return (
