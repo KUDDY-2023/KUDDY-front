@@ -12,6 +12,8 @@ import Modal from "@components/_common/Modal";
 import ReviewModal from "@components/HomePage/ReviewModal";
 
 import { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { neverShowMeetupId } from "@services/store/reviewmodal";
 import { useIsFirstLogin } from "@services/hooks/auth";
 import { useReviewModal } from "@services/hooks/user";
 
@@ -20,6 +22,7 @@ const HomePage = () => {
 
   const { isModal, meetupId } = useReviewModal();
   const [reviewModal, setReviewModal] = useState<boolean>(false);
+  const [neverIdList, setNeverIdList] = useRecoilState(neverShowMeetupId);
   useEffect(() => {
     setReviewModal(isModal);
   }, [isModal]);
@@ -58,6 +61,11 @@ const HomePage = () => {
               isOpen={reviewModal}
               closer={() => setReviewModal(false)}
               isXbtn={true}
+              isNever={true}
+              onNeverClick={() => {
+                setNeverIdList([...neverIdList, meetupId]);
+                setReviewModal(false);
+              }}
             >
               <ReviewModal meetupId={meetupId} />
             </Modal>

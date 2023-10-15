@@ -38,7 +38,13 @@ const LocationListPage = () => {
           ),
         )}
       {data && !hasNextPage && data.pages[0].data.data.spots.length !== 0 && (
-        <div>end of list</div>
+        <div
+          className="end-of-list"
+          style={{ height: "70px" }}
+          onClick={() => window.scrollTo(0, 0)}
+        >
+          <p>go to the top</p>
+        </div>
       )}
     </>
   );

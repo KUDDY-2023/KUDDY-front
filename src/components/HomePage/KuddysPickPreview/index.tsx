@@ -2,7 +2,7 @@ import "./kuddys-pick-preview.scss";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import KuddysPickMainInfo from "@components/KuddysPickDetailPage/KuddysPickMainInfo";
-import defaultthumbnail from "@assets/location/default_travel_thumbnail.png";
+import defaultthumbnail from "@assets/location/default_travel_thumbnail.svg";
 import { ReactComponent as ArrowIcon } from "@assets/icon/home_text_arrow.svg";
 import { useQuery } from "react-query";
 import { kuddyspickGetPreview } from "@services/api/kuddyspick";

@@ -103,6 +103,12 @@ export const reportUserFailAlert = () =>
     iconColor: "#FFC6C6",
   });
 
+export const successCopyLink = () =>
+  Swal.fire({
+    text: "Successfully copied to clipboard",
+    icon: "success",
+  });
+
 export const profileNameAlert = (alert: string) =>
   Swal.fire({
     text: alert,

@@ -16,7 +16,7 @@ import Loading from "@components/_common/Loading";
 const iconSrc = [
   { text: "My appointment", src: app, navTo: "/my/appointment" },
   { text: "My post", src: pos, navTo: "/my/post" },
-  { text: "Tip for K-Buddy", src: tip, navTo: "/my/tip" },
+  { text: "Tip for K-Buddy", src: tip, navTo: "" },
   {
     text: "Traveler verification",
     src: tic,
@@ -57,23 +57,34 @@ const MyMenuPage = () => {
             <div className="email">{data.data.data.memberInfo.email}</div>
           </div>
           <div className="section-container">
-            {iconSrc.map(
-              (item, idx) =>
-                ((idx !== 2 && idx !== 3) ||
-                  (idx === 2 && data.data.data.role === "KUDDY") ||
-                  (idx === 3 && data.data.data.role === "TRAVELER")) && (
-                  <div
-                    className="section"
-                    key={item.text}
-                    onClick={() => nav(item.navTo)}
-                  >
-                    <div className="left">
-                      <img src={item.src} />
-                      <p>{item.text}</p>
-                    </div>
-                    <ArrowIcon />
+            {iconSrc.map((item, idx) =>
+              (idx !== 2 && idx !== 3) ||
+              (idx === 3 && data.data.data.role === "TRAVELER") ? (
+                <div
+                  className="section"
+                  key={item.text}
+                  onClick={() => nav(item.navTo)}
+                >
+                  <div className="left">
+                    <img src={item.src} />
+                    <p>{item.text}</p>
                   </div>
-                ),
+                  <ArrowIcon />
+                </div>
+              ) : idx === 2 && data.data.data.role === "KUDDY" ? (
+                <a
+                  className="section"
+                  key={item.text}
+                  href="https://www.instagram.com/kuddy_korea"
+                  target="_blank"
+                >
+                  <div className="left">
+                    <img src={item.src} />
+                    <p>{item.text}</p>
+                  </div>
+                  <ArrowIcon />
+                </a>
+              ) : null,
             )}
           </div>
         </>
