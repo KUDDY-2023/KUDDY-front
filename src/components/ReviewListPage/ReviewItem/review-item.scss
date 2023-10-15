@@ -1,0 +1,109 @@
+@import "../../../style/mixins";
+
+.review-item-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &.kuddy {
+    gap: 12px;
+  }
+
+  &.traveler {
+    gap: 8px;
+  }
+
+  .date {
+    @include font-style(--font-text, 12px, color(grey-text), 400);
+  }
+
+  .delete {
+    cursor: pointer;
+    @include font-style(--font-text, 14px, color(grey-text), 600);
+  }
+
+  .review-content {
+    width: 100%;
+    @include font-style(--font-text, 14px, color(black), 400);
+    line-height: 20px;
+    white-space: pre-wrap;
+  }
+}
+
+.review-item-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .traveler-profile-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+
+    .user-name {
+      @include font-style(--font-text, 16px, color(black), 600);
+    }
+
+    img {
+      width: 24px;
+      height: 24px;
+      border-radius: 24px;
+      object-fit: cover;
+    }
+
+    .arrow {
+      width: 6px;
+    }
+  }
+
+  .kuddy-profile-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 40px;
+      object-fit: cover;
+    }
+
+    .user-name-container {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+
+      .user-name {
+        @include font-style(--font-text, 18px, color(black), 600);
+      }
+    }
+  }
+
+  .grade {
+    display: flex;
+    width: 94px;
+    padding: 8px 16px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+
+    @include font-style(--font-text, 12px, color(black), 600);
+    border-radius: 100px;
+    background-color: #f3f3f3;
+
+    &.perfect {
+      background-color: color(main-yellow);
+    }
+  }
+}
+
+.review-item-footer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 16px;
+}

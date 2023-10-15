@@ -16,6 +16,7 @@ import {
   profileGetProfileByName,
   profileGetByFilter,
   profilePutModify,
+  profileDeleteReview,
 } from "@services/api/profile";
 import { useRecoilState, useRecoilValue } from "recoil";
 import useCheckNickname from "@utils/hooks/useCheckNickname";
@@ -24,6 +25,10 @@ import useInfiniteScroll from "@utils/hooks/useInfiniteScroll";
 import { useAuthReLogin } from "./auth";
 
 import useIsValidDate from "@utils/hooks/useIsValidDate";
+import {
+  deleteReviewFailAlert,
+  deleteReviewSuccessAlert,
+} from "@components/_common/SweetAlert";
 
 // ✅ 프로필 최초 생성
 export const useCreateProfile = () => {
@@ -339,4 +344,20 @@ export const useGetProfileByFilter = (filter: ProfileGetByFilterType) => {
       },
     });
   return { pageLastItemRef, hasNextPage, data, isFetching };
+};
+
+// 리뷰 삭제
+export const useDeleteReview = () => {
+  const onDeleteReview = async (id: number) => {
+    try {
+      const res = await profileDeleteReview(id);
+      deleteReviewSuccessAlert();
+      return res;
+    } catch (err) {
+      deleteReviewFailAlert();
+      console.log(err);
+    }
+  };
+
+  return onDeleteReview;
 };
