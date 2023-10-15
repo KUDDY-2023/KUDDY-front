@@ -11,7 +11,9 @@ type Props = {
 
 const ReviewItem = ({ role, review, isMine, onDelete }: Props) => {
   const nav = useNavigate();
-  const createdDate = new Date(review?.createdDate).toLocaleString("sv");
+  const createdDate = new Date(review?.createdDate)
+    .toLocaleString("sv")
+    .split(" ", 1);
 
   // 리뷰 만족도 텍스트
   const handleGrade = (grade: string) => {
@@ -37,7 +39,9 @@ const ReviewItem = ({ role, review, isMine, onDelete }: Props) => {
               <img src={review?.writerInfo?.profileImageUrl} />
               <div className="user-name-container">
                 <div className="user-name">{review?.writerInfo?.nickname}</div>
-                <div className="date">{createdDate}</div>
+                <div className="date">
+                  {createdDate[0].replaceAll("-", ".")}
+                </div>
               </div>
             </div>
             <div
@@ -72,7 +76,9 @@ const ReviewItem = ({ role, review, isMine, onDelete }: Props) => {
           </div>
           <div className="review-content">{review?.content}</div>
           <div className="review-item-footer">
-            <div className="date">{createdDate}</div>
+            <div className="date traveler">
+              {createdDate[0].replaceAll("-", ".")}
+            </div>
             {isMine && (
               <div className="delete" onClick={onDelete}>
                 delete

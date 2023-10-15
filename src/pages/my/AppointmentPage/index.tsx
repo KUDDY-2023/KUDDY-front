@@ -158,7 +158,7 @@ const AppointmentPage = () => {
               >
                 <div className="appointment-item-header">
                   <div className="appointment-date">
-                    {item?.appointmentTime}
+                    {item?.appointmentTime.replaceAll("-", ".").slice(0, -3)}
                   </div>
                   <div
                     className={`appointment-type ${meetUpStyle[index]?.text}`}
@@ -203,7 +203,9 @@ const AppointmentPage = () => {
                         {item?.targetMemberInfo?.targetNickname}
                       </div>
                     </div>
-                    <div className="accepted-date">{item?.createdDate}</div>
+                    <div className="accepted-date">
+                      {item?.createdDate.replaceAll("-", ".").slice(0, -3)}
+                    </div>
                   </div>
                 </div>
 

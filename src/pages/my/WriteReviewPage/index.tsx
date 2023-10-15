@@ -74,7 +74,9 @@ const WriteReviewPage = () => {
       <div className="write-review-container">
         <div className="appointment-container">
           <div className="appointment-top-section">
-            <div className="appointment-date">{meetUp?.appointmentTime}</div>
+            <div className="appointment-date">
+              {meetUp?.appointmentTime.replaceAll("-", ".").slice(0, -3)}
+            </div>
             <div className="mate-section">
               <img src={meetUp?.targetMemberInfo?.profileImageUrl} />
               <div className="mate-nickname">
