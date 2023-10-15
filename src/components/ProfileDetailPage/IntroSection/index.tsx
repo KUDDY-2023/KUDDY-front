@@ -55,7 +55,7 @@ const IntroSection = ({ profile, isMine }: Props) => {
       break;
 
     case "TRAVELER":
-      if (profile?.ticketStatus === "Submitted") {
+      if (profile?.ticketStatus === "Certification Complete") {
         badgeText = "Verified";
         badgeIcon = verified;
       } else {
