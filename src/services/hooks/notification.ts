@@ -83,9 +83,9 @@ export const useGetCommentNotiCount = () => {
 export const useReadAllNoti = () => {
   const onReadAll = async () => {
     try {
-      console.log("모두 읽음 처리");
+      // console.log("모두 읽음 처리");
       const res = await nofiReadAll();
-      console.log(res);
+      // console.log(res);
       return res;
     } catch (err) {
       console.log(err);
@@ -99,9 +99,9 @@ export const useReadAllNoti = () => {
 export const useReadNoti = () => {
   const onRead = async (nofiNum: number) => {
     try {
-      console.log("단일 읽음 처리 (요청은 안보냄)");
+      // console.log("단일 읽음 처리 (요청은 안보냄)");
       const res = await nofiRead(nofiNum);
-      console.log(res);
+      // console.log(res);
       return res;
     } catch (err) {
       console.log(err);
@@ -190,7 +190,7 @@ export const useSSE = () => {
 
         // 연결 됐을 때
         eventSource1Ref.current.onopen = async event => {
-          console.log("Comment 연결 성공", event);
+          // console.log("Comment 연결 성공", event);
         };
 
         // 이벤트 왔을 때
@@ -220,9 +220,9 @@ export const useSSE = () => {
 
         // 에러 발생 & 연결 끊겼을 때
         eventSource1Ref.current.onerror = (event: any) => {
-          console.log("Comment 알림 에러 발생");
+          // console.log("Comment 알림 에러 발생");
           if (event.readyState == EventSource.CLOSED) {
-            console.log("Comment 에러 발생 : CLOSED");
+            console.log("Comment CLOSED");
           }
         };
       } catch (err) {
@@ -260,7 +260,7 @@ export const useSSE = () => {
 
         // 연결 됐을 때
         eventSource2Ref.current.onopen = async event => {
-          console.log("Chat 알림 연결 성공", event);
+          //  console.log("Chat 알림 연결 성공", event);
         };
 
         // 이벤트 왔을 때
@@ -292,9 +292,9 @@ export const useSSE = () => {
 
         // 에러 발생 & 연결 끊겼을 때
         eventSource2Ref.current.onerror = (event: any) => {
-          console.log("Chat 알림 에러 발생");
+          //  console.log("Chat 알림 에러 발생");
           if (event.readyState == EventSource.CLOSED) {
-            console.log("Chat 에러 발생 : CLOSED");
+            console.log("Chat CLOSED");
           }
         };
       } catch (err) {
@@ -316,7 +316,7 @@ export const useSSE = () => {
   }, []);
 
   useEffect(() => {
-    console.log("💙존재 여부 >>", newNotification);
+    //console.log("💙존재 여부 >>", newNotification);
   }, [newNotification]);
   return { newNotification };
 };

@@ -25,10 +25,6 @@ export default function ChatListPage() {
     navigate(`/chat/${roomId}`);
   };
 
-  useEffect(() => {
-    console.log("💙", data);
-  }, [data]);
-
   return (
     <div className="chat-list-page">
       <BackNavBar middleTitle="Chat" isShare={false} />
