@@ -6,6 +6,7 @@ import { chatRooms } from "@services/api/chat";
 import calculateTimeDifference from "./calculateTimeDifference";
 
 import Loading from "@components/_common/Loading";
+import { useEffect } from "react";
 
 export default function ChatListPage() {
   const navigate = useNavigate();
@@ -16,13 +17,17 @@ export default function ChatListPage() {
     select: data =>
       data?.data.data.sort(
         (a: any, b: any) => b.latestMessage.sendTime - a.latestMessage.sendTime,
-      ), // 최신순으로 정렬
+      ),
     cacheTime: 0,
   });
 
   const onEnterChatRoom = (roomId: number) => {
     navigate(`/chat/${roomId}`);
   };
+
+  useEffect(() => {
+    console.log("💙", data);
+  }, [data]);
 
   return (
     <div className="chat-list-page">
@@ -35,7 +40,7 @@ export default function ChatListPage() {
         />
       ) : (
         <div className="chat-list-container">
-          {data?.length === 0 ?? (
+          {data?.length === 0 && (
             <p className="no-chatroom">No chat rooms available</p>
           )}
 
