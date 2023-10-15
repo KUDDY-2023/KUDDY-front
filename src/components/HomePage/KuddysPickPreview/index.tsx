@@ -20,7 +20,6 @@ const KuddysPickPreview = () => {
   useEffect(() => {
     resetKuddysPickKeyword();
   }, []);
-  console.log(data?.data.data);
   return (
     <>
       <div className="kuddyspickpreview-header">
@@ -35,11 +34,11 @@ const KuddysPickPreview = () => {
       </div>
       {data && (
         <div className="kuddyspickpreview-container">
-          {data.data.data.map((item: KuddysPickPreviewType) => (
+          {data.data.data.map((item: any) => (
             <div key={item.id} style={{ marginBottom: "30px" }}>
               <KuddysPickMainInfo {...item} />
               {item.pickSpotList &&
-                item.pickSpotList.map(content => (
+                item.pickSpotList.map((content: any) => (
                   <div
                     className="kuddyspickpreview-content-rect"
                     key={`${item.id}${content.contentId}`}

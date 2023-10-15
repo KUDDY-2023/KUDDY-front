@@ -13,7 +13,7 @@
   width: calc(100% - 32px);
   height: 168px;
   border-radius: 10px;
-  background-color: color(grey);
+  background-color: color(blue);
   position: relative;
   overflow: hidden;
   cursor: pointer;
@@ -21,7 +21,7 @@
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
   }
 
   p {

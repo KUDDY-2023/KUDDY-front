@@ -26,22 +26,27 @@ export const ktubeList: ktubeType[] = [
       },
       {
         id: 2,
+        title: "",
+        url: "https://www.youtube.com/embed/G0YIZnbdO5g?si=AsNh5BfSYOr_8h0h",
+      },
+      {
+        id: 3,
         title: "what to do in seoul, south korea 🇰🇷 for FIRST-TIME visitors",
         url: "https://www.youtube.com/embed/Axu2vjhNBKk?si=nCfMV33fcTweJ0MH",
       },
       {
-        id: 3,
+        id: 4,
         title: "7 days in seoul 🌸",
         url: "https://www.youtube.com/embed/xnZDGJPcWSM?si=Vu2YCIYUFu9MojR5",
       },
       {
-        id: 4,
+        id: 5,
         title:
           "A week of my life in Korea | Autumn to Christmas in Seoul | Visiting cute cafes | KOREA VLOG",
         url: "https://www.youtube.com/embed/ckcE5JD2dT8?si=TZZLYWERlVjDWA1S",
       },
       {
-        id: 5,
+        id: 6,
         title:
           "30 Things to Do and Know about Seoul - South Korea Travel Guide",
         url: "https://www.youtube.com/embed/paUZs41-pvY?si=Y8AyKhsKAQBfTYA1",
@@ -116,9 +121,25 @@ export const ktubeList: ktubeType[] = [
       },
       {
         id: 4,
+        title: "Italian Chef tries REAL Korean food for the First Time?!",
+        url: "https://www.youtube.com/embed/E87QeRn0x9s?si=lPfsZ5RJCDbghDut",
+      },
+      {
+        id: 5,
+        title: "British Highschoolers try REAL Korean Street Toast in Korea!",
+        url: "https://www.youtube.com/embed/knBTg3UYHdo?si=ONmElx8IUh6xnhl7",
+      },
+      {
+        id: 6,
         title:
           "Traditional Korean Street Food Tour at Gwangjang Market in Seoul!",
         url: "https://www.youtube.com/embed/ljf8yxDQ1d0?si=d5LLu5qbh3-Jtfhy",
+      },
+      {
+        id: 7,
+        title:
+          "a cool girl's guide to GWANGJANG MARKET! best street food in Seoul 🇰🇷",
+        url: "https://www.youtube.com/embed/D7oInFgaeR0?si=_jPlzW_JSn1SZHOk",
       },
     ],
   },
@@ -183,11 +204,23 @@ export const ktubeList: ktubeType[] = [
       {
         id: 4,
         title:
+          "KOREA VLOG: flight, glow up appointments, exploring seoul, shopping, + cute skincare/makeup haul",
+        url: "https://www.youtube.com/embed/KUDu6vacbZg?si=adEJzTjYeghmJz1m",
+      },
+      {
+        id: 5,
+        title:
           "shopping in korea vlog 🌷 makeup & skincare haul, best selling items in summer! Oliveyoung",
         url: "https://www.youtube.com/embed/FnOQ49-uXkg?si=-SrMzaH-38zkPoVi",
       },
       {
-        id: 5,
+        id: 6,
+        title:
+          "shopping in Korea vlog 🇰🇷 skincare & makeuphaul at oliveyoung 💕 how to get lots of free samples!",
+        url: "https://www.youtube.com/embed/BT3_pKu6ljo?si=VIo0i0Ysii8VqX7U",
+      },
+      {
+        id: 7,
         title:
           "ENG SUB✨clean girl makeup 데일리 울먹 메이크업 •아이유 잔머리펌+셀프 눈썹 리프팅 •가닥속눈썹l 인스타 셀카 메이크업 ㅣ korean makeup",
         url: "https://www.youtube.com/embed/EBm6TXyrspg?si=cZ09RKDASQDrMphm",
