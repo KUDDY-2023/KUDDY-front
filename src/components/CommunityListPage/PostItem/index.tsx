@@ -7,7 +7,9 @@ const PostItem = ({ post }: any) => {
   const type =
     typeof post?.postType !== "undefined" ? "talking-board" : "itinerary";
 
-  const createdDate = new Date(post.createdDate).toLocaleString("sv");
+  const createdDate = new Date(post.createdDate)
+    .toLocaleString("sv")
+    .split(" ", 1);
 
   return (
     <div
@@ -29,7 +31,7 @@ const PostItem = ({ post }: any) => {
             <div className="join-us-container">
               <div className="join-us-text bold-text">{post.district}</div>
               <div className="join-us-text">
-                · {post.people} · {post.date}
+                · {post.people} · {post.date.replaceAll("-", ".")}
               </div>
             </div>
           )}
@@ -56,7 +58,9 @@ const PostItem = ({ post }: any) => {
             </div>
           )}
           <div className="post-info">
-            <div className="post-date">{createdDate}</div>
+            <div className="post-date">
+              {createdDate[0].replaceAll("-", ".")}
+            </div>
             <div className="post-comment">
               <img src={commentIcon} alt="comment" />
               {post.commentNo}

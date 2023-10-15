@@ -127,7 +127,9 @@ const PostContent = ({ postData }: Props) => {
             <div className="writer-name">
               {postData?.writerInfoDto?.nickname}
             </div>
-            <div className="write-date">{createdDate}</div>
+            <div className="write-date">
+              {createdDate.replaceAll("-", ".").slice(0, -3)}
+            </div>
           </div>
         </div>
         {typeof postData?.postType !== "undefined" ? (

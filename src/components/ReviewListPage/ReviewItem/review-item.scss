@@ -16,6 +16,10 @@
 
   .date {
     @include font-style(--font-text, 12px, color(grey-text), 400);
+
+    &.traveler {
+      color: color(black);
+    }
   }
 
   .delete {

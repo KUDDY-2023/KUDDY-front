@@ -96,7 +96,9 @@ const CommentItem = ({
           <div className="comment-content-body">{review?.content}</div>
 
           <div className="comment-content-bottom">
-            <div className="comment-date-time">{createdDate}</div>
+            <div className="comment-date-time">
+              {createdDate.replaceAll("-", ".").slice(0, -3)}
+            </div>
             {!isReply && (
               <div
                 className="comment-reply-btn"
