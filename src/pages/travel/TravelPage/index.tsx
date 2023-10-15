@@ -58,6 +58,9 @@ const TravelPage = () => {
   const selectedCategoryRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, []);
+  useEffect(() => {
+    if (!categoryBarRef.current && !selectedCategoryRef.current) return;
     categoryArray.map(
       item =>
         item.params === searchParams.get("category") &&
@@ -68,7 +71,7 @@ const TravelPage = () => {
             )
           : categoryBarRef.current!.scrollTo(0, 0)),
     );
-  }, []);
+  }, [categoryBarRef.current]);
 
   // 필터 바 스크롤 감지에 따른 상태
   const [position, setPosition] = useState(window.pageYOffset);
