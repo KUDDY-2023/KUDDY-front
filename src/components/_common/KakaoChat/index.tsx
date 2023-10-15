@@ -12,7 +12,7 @@ declare global {
 export default function KakaoChat() {
   const location = useLocation();
 
-  console.log(location);
+  // console.log(location);
 
   const handleChatClick = () => {
     chatChannel();
