@@ -63,9 +63,13 @@ const ProfileModifyPage = () => {
         // 내 프로필에 포함된 interest 배열
         const temp = myProfile?.interests[interestType[index]].map(
           (interest: string) => {
-            return interest !== "NOT_SELECTED" ? altElement(interest) : "";
+            return interest !== "NOT_SELECTED"
+              ? altElement(interest).replace(" food", "")
+              : "";
           },
         );
+
+        console.log(temp);
 
         return {
           ...category,
