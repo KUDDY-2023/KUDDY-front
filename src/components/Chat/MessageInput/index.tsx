@@ -79,7 +79,6 @@ export default function MessageInput({
 
         // ✅ DB에 메세지 반영하기
         const savedMsg = await onSave(newText);
-        console.log("저장한거 >>> ", savedMsg);
       } catch (e) {
         alert(e);
       } finally {

@@ -7,12 +7,16 @@ type Props = {
 };
 
 const ReviewBox = ({ review, role }: Props) => {
-  const createdDate = new Date(review?.createdDate).toLocaleDateString();
+  const createdDate = new Date(review?.createdDate)
+    .toLocaleString("sv")
+    .split(" ", 1);
 
   return role === "KUDDY" ? (
     <div className="review-content-container kuddy">
       <div className="review-grade-kuddy">
-        <div className="review-date-text">{createdDate}</div>
+        <div className="review-date-text">
+          {createdDate[0].replaceAll("-", ".")}
+        </div>
         <div className="review-grade-box">{review?.grade}</div>
       </div>
       <img src={review?.writerInfo?.profileImageUrl} />
@@ -29,7 +33,9 @@ const ReviewBox = ({ review, role }: Props) => {
           <div className="review-nickname-text traveler">
             with <strong>{review?.kuddyInfo?.nickname}</strong>
           </div>
-          <div className="review-date-text">{createdDate}</div>
+          <div className="review-date-text">
+            {createdDate[0].replaceAll("-", ".")}
+          </div>
         </div>
         <img src={review?.kuddyInfo?.profileImageUrl} />
       </div>

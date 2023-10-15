@@ -83,7 +83,7 @@ const LanguageForm = ({ onClose }: Props) => {
     const updatedLanguages = selectedLanguage?.map(language => {
       return {
         ...language,
-        languageLevel: levels.indexOf(language.languageLevel).toString(),
+        languageLevel: (levels.indexOf(language.languageLevel) + 1).toString(),
       };
     });
 
@@ -128,8 +128,10 @@ const LanguageForm = ({ onClose }: Props) => {
           Add
         </div>
       </div>
-      <div className="save-btn" onClick={handleSaveClick}>
-        Save
+      <div className="save-btn-container">
+        <div className="save-btn" onClick={handleSaveClick}>
+          Save
+        </div>
       </div>
     </div>
   );

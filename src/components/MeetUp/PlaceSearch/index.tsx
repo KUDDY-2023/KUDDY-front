@@ -24,9 +24,6 @@ export default function PlaceSearch({
 
   const _handleReqPlaceSearch = async () => {
     const res = await onSearchSpot(searchPlaceInput.value);
-
-    console.log("⭐ 검색 결과", res);
-
     setSpotArr(res.spots); // 검색 결과 적용
     setShort(true);
   };
@@ -39,7 +36,6 @@ export default function PlaceSearch({
     e.preventDefault();
     setIsLoading(true);
     const res = await onSearchSpot(searchPlaceInput.value);
-    console.log("⭐ 검색 결과", res);
     setSpotArr(res.spots); // 검색 결과 적용
     setShort(true);
     setIsLoading(false);

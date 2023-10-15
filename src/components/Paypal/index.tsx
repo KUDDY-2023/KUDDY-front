@@ -9,6 +9,9 @@ import { PayPalButtonsComponentProps } from "@paypal/react-paypal-js";
 // 캘린더
 import { useAddCalendar } from "@services/hooks/calendar";
 
+// 메일
+import { useSendMail } from "@services/hooks/notification";
+
 // 일정 추가 확인 alert
 import { confirmAddAlert, completeAlert } from "@components/_common/SweetAlert";
 
@@ -61,6 +64,8 @@ export default function PayPal({
     overflowX: "hidden",
   };
 
+  const { onReqSendMail } = useSendMail(info.id);
+
   function PayPalButton() {
     // 버튼 컴포넌트
     /**
@@ -99,6 +104,7 @@ export default function PayPal({
         return actions.order.capture({}).then((details: any) => {
           onUpdateMessage("PAYED"); // 동행 메세지 상태 업데이트
           handleClose(); // 모달 닫기
+          onReqSendMail();
         });
       },
     };

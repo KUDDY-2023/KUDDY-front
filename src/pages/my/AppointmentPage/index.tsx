@@ -91,7 +91,6 @@ const AppointmentPage = () => {
 
   const handleCancelClick = async (meetupId: number, chatId: string) => {
     const res = await onMeetUpCancel(meetupId);
-    console.log(res);
 
     const deleteRes = await onDeleteCalendar(chatId);
 
@@ -106,7 +105,6 @@ const AppointmentPage = () => {
 
   const handleSendMessageClick = async (email: string, nickname: string) => {
     const res = await onGetRoomStatus(email, nickname);
-    console.log(res);
     const roomId = Number(res.roomId);
     nav(`/chat/${roomId}`);
   };
@@ -160,7 +158,7 @@ const AppointmentPage = () => {
               >
                 <div className="appointment-item-header">
                   <div className="appointment-date">
-                    {item?.appointmentTime}
+                    {item?.appointmentTime.replaceAll("-", ".").slice(0, -3)}
                   </div>
                   <div
                     className={`appointment-type ${meetUpStyle[index]?.text}`}
@@ -205,7 +203,9 @@ const AppointmentPage = () => {
                         {item?.targetMemberInfo?.targetNickname}
                       </div>
                     </div>
-                    <div className="accepted-date">{item?.createdDate}</div>
+                    <div className="accepted-date">
+                      {item?.createdDate.replaceAll("-", ".").slice(0, -3)}
+                    </div>
                   </div>
                 </div>
 

@@ -1,9 +1,9 @@
 import "./about-buddy-section.scss";
-import { useEffect, useState } from "react";
 import personIcon from "@assets/profile/person.svg";
 import jobIcon from "@assets/profile/job.svg";
 import pinIcon from "@assets/icon/pin_default.svg";
 import languageIcon from "@assets/profile/language.svg";
+import nationIcon from "@assets/profile/nation.svg";
 
 type Props = {
   profile: any;
@@ -77,7 +77,13 @@ const AboutBuddySection = ({ profile }: Props) => {
       <AboutBuddyText
         iconImage={personIcon}
         texts={[
-          `${profile?.gender.toLowerCase()}, ${profile?.birthDate}`,
+          `${
+            profile?.gender !== "NEUTRAL"
+              ? profile?.gender
+                  .toLowerCase()
+                  .replace(/^[a-z]/, (char: string) => char.toUpperCase())
+              : "Prefer not to say"
+          }, ${profile?.birthDate}`,
           `${profile?.temperament} & ${getDecisionMaking(
             profile?.decisionMaking,
           )}`,
@@ -90,7 +96,7 @@ const AboutBuddySection = ({ profile }: Props) => {
         ]}
       />
       <AboutBuddyText
-        iconImage={pinIcon}
+        iconImage={profile?.role === "KUDDY" ? pinIcon : nationIcon}
         texts={
           profile?.role === "KUDDY"
             ? profile?.areas.map((area: any) => area.areaName)

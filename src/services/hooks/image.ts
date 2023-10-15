@@ -7,7 +7,6 @@ export const useGetPresignedUrl = () => {
   const onGetUrl = async (imgList: string[]) => {
     try {
       const res = await imagePresignedUrl(imgList);
-      console.log(res);
       const urlList = res.data.data.map((i: any) => i.presignedUrl);
       return urlList as string[];
     } catch (err) {

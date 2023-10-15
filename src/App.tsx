@@ -18,7 +18,7 @@ import ProfileRoutes from "@routes/ProfileRoutes";
 import AlarmViewPage from "@pages/alarm/AlarmViewPage";
 import LoginProcessingPage from "@pages/auth/LoginProcessingPage";
 import CalendarProcessingPage from "@pages/my/CalendarProcessingPage";
-import Test from "@pages/Test";
+import PrivateRoute from "@routes/PrivateRoute";
 
 import { useSetLoginState } from "@services/hooks/auth";
 
@@ -42,9 +42,10 @@ function App() {
       <Route path="/my/*" element={<MyRoutes />} />
       <Route path="/chat/*" element={<ChatRoutes />} />
       <Route path="/profile/*" element={<ProfileRoutes />} />
-      <Route path="/alarm" element={<AlarmViewPage />} />
 
-      <Route path="/test" element={<Test />} />
+      <Route element={<PrivateRoute authentication={true} />}>
+        <Route path="/alarm" element={<AlarmViewPage />} />
+      </Route>
     </Routes>
   );
 }

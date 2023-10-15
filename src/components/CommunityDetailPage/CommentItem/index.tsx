@@ -71,13 +71,13 @@ const CommentItem = ({
                 <div className="kuddy-badge">
                   {review?.writerInfoDto?.kuddyLevel !== "NOT_KUDDY" ? (
                     review?.writerInfoDto?.kuddyLevel === "EXPLORER" ? (
-                      <Level1Icon />
-                    ) : review?.writerInfoDto?.kuddyLevel === "FRIEND" ? (
-                      <Level2Icon />
-                    ) : review?.writerInfoDto?.kuddyLevel === "COMPANION" ? (
-                      <Level3Icon />
-                    ) : review?.writerInfoDto?.kuddyLevel === "SOULMATE" ? (
                       <Level4Icon />
+                    ) : review?.writerInfoDto?.kuddyLevel === "FRIEND" ? (
+                      <Level3Icon />
+                    ) : review?.writerInfoDto?.kuddyLevel === "COMPANION" ? (
+                      <Level2Icon />
+                    ) : review?.writerInfoDto?.kuddyLevel === "SOULMATE" ? (
+                      <Level1Icon />
                     ) : null
                   ) : null}
                 </div>
@@ -96,7 +96,9 @@ const CommentItem = ({
           <div className="comment-content-body">{review?.content}</div>
 
           <div className="comment-content-bottom">
-            <div className="comment-date-time">{createdDate}</div>
+            <div className="comment-date-time">
+              {createdDate.replaceAll("-", ".").slice(0, -3)}
+            </div>
             {!isReply && (
               <div
                 className="comment-reply-btn"

@@ -1,6 +1,6 @@
 import "./interest-form.scss";
 import { useState, useEffect } from "react";
-import { InterestData } from "../../../pages/auth/LoginFormPage/forms/InterestForm/interestsData";
+import { InterestData } from "../../../../pages/auth/LoginFormPage/forms/InterestForm/interestsData";
 import { useRecoilState } from "recoil";
 import { interestsArrState } from "@services/store/auth";
 
@@ -77,8 +77,10 @@ const InterestForm = ({ onClose }: Props) => {
           );
         })}
       </div>
-      <div className="save-btn" onClick={handleSaveClick}>
-        Save
+      <div className="save-btn-container">
+        <div className="save-btn" onClick={handleSaveClick}>
+          Save
+        </div>
       </div>
     </div>
   );

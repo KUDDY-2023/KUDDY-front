@@ -1,13 +1,14 @@
 import "./community-detail-page.scss";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import BackNavBar from "@components/_common/BackNavBar";
 import PostContent from "@components/CommunityDetailPage/PostContent";
 import CommentList from "@components/CommunityDetailPage/CommentList";
 import Loading from "@components/_common/Loading";
 import { useGetEachPost, useDeletePost } from "@services/hooks/community";
 import { useGetProfile } from "@services/hooks/profile";
+import { clipboardAlert } from "@components/_common/SweetAlert";
 
 const CommunityDetailPage = () => {
   const nav = useNavigate();
@@ -39,12 +40,24 @@ const CommunityDetailPage = () => {
   // 게시물 삭제
   const handleDeleteClick = async () => {
     const res = await onDeletePost(Number(id));
-    nav("/community/list");
+    nav(-1);
+  };
+
+  const location = useLocation();
+
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      clipboardAlert();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   // 게시물 공유
   const handleShareClick = () => {
-    console.log("share link");
+    const URL = process.env.REACT_APP_REACT_URL + location.pathname;
+    handleCopyClipBoard(URL);
   };
 
   return (

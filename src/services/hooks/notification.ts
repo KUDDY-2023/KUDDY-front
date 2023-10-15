@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import { useMutation } from "react-query";
 
 import {
   nofiGetAll,
@@ -8,6 +9,7 @@ import {
   nofiRead,
   nofiUnReadCount,
   nofiUnReadChat,
+  nofiMakeMail,
 } from "@services/api/notification";
 
 import { useQuery } from "react-query";
@@ -317,4 +319,22 @@ export const useSSE = () => {
     console.log("💙존재 여부 >>", newNotification);
   }, [newNotification]);
   return { newNotification };
+};
+
+// 🔥 이메일 전송 요청
+export const useSendMail = (chatId: string) => {
+  const { mutate: requestSendMail } = useMutation(nofiMakeMail, {
+    onSuccess: res => {
+      console.log("이메일 요청 완료", res);
+    },
+    onError: err => {
+      console.log("이메일 요청 실패", err);
+    },
+  });
+
+  const onReqSendMail = () => {
+    requestSendMail(chatId);
+  };
+
+  return { onReqSendMail };
 };

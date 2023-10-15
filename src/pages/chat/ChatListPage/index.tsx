@@ -14,7 +14,9 @@ export default function ChatListPage() {
   const { data, error, isLoading } = useQuery("chatRooms", chatRooms, {
     refetchOnWindowFocus: true,
     select: data =>
-      data?.data.data.sort((a: any, b: any) => b.regDate - a.regDate), // 최신순으로 정렬
+      data?.data.data.sort(
+        (a: any, b: any) => b.latestMessage.sendTime - a.latestMessage.sendTime,
+      ), // 최신순으로 정렬
     cacheTime: 0,
   });
 
@@ -42,7 +44,6 @@ export default function ChatListPage() {
             let sendTime = room.latestMessage?.sendTime;
 
             const timeAgo = calculateTimeDifference(sendTime);
-            console.log(room);
 
             const latestMessage =
               room.latestMessage?.context === "동행"
