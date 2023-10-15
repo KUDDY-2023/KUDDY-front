@@ -81,3 +81,9 @@ export const profileGetTop5 = () => {
   const url = `/api/v1/profiles/kuddy/top5`;
   return apiClient.get(url);
 };
+
+// 리뷰 삭제
+export const profileDeleteReview = (id: number) => {
+  const url = `/api/v1/reviews/${id}`;
+  return apiClient.delete(url);
+};

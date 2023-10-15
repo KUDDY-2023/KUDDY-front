@@ -138,3 +138,17 @@ export const noProfileAlert = () =>
     text: "Please create a profile first.",
     icon: "warning",
   });
+
+export const deleteReviewSuccessAlert = () =>
+  Swal.fire({
+    text: "The review has been successfully deleted.",
+    icon: "success",
+  });
+
+export const deleteReviewFailAlert = () =>
+  Swal.fire({
+    title: "Failed to delete the review.",
+    text: "Please try again.",
+    icon: "error",
+    iconColor: "#FFC6C6",
+  });

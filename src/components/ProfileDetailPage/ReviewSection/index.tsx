@@ -1,5 +1,5 @@
 import "./review-section.scss";
-import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import ReviewBox from "@components/ProfileDetailPage/ReviewBox";
 
 type Props = {
@@ -8,8 +8,11 @@ type Props = {
 };
 
 const ReviewSection = ({ profile, reviews }: Props) => {
+  const nickname = useParams().nickname;
+  const nav = useNavigate();
+
   return (
-    <div className="review-section-container">
+    <div className="review-section-container" onClick={() => nav("reviews")}>
       <div className="review-count-container">
         <div className="meet-title">meetings</div>
         <div className="meet-count-text">{reviews?.meetupCount}</div>
