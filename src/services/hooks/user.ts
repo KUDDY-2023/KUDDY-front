@@ -9,8 +9,9 @@ import {
   userPutMeetUpCancel,
 } from "@services/api/user";
 import { useQuery, useMutation } from "react-query";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import { isLoginState } from "@services/store/auth";
+import { neverShowMeetupId } from "@services/store/reviewmodal";
 
 import {
   reportUserAlert,
@@ -106,15 +107,67 @@ export const useReviewModal = () => {
   const [isModal, setIsModal] = useState<boolean>(false);
   const [meetupId, setMeetupId] = useState<number | undefined>(undefined);
   const isLogin = useRecoilValue(isLoginState);
+  const neverIdList = useRecoilValue(neverShowMeetupId);
+  const resetNeverId = useResetRecoilState(neverShowMeetupId);
+
+  const exRes = {
+    data: {
+      status: 200,
+      message: "SUCCESS",
+      data: {
+        meetupList: [
+          {
+            meetupId: 1,
+            spotId: 1,
+            spotName: "Cafe Nangmanjeok (카페낭만적)",
+            appointmentTime: "2023-09-13 23:55:39",
+            createdDate: "2023-08-29 22:48:05",
+            meetupStatus: "PAYED",
+            targetMemberInfo: {
+              writerId: 1,
+              targetNickname: "최빈",
+              profileImageUrl:
+                "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg",
+            },
+            reviewed: false,
+          },
+          {
+            meetupId: 2,
+            spotId: 1,
+            spotName: "Cafe Nangmanjeok (카페낭만적)",
+            appointmentTime: "2023-09-12 23:55:39",
+            createdDate: "2023-08-29 22:48:05",
+            meetupStatus: "PAYED",
+            targetMemberInfo: {
+              writerId: 1,
+              targetNickname: "최빈",
+              profileImageUrl:
+                "http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg",
+            },
+            reviewed: false,
+          },
+        ],
+        totalMeetupCount: 2,
+      },
+    },
+  };
 
   useEffect(() => {
     if (isLogin)
       getReviewModal()
         .then(res => {
-          setIsModal(res?.data.data.totalMeetupCount === 0 ? false : true);
-          if (res?.data.data.meetupList)
-            res?.data.data.meetupList.length !== 0 &&
-              setMeetupId(res?.data.data.meetupList[0].meetupId);
+          if (res?.data.data.totalMeetupCount === 0) {
+            setIsModal(false);
+            resetNeverId();
+          } else {
+            if (res?.data.data.meetupList.length !== 0)
+              res?.data.data.meetupList.map((item: any) => {
+                if (!neverIdList.includes(item.meetupId)) {
+                  setMeetupId(item.meetupId);
+                  setIsModal(true);
+                }
+              });
+          }
         })
         .catch();
   }, []);
