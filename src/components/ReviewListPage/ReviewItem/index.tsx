@@ -20,10 +20,8 @@ const ReviewItem = ({ role, review, isMine, onDelete }: Props) => {
     switch (grade) {
       case "Perfect":
         return "Excellent";
-        break;
       case "Disappoint":
         return "Disappointing";
-        break;
       default:
         return grade;
     }

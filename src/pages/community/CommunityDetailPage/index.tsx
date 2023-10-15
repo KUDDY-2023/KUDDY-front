@@ -8,7 +8,7 @@ import CommentList from "@components/CommunityDetailPage/CommentList";
 import Loading from "@components/_common/Loading";
 import { useGetEachPost, useDeletePost } from "@services/hooks/community";
 import { useGetProfile } from "@services/hooks/profile";
-import { clipboardAlert } from "@components/_common/SweetAlert";
+import useCopyToClipboard from "@utils/hooks/useCopyToClipboard";
 
 const CommunityDetailPage = () => {
   const nav = useNavigate();
@@ -43,21 +43,10 @@ const CommunityDetailPage = () => {
     nav(-1);
   };
 
-  const location = useLocation();
-
-  const handleCopyClipBoard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      clipboardAlert();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   // 게시물 공유
+  const { onCopy } = useCopyToClipboard();
   const handleShareClick = () => {
-    const URL = process.env.REACT_APP_REACT_URL + location.pathname;
-    handleCopyClipBoard(URL);
+    onCopy();
   };
 
   return (

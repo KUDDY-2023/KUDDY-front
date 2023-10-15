@@ -11,13 +11,25 @@ const ReviewBox = ({ review, role }: Props) => {
     .toLocaleString("sv")
     .split(" ", 1);
 
+  // 리뷰 만족도 텍스트
+  const handleGrade = (grade: string) => {
+    switch (grade) {
+      case "Perfect":
+        return "Excellent";
+      case "Disappoint":
+        return "Disappointing";
+      default:
+        return grade;
+    }
+  };
+
   return role === "KUDDY" ? (
     <div className="review-content-container kuddy">
       <div className="review-grade-kuddy">
         <div className="review-date-text">
           {createdDate[0].replaceAll("-", ".")}
         </div>
-        <div className="review-grade-box">{review?.grade}</div>
+        <div className="review-grade-box">{handleGrade(review?.grade)}</div>
       </div>
       <img src={review?.writerInfo?.profileImageUrl} />
       <div className="review-nickname-text kuddy">

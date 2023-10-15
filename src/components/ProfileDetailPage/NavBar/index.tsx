@@ -2,7 +2,7 @@ import "./nav-bar.scss";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ReactComponent as BackIcon } from "@assets/icon/back.svg";
 import ViewMoreBtn from "@components/_common/ViewMoreBtn";
-import { clipboardAlert } from "@components/_common/SweetAlert";
+import useCopyToClipboard from "@utils/hooks/useCopyToClipboard";
 
 type Props = {
   profileId: number;
@@ -23,19 +23,11 @@ const NavBar = ({ profileId, isMine }: Props) => {
     }
   };
 
-  const handleCopyClipBoard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      clipboardAlert();
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   // 프로필 공유
+  const { onCopy } = useCopyToClipboard();
+
   const handleShareClick = () => {
-    const URL = process.env.REACT_APP_REACT_URL + location.pathname;
-    handleCopyClipBoard(URL);
+    onCopy();
   };
 
   // 프로필 신고
