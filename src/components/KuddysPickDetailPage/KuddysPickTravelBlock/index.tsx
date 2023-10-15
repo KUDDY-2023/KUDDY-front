@@ -1,5 +1,5 @@
 import "./kuddys-pick-travel-block.scss";
-import defaultthumbnail from "@assets/location/default_travel_thumbnail.png";
+import defaultthumbnail from "@assets/location/default_travel_thumbnail.svg";
 import { ReactComponent as BookmarkIcon } from "@assets/icon/bookmark.svg";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";

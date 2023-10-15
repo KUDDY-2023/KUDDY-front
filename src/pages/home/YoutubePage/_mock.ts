@@ -40,6 +40,12 @@ export const ktubeList: ktubeType[] = [
           "A week of my life in Korea | Autumn to Christmas in Seoul | Visiting cute cafes | KOREA VLOG",
         url: "https://www.youtube.com/embed/ckcE5JD2dT8?si=TZZLYWERlVjDWA1S",
       },
+      {
+        id: 5,
+        title:
+          "30 Things to Do and Know about Seoul - South Korea Travel Guide",
+        url: "https://www.youtube.com/embed/paUZs41-pvY?si=Y8AyKhsKAQBfTYA1",
+      },
     ],
   },
   {
@@ -59,8 +65,25 @@ export const ktubeList: ktubeType[] = [
       {
         id: 2,
         title:
+          "서울 명동 랜덤플레이댄스 KPOP RANDOM PLAY DANCE in Seoul, KOREA 2023",
+        url: "https://www.youtube.com/embed/2QJo5peFVfw?si=acNI9vGtFnxPsYpw",
+      },
+      {
+        id: 3,
+        title:
           "Visiting BTS places around Seoul 🇰🇷 Cafes, BT21 line friends store + filming locations!",
         url: "https://www.youtube.com/embed/pzQNQlS3Jto?si=SbzD6lLewC-z1SRC",
+      },
+      {
+        id: 4,
+        title: "NCT 127 NEO CITY: SEOUL THE LINK+ Concert Vlog/Reaction!!",
+        url: "https://www.youtube.com/embed/24_sGHD2_Vc?si=STlNpYyLG0gRldvy",
+      },
+      {
+        id: 5,
+        title:
+          "🇰🇷 seoul vlog | nct dream exhibition ‘dream vibe’, smtown &store, myeongdong kpop shops",
+        url: "https://www.youtube.com/embed/FbZKtJKDPBc?si=91qU9XZM8GCCxzUl",
       },
     ],
   },
@@ -91,6 +114,12 @@ export const ktubeList: ktubeType[] = [
           "BEST Korean Traditional Market for Street Food!? My New Favorite Spot in Seoul",
         url: "https://www.youtube.com/embed/7MmaZGiMCnI?si=kjNMyz7WDh9HXVkp",
       },
+      {
+        id: 4,
+        title:
+          "Traditional Korean Street Food Tour at Gwangjang Market in Seoul!",
+        url: "https://www.youtube.com/embed/ljf8yxDQ1d0?si=d5LLu5qbh3-Jtfhy",
+      },
     ],
   },
   {
@@ -107,11 +136,62 @@ export const ktubeList: ktubeType[] = [
         title: "11 Things NOT to do in South Korea - MUST SEE BEFORE YOU GO!",
         url: "https://www.youtube.com/embed/ALW-To76E44?si=QYUSJoBlnCS_oAAy",
       },
+      {
+        id: 2,
+        title: "KOREA FIRST IMPRESSIONS🇰🇷",
+        url: "https://www.youtube.com/embed/5kTIx6un_3c?si=rtgv2TM6seoklw4w",
+      },
+      {
+        id: 3,
+        title: "The HIGHEST bar in the World!? (123rd Floor View of Seoul😮)",
+        url: "https://www.youtube.com/embed/m1OWWD4Eiug?si=RfbCBMrX9dYE23qd",
+      },
+      {
+        id: 4,
+        title:
+          "We cant believe we are in KOREA 🇰🇷 | First Impressions of SEOUL, KOREA (This place is CRAZY)",
+        url: "https://www.youtube.com/embed/ECnvIxl655I?si=jY3Di_t-eDsE3o67",
+      },
     ],
   },
   {
     id: 4,
-    category: "K-....",
-    youtube: [],
+    category: "K-Beauty",
+    youtube: [
+      {
+        id: 0,
+        title: "I Got a K-Beauty Makeover in Korea",
+        url: "https://www.youtube.com/embed/tiqkmB-tH_Y?si=L1iyKKMia6eEXRdE",
+      },
+      {
+        id: 1,
+        title:
+          "Korea Travel Vlog | cafe-hopping in Seoul, 10-step skincare treatment, & hair salon",
+        url: "https://www.youtube.com/embed/28dUuwuaOvo?si=y8pYqVgd832Mv7r_",
+      },
+      {
+        id: 2,
+        title: "Celebrity Makeup Artist Gives Me a K-Drama Makeover",
+        url: "https://www.youtube.com/embed/2kR3VTchawM?si=wUmzI5rEyQ_0TZ9z",
+      },
+      {
+        id: 3,
+        title:
+          "K-Beauty Shopping at Olive Young! Shop With Me in Korea *korean beauty recommendations*",
+        url: "https://www.youtube.com/embed/ihkw-kz1Rjs?si=st1mP81sFEaOAQnE",
+      },
+      {
+        id: 4,
+        title:
+          "shopping in korea vlog 🌷 makeup & skincare haul, best selling items in summer! Oliveyoung",
+        url: "https://www.youtube.com/embed/FnOQ49-uXkg?si=-SrMzaH-38zkPoVi",
+      },
+      {
+        id: 5,
+        title:
+          "ENG SUB✨clean girl makeup 데일리 울먹 메이크업 •아이유 잔머리펌+셀프 눈썹 리프팅 •가닥속눈썹l 인스타 셀카 메이크업 ㅣ korean makeup",
+        url: "https://www.youtube.com/embed/EBm6TXyrspg?si=cZ09RKDASQDrMphm",
+      },
+    ],
   },
 ];

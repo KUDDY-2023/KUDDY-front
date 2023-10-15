@@ -70,6 +70,10 @@
     position: relative;
     overflow: hidden;
 
+    input {
+      display: none;
+    }
+
     p {
       color: color(grey-text);
       font: {

@@ -76,22 +76,38 @@ const TravelDetailAddInfo = ({
                 ) ||
                 String(content[el.key as keyof typeof content]).includes(
                   "<br />",
+                ) ||
+                String(content[el.key as keyof typeof content]).includes(
+                  "<BR>",
                 ) ? (
                   String(content[el.key as keyof typeof content])
-                    .split("<br>")
+                    .split("<BR>")
                     .map((line: string, idx: number) => (
                       <span key={idx}>
                         {line.includes("<br />") ? (
                           line
                             .split("<br />")
-                            .map((line: string, idx: number) => (
+                            .map((li: string, idx: number) => (
                               <span key={idx}>
-                                {line}
+                                {li}
                                 <br />
                               </span>
                             ))
                         ) : (
-                          <span>{line}</span>
+                          <span>
+                            {line.includes("<br>") ? (
+                              line
+                                .split("<br>")
+                                .map((li: string, idx: number) => (
+                                  <span key={idx}>
+                                    {li}
+                                    <br />
+                                  </span>
+                                ))
+                            ) : (
+                              <span>{line}</span>
+                            )}
+                          </span>
                         )}
                         <br />
                       </span>

@@ -10,13 +10,13 @@ const ReviewModal = ({ meetupId }: ReviewModalProps) => {
   return (
     <div className="review-modal-wrapper">
       <img className="logo" src={image} />
-      <div className="main-text">How was the meeting?</div>
-      <div className="sub-text">Your review will help other mates!</div>
+      <div className="main-text">How was the meet-up?</div>
+      <div className="sub-text">Your review will help other buddys!</div>
       <div
         className="bottom-rect"
         onClick={() => nav(`/my/write-review/${meetupId}`)}
       >
-        <div className="text">Writing a review</div>
+        <div className="text">Write a review</div>
         <ArrowIcon />
       </div>
     </div>
