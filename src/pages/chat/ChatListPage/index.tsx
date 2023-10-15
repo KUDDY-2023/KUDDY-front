@@ -14,10 +14,14 @@ export default function ChatListPage() {
   // 채팅방 내역 가져오기
   const { data, error, isLoading } = useQuery("chatRooms", chatRooms, {
     refetchOnWindowFocus: true,
-    select: data =>
-      data?.data.data.sort(
-        (a: any, b: any) => b.latestMessage.sendTime - a.latestMessage.sendTime,
-      ),
+    select: data => {
+      const list = data?.data.data.sort(
+        (a: any, b: any) =>
+          b.latestMessage?.sendTime - a.latestMessage?.sendTime,
+      );
+
+      return list ? list : [];
+    },
     cacheTime: 0,
   });
 
