@@ -63,6 +63,14 @@ export const successAddCalendarAlert = () =>
     icon: "success",
   });
 
+export const failAddCalendarAlert = () =>
+  Swal.fire({
+    title: "Failed to add the schedule.",
+    text: "Please try again.",
+    icon: "error",
+    iconColor: "#FFC6C6",
+  });
+
 export const accessCalendarAlert = () =>
   Swal.fire({
     text: "Access permission for Kakao Talk Calendar granted. Please click the schedule creation button again.",

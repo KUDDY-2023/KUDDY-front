@@ -4,7 +4,10 @@ import {
   deleteCalendar,
   getAccessCalendar,
 } from "@services/api/calendar";
-import { accessCalendarAlert } from "@components/_common/SweetAlert";
+import {
+  accessCalendarAlert,
+  failAddCalendarAlert,
+} from "@components/_common/SweetAlert";
 
 export const useAddCalendar = () => {
   const onAddCalendar = async (meetupId: number) => {
@@ -59,6 +62,8 @@ export const useAccessCalendar = () => {
       accessCalendarAlert();
     } catch (err) {
       console.log(err);
+      nav("/my/appointment");
+      failAddCalendarAlert();
     }
   };
 
