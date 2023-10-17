@@ -34,7 +34,6 @@ const UploadMenu = ({ ticketStatus }: TicketInfoType) => {
     if (presignedUrlList) {
       try {
         const res = await onPostImage(presignedUrlList[0], e.target.files[0]);
-        console.log("이미지 업로드 성공", res);
         let newImg = presignedUrlList[0].split("?")[0];
         setTicketImageUrl(newImg);
       } catch (err) {
@@ -50,14 +49,12 @@ const UploadMenu = ({ ticketStatus }: TicketInfoType) => {
     )
       profilePatchTicketImage(ticketImageUrl)
         .then(res => {
-          console.log("patch", res.data);
           window.location.reload();
         })
         .catch(err => console.log(err));
     else if (ticketStatus === "NOT_SUBMITTED")
       profileCreateTicketInfo(ticketImageUrl)
         .then(res => {
-          console.log("post", res.data);
           window.location.reload();
         })
         .catch(err => console.log(err));

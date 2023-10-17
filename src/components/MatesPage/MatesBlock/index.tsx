@@ -1,5 +1,4 @@
 import "./mates-block.scss";
-import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Level1Icon } from "@assets/level/level1.svg";

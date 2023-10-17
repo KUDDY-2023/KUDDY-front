@@ -1,6 +1,6 @@
 import BackNavBar from "@components/_common/BackNavBar";
 import LocationListBlock from "@components/Location/LocationListBlock";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useNearLocation } from "@services/hooks/spot";
 import { useRecoilState } from "recoil";

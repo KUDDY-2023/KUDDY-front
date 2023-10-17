@@ -75,7 +75,7 @@ const MyMenuPage = () => {
                 <a
                   className="section"
                   key={item.text}
-                  href="https://www.instagram.com/kuddy_korea"
+                  href="https://www.instagram.com/p/CybdWTKScC7/?igshid=MzRlODBiNWFlZA=="
                   target="_blank"
                 >
                   <div className="left">

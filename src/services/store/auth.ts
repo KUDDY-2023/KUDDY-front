@@ -1,4 +1,3 @@
-import { profile } from "console";
 import { atom, selector } from "recoil";
 import { InterestData } from "@pages/auth/LoginFormPage/forms/InterestForm/interestsData";
 

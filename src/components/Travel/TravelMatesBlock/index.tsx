@@ -2,7 +2,6 @@ import "./travel-mates-block.scss";
 import { useNavigate } from "react-router-dom";
 
 const TravelMatesBlock = ({
-  memberId,
   nickname,
   introduce,
   profileImageUrl,

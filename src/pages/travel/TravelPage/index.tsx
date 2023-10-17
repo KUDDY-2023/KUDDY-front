@@ -16,10 +16,6 @@ const TravelPage = () => {
   const [filter, setFilter] = useRecoilState<SpotGetByFilterType>(travelFilter);
   const { pageLastItemRef, hasNextPage, data } = useAllSpot(filter);
 
-  useEffect(() => {
-    // console.log("filter", filter);
-  }, [filter]);
-
   // searchParams로 filter 업데이트
   const [searchParams, setSearchParams] = useSearchParams();
   useEffect(() => {

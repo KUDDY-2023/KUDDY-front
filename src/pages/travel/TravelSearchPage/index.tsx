@@ -1,5 +1,5 @@
 import "./travel-search-page.scss";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import useInput from "@utils/hooks/useInput";
 import { ReactComponent as BackIcon } from "@assets/icon/back.svg";
