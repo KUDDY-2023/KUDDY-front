@@ -11,7 +11,6 @@ import { useRecoilState } from "recoil";
 import { titleKeyword } from "@services/store/kuddyspick";
 import { useQuery } from "react-query";
 
-// 검색어 저장 recoil 추가 필요
 const KuddysPickPage = () => {
   const [kuddysPickList, setKuddysPickList] = useState<KuddysPickType[]>([]);
   const { value, onChange, reset, setValue } = useInput("");
