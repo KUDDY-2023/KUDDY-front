@@ -75,7 +75,6 @@ const LocationMapPage = () => {
             setNotAllowed(false);
           },
           function (error) {
-            console.log("error");
             if (error.message === "User denied Geolocation")
               setNotAllowed(true);
           },
@@ -190,7 +189,7 @@ const LocationMapPage = () => {
   useEffect(() => {
     if (!isLoading && !notAllowed)
       spotGetNearLocation({ page: 0, pos })
-        .then(res => console.log(res.data))
+        .then()
         .catch(err => setNoData(err.response.status === 400));
   }, [isLoading, notAllowed]);
   useEffect(() => {

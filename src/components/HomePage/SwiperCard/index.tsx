@@ -1,6 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper.scss";
-import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./swiper-card.scss";
 import Loading from "@components/_common/Loading";

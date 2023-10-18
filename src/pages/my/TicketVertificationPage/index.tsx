@@ -4,14 +4,11 @@ import { useState, useEffect } from "react";
 import CompletedMenu from "@components/TicketVerificationPage/CompletedMenu";
 import InProgressMenu from "@components/TicketVerificationPage/InProgressMenu";
 import UploadMenu from "@components/TicketVerificationPage/UploadMenu";
-
 import {
   profileGetTicketInfo,
-  profileCreateTicketInfo,
   profilePatchTicketStatus,
   profileGetProfile,
 } from "@services/api/profile";
-import { emit } from "process";
 
 export type TicketInfoType = {
   ticketId: number;

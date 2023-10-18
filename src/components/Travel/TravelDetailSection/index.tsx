@@ -2,7 +2,7 @@ import "./travel-detail-section.scss";
 import TravelBlock from "@components/Travel/TravelBlock";
 import TravelDetailAddInfo from "@components/Travel/TravelDetailAddInfo";
 import { ReactComponent as ArrowIcon } from "@assets/icon/arrow_down.svg";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 type TravelDetailSectionProps = {
   isToggle?: boolean | undefined;

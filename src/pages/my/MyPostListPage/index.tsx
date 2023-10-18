@@ -1,5 +1,5 @@
 import "./my-post-list-page.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BackNavBar from "@components/_common/BackNavBar";
 import { useNavigate } from "react-router-dom";
 import {
@@ -23,8 +23,6 @@ const MyPostListPage = () => {
     target.setHours(target.getHours() + 9);
     return target.toLocaleString("sv");
   };
-
-  console.log(data?.data.data);
 
   return (
     <>
