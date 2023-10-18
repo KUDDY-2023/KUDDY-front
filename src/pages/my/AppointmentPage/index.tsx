@@ -33,6 +33,12 @@ const AppointmentPage = () => {
   const [meetUpStyle, setMeetUpStyle] = useState<any>([]);
   const [userType, setUserType] = useState<string>(); // 유저 타입 (카카오 유저인지)
 
+  const offset = 1000 * 60 * 60 * 9;
+  const koreaNow = new Date(new Date().getTime() + offset)
+    .toISOString()
+    .replace("T", " ")
+    .split(".")[0]; // 한국 현재 시각
+
   // 동행 리스트 받아오기
   const getMeetUps = async () => {
     const res = await onGetMeetUps();
@@ -45,17 +51,23 @@ const AppointmentPage = () => {
   }, []);
 
   // 동행 상태에 따른 스타일 저장
-  const handleType = (id: number, type: string, hasReview: boolean) => {
+  const handleType = (id: number, type: string, appointmentTime: string) => {
     let iconType: string, itemStyle: string, itemText: string;
-    if (type === "PAYED") {
+
+    // 동행 성사 + 약속 시간 전 => scheduled 상태
+    if (type === "PAYED" && appointmentTime > koreaNow) {
       iconType = scheduledIcon;
       itemStyle = "scheduled";
       itemText = "scheduled";
-    } else if (type === "COMPLETED") {
+    }
+    // 동행 성사 + 약속 시간 이후 => completed 상태
+    else if (type === "PAYED" && appointmentTime <= koreaNow) {
       iconType = completedIcon;
       itemStyle = "completed";
       itemText = "completed";
-    } else {
+    }
+    // canceled 상태
+    else {
       iconType = canceledIcon;
       itemStyle = "disabled"; // canceled이면 비활성화
       itemText = "canceled";
@@ -78,7 +90,7 @@ const AppointmentPage = () => {
       handleType(
         meetUps[i].meetupId,
         meetUps[i]?.meetupStatus,
-        meetUps[i]?.reviewed,
+        meetUps[i]?.appointmentTime,
       );
     }
   }, [meetUps]);
