@@ -37,7 +37,12 @@ const PostList = () => {
               ),
           )}
           {!hasNextPage && data.pages[0].data.data.posts?.length !== 0 && (
-            <div className="end-of-post-list">End of list</div>
+            <div
+              className="end-of-post-list"
+              onClick={() => window.scrollTo(0, 0)}
+            >
+              go to the top
+            </div>
           )}
         </>
       )}

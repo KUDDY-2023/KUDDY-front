@@ -58,12 +58,12 @@ const WritePostPage = () => {
         if (subject === "join us") {
           setJoinUsPost({
             ...joinUsPost,
-            images: [...images],
+            images: [...joinUsPost.images, ...images],
           });
         } else {
           setOthersPost({
             ...othersPost,
-            images: [...images],
+            images: [...othersPost.images, ...images],
           });
         }
       } catch (err) {
