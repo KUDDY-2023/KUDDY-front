@@ -12,8 +12,9 @@
 ## Features
 > KUDDY(커디)는 크게 3가지 서비스를 제공합니다.
 
+
 ### 1. 영문 관광 정보 제공
-![핵심기능-정보 (1)](https://github.com/KUDDY-2023/KUDDY-front/assets/81161750/083ac16d-239e-45bd-b561-46dbf5c35192)
+![핵심기능-정보 (2)](https://github.com/KUDDY-2023/KUDDY-front/assets/81161750/14d9ba9a-e3bc-41a2-80c1-d319cdc7ae8a)
 
 #### ⭐ 서울 관광지 영문 정보 제공 
 KUDDY는 **영문 관광 정보**를 제공합니다. **키워드, 카테고리, 지역 검색**을 통해 원하는 관광 정보를 쉽게 찾을 수 있으며, **위치 기반 관광지 추천 서비스**를 통해 효율적인 여행 계획이 가능합니다. 
@@ -23,6 +24,7 @@ KUDDY는 **영문 관광 정보**를 제공합니다. **키워드, 카테고리,
 
 
 ### 2. 가이드 매칭 기능
+![핵심기능-매칭기능](https://github.com/KUDDY-2023/KUDDY-front/assets/81161750/cd4f28ab-dad6-454e-b42d-147758eaa16d)
 
 #### ⭐ 맞춤형 가이드 검색 
 Traveler은 자신의 여행 스타일, 관심사, 지역 등의 기준으로 최적의 가이드를 선택할 수 있습니다. 
@@ -38,6 +40,11 @@ Traveler와 K-buddy는 일정, 선호지, 시간 등을 조율하며 여행의 �
 약속 일정을 카카오 톡캘린더에 등록, 관리할 수 있으며 약속 하루 전 리마인드 받을 수 있습니다. 
 
 ### 3. 서울 여행 커뮤니티 
+![핵심기능-커뮤니티](https://github.com/KUDDY-2023/KUDDY-front/assets/81161750/0baae9ea-f0d1-49ec-9318-e2d0aa0827dc)
+
+### 4. 서울 여행 컨텐츠 추천 
+![핵심기능-정보 (3)](https://github.com/KUDDY-2023/KUDDY-front/assets/81161750/23dc10c3-16e9-4084-9d21-0d58d503fc8f)
+
 
 </br></br>
 
