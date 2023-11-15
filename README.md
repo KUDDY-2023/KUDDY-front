@@ -82,6 +82,7 @@ Traveler와 K-buddy는 일정, 선호지, 시간 등을 조율하며 여행의 �
 <div display=flex>  
 <img src="https://img.shields.io/badge/axios-5A29E4?style=flat-square&logo=Axios&logoColor=white"> 
 <img src="https://img.shields.io/badge/ReactQuery-5A29E4?style=flat-square&logo=ReactQuery&logoColor=white"> 
+<img src="https://img.shields.io/badge/Recoil-5A29E4?style=flat-square&logo=Recoil&logoColor=white"> 
 </div>
 
 
