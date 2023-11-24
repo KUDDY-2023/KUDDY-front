@@ -28,7 +28,7 @@ apiClient.interceptors.response.use(
         return axios(originalRequest);
       } catch (err) {
         console.log("토큰 재발급 실패 ", err);
-        localStorage.removeItem("accessToken"); // 쿠키도 지워야되나..
+        localStorage.removeItem("accessToken"); // 토큰 삭제 
         window.location.href = `${process.env.REACT_APP_REACT_URL}/auth/register`;
       }
     }
